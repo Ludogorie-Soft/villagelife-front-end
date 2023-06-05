@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Village</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<h1>Отговори на въпросите</h1>
+<form   action="#" method="post"  th:action="@{/village/submit}" th:object="${village}">
+        <label for="villageId">Village ID:</label>
+        <input type="text" id="villageId" name="id"><br>
+
+        <label for="villageName">Village Name:</label>
+        <input type="text" id="villageName" name="name"><br>
+
+        <label for="populationId">Population ID:</label>
+        <input type="text" id="populationId" name="population.id"><br>
+
+        <label for="populationNumberOfPopulation">Number of Population:</label>
+        <select id="populationNumberOfPopulation" name="population.numberOfPopulation">
+            <option value="1">Up to 10 People</option>
+            <option value="2">11 - 50 People</option>
+            <option value="3">51 - 200 People</option>
+            <option value="4">201 - 500 People</option>
+            <option value="5">501 - 1000 People</option>
+            <option value="6">1001 - 2000 People</option>
+            <option value="7">Over 2000 People</option>
+        </select><br>
+
+        <label for="populationResidents">Residents:</label>
+        <select id="populationResidents" name="population.residents">
+            <option value="1">Up to 2%</option>
+            <option value="2">2% - 5%</option>
+            <option value="3">6% - 10%</option>
+            <option value="4">11% - 20%</option>
+            <option value="5">21% - 30%</option>
+            <option value="6">Over 30%</option>
+        </select><br>
+
+        <label for="populationChildren">Children:</label>
+        <select id="populationChildren" name="population.children">
+            <option value="1">Below 10 Years</option>
+            <option value="2">11 - 20 Years</option>
+            <option value="3">21 - 50 Years</option>
+            <option value="4">Over 50 Years</option>
+        </select><br>
+
+        <label for="populationForeigners">Foreigners:</label>
+        <select id="populationForeigners" name="population.foreigners">
+            <option value="1">Yes</option>
+            <option value="2">I Don't Know</option>
+            <option value="3">No</option>
+        </select><br>
+
+        <label for="villageDateUpload">Date Upload:</label>
+        <input type="datetime-local" id="villageDateUpload" name="dateUpload"><br>
+
+        <label for="villageStatus">Status:</label>
+        <input type="checkbox" id="villageStatus" name="status"><br>
+
+        <label for="adminId">Admin ID:</label>
+        <input type="text" id="adminId" name="admin.id"><br>
+
+        <label for="adminFullName">Admin Full Name:</label>
+        <input type="text" id="adminFullName" name="admin.fullName"><br>
+
+        <label for="adminEmail">Admin Email:</label>
+        <input type="email" id="adminEmail" name="admin.email"><br>
+
+        <label for="adminUsername">Admin Username:</label>
+        <input type="text" id="adminUsername" name="admin.username"><br>
+
+        <label for="adminPassword">Admin Password:</label>
+        <input type="password" id="adminPassword" name="admin.password"><br>
+
+        <label for="adminMobile">Admin Mobile:</label>
+        <input type="text" id="adminMobile" name="admin.mobile"><br>
+
+        <label for="adminCreatedAt">Admin Created At:</label>
+        <input type="datetime-local" id="adminCreatedAt" name="admin.createdAt"><br>
+
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>
