@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Добави село</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <section>
+            <h1>Pomorie & Village Life</h1>
+            <p>Сътрудничество</p>
+        </section>
+
+        <section>
+            <p>Здравейте,<p>
+            <p>Моля, попълнете настоящия въпросник, за да добавим селото Ви в платформата Village Life (Живот на село).</p>
+            <p>За по-бързо попълване на въпросника, препоръчваме използването на компютър, лаптоп или таблет.</p>
+            <p>Благодарим Ви, че избрахте да си сътрудничите с нас!</p>
+            <p>Поздрави,</p>
+            <p>Village Life</p>
+        </section>
+
+        <form action="#" th:action="@{/villages/submit}" method="post" th:object="${village}">
+            <p>Как се казва селото? *</p>
+            <input type="text" th:field="*{name}">
+
+            <p>Колко човека е населението в селото? *</p>
+            <div th:each="populationSize : ${T(com.ludogorieSoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
+                 class="radio-wrapper">
+                <input type="radio" th:id="${'populationSize-' + populationSize}"
+                       th:name="populationDTO.numberOfPopulation"
+                       th:value="${populationSize}" required/>
+                <label th:for="${'populationSize-' + populationSize}"
+                       class="radio-label" th:text="${populationSize.getName()}"></label>
+            </div>
+
+
+            <p><input type="submit" value="Submit" />
+                <input type="reset" value="Reset" /></p>
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <!--<th>id</th>-->
+        <th>name</th>
+        <th>population</th>
+        <th>date upload</th>
+        <th>status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="village : ${villages}">
+        <!--<td th:text="${village.id}"></td>-->
+        <td th:text="${village.name}"></td>
+        <td th:text="${village.population.id}"></td>
+        <td th:text="${village.dateUpload}"></td>
+        <!--<td th:text="${hotel.status}"></td>-->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
