@@ -35,8 +35,7 @@ public class VillageController {
         return "/test/testAllVillages";
     }
     @GetMapping("/test")
-    String test(Model model)
-    {
+    String test(Model model) {
         PopulationDTO populationDTO = populationClient.getPopulationById(1L);
         model.addAttribute("population", populationDTO);
         return "/test/test";
