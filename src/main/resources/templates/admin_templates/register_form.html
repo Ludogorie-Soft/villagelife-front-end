@@ -24,59 +24,30 @@
 
                         <form class="mx-1 mx-md-4" th:action="@{/admins/save}" th:object="${admin}" method="post">
 <!--                            <form th:action="@{/shop/register}" th:object="${customer}" method="post">-->
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="text" id="fullName" class="form-control" />
-                                    <label class="form-label" for="fullName">Full Name</label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your first name" th:required="true" th:value="*{fullName}">
                             </div>
-<!--                            <div class="mb-3">-->
-<!--                                <label for="firstName" class="form-label">First Name</label>-->
-<!--                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" th:required="true" th:value="*{firstName}">-->
-<!--                            </div>-->
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="email" id="email" class="form-control" />
-                                    <label class="form-label" for="email"> Email </label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" th:required="true" th:value="*{email}">
                             </div>
-
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="text" id="username" class="form-control" />
-                                    <label class="form-label" for="username"> Username </label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Address</label>
+                                <input type="username" class="form-control" id="username" name="username" placeholder="Enter your username"  th:required="true" th:field="*{username}" >
                             </div>
-
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="text" id="mobile" class="form-control" />
-                                    <label class="form-label" for="mobile"> Phone number </label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="mobile" class="form-label">Address</label>
+                                <input type="mobile" class="form-control" id="mobile" name="mobile" placeholder="Enter your mobile number"  th:required="true" th:field="*{mobile}" >
                             </div>
-
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="password" id="form3Example4c" class="form-control" />
-                                    <label class="form-label" for="form3Example4c">Password</label>
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input type="password" id="password" class="form-control" />
-                                    <label class="form-label" for="password">Repeat your password</label>
-                                </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"  th:required="true" th:field="*{password}" >
+                                <div th:if="${#fields.hasErrors('password')}"><span th:errors="*{password}" class="text-danger"></span></div>
                             </div>
 
                             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                <button type="button" class="btn btn-primary btn-lg">Register</button>
+                                <button type="submit" class="btn btn-primary btn-lg">Register</button>
                             </div>
 
                         </form>

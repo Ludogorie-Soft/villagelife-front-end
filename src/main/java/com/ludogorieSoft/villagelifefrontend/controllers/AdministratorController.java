@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,10 +23,6 @@ import java.util.List;
 public class AdministratorController {
     private AdminClient adminClient;
 
-    //    @GetMapping
-//    public ResponseEntity<List<AdministratorDTO>> getAllAdministrators(){
-//        return
-//    }
     @GetMapping("/register")
     public String createAdministrator(Model model) {
         model.addAttribute("admin", new AdministratorRequest());
@@ -33,11 +30,16 @@ public class AdministratorController {
     }
 
     @PostMapping("/save")
-    public ModelAndView createAdministrator(AdministratorRequest administratorRequest,Model model, BindingResult bindingResult){
+    public ModelAndView createAdministrator(@Valid AdministratorRequest administratorRequest, BindingResult bindingResult){
+        System.out.println("adminsssssss 1 " + administratorRequest);
         if(bindingResult.hasErrors()){
             return new ModelAndView("admin_templates/register_form");
         }
+        System.out.println("adminsssssss 2 " + administratorRequest);
+
         adminClient.createAdministrator(administratorRequest);
+        System.out.println("adminsssssss 3 " + administratorRequest);
+
         return new ModelAndView("redirect:/admin???????????????");
     }
 }

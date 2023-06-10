@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface AdminClient {
     public ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id);
 
     @PostMapping
-    public ResponseEntity<AdministratorDTO> createAdministrator( @RequestBody AdministratorRequest administratorRequest);
+    public ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest);
 
     @PutMapping("/{id}")
     public ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
