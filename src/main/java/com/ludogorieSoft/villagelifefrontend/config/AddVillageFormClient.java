@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 @FeignClient(name = "villagelife-api-add-village-form-result",url = "http://localhost:8088/api/v1/addVillageForm")
 public interface AddVillageFormClient {
     @PostMapping
-    ResponseEntity<AddVillageFormResult> createAddVillageForResult(AddVillageFormResult addVillageFormResult);
+    AddVillageFormResult createAddVillageForResult(AddVillageFormResult addVillageFormResult);
 }

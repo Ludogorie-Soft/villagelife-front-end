@@ -1,9 +1,11 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.AddVillageFormClient;
+import com.ludogorieSoft.villagelifefrontend.config.GroundCategoryClient;
 import com.ludogorieSoft.villagelifefrontend.config.PopulationClient;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AddVillageFormResult;
+import com.ludogorieSoft.villagelifefrontend.dtos.GroundCategoryDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PopulationDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 public class VillageController {
     private final VillageClient villageClient;
     private final AddVillageFormClient addVillageFormClient;
+    private final GroundCategoryClient groundCategoryClient;
     private final ModelMapper modelMapper;
     private final PopulationClient populationClient;
     @GetMapping
@@ -67,26 +70,15 @@ public class VillageController {
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+        List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
+        model.addAttribute("groundCategories", groundCategories);
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
-
-    //@PostMapping("/save")
-    //public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
-    //    VillageDTO villageDTO = addVillageFormResult.getVillageDTO();
-    //    PopulationDTO populationDTO = addVillageFormResult.getPopulationDTO();
-//
-    //    PopulationDTO savedPopulation = populationClient.createPopulation(populationDTO);
-    //    villageDTO.setPopulationDTO(savedPopulation);
-    //    VillageDTO savedVillage = villageClient.createVillage(villageDTO);
-//
-    //    return "redirect:/villages/test";
-    //}
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
+    System.out.println(addVillageFormResult.getGroundCategoryName() + "!!!!!!!!!!!!!!!!!!!!!");
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
     }
-
-
 }

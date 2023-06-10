@@ -12,5 +12,6 @@ import java.util.List;
 public class AddVillageFormResult {
     VillageDTO villageDTO;
     PopulationDTO populationDTO;
+    String groundCategoryName;
     List<ObjectAroundVillageDTO> objectAroundVillageDTOS;
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroundCategoryDTO {
-
     private Long id;
     private String groundCategoryName;
 }

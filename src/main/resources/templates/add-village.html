@@ -85,12 +85,17 @@
                 </div>
             </section>
 
-            <!-- Objects -->
-            <!--<label>Objects:</label>
-            <div th:each="object : ${allObjects}">
-                <input type="checkbox" th:field="*{selectedObjects}" th:value="${object}" />
-                <label th:for="${'selectedObjectIds'}" th:text="${object.name}"></label>
-            </div>-->
+
+            <!-- Ground Category -->
+            <section>
+                <p>Към коя категория предимно спада земята в и около селото? *</p>
+                <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
+                    <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
+                           th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
+                    <label th:for="${'groundCategory-' + groundCategory.id}"
+                           class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
+                </div>
+            </section>
 
             <button type="submit">Изпрати</button>
         </form>
