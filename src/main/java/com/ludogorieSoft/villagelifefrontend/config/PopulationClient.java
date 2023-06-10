@@ -2,8 +2,6 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.PopulationDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

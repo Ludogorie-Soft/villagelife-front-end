@@ -26,25 +26,74 @@
             <p>Village Life</p>
         </section>
 
-        <form action="#" th:action="@{/villages/submit}" method="post" th:object="${village}">
-            <p>Как се казва селото? *</p>
-            <input type="text" th:field="*{name}">
+        <form action="/villages/save" method="post" th:object="${addVillageFormResult}">
+            <!-- Village name -->
+            <section>
+                <label for="villageName">Как се казва селото? *</label>
+                <input type="text" id="villageName" th:field="*{villageDTO.name}" required>
+            </section>
 
-            <p>Колко човека е населението в селото? *</p>
-            <div th:each="populationSize : ${T(com.ludogorieSoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
-                 class="radio-wrapper">
-                <input type="radio" th:id="${'populationSize-' + populationSize}"
-                       th:name="populationDTO.numberOfPopulation"
-                       th:value="${populationSize}" required/>
-                <label th:for="${'populationSize-' + populationSize}"
-                       class="radio-label" th:text="${populationSize.getName()}"></label>
-            </div>
+            <!-- Population Size -->
+            <section>
+                <p>Колко човека е населението в селото? *</p>
+                <div th:each="populationSize : ${T(com.ludogorieSoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
+                     class="radio-wrapper">
+                    <input type="radio" th:id="${'populationSize-' + populationSize}"
+                           th:name="populationDTO.numberOfPopulation"
+                           th:value="${populationSize}" required/>
+                    <label th:for="${'populationSize-' + populationSize}"
+                           class="radio-label" th:text="${populationSize.name}"></label>
+                </div>
+            </section>
 
+            <!-- Residents -->
+            <section>
+                <p>Според Вас, каква част от жителите на селото са хора до 50 години? *</p>
+                <div th:each="residents : ${T(com.ludogorieSoft.villagelifefrontend.enums.Residents).values()}"
+                     class="radio-wrapper">
+                    <input type="radio" th:id="${'residents-' + residents}"
+                           th:name="populationDTO.residents"
+                           th:value="${residents}" required/>
+                    <label th:for="${'residents-' + residents}"
+                           class="radio-label" th:text="${residents.name}"></label>
+                </div>
+            </section>
 
-            <p><input type="submit" value="Submit" />
-                <input type="reset" value="Reset" /></p>
+            <!-- Children -->
+            <section>
+                <p>Какъв е броят на децата (до 14г.) в селото според Вас? *</p>
+                <div th:each="children : ${T(com.ludogorieSoft.villagelifefrontend.enums.Children).values()}"
+                     class="radio-wrapper">
+                    <input type="radio" th:id="${'children-' + children}"
+                           th:name="populationDTO.children"
+                           th:value="${children}" required/>
+                    <label th:for="${'children-' + children}"
+                           class="radio-label" th:text="${children.name}"></label>
+                </div>
+            </section>
+
+            <!-- Foreigners -->
+            <section>
+                <p>В селото живеят ли чужденци? *</p>
+                <div th:each="foreigners : ${T(com.ludogorieSoft.villagelifefrontend.enums.Foreigners).values()}"
+                     class="radio-wrapper">
+                    <input type="radio" th:id="${'foreigners-' + foreigners}"
+                           th:name="populationDTO.foreigners"
+                           th:value="${foreigners}" required/>
+                    <label th:for="${'foreigners-' + foreigners}"
+                           class="radio-label" th:text="${foreigners.name}"></label>
+                </div>
+            </section>
+
+            <!-- Objects -->
+            <!--<label>Objects:</label>
+            <div th:each="object : ${allObjects}">
+                <input type="checkbox" th:field="*{selectedObjects}" th:value="${object}" />
+                <label th:for="${'selectedObjectIds'}" th:text="${object.name}"></label>
+            </div>-->
+
+            <button type="submit">Изпрати</button>
         </form>
-
     </div>
 </body>
 </html>

@@ -19,9 +19,9 @@
     <tr th:each="village : ${villages}">
         <!--<td th:text="${village.id}"></td>-->
         <td th:text="${village.name}"></td>
-        <td th:text="${village.population.id}"></td>
+        <!--<td th:text="${village.population.id}"></td>-->
         <td th:text="${village.dateUpload}"></td>
-        <!--<td th:text="${hotel.status}"></td>-->
+        <td th:text="${village.status}"></td>
     </tr>
     </tbody>
 </table>
