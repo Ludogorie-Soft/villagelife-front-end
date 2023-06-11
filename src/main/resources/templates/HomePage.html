@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <title>Показване на села</title>
+    <style>
+#menu {
+      background-color: #f2f2f2;
+      padding: 10px;
+      float: right;
+    }
+
+    #menu a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: #96c930;
+    }
+
+    i{
+color: #96c930;
+}
+.contact-info {
+  margin-bottom: 20px;
+}
+   footer {
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: left;
+}
+
+footer p {
+  margin-bottom: 10px;
+}
+.footer-text {
+        float: right;
+        font-size: 14px;
+        margin-top: -20px;
+        color: #96c930;
+    }
+
+    .subscription {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+
+.subscription, .rights {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .subscription p, .rights p {
+        color: #96c930;
+    }
+
+    .rights {
+        margin-top: 20px;
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* За съотношение на страните 16:9 (използвайте друго съотношение ако е необходимо) */
+        overflow: hidden;
+    }
+
+    .fullscreen-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .search-bar input[type="text"] {
+        width: 70%;
+        padding: 10px;
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .search-bar button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .village-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.village-item {
+  flex-basis: calc(33.33% - 20px);
+  margin: 10px;
+  text-align: center;
+}
+.village-item {
+  /* останалите стилове */
+  transition: background-color 0.3s ease;
+}
+
+.village-item:hover {
+  background-color: #96c930;
+  color: white;
+}
+
+
+
+</style>
+    <script>
+  var video1 = document.getElementById("video1");
+  var video2 = document.getElementById("video2");
+
+  video1.addEventListener("ended", function() {
+    video2.play();
+  });
+
+
+
+
+</script>
+<body>
+<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
+
+
+<div id="menu">
+    <a href="#"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
+    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
+    <a href="#"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+    <a href="#">ЗА НАС</a>
+    <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+    <a href="#"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+</div>
+<div class="video-container">
+<!--    <video id="video1" th:src="@{/videos/home-page-video.mp4}" alt="video1" class="fullscreen-video" autoplay loop-->
+<!--           muted></video>-->
+    <video id="video2" th:src="@{/videos/home-page-video-2.mp4}" alt="video2" class="fullscreen-video" autoplay loop
+           muted></video>
+    <div class="video-overlay">
+        <h1>Открий най-подходящото село!</h1>
+        <div class="search-bar">
+            <label>
+                <select style="padding: 10px; font-size: 16px;">
+                    <option value="" selected disabled style="text-align: left;">Избери област</option>
+                    <option value="Благоевград">Благоевград</option>
+                    <option value="Бургас">Бургас</option>
+                    <option value="Варна">Варна</option>
+                    <option value="Велико Търново">Велико Търново</option>
+                    <option value="Видин">Видин</option>
+                    <option value="Враца">Враца</option>
+                    <option value="Габрово">Габрово</option>
+                    <option value="Добрич">Добрич</option>
+                    <option value="Кърджали">Кърджали</option>
+                    <option value="Кюстендил">Кюстендил</option>
+                    <option value="Ловеч">Ловеч</option>
+                    <option value="Монтана">Монтана</option>
+                    <option value="Пазарджик">Пазарджик</option>
+                    <option value="Перник">Перник</option>
+                    <option value="Плевен">Плевен</option>
+                    <option value="Пловдив">Пловдив</option>
+                    <option value="Разград">Разград</option>
+                    <option value="Русе">Русе</option>
+                    <option value="Силистра">Силистра</option>
+                    <option value="Сливен">Сливен</option>
+                    <option value="Смолян">Смолян</option>
+                    <option value="София">София</option>
+                    <option value="София (столица)">София (столица)</option>
+                    <option value="Стара Загора">Стара Загора</option>
+                    <option value="Търговище">Търговище</option>
+                    <option value="Хасково">Хасково</option>
+                    <option value="Шумен">Шумен</option>
+                    <option value="Ямбол">Ямбол</option>
+                </select>
+            </label>
+            <input type="text" placeholder="Търси по име на село" style="width: 70%; padding: 10px; font-size: 16px;">
+            <button style="padding: 10px 20px; font-size: 16px;">Търсене</button>
+        </div>
+        <p> Village Life е платформа, която предоставя информация за условията на живот в
+            българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
+            избор
+            на
+            село за заселване.</p>
+    </div>
+</div>
+<div class="village-grid">
+    <div th:each="village : ${villages}" class="village-item">
+        <a th:href="@{'/village/show/' + village.id}"></a>
+        <img th:src="${village.image}" alt="village image">
+        <h3 th:text="${village.name}"></h3>
+    </div>
+</div>
+<footer>
+    <div class="image-container">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
+    </div>
+    <div class="contact-info">
+        <p>Свържи се с нас</p>
+        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
+                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
+                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
+        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
+                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
+        </p>
+        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
+                                                                             style="color: #96c930;">info@villagelife.bg</a>
+        </p>
+    </div>
+</footer>
+<div class="subscription">
+    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
+    <input type="email" placeholder="Въведи електронна поща">
+    <button style="color: #96c930;">Абонирай ме</button>
+</div>
+<div class="rights">
+    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
+</div>
+</body>
+</html>

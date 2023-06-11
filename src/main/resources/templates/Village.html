@@ -7,7 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -16,7 +15,7 @@
 <h1>Отговори на въпросите</h1>
 <form   action="#" method="post"  th:action="@{/village/submit}" th:object="${village}">
         <label for="villageId">Village ID:</label>
-        <input type="text" id="villageId" name="id"><br>
+        <input type="hidden" id="villageId" name="id"><br>
 
         <label for="villageName">Village Name:</label>
         <input type="text" id="villageName" name="name"><br>
@@ -89,5 +88,11 @@
 
         <input type="submit" value="Save">
     </form>
+<div class="row">
+    <div class="col">
+        <img alt="" src="images/village-life-logo.png">
+    </div>
+</div>
+
 </body>
 </html>
