@@ -27,10 +27,49 @@
         </section>
 
         <form action="/villages/save" method="post" th:object="${addVillageFormResult}">
+            <section>
+                <p>На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}"
+                            th:text="${distance.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="object : ${objectsAroundVillage}">
+                        <td th:text="${object.type}"></td>
+                        <td th:each="distance1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
+                            <div class="radio-wrapper">
+                                <input type="radio" th:id="${'distance-' + object.id}"
+                                       th:name="objectVillageDTOS[__${object.id}__].distance"
+                                       th:value="${distance1}" />
+                                <input type="hidden" th:id="${'object-' + object.id}"
+                                       th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
+                                       th:value="${object.id}" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
             <!-- Village name -->
             <section>
                 <label for="villageName">Как се казва селото? *</label>
                 <input type="text" id="villageName" th:field="*{villageDTO.name}" required>
+            </section>
+
+            <!-- Ground Category -->
+            <section>
+                <p>Към коя категория предимно спада земята в и около селото? *</p>
+                <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
+                    <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
+                           th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
+                    <label th:for="${'groundCategory-' + groundCategory.id}"
+                           class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
+                </div>
             </section>
 
             <!-- Population Size -->
@@ -86,18 +125,6 @@
             </section>
 
 
-            <!-- Ground Category -->
-            <section>
-                <p>Към коя категория предимно спада земята в и около селото? *</p>
-                <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
-                    <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
-                           th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
-                    <label th:for="${'groundCategory-' + groundCategory.id}"
-                           class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
-                </div>
-            </section>
-
-
             <section>
                 <p>Какви малцинствени групи има в района на селото? *</p>
                 <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">
@@ -116,28 +143,27 @@
                 </div>
             </section>
 
-
             <section>
-                <p>На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
+                <p>До колко сте съгласни със следните твърдения относно хората в селото:</p>
                 <table>
                     <thead>
                     <tr>
                         <th></th>
-                        <th th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}"
-                            th:text="${distance.name}"></th>
+                        <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
+                            th:text="${consent.name}"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="object : ${objectsAroundVillage}">
-                        <td th:text="${object.type}"></td>
-                        <td th:each="distance1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
+                    <tr th:each="populatedAssertion : ${populatedAssertions}">
+                        <td th:text="${populatedAssertion.populatedAssertionName}"></td>
+                        <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
-                                <input type="radio" th:id="${'distance-' + object.id}"
-                                       th:name="objectVillageDTOS[__${object.id}__].distance"
-                                       th:value="${distance1}" />
-                                <input type="hidden" th:id="${'object-' + object.id}"
-                                       th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
-                                       th:value="${object.id}" />
+                                <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
+                                       th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
+                                       th:value="${consent1}" />
+                                <input type="hidden" th:id="${'populatedAssertion-' + populatedAssertion.id}"
+                                       th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
+                                       th:value="${populatedAssertion.id}" />
                             </div>
                         </td>
                     </tr>

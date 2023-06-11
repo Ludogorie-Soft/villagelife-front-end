@@ -24,6 +24,7 @@ public class VillageController {
     private final PopulationClient populationClient;
     private final QuestionClient questionClient;
     private ObjectAroundVillageClient objectAroundVillageClient;
+    private PopulatedAssertionClient populatedAssertionClient;
 
     @GetMapping
     String getVillages(Model model) {
@@ -55,6 +56,9 @@ public class VillageController {
         List<ObjectAroundVillageDTO> objectAroundVillageDTOS = objectAroundVillageClient.getAllObjectsAroundVillage();
         model.addAttribute("objectsAroundVillage", objectAroundVillageDTOS);
 
+        List<PopulatedAssertionDTO> populatedAssertionDTOS = populatedAssertionClient.getAllPopulatedAssertion();
+        model.addAttribute("populatedAssertions", populatedAssertionDTOS);
+
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
@@ -66,6 +70,9 @@ public class VillageController {
 
         List<ObjectVillageDTO> objectVillageDTOS = addVillageFormResult.getObjectVillageDTOS();
         addVillageFormResult.setObjectVillageDTOS(objectVillageDTOS);
+
+        List<VillagePopulationAssertionDTO> villagePopulationAssertionDTOS = addVillageFormResult.getVillagePopulationAssertionDTOS();
+        addVillageFormResult.setVillagePopulationAssertionDTOS(villagePopulationAssertionDTOS);
 
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
