@@ -117,6 +117,33 @@
             </section>
 
 
+            <section>
+                <p>На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}"
+                            th:text="${distance.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="object : ${objectsAroundVillage}">
+                        <td th:text="${object.type}"></td>
+                        <td th:each="distance1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
+                            <div class="radio-wrapper">
+                                <input type="radio" th:id="${'distance-' + object.id}"
+                                       th:name="objectVillageDTOS[__${object.id}__].distance"
+                                       th:value="${distance1}" />
+                                <input type="hidden" th:id="${'object-' + object.id}"
+                                       th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
+                                       th:value="${object.id}" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
 
             <button type="submit">Изпрати</button>
         </form>
