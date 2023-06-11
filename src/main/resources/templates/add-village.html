@@ -97,6 +97,19 @@
                 </div>
             </section>
 
+
+            <section>
+                <p>Choose Ethnicities:</p>
+                <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">
+                    <input type="checkbox" th:id="${'ethnicity-' + ethnicity.id}"
+                           th:name="ethnicityDTOIds"
+                           th:value="${ethnicity.id}" />
+                    <label th:for="${'ethnicity-' + ethnicity.id}"
+                           class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
+                </div>
+            </section>
+
+
             <button type="submit">Изпрати</button>
         </form>
     </div>
