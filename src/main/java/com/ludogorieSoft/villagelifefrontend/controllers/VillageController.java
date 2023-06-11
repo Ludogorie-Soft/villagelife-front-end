@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -22,8 +21,8 @@ public class VillageController {
     private final AddVillageFormClient addVillageFormClient;
     private final GroundCategoryClient groundCategoryClient;
     private final EthnicityClient ethnicityClient;
-    private final ModelMapper modelMapper;
     private final PopulationClient populationClient;
+    private final QuestionClient questionClient;
 
     @GetMapping
     String getVillages(Model model) {
@@ -48,6 +47,9 @@ public class VillageController {
 
         List<EthnicityDTO> ethnicities = ethnicityClient.getAllEthnicities();
         model.addAttribute("ethnicities", ethnicities);
+
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        model.addAttribute("questions", questionDTOS);
 
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";

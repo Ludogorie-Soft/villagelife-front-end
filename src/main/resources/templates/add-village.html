@@ -99,7 +99,7 @@
 
 
             <section>
-                <p>Choose Ethnicities:</p>
+                <p>Какви малцинствени групи има в района на селото? *</p>
                 <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">
                     <input type="checkbox" th:id="${'ethnicity-' + ethnicity.id}"
                            th:name="ethnicityDTOIds"
@@ -108,6 +108,14 @@
                            class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
                 </div>
             </section>
+
+            <section>
+                <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
+                    <label th:for="${'question-' + questionIndex}" class="question-label" th:text="${question.question}"></label><br>
+                    <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" cols="50" required></textarea>
+                </div>
+            </section>
+
 
 
             <button type="submit">Изпрати</button>
