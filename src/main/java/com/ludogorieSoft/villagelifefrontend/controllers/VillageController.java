@@ -25,6 +25,7 @@ public class VillageController {
     private final QuestionClient questionClient;
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
+    private LivingConditionClient livingConditionClient;
 
     @GetMapping
     String getVillages(Model model) {
@@ -59,21 +60,14 @@ public class VillageController {
         List<PopulatedAssertionDTO> populatedAssertionDTOS = populatedAssertionClient.getAllPopulatedAssertion();
         model.addAttribute("populatedAssertions", populatedAssertionDTOS);
 
+        List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
+        model.addAttribute("livingConditions", livingConditionDTOS);
+
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
-
-        List<Long> ethnicityDTOIds = addVillageFormResult.getEthnicityDTOIds();
-        addVillageFormResult.setEthnicityDTOIds(ethnicityDTOIds);
-
-        List<ObjectVillageDTO> objectVillageDTOS = addVillageFormResult.getObjectVillageDTOS();
-        addVillageFormResult.setObjectVillageDTOS(objectVillageDTOS);
-
-        List<VillagePopulationAssertionDTO> villagePopulationAssertionDTOS = addVillageFormResult.getVillagePopulationAssertionDTOS();
-        addVillageFormResult.setVillagePopulationAssertionDTOS(villagePopulationAssertionDTOS);
-
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
     }

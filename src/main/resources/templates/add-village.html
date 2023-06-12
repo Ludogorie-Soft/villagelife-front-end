@@ -72,6 +72,35 @@
                 </div>
             </section>
 
+
+            <section>
+                <p>Доколко сте съгласни със следните твърдения:</p>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
+                            th:text="${consent.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="livingCondition : ${livingConditions}">
+                        <td th:text="${livingCondition.livingConditionName}"></td>
+                        <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
+                            <div class="radio-wrapper">
+                                <input type="radio" th:id="${'consent-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                       th:value="${consent1}" />
+                                <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
+                                       th:value="${livingCondition.id}" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
             <!-- Population Size -->
             <section>
                 <p>Колко човека е населението в селото? *</p>
@@ -139,7 +168,7 @@
             <section>
                 <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
                     <label th:for="${'question-' + questionIndex}" class="question-label" th:text="${question.question}"></label><br>
-                    <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" cols="50" required></textarea>
+                    <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" cols="50"></textarea>
                 </div>
             </section>
 
