@@ -13,7 +13,7 @@ public class VillageDTO {
 
     private Long id;
     private String name;
-    private PopulationDTO populationDTO;
+    private com.ludogoriesoft.villagelifefrontend.dtos.PopulationDTO populationDTO;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date dateUpload;
     private boolean status;

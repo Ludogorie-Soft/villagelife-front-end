@@ -11,8 +11,8 @@ public interface VillageClient {
     @GetMapping
     List<VillageDTO> getAllVillages();
 
-    //@GetMapping("/{id}")
-    //VillageDTO getVillageById(@PathVariable("id") Long id);
+    @GetMapping("/{id}")
+    VillageDTO getVillageById(@PathVariable("id") Long id);
 
     @PostMapping
     VillageDTO createVillage(VillageDTO villageDTO);
