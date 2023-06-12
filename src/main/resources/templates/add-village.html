@@ -101,7 +101,7 @@
 
             <section>
                 <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
-                <table  class="table table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -110,7 +110,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="livingCondition : ${livingConditions}">
+                    <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
                         <td th:text="${livingCondition.livingConditionName}"></td>
                         <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
@@ -126,6 +126,38 @@
                     </tbody>
                 </table>
             </section>
+
+
+
+            <section>
+                <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="consent : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}"
+                            th:text="${consent.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
+                        <td th:text="${livingCondition.livingConditionName}"></td>
+                        <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
+                            <div class="radio-wrapper">
+                                <input type="radio" th:id="${'consent-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                       th:value="${consent1}" />
+                                <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
+                                       th:value="${livingCondition.id}" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
 
             <!-- Population Size -->
             <section>
