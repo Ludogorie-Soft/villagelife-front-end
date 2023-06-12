@@ -152,7 +152,7 @@ footer p {
     <a href="#"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
     <a href="#">ЗА НАС</a>
     <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a href="#"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
 <div class="video-container">
 <!--    <video id="video1" th:src="@{/videos/home-page-video.mp4}" alt="video1" class="fullscreen-video" autoplay loop-->
@@ -232,7 +232,7 @@ footer p {
 </footer>
 <div class="subscription">
     <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <input type="email" placeholder="Въведи електронна поща">
+    <input type="email" placeholder="Въведи електронна поща" >
     <button style="color: #96c930;">Абонирай ме</button>
 </div>
 <div class="rights">
