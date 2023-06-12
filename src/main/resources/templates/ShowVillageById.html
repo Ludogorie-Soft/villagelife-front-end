@@ -65,6 +65,23 @@ footer p {
     .rights {
         margin-top: 20px;
     }
+
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+
+        color: black;
+    }
 </style>
 <body>
 <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
@@ -77,6 +94,56 @@ footer p {
     <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
     <a href="#"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
+
+<!--<table>-->
+<!--    <caption><span th:text="'Население на селото'" style="color: black;"></span></caption>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Село</th>-->
+<!--        <th>Населено утвърждение</th>-->
+<!--        <th>Съгласия (%)</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="populationAssertion : ${villagePopulationAssertion}">-->
+<!--        <td>-->
+<!--            <label th:text="${populationAssertion.id}"></label>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <label th:text="${populationAssertion.villageId}"></label>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <label th:text="${populationAssertion.populatedAssertionId}"></label>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <label th:text="${populationAssertion.answer.name + ' (' + populationAssertion.answer.value + '%)'}"></label>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+
+<table>
+    <caption>Условия на живот</caption>
+    <thead>
+    <tr>
+        <th>Условие</th>
+        <th>Съгласия (%)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="condition, index : ${livingCondition}" th:with="currentIndex=${index.index}">
+        <td>
+            <label th:text="${condition.livingConditionName}"></label>
+        </td>
+        <td>
+            <label th:text="${villageLivingCondition[currentIndex].consents.getValue() + ' %'}"></label>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 
 
 <footer>

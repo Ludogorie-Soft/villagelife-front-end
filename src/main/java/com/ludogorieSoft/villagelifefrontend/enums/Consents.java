@@ -15,4 +15,6 @@ public enum Consents {
     private final String name;
     private final int value;
     private final int valueAsNumber;
+
+
 }

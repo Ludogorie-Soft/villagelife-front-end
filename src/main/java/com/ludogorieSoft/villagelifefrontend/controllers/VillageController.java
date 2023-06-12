@@ -71,4 +71,6 @@ public class VillageController {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
     }
+
+
 }
