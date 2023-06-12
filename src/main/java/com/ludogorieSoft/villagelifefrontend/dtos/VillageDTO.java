@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +13,7 @@ public class VillageDTO {
 
     private Long id;
     private String name;
-    private com.ludogoriesoft.villagelifefrontend.dtos.PopulationDTO
+    private PopulationDTO populationDTO;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date dateUpload;
     private boolean status;
