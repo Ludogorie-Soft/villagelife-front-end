@@ -1,6 +1,6 @@
-package com.ludogorieSoft.villagelifefrontend.config;
+package com.ludogoriesoft.villagelifefrontend.config;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.QuestionDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.QuestionDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

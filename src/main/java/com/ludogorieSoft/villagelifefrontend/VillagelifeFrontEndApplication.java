@@ -1,4 +1,4 @@
-package com.ludogorieSoft.villagelifefrontend;
+package com.ludogoriesoft.villagelifefrontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

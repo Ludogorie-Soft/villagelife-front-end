@@ -1,7 +1,7 @@
-package com.ludogorieSoft.villagelifefrontend.controllers;
+package com.ludogoriesoft.villagelifefrontend.controllers;
 
-import com.ludogorieSoft.villagelifefrontend.config.*;
-import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogoriesoft.villagelifefrontend.config.*;
+import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
