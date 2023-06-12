@@ -22,6 +22,49 @@
       text-decoration: none;
       color: #96c930;
     }
+
+        i{
+color: #96c930;
+}
+.contact-info {
+  margin-bottom: 20px;
+}
+   footer {
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: left;
+}
+
+footer p {
+  margin-bottom: 10px;
+}
+.footer-text {
+        float: right;
+        font-size: 14px;
+        margin-top: -20px;
+        color: #96c930;
+    }
+
+    .subscription {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+
+.subscription, .rights {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .subscription p, .rights p {
+        color: #96c930;
+    }
+
+    .rights {
+        margin-top: 20px;
+    }
 </style>
 <body>
 <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
@@ -33,6 +76,33 @@
     <a href="#">ЗА НАС</a>
     <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
     <a href="#"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+</div>
+
+
+<footer>
+    <div class="image-container">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
+    </div>
+    <div class="contact-info">
+        <p>Свържи се с нас</p>
+        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
+                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
+                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
+        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
+                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
+        </p>
+        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
+                                                                             style="color: #96c930;">info@villagelife.bg</a>
+        </p>
+    </div>
+</footer>
+<div class="subscription">
+    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
+    <input type="email" placeholder="Въведи електронна поща">
+    <button style="color: #96c930;">Абонирай ме</button>
+</div>
+<div class="rights">
+    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>
 
 
