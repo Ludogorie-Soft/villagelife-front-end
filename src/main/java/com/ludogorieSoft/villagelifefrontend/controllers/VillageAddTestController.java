@@ -21,7 +21,6 @@ public class VillageAddTestController {
 
 
     @GetMapping("/home-page")
-    //http://localhost:8087/village/home-page
     public String homePage(Model model) {
         List<VillageDTO> villageList = villageClient.getAllVillages();
         model.addAttribute("villages", villageList);
@@ -29,7 +28,6 @@ public class VillageAddTestController {
     }
 
     @GetMapping("/show/{id}")
-    //http://localhost:8087/village/show/{id}
     public String homePage(@PathVariable(name = "id")Long id, Model model) {
        VillageDTO village = villageClient.getVillageById(id);
         model.addAttribute("villages", village);
