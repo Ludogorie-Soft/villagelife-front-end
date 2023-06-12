@@ -208,8 +208,9 @@ footer p {
 <div class="village-grid">
     <div th:each="village : ${villages}" class="village-item">
         <a th:href="@{'/village/show/' + village.id}"></a>
-        <img th:src="${village.image}" alt="village image">
-        <h3 th:text="${village.name}"></h3>
+<!--        <img th:src="${village.image}" alt="village image">-->
+        <h3 th:text="${village.id}"></h3>
+        <a th:href="@{'/village/show/'}+ ${village.id}"> <h3 th:text="${village.name}" style="color: #96c930;"></h3> </a>
     </div>
 </div>
 <footer>

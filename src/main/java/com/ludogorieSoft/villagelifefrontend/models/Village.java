@@ -1,4 +1,4 @@
-package com.ludogorieSoft.villagelifefrontend.models;
+package com.ludogoriesoft.villagelifefrontend.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Village {
     private Long id;
-    private ImageIcon image;
     private String name;
     private Population population;
     private LocalDateTime dateUpload;
