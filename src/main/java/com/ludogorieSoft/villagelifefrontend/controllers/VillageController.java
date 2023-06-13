@@ -3,7 +3,6 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +68,7 @@ public class VillageController {
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        return "redirect:/villages/test";
+        return "redirect:/villages/home-page";
     }
 
 
