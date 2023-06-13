@@ -1,15 +1,9 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.LivingConditionClient;
-import com.ludogoriesoft.villagelifefrontend.config.VillageClient;
-import com.ludogoriesoft.villagelifefrontend.config.VillageLivingConditionClient;
-import com.ludogoriesoft.villagelifefrontend.config.VillagePopulationAssertionClient;
-import com.ludogoriesoft.villagelifefrontend.dtos.LivingConditionDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageLivingConditionDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillagePopulationAssertionDTO;
+import com.ludogoriesoft.villagelifefrontend.config.*;
+import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
