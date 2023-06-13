@@ -38,18 +38,17 @@ public class VillageAddTestController {
     }
 
     @GetMapping("/show/{id}")
-    public String homePage(@PathVariable(name = "id") Long id, Model model) {
-        VillageDTO village = villageClient.getVillageById(id);
-
-        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getAllVillageLivingConditions();
-        List<VillagePopulationAssertionDTO>villagePopulationAssertion=villagePopulationAssertionClient.getAllVillagePopulationAssertions();
+    public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
         List<LivingConditionDTO> livingCondition=livingConditionClient.getAllLivingConditions();
-        model.addAttribute("livingCondition", livingCondition);
+        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
+        List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
         model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
         model.addAttribute("villageLivingCondition", villageLivingCondition);
-        model.addAttribute("villages", village);
+        model.addAttribute("livingCondition", livingCondition);
         return "ShowVillageById";
     }
 
 
 }
+
+
