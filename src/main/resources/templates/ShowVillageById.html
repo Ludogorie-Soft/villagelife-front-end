@@ -83,6 +83,9 @@ footer p {
 
         color: black;
     }
+    .table-heading {
+        text-align: center;
+    }
 </style>
 <body>
 <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
@@ -96,46 +99,30 @@ footer p {
     <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
 
-
-
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Living Condition Name</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="condition : ${livingCondition}">-->
-<!--        <td th:text="${condition.id}"></td>-->
-<!--        <td th:text="${condition.livingConditionName}"></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
-
-<!--&lt;!&ndash; Таблица за VillageLivingCondition &ndash;&gt;-->
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Village ID</th>-->
-<!--        <th>Living Condition ID</th>-->
-<!--        <th>Consents</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="villageLivingCondition : ${villageLivingCondition}">-->
-<!--        <td th:text="${villageLivingCondition.id}"></td>-->
-<!--        <td th:text="${villageLivingCondition.villageId}"></td>-->
-<!--        <td th:text="${villageLivingCondition.livingConditionId}"></td>-->
-<!--        <td th:text="${villageLivingCondition.consents.value}"></td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
+<h2 class="table-heading">Характеристики на населението</h2>
 <table>
     <thead>
     <tr>
 
+        <th>Характеристики на населението</th>
+        <th>Съгласие (%)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="villagePopulationAssertion : ${villagePopulationAssertion}">
+        <td>
+                <span th:each="populatedAssertion : ${villagePopulation}" th:if="${populatedAssertion.id == villagePopulationAssertion.populatedAssertionId}">
+                    <span th:text="${populatedAssertion.populatedAssertionName}+':'"></span>
+                </span>
+        </td>
+        <td th:text="${villagePopulationAssertion.answer.value}+'%'"></td>
+    </tr>
+    </tbody>
+</table>
+<h2 class="table-heading">Условия за живот</h2>
+<table>
+    <thead>
+    <tr>
         <th>Условия за живот</th>
         <th>Съгласие (%)</th>
     </tr>
@@ -144,7 +131,7 @@ footer p {
     <tr th:each="villageLivingCondition : ${villageLivingCondition}">
         <td>
                 <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId}">
-                    <span th:text="${condition.livingConditionName}"></span>
+                    <span th:text="${condition.livingConditionName}+':'"></span>
                 </span>
         </td>
         <td th:text="${villageLivingCondition.consents.getValue()}+'%'"></td>
