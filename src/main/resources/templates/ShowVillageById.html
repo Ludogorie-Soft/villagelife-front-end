@@ -86,6 +86,7 @@ footer p {
     .table-heading {
         text-align: center;
     }
+
 </style>
 <body>
 <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
@@ -104,14 +105,15 @@ footer p {
     <thead>
     <tr>
 
-        <th>Характеристики на населението</th>
+        <th>Характеристики</th>
         <th>Съгласие (%)</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="villagePopulationAssertion : ${villagePopulationAssertion}">
         <td>
-                <span th:each="populatedAssertion : ${villagePopulation}" th:if="${populatedAssertion.id == villagePopulationAssertion.populatedAssertionId}">
+                <span th:each="populatedAssertion : ${villagePopulation}"
+                      th:if="${populatedAssertion.id == villagePopulationAssertion.populatedAssertionId}">
                     <span th:text="${populatedAssertion.populatedAssertionName}+':'"></span>
                 </span>
         </td>
@@ -123,18 +125,39 @@ footer p {
 <table>
     <thead>
     <tr>
-        <th>Условия за живот</th>
+        <th>Условия</th>
         <th>Съгласие (%)</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="villageLivingCondition : ${villageLivingCondition}">
         <td>
-                <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId}">
+                <span th:each="condition : ${livingCondition}"
+                      th:if="${condition.id == villageLivingCondition.livingConditionId}">
                     <span th:text="${condition.livingConditionName}+':'"></span>
                 </span>
         </td>
         <td th:text="${villageLivingCondition.consents.getValue()}+'%'"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2 class="table-heading">Въпроси и отговори</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Въпроси</th>
+        <th>Отговори</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="villageAnswerQuestion : ${villageAnswerQuestion}">
+        <td>
+            <span th:each="question : ${question}" th:if="${question.id == villageAnswerQuestion.questionId}">
+                <span th:text="${question.question}"></span>
+            </span>
+        </td>
+        <td th:if="${villageAnswerQuestion.answer != null}" th:text="${villageAnswerQuestion.answer}"></td>
     </tr>
     </tbody>
 </table>
