@@ -17,6 +17,9 @@ import java.util.List;
 @RequestMapping("villages")
 @AllArgsConstructor
 public class VillageAddTestController {
+    private final EthnicityClient ethnicityClient;
+    private final VillageEthnicityClient villageEthnicityClient;
+    private final PopulationClient populationClient;
     private final QuestionClient questionClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
     private final VillageClient villageClient;
@@ -35,6 +38,14 @@ public class VillageAddTestController {
 
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+        EthnicityVillageDTO ethnicityVillage=villageEthnicityClient.getEthnicityVillageByVillageId(id);
+        model.addAttribute("ethnicityVillage", ethnicityVillage);
+        EthnicityDTO ethnicity=ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+        model.addAttribute("ethnicity", ethnicity);
+        PopulationDTO population=populationClient.getPopulationById(id);
+        model.addAttribute("population", population);
+        VillageDTO villageList = villageClient.getVillageById(id);
+        model.addAttribute("villages", villageList);
         List<QuestionDTO> question = questionClient.getAllQuestions();
         List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
         model.addAttribute("question", question);

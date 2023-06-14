@@ -6,6 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -83,13 +84,20 @@ footer p {
 
         color: black;
     }
+     th {
+        font-weight: normal;
+    }
     .table-heading {
         text-align: center;
     }
-
+    .table-spacing {
+        margin-bottom: 100px;
+    }
 </style>
+
+
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
+<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 98px;" src="">
 
 <div id="menu">
     <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
@@ -100,13 +108,56 @@ footer p {
     <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
 
+<br class="table-spacing">
+<table style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th colspan="2" style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
+            <span style="font-size: 24px; font-weight: bold;" th:text="${villages.name}"></span>
+        </th>
+    </tr>
+</table>
+
+
+
+<br class="table-spacing">
+<h2 class="table-heading">Население</h2><table>
+    <thead>
+    <tr>
+        <th style="font-style: italic;">Въпрос</th>
+        <th style="font-style: italic;">Отговор</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th >Брой на населението:</th>
+        <td th:text="${population.numberOfPopulation.name}"></td>
+    </tr>
+    <tr>
+        <th > Жители над 50г възраст:</th>
+        <td th:text="${population.residents.name}"></td>
+    </tr>
+    <tr>
+        <th > Деца на 14г възраст:</th>
+        <td th:text="${population.children.name}+' деца'"></td>
+    </tr>
+    <tr>
+        <th > Има ли чужденци:</th>
+        <td th:text="${population.foreigners.name}"></td>
+    </tr>
+    <tr>
+        <th >Етнически състав:</th>
+        <td th:text="${ethnicity.ethnicityName}"></td>
+    </tr>
+    </tbody>
+</table>
+<br class="table-spacing">
 <h2 class="table-heading">Характеристики на населението</h2>
 <table>
     <thead>
     <tr>
 
-        <th>Характеристики</th>
-        <th>Съгласие (%)</th>
+        <th style="font-style: italic;">Характеристики</th>
+        <th style="font-style: italic;">Съгласие (%)</th>
     </tr>
     </thead>
     <tbody>
@@ -121,12 +172,13 @@ footer p {
     </tr>
     </tbody>
 </table>
+<br class="table-spacing">
 <h2 class="table-heading">Условия за живот</h2>
 <table>
     <thead>
     <tr>
-        <th>Условия</th>
-        <th>Съгласие (%)</th>
+        <th style="font-style: italic;">Условия</th>
+        <th style="font-style: italic;">Съгласие (%)</th>
     </tr>
     </thead>
     <tbody>
@@ -141,13 +193,17 @@ footer p {
     </tr>
     </tbody>
 </table>
+<br class="table-spacing">
+<h2 class="table-heading"></h2>
+
+
 
 <h2 class="table-heading">Въпроси и отговори</h2>
 <table>
     <thead>
     <tr>
-        <th>Въпроси</th>
-        <th>Отговори</th>
+        <th style="font-style: italic;">Въпроси</th>
+        <th style="font-style: italic;">Отговори</th>
     </tr>
     </thead>
     <tbody>
@@ -162,10 +218,10 @@ footer p {
     </tbody>
 </table>
 
-
+<br class="table-spacing">
 <footer>
     <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
     </div>
     <div class="contact-info">
         <p>Свържи се с нас</p>
@@ -180,11 +236,8 @@ footer p {
         </p>
     </div>
 </footer>
-<div class="subscription">
-    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <input type="email" placeholder="Въведи електронна поща">
-    <button style="color: #96c930;">Абонирай ме</button>
-</div>
+<br class="table-spacing">
+
 <div class="rights">
     <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>

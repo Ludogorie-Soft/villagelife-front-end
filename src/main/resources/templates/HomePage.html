@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <title>Показване на села</title>
     <style>
@@ -143,7 +144,7 @@ footer p {
 
 </script>
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
+<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 98px;" src="">
 
 
 <div id="menu">
@@ -195,7 +196,9 @@ footer p {
                     <option value="Ямбол">Ямбол</option>
                 </select>
             </label>
-            <input type="text" placeholder="Търси по име на село" style="width: 70%; padding: 10px; font-size: 16px;">
+            <label>
+                <input type="text" placeholder="Търси по име на село" style="width: 70%; padding: 10px; font-size: 16px;">
+            </label>
             <button style="padding: 10px 20px; font-size: 16px;">Търсене</button>
         </div>
         <p> Village Life е платформа, която предоставя информация за условията на живот в
@@ -215,7 +218,7 @@ footer p {
 </div>
 <footer>
     <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
     </div>
     <div class="contact-info">
         <p>Свържи се с нас</p>
@@ -232,7 +235,9 @@ footer p {
 </footer>
 <div class="subscription">
     <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <input type="email" placeholder="Въведи електронна поща" >
+    <label>
+        <input type="email" placeholder="Въведи електронна поща" >
+    </label>
     <button style="color: #96c930;">Абонирай ме</button>
 </div>
 <div class="rights">

@@ -5,6 +5,7 @@
     <title>Добави село</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -77,7 +78,7 @@ footer p {
     </style>
 </head>
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
+<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;" src="">
 
 
 <div id="menu">
@@ -90,10 +91,8 @@ footer p {
 </div>
     <div class="container">
         <section class="text-center lower-line-spacing">
-            <p>
                 <div>Pomorie & Village Life</div>
                 <div>Сътрудничество</div>
-            </p>
         </section>
 
         <section class="lower-line-spacing">
@@ -103,12 +102,12 @@ footer p {
                     Village Life (Живот на село). За по-бързо попълване на въпросника,
                     препоръчваме използването на компютър, лаптоп или таблет.
                 </div>
-            </p>
+
             <p>Благодарим Ви, че избрахте да си сътрудничите с нас!</p>
             <p>
                 <div>Поздрави,</div>
                 <div>Village Life</div>
-            </p>
+
         </section>
 
         <form action="/villages/save" method="post" th:object="${addVillageFormResult}">
@@ -127,9 +126,11 @@ footer p {
                         <td th:text="${object.type}"></td>
                         <td th:each="distance1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}">
                             <div class="radio-wrapper">
-                                <input type="radio" th:id="${'distance-' + object.id}"
-                                       th:name="objectVillageDTOS[__${object.id}__].distance"
-                                       th:value="${distance1}" />
+                                <label>
+                                    <input type="radio" th:id="${'distance-' + object.id}"
+                                           th:name="objectVillageDTOS[__${object.id}__].distance"
+                                           th:value="${distance1}" />
+                                </label>
                                 <input type="hidden" th:id="${'object-' + object.id}"
                                        th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
                                        th:value="${object.id}" />
@@ -156,8 +157,10 @@ footer p {
                     <span class="text-danger">*</span>
                 </p>
                 <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
-                    <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
-                           th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
+                    <label>
+                        <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
+                               th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
+                    </label>
                     <label th:for="${'groundCategory-' + groundCategory.id}"
                            class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
                 </div>
@@ -179,9 +182,11 @@ footer p {
                         <td th:text="${livingCondition.livingConditionName}"></td>
                         <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
-                                <input type="radio" th:id="${'consent-' + livingCondition.id}"
-                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                       th:value="${consent1}" />
+                                <label>
+                                    <input type="radio" th:id="${'consent-' + livingCondition.id}"
+                                           th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                           th:value="${consent1}" />
+                                </label>
                                 <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                        th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                        th:value="${livingCondition.id}" />
@@ -200,9 +205,11 @@ footer p {
                 </p>
                 <div th:each="populationSize : ${T(com.ludogoriesoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
                      class="radio-wrapper">
-                    <input type="radio" th:id="${'populationSize-' + populationSize}"
-                           th:name="populationDTO.numberOfPopulation"
-                           th:value="${populationSize}" required/>
+                    <label>
+                        <input type="radio" th:id="${'populationSize-' + populationSize}"
+                               th:name="populationDTO.numberOfPopulation"
+                               th:value="${populationSize}" required/>
+                    </label>
                     <label th:for="${'populationSize-' + populationSize}"
                            class="radio-label" th:text="${populationSize.name}"></label>
                 </div>
@@ -216,9 +223,11 @@ footer p {
                 </p>
                 <div th:each="residents : ${T(com.ludogoriesoft.villagelifefrontend.enums.Residents).values()}"
                      class="radio-wrapper">
-                    <input type="radio" th:id="${'residents-' + residents}"
-                           th:name="populationDTO.residents"
-                           th:value="${residents}" required/>
+                    <label>
+                        <input type="radio" th:id="${'residents-' + residents}"
+                               th:name="populationDTO.residents"
+                               th:value="${residents}" required/>
+                    </label>
                     <label th:for="${'residents-' + residents}"
                            class="radio-label" th:text="${residents.name}"></label>
                 </div>
@@ -232,9 +241,11 @@ footer p {
                 </p>
                 <div th:each="children : ${T(com.ludogoriesoft.villagelifefrontend.enums.Children).values()}"
                      class="radio-wrapper">
-                    <input type="radio" th:id="${'children-' + children}"
-                           th:name="populationDTO.children"
-                           th:value="${children}" required/>
+                    <label>
+                        <input type="radio" th:id="${'children-' + children}"
+                               th:name="populationDTO.children"
+                               th:value="${children}" required/>
+                    </label>
                     <label th:for="${'children-' + children}"
                            class="radio-label" th:text="${children.name}"></label>
                 </div>
@@ -248,33 +259,53 @@ footer p {
                 </p>
                 <div th:each="foreigners : ${T(com.ludogoriesoft.villagelifefrontend.enums.Foreigners).values()}"
                      class="radio-wrapper">
-                    <input type="radio" th:id="${'foreigners-' + foreigners}"
-                           th:name="populationDTO.foreigners"
-                           th:value="${foreigners}" required/>
+                    <label>
+                        <input type="radio" th:id="${'foreigners-' + foreigners}"
+                               th:name="populationDTO.foreigners"
+                               th:value="${foreigners}" required/>
+                    </label>
                     <label th:for="${'foreigners-' + foreigners}"
                            class="radio-label" th:text="${foreigners.name}"></label>
                 </div>
             </section>
 
 
+<!--            <section>-->
+<!--                <p class="fw-bold">-->
+<!--                    Какви малцинствени групи има в района на селото?-->
+<!--                    <span class="text-danger">*</span>-->
+<!--                </p>-->
+<!--                <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">-->
+<!--                    <input type="checkbox" th:id="${'ethnicity-' + ethnicity.id}"-->
+<!--                           th:name="ethnicityDTOIds"-->
+<!--                           th:value="${ethnicity.id}" />-->
+<!--                    <label th:for="${'ethnicity-' + ethnicity.id}"-->
+<!--                           class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>-->
+<!--                </div>-->
+<!--            </section>-->
+
             <section>
                 <p class="fw-bold">
-                    Какви малцинствени групи има в района на селото?
+                    Каква малцинствена група има в района на селото?
                     <span class="text-danger">*</span>
                 </p>
-                <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">
-                    <input type="checkbox" th:id="${'ethnicity-' + ethnicity.id}"
-                           th:name="ethnicityDTOIds"
-                           th:value="${ethnicity.id}" />
+                <div th:each="ethnicity : ${ethnicities}" class="radio-wrapper">
+                    <label>
+                        <input type="radio" th:id="${'ethnicity-' + ethnicity.id}"
+                               th:name="ethnicityDTOId"
+                               th:value="${ethnicity.id}" />
+                    </label>
                     <label th:for="${'ethnicity-' + ethnicity.id}"
-                           class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
+                           class="radio-label" th:text="${ethnicity.ethnicityName}"></label>
                 </div>
             </section>
 
             <section>
                 <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
                     <label th:for="${'question-' + questionIndex}" class="question-label fw-bold" th:text="${question.question}"></label><br>
-                    <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" class="form-control"></textarea>
+                    <label>
+                        <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" class="form-control"></textarea>
+                    </label>
                 </div>
             </section>
 
@@ -293,9 +324,11 @@ footer p {
                         <td th:text="${populatedAssertion.populatedAssertionName}"></td>
                         <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
-                                <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
-                                       th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
-                                       th:value="${consent1}" />
+                                <label>
+                                    <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
+                                           th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
+                                           th:value="${consent1}" />
+                                </label>
                                 <input type="hidden" th:id="${'populatedAssertion-' + populatedAssertion.id}"
                                        th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
                                        th:value="${populatedAssertion.id}" />
@@ -314,7 +347,7 @@ footer p {
     </div>
 <footer>
     <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
     </div>
     <div class="contact-info">
         <p>Свържи се с нас</p>

@@ -1,6 +1,7 @@
 package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.EthnicityDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.EthnicityVillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,9 @@ public interface EthnicityClient {
     List<EthnicityDTO> getAllEthnicities();
     @GetMapping("/{id}")
     EthnicityDTO getEthnicityById(@PathVariable("id") Long id);
-    //@PostMapping
-    //EthnicityDTO createEthnicity(EthnicityDTO ethnicityDTO, UriComponentsBuilder uriComponentsBuilder);
     @PutMapping("/{id}")
     EthnicityDTO updateEthnicity(@PathVariable("id") Long id, EthnicityDTO ethnicityDTO);
     @DeleteMapping("/{id}")
     String deleteEthnicityById(@PathVariable("id") Long id);
+
 }
