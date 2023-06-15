@@ -6,7 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -93,6 +93,11 @@ footer p {
     .table-spacing {
         margin-bottom: 100px;
     }
+
+     tr.header-row {
+        background-color: #96c930;
+    }
+
 </style>
 
 
@@ -111,16 +116,17 @@ footer p {
 <br class="table-spacing">
 <table style="border-collapse: collapse; width: 100%;">
     <tr>
-        <th colspan="2" style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
+        <th colspan="2"
+            style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
             <span style="font-size: 24px; font-weight: bold;" th:text="${villages.name}"></span>
         </th>
     </tr>
 </table>
 
 
-
 <br class="table-spacing">
-<h2 class="table-heading">Население</h2><table>
+<h2 class="table-heading">Население</h2>
+<table>
     <thead>
     <tr>
         <th style="font-style: italic;">Въпрос</th>
@@ -129,23 +135,23 @@ footer p {
     </thead>
     <tbody>
     <tr>
-        <th >Брой на населението:</th>
+        <th>Брой на населението:</th>
         <td th:text="${population.numberOfPopulation.name}"></td>
     </tr>
     <tr>
-        <th > Жители над 50г възраст:</th>
+        <th> Жители над 50г възраст:</th>
         <td th:text="${population.residents.name}"></td>
     </tr>
     <tr>
-        <th > Деца на 14г възраст:</th>
+        <th> Деца на 14г възраст:</th>
         <td th:text="${population.children.name}+' деца'"></td>
     </tr>
     <tr>
-        <th > Има ли чужденци:</th>
+        <th> Има ли чужденци:</th>
         <td th:text="${population.foreigners.name}"></td>
     </tr>
     <tr>
-        <th >Етнически състав:</th>
+        <th>Етнически състав:</th>
         <td th:text="${ethnicity.ethnicityName}"></td>
     </tr>
     </tbody>
@@ -194,7 +200,36 @@ footer p {
     </tbody>
 </table>
 <br class="table-spacing">
-<h2 class="table-heading"></h2>
+<h2 class="table-heading">Обекти в близост</h2>
+<table>
+    <thead>
+    <tr>
+        <th style="font-style: italic;">Обекти</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="distance : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}">
+        <tr >
+            <td colspan="2"></td> <!-- Празен <td> елемент -->
+        </tr>
+        <tr class="header-row">
+            <td colspan="2">
+                <strong th:text="${distance.getName()}"></strong>
+            </td>
+        </tr>
+        <tr th:each="obj : ${objectVillage}" th:if="${obj.getDistance().getName() == distance.getName()}">
+            <td>
+                    <span th:each="objectAroundVillage : ${objectAroundVillage}"
+                          th:if="${obj.objectAroundVillageId == objectAroundVillage.id}">
+                        <span th:text="${objectAroundVillage.type}"></span>
+                    </span>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+
 
 
 
