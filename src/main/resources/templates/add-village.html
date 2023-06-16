@@ -75,14 +75,30 @@
                 </table>
             </section>
 
-            <!-- Village name -->
-            <section>
-                <label for="villageName" class="fw-bold">
-                    Как се казва селото?
-                    <span class="text-danger">*</span>
-                </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
-            </section>
+
+            <div class="row">
+                <!-- Village name -->
+                <section class="col-9">
+                    <label for="villageName" class="fw-bold">
+                        Как се казва селото?
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
+                </section>
+
+                <!-- Region -->
+                <section class="col-3">
+                    <label for="regionName" class="fw-bold">
+                        Избери област:
+                        <span class="text-danger">*</span>
+                    </label>
+                    <select th:field="*{villageDTO.region}" class="form-select"  id="regionName">
+                        <option th:each="region : ${regions}"
+                                th:value="${region.regionName}"
+                                th:text="${region.regionName}"></option>
+                    </select>
+                </section>
+            </div>
 
             <!-- Ground Category -->
             <section>
