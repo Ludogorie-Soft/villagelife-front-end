@@ -1,31 +1,34 @@
-package com.ludogorieSoft.villagelifefrontend.config;
+package com.ludogoriesoft.villagelifefrontend.config;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorRequest;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-admin",url = "http://localhost:8088/api/v1/admins")
+@FeignClient(name = "villagelife-api-admin", url = "http://localhost:8088/api/v1/admins")
 public interface AdminClient {
     @GetMapping
-    public ResponseEntity<List<AdministratorDTO>> getAllAdministrators();
+    ResponseEntity<List<AdministratorDTO>> getAllAdministrators(@RequestHeader("Authorization") String token);
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id);
+    ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id,@RequestHeader("Authorization") String token);
 
     @PostMapping
-    public ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest);
+    ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest,
+                                                         @RequestHeader("Authorization") String token);
 
     @PutMapping("/{id}")
-    public ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
-                                                                @RequestBody AdministratorRequest administratorRequest);
+    ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
+                                                         @RequestBody AdministratorRequest administratorRequest,
+                                                         @RequestHeader("Authorization") String token);
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAdministratorById(@PathVariable("id") Long id);
+    ResponseEntity<String> deleteAdministratorById(@PathVariable("id") Long id,@RequestHeader("Authorization") String token);
+
+    @GetMapping("/username/{username}")
+    AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
 }

@@ -36,7 +36,7 @@
             <!-- Population Size -->
             <section>
                 <p>Колко човека е населението в селото? *</p>
-                <div th:each="populationSize : ${T(com.ludogorieSoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
+                <div th:each="populationSize : ${T(com.ludogoriesoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'populationSize-' + populationSize}"
                            th:name="populationDTO.numberOfPopulation"
@@ -49,7 +49,7 @@
             <!-- Residents -->
             <section>
                 <p>Според Вас, каква част от жителите на селото са хора до 50 години? *</p>
-                <div th:each="residents : ${T(com.ludogorieSoft.villagelifefrontend.enums.Residents).values()}"
+                <div th:each="residents : ${T(com.ludogoriesoft.villagelifefrontend.enums.Residents).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'residents-' + residents}"
                            th:name="populationDTO.residents"
@@ -62,7 +62,7 @@
             <!-- Children -->
             <section>
                 <p>Какъв е броят на децата (до 14г.) в селото според Вас? *</p>
-                <div th:each="children : ${T(com.ludogorieSoft.villagelifefrontend.enums.Children).values()}"
+                <div th:each="children : ${T(com.ludogoriesoft.villagelifefrontend.enums.Children).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'children-' + children}"
                            th:name="populationDTO.children"
@@ -75,7 +75,7 @@
             <!-- Foreigners -->
             <section>
                 <p>В селото живеят ли чужденци? *</p>
-                <div th:each="foreigners : ${T(com.ludogorieSoft.villagelifefrontend.enums.Foreigners).values()}"
+                <div th:each="foreigners : ${T(com.ludogoriesoft.villagelifefrontend.enums.Foreigners).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'foreigners-' + foreigners}"
                            th:name="populationDTO.foreigners"

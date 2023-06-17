@@ -1,4 +1,4 @@
-package com.ludogorieSoft.villagelifefrontend.dtos;
+package com.ludogoriesoft.villagelifefrontend.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

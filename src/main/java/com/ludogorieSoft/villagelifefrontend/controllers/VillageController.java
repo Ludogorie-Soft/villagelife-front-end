@@ -1,13 +1,13 @@
-package com.ludogorieSoft.villagelifefrontend.controllers;
+package com.ludogoriesoft.villagelifefrontend.controllers;
 
-import com.ludogorieSoft.villagelifefrontend.config.AddVillageFormClient;
-import com.ludogorieSoft.villagelifefrontend.config.GroundCategoryClient;
-import com.ludogorieSoft.villagelifefrontend.config.PopulationClient;
-import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AddVillageFormResult;
-import com.ludogorieSoft.villagelifefrontend.dtos.GroundCategoryDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.PopulationDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogoriesoft.villagelifefrontend.config.AddVillageFormClient;
+import com.ludogoriesoft.villagelifefrontend.config.GroundCategoryClient;
+import com.ludogoriesoft.villagelifefrontend.config.PopulationClient;
+import com.ludogoriesoft.villagelifefrontend.config.VillageClient;
+import com.ludogoriesoft.villagelifefrontend.dtos.AddVillageFormResult;
+import com.ludogoriesoft.villagelifefrontend.dtos.GroundCategoryDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.PopulationDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -40,31 +40,6 @@ public class VillageController {
         model.addAttribute("population", populationDTO);
         return "/test/test";
     }
-
-    //@GetMapping("/create")
-    //String createVillage(Model model){
-    //    VillageDTO villageDTO = new VillageDTO();
-    //    System.out.println(1);
-    //    villageDTO.setPopulationDTO(new PopulationDTO());
-    //    System.out.println(2);
-    //    model.addAttribute("village", villageDTO);
-    //    System.out.println(3);
-    //    return "/add-village";
-    //}
-    //@PostMapping("/submit")
-    //String saveVillage(VillageDTO villageDTO){
-    //    System.out.println(4);
-    //    //populationClient.getPopulationById(villageDTO.)
-    //    System.out.println(5);
-    //    populationClient.createPopulation(villageDTO.getPopulationDTO());
-    //    System.out.println(6);
-    //    villageDTO.setPopulationDTO(populationClient.getPopulationById(villageDTO.getPopulationDTO().getId()));
-    //    System.out.println(7);
-    //    villageClient.createVillage(villageDTO);
-    //    System.out.println(8);
-    //    return "test/test";
-    //}
-
 
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
