@@ -30,11 +30,11 @@ public class AuthController {
     }
     @PostMapping("/register")
     public String registerAdmin(@ModelAttribute("admins") RegisterRequest request, HttpSession session) {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcwMTM5NjIsImV4cCI6MTY4NzEwMDM2Mn0.32m49heFF9XkvO5wsGfmIxdpiDkuyU-2oibC9Oj03GA";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw";
         session.setAttribute("admin", token);
         //(String) session.getAttribute("admin");
         authClient.register(request,"Bearer " + token);
-        return "admin_templates/admin_menu";
+        return "redirect:/admins/menu";
     }
 
     @GetMapping("/login")
@@ -47,8 +47,9 @@ public class AuthController {
     public String  authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session) {
         ResponseEntity<AuthenticationResponce> authResponse = authClient.authenticate(request);
         String token = authResponse.getBody().getToken();
+        System.out.println(token);
         session.setAttribute("admin", token);
-       return "admin_templates/admin_menu";
+       return "redirect:/admins/menu";
     }
 
 }

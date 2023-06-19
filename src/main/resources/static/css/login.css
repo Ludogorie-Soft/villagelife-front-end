@@ -1,0 +1,13 @@
+ body {
+      background-color: #90c90c;
+    }
+
+ .logo {
+      max-width: 130px;
+      height: auto;
+    }
+
+ .btn-login {
+      background-color: #90c90c;
+      border-color: #90c90c;
+    }
