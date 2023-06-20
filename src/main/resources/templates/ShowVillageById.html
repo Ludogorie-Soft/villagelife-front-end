@@ -97,8 +97,37 @@ footer p {
      tr.header-row {
         background-color: #96c930;
     }
+    .centered-heading {
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    table {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    th, td {
+        text-align: left;
+        width: 50%;
+    }
+
+    @media (min-width: 768px) {
+        th, td {
+            width: 25%;
+        }
+    }
+
 
 </style>
+<script>
+    document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
+</script>
 
 
 <body>
@@ -118,10 +147,36 @@ footer p {
     <tr>
         <th colspan="2"
             style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
-            <span style="font-size: 24px; font-weight: bold;" th:text="${villages.name}"></span>
+            <span style="font-size: 24px; font-weight: bold;" th:text="${village.name} + ', Област ' + ${village.region}"></span>
         </th>
     </tr>
 </table>
+
+<h2 class="table-heading">Обща Информация</h2>
+<div class="table-container">
+    <table>
+        <tbody>
+        <tr>
+            <th>Брой на населението:</th>
+            <td th:text="${population.numberOfPopulation.name}"></td>
+        </tr>
+        <tr>
+            <th>Условия за живот:</th>
+            <td th:text="${livingConditionsValue} + '%'"></td>
+        </tr>
+        <tr>
+            <th>Престъпност:</th>
+            <td th:text="${delinquencyValue} + '%'"></td>
+        </tr>
+        <tr>
+            <th>Еко Съобразност:</th>
+            <td th:text="${ecoValue} + '%'"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
 
 
 <br class="table-spacing">
@@ -156,28 +211,8 @@ footer p {
     </tr>
     </tbody>
 </table>
-<br class="table-spacing">
-<h2 class="table-heading">Характеристики на населението</h2>
-<table>
-    <thead>
-    <tr>
 
-        <th style="font-style: italic;">Характеристики</th>
-        <th style="font-style: italic;">Съгласие (%)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="villagePopulationAssertion : ${villagePopulationAssertion}">
-        <td>
-                <span th:each="populatedAssertion : ${villagePopulation}"
-                      th:if="${populatedAssertion.id == villagePopulationAssertion.populatedAssertionId}">
-                    <span th:text="${populatedAssertion.populatedAssertionName}+':'"></span>
-                </span>
-        </td>
-        <td th:text="${villagePopulationAssertion.answer.value}+'%'"></td>
-    </tr>
-    </tbody>
-</table>
+
 <br class="table-spacing">
 <h2 class="table-heading">Условия за живот</h2>
 <table>
@@ -188,14 +223,17 @@ footer p {
     </tr>
     </thead>
     <tbody>
-    <tr th:each="villageLivingCondition : ${villageLivingCondition}">
+    <tr th:each="villageLivingCondition : ${villageLivingCondition}" th:if="${villageLivingCondition.livingConditionId &lt; 9}">
         <td>
-                <span th:each="condition : ${livingCondition}"
-                      th:if="${condition.id == villageLivingCondition.livingConditionId}">
-                    <span th:text="${condition.livingConditionName}+':'"></span>
-                </span>
+            <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
+                <span th:text="${condition.livingConditionName} + ':'"></span>
+            </span>
         </td>
-        <td th:text="${villageLivingCondition.consents.getValue()}+'%'"></td>
+        <td>
+            <span  th:if="${villageLivingCondition.livingConditionId &lt; 9}">
+                <span th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>
+            </span>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -19,5 +19,14 @@ public interface VillageLivingConditionClient {
 
     @GetMapping("/village/{id}")
     public List<VillageLivingConditionDTO> getVillageLivingConditionsByVillageId(@PathVariable("id") Long id);
+
+    @GetMapping("/village/value/{id}")
+    double getVillageLivingConditionsByVillageIdValue(@PathVariable("id") Long id);
+
+    @GetMapping("/village/delinquencyValue/{id}")
+    Double getVillagePopulationAssertionByVillageIdDelinquencyValue(@PathVariable("id") Long id);
+    @GetMapping("/village/ecoValue/{id}")
+     Double getVillagePopulationAssertionByVillageIdEcoValue(@PathVariable("id") Long id);
+
 }
 
