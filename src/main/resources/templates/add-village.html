@@ -141,14 +141,30 @@ footer p {
                 </table>
             </section>
 
-            <!-- Village name -->
-            <section>
-                <label for="villageName" class="fw-bold">
-                    Как се казва селото?
-                    <span class="text-danger">*</span>
-                </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
-            </section>
+
+            <div class="row">
+                <!-- Village name -->
+                <section class="col-9">
+                    <label for="villageName" class="fw-bold">
+                        Как се казва селото?
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
+                </section>
+
+                <!-- Region -->
+                <section class="col-3">
+                    <label for="regionName" class="fw-bold">
+                        Избери област:
+                        <span class="text-danger">*</span>
+                    </label>
+                    <select th:field="*{villageDTO.region}" class="form-select"  id="regionName">
+                        <option th:each="region : ${regions}"
+                                th:value="${region.regionName}"
+                                th:text="${region.regionName}"></option>
+                    </select>
+                </section>
+            </div>
 
             <!-- Ground Category -->
             <section>
@@ -169,7 +185,7 @@ footer p {
 
             <section>
                 <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
-                <table  class="table table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th></th>
@@ -178,7 +194,37 @@ footer p {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="livingCondition : ${livingConditions}">
+                    <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
+                        <td th:text="${livingCondition.livingConditionName}"></td>
+                        <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
+                            <div class="radio-wrapper">
+                                <input type="radio" th:id="${'consent-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                       th:value="${consent1}" />
+                                <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
+                                       th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
+                                       th:value="${livingCondition.id}" />
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+
+
+
+            <section>
+                <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:each="consent : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}"
+                            th:text="${consent.name}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
                         <td th:text="${livingCondition.livingConditionName}"></td>
                         <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
@@ -196,6 +242,8 @@ footer p {
                     </tbody>
                 </table>
             </section>
+
+
 
             <!-- Population Size -->
             <section>
