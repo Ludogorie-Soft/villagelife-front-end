@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Excel File</title>
+</head>
+<body>
+<h1>Upload Excel File</h1>
+
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" value="Upload" />
+</form>
+
+<p th:if="${uploadSuccess}">
+    File uploaded successfully.
+</p>
+<p th:if="${uploadError}">
+    Error uploading file.
+</p>
+
+
+<p th:if="${village != null}">
+    <td th:text="${village.name}"></td>
+</p>
+<p th:if="${objectVillage != null}">
+    <td th:text="${objectVillage.villageId} +' <- село ид ; '"></td>
+    <td th:text="${objectVillage.objectAroundVillageId +' <- обект ид ; '}"></td>
+<!--    <td th:text="${objectVillage.distance.getName() +' <- разстояние ид ; '}"></td>-->
+</p>
+
+</body>
+</html>
