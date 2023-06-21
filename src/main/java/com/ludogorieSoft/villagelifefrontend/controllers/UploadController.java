@@ -43,7 +43,7 @@ public class UploadController {
                 model.addAttribute("uploadError", true);
                 return "upload";
             }
-            int villageNextId = villageClient.getAllVillages().size() + 1;//ИД на следващо село в БД
+            //int villageNextId = villageClient.getAllVillages().size() + 1;//ИД на следващо село в БД
 
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
 
