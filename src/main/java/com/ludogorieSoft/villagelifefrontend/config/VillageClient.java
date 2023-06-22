@@ -23,4 +23,6 @@ public interface VillageClient {
 
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
+
+
 }

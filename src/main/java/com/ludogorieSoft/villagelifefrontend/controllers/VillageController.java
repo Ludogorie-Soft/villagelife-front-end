@@ -3,13 +3,9 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,9 +29,9 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
+
     @GetMapping("/test")
-    String test(Model model)
-    {
+    String test(Model model) {
         PopulationDTO populationDTO = populationClient.getPopulationById(1L);
         model.addAttribute("population", populationDTO);
         return "/test/test";
@@ -66,9 +62,11 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
+
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
     }
+
 }
