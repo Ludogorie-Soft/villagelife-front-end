@@ -34,7 +34,7 @@ public class FilterController {
     private LivingConditionClient livingConditionClient;
 
 
-    private final AdvancedSearchFormClient advancedSearchFormClient;
+
 
 
     @GetMapping("/byName")
