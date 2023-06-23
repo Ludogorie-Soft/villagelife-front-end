@@ -46,7 +46,7 @@
             </p>
         </section>
 
-        <form action="/villages/save" method="post" th:object="${addVillageFormResult}">
+        <form action="/villages/save" method="post" th:object="${addVillageFormResult}" enctype="multipart/form-data">
             <section>
                 <p class="fw-bold">На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
                 <table  class="table table-hover">
@@ -287,6 +287,14 @@
                     </tr>
                     </tbody>
                 </table>
+            </section>
+
+            <!-- Added input field for uploading images -->
+            <section>
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label fw-bold">Моля, прикачете снимки от селото:</label>
+                    <input class="form-control" type="file" id="formFileMultiple" name="images" multiple accept="image/*">
+                </div>
             </section>
 
             <section class="text-center">

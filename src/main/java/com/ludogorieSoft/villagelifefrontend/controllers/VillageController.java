@@ -3,16 +3,14 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/villages")
@@ -26,6 +24,7 @@ public class VillageController {
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
+    private RegionClient regionClient;
 
     @GetMapping
     String getVillages(Model model) {
@@ -40,11 +39,33 @@ public class VillageController {
         model.addAttribute("population", populationDTO);
         return "/test/test";
     }
-
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+        addAllListWithOptions(model);
+        model.addAttribute("addVillageFormResult", addVillageFormResult);
+        return "add-village";
+    }
 
+
+    @PostMapping("/save")
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
+                              @RequestParam("images") List<MultipartFile> images) {
+        List<byte[]> imageBytes = new ArrayList<>();
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        addVillageFormResult.setImageBytes(imageBytes);
+        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
+        return "redirect:/villages/test";
+    }
+    private void addAllListWithOptions(Model model){
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
         model.addAttribute("groundCategories", groundCategories);
 
@@ -63,12 +84,7 @@ public class VillageController {
         List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
         model.addAttribute("livingConditions", livingConditionDTOS);
 
-        model.addAttribute("addVillageFormResult", addVillageFormResult);
-        return "add-village";
-    }
-    @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
-        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        return "redirect:/villages/test";
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
     }
 }
