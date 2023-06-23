@@ -1,9 +1,8 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.ObjectVillageClient;
-import com.ludogoriesoft.villagelifefrontend.config.VillageClient;
-import com.ludogoriesoft.villagelifefrontend.dtos.ObjectVillageDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogoriesoft.villagelifefrontend.config.*;
+import com.ludogoriesoft.villagelifefrontend.dtos.*;
+import com.ludogoriesoft.villagelifefrontend.enums.Consents;
 import com.ludogoriesoft.villagelifefrontend.enums.Distance;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/upload")
@@ -27,6 +27,9 @@ import java.io.IOException;
 public class UploadController {
     private final VillageClient villageClient;
     private final ObjectVillageClient objectVillageClient;
+    private final VillageLivingConditionClient villageLivingConditionClient;
+    private final GroundCategoryClient groundCategoryClient;
+    private final VillageGroundCategoryClient villageGroundCategoryClient;
 
     @GetMapping
     public String uploadForm(Model model) {
@@ -43,14 +46,14 @@ public class UploadController {
                 model.addAttribute("uploadError", true);
                 return "upload";
             }
-            //int villageNextId = villageClient.getAllVillages().size() + 1;//ИД на следващо село в БД
 
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
-
             Sheet sheet = workbook.getSheetAt(0);
+
             VillageDTO village = new VillageDTO();
             ObjectVillageDTO objectVillage = new ObjectVillageDTO();
-
+            VillageLivingConditionDTO villageLivingCondition = new VillageLivingConditionDTO();
+            VillageGroundCategoryDTO villageGroundCategory = new VillageGroundCategoryDTO();
 
             Row row = sheet.getRow(1);
             int lastCellNum = row.getLastCellNum();
@@ -61,40 +64,75 @@ public class UploadController {
                     if (i == 0) {
                         village.setDateUpload(null);
                     } else if (i == 2) {
-                        if (value!=null){
+                        if (value != null) {
                             village.setName(value);
                         }
-                    } else if (i == 3) {
-                        long objectAroundVillageID=1;
-                        while (i <= 16) {
-                            objectVillage.setVillageId((long) 1);
+                    } else if (i==3) {
+                        long objectAroundVillageID = 1;
+                        int innerIndex = i;
+                        while (innerIndex <= 16) {
+                            objectVillage.setVillageId(1L);
                             objectVillage.setObjectAroundVillageId(objectAroundVillageID);
-                            Cell valueCell = sheet.getRow(1).getCell(i);
+                            Cell valueCell = sheet.getRow(1).getCell(innerIndex);
                             if (valueCell != null) {
                                 String valueWhile = valueCell.getStringCellValue();
                                 for (Distance distance : Distance.values()) {
                                     if (distance.getName().equalsIgnoreCase(valueWhile)) {
-                                        System.out.println("Value: " + valueWhile);
                                         objectVillage.setDistance(distance);
                                         objectVillageClient.createObjectVillage(objectVillage);
                                         break;
                                     }
                                 }
                             }
-                            i++;
+                            innerIndex++;
                             objectAroundVillageID++;
                         }
-                    }else if (i==17){
-                        model.addAttribute("text", "USPQ BERKI");
+
+                    } else if (i == 18) {
+                        int j = 0;
+                        int i1=i;
+                        long livingConditionID = 1;
+                        while (j <= 7) {
+                            villageLivingCondition.setVillageId(1L);
+                            villageLivingCondition.setLivingConditionId(livingConditionID);
+                            Cell valueCell = sheet.getRow(1).getCell(i1);
+                            if (valueCell != null) {
+                                String valueWhile = valueCell.getStringCellValue();
+                                for (Consents consents : Consents.values()) {
+                                    if (consents.getName().equalsIgnoreCase(valueWhile)) {
+                                        villageLivingCondition.setConsents(consents);
+                                        villageLivingConditionClient.createVillageLivingConditions(villageLivingCondition);
+                                        break;
+                                    }
+                                }
+                            }
+                            i1++;
+                            j++;
+                            livingConditionID++;
+                        }
+                    } else if (i == 26) {
+                        villageGroundCategory.setVillageId(1L);
+                        List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
+                        if (!groundCategories.isEmpty()) {
+                            Cell valueCell = sheet.getRow(1).getCell(i);
+                            String valueWhile = valueCell.getStringCellValue();
+                            for (int j = 0; j < groundCategories.size(); j++) {
+                                if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
+                                    villageGroundCategory.setGroundCategoryId((long) (j + 1));
+                                    villageGroundCategoryClient.createVillageGroundCategories(villageGroundCategory);
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
+
             model.addAttribute("objectVillage", objectVillage);
             model.addAttribute("village", village);
             model.addAttribute("uploadSuccess", true);
             model.addAttribute("uploadError", false);
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             model.addAttribute("uploadSuccess", false);
             model.addAttribute("uploadError", true);
@@ -102,4 +140,8 @@ public class UploadController {
 
         return "upload";
     }
+
+
+
+
 }

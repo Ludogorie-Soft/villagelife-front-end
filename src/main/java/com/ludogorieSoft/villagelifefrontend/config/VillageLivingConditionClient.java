@@ -5,6 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -27,6 +29,8 @@ public interface VillageLivingConditionClient {
     Double getVillagePopulationAssertionByVillageIdDelinquencyValue(@PathVariable("id") Long id);
     @GetMapping("/village/ecoValue/{id}")
      Double getVillagePopulationAssertionByVillageIdEcoValue(@PathVariable("id") Long id);
+    @PostMapping
+     void createVillageLivingConditions(@RequestBody VillageLivingConditionDTO villageLivingConditionsDTO);
 
 }
 
