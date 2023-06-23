@@ -173,7 +173,14 @@
                 </table>
             </section>
 
+            <section>
+                <label for="villagePopulationCount" class="fw-bold">
+                    Колко човека е населението в селото?
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="number" id="villagePopulationCount" th:field="*{villageDTO.populationCount}" class="form-control" required>
 
+            </section>
 
             <!-- Population Size -->
             <section>
