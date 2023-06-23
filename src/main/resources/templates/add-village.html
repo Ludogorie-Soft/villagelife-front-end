@@ -13,8 +13,10 @@
         section{
             margin: 50px 0px 50px 0px;
         }
-        .btn-primary {
+        .btn {
             border-radius: 0;
+            margin: 0px 5px 0px 5px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         }
         .question-wrapper {
             margin-top: 50px;
@@ -307,6 +309,7 @@
 
             <section class="text-center">
                 <button type="submit" class="btn btn-primary">Изпрати</button>
+                <button type="reset" class="btn btn-danger ">Изчисти</button>
             </section>
 
         </form>
@@ -314,7 +317,7 @@
     <script>
     function validateImageFormat(input) {
         var file = input.files[0];
-        var allowedFormats = ["image/jpg", "image/png"];
+        var allowedFormats = ["image/jpeg", "image/png"];
 
         if (!allowedFormats.includes(file.type)) {
             alert("Невлиден формат. Разрешени са само JPG и PNG.");
