@@ -300,7 +300,8 @@
             <section>
                 <div class="mb-3">
                     <label for="formFileMultiple" class="form-label fw-bold">Моля, прикачете снимки от селото:</label>
-                    <input class="form-control" type="file" id="formFileMultiple" name="images" multiple accept="image/*">
+                    <input class="form-control" id="formFileMultiple" name="images" type="file" multiple accept="image/*" onchange="validateImageFormat(this)">
+
                 </div>
             </section>
 
@@ -310,5 +311,16 @@
 
         </form>
     </div>
+    <script>
+    function validateImageFormat(input) {
+        var file = input.files[0];
+        var allowedFormats = ["image/jpg", "image/png"];
+
+        if (!allowedFormats.includes(file.type)) {
+            alert("Невлиден формат. Разрешени са само JPG и PNG.");
+            input.value = ''; // Clear the file input field
+        }
+    }
+    </script>
 </body>
 </html>
