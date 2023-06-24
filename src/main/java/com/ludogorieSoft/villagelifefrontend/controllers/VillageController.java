@@ -27,6 +27,8 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private RegionClient regionClient;
 
+    private VillageImageClient villageImageClient;
+
     @GetMapping
     String getVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
@@ -34,8 +36,7 @@ public class VillageController {
         return "/test/testAllVillages";
     }
     @GetMapping("/test")
-    String test(Model model)
-    {
+    String test(Model model){
         PopulationDTO populationDTO = populationClient.getPopulationById(1L);
         model.addAttribute("population", populationDTO);
         return "/test/test";
@@ -47,21 +48,10 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
-
-
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
-        List<byte[]> imageBytes = new ArrayList<>();
-        for (MultipartFile image : images) {
-            try {
-                byte[] imageData = image.getBytes();
-                imageBytes.add(imageData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+        List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
