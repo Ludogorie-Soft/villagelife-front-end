@@ -115,8 +115,8 @@ public class VillageController {
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
-        List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
-        addVillageFormResult.setImageBytes(imageBytes);
+       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+       //addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
     }
