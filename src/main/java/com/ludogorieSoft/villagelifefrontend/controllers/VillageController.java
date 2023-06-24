@@ -1,5 +1,6 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
+
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
@@ -7,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,13 +28,9 @@ public class VillageController {
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
-
-
     private VillageImageClient villageImageClient;
-    private final ObjectAroundVillageClient objectAroundVillageClient;
     private final ObjectVillageClient objectVillageClient;
-    private final PopulatedAssertionClient populatedAssertionClient;
-    private final LivingConditionClient livingConditionClient;
+
 
     @GetMapping
     String getVillages(Model model) {
@@ -51,109 +45,102 @@ public class VillageController {
         model.addAttribute("population", populationDTO);
         return "/test/test";
     }
-        @GetMapping("/home-page")
-        public String homePage (Model model){
-            List<VillageDTO> villageList = villageClient.getAllVillages();
-            model.addAttribute("villages", villageList);
-            return "HomePage";
-        }
 
-        @GetMapping("/show/{id}")
-        public String getAllTablesByVillageId (@PathVariable(name = "id") Long id, Model model){
+    @GetMapping("/home-page")
+    public String homePage(Model model) {
+        List<VillageDTO> villageList = villageClient.getAllVillages();
+        model.addAttribute("villages", villageList);
+        return "HomePage";
+    }
 
-            double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
-            model.addAttribute("ecoValue", ecoValue);
+    @GetMapping("/show/{id}")
+    public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
 
-            double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
-            model.addAttribute("delinquencyValue", delinquencyValue);
+        double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
+        model.addAttribute("ecoValue", ecoValue);
 
-            double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
-            model.addAttribute("livingConditionsValue", livingConditionsValue);
+        double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
+        model.addAttribute("delinquencyValue", delinquencyValue);
 
-            List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
-            model.addAttribute("objectAroundVillage", objectAroundVillage);
+        double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
+        model.addAttribute("livingConditionsValue", livingConditionsValue);
 
-            List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
-            model.addAttribute("objectVillage", objectVillage);
+        List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
+        model.addAttribute("objectAroundVillage", objectAroundVillage);
 
-            EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
-            model.addAttribute("ethnicityVillage", ethnicityVillage);
+        List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
+        model.addAttribute("objectVillage", objectVillage);
 
-            EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-            model.addAttribute("ethnicity", ethnicity);
+        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
+        model.addAttribute("ethnicityVillage", ethnicityVillage);
 
-            PopulationDTO population = populationClient.getPopulationById(id);
-            model.addAttribute("population", population);
+        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+        model.addAttribute("ethnicity", ethnicity);
 
-            VillageDTO village = villageClient.getVillageById(id);
-            model.addAttribute("village", village);
+        PopulationDTO population = populationClient.getPopulationById(id);
+        model.addAttribute("population", population);
 
-            List<QuestionDTO> question = questionClient.getAllQuestions();
-            model.addAttribute("question", question);
+        VillageDTO village = villageClient.getVillageById(id);
+        model.addAttribute("village", village);
 
-            List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
-            model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
+        List<QuestionDTO> question = questionClient.getAllQuestions();
+        model.addAttribute("question", question);
 
-            List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
-            model.addAttribute("livingCondition", livingCondition);
+        List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
+        model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
 
-            List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
-            model.addAttribute("villageLivingCondition", villageLivingCondition);
+        List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
+        model.addAttribute("livingCondition", livingCondition);
 
-            List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
-            model.addAttribute("villagePopulation", villagePopulation);
+        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
+        model.addAttribute("villageLivingCondition", villageLivingCondition);
 
-            List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
-            model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
+        List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
+        model.addAttribute("villagePopulation", villagePopulation);
 
-            return "ShowVillageById";
-        }
+        List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
+        model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
 
-        @GetMapping("/create")
-        public String showCreateVillageForm (Model model){
-            AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
-            addAllListsWithOptions(model);
-            model.addAttribute("addVillageFormResult", addVillageFormResult);
-            return "add-village";
-        }
-        @PostMapping("/save")
-        public String saveVillage (@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
-                @RequestParam("images") List < MultipartFile > images){
-            List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
-            addVillageFormResult.setImageBytes(imageBytes);
-            addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-            return "redirect:/villages/test";
-        }
-        private void addAllListsWithOptions (Model model){
-            List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
-            model.addAttribute("groundCategories", groundCategories);
+        return "ShowVillageById";
+    }
 
-            List<EthnicityDTO> ethnicities = ethnicityClient.getAllEthnicities();
-            model.addAttribute("ethnicities", ethnicities);
+    @GetMapping("/create")
+    public String showCreateVillageForm(Model model) {
+        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+        addAllListsWithOptions(model);
+        model.addAttribute("addVillageFormResult", addVillageFormResult);
+        return "add-village";
+    }
 
-            List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
-            model.addAttribute("questions", questionDTOS);
+    @PostMapping("/save")
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
+                              @RequestParam("images") List<MultipartFile> images) {
+        List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+        addVillageFormResult.setImageBytes(imageBytes);
+        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
+        return "redirect:/villages/test";
+    }
 
-            List<ObjectAroundVillageDTO> objectAroundVillageDTOS = objectAroundVillageClient.getAllObjectsAroundVillage();
-            model.addAttribute("objectsAroundVillage", objectAroundVillageDTOS);
+    private void addAllListsWithOptions(Model model) {
+        List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
+        model.addAttribute("groundCategories", groundCategories);
 
-            List<PopulatedAssertionDTO> populatedAssertionDTOS = populatedAssertionClient.getAllPopulatedAssertion();
-            model.addAttribute("populatedAssertions", populatedAssertionDTOS);
+        List<EthnicityDTO> ethnicities = ethnicityClient.getAllEthnicities();
+        model.addAttribute("ethnicities", ethnicities);
 
-            List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
-            model.addAttribute("livingConditions", livingConditionDTOS);
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        model.addAttribute("questions", questionDTOS);
 
-            List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-            model.addAttribute("regions", regionDTOS);
-        }
+        List<ObjectAroundVillageDTO> objectAroundVillageDTOS = objectAroundVillageClient.getAllObjectsAroundVillage();
+        model.addAttribute("objectsAroundVillage", objectAroundVillageDTOS);
 
-        @GetMapping("/test")
-        String test (Model model){
-            PopulationDTO populationDTO = populationClient.getPopulationById(1L);
-            model.addAttribute("population", populationDTO);
-            return "/test/test";
-        }
+        List<PopulatedAssertionDTO> populatedAssertionDTOS = populatedAssertionClient.getAllPopulatedAssertion();
+        model.addAttribute("populatedAssertions", populatedAssertionDTOS);
 
+        List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
+        model.addAttribute("livingConditions", livingConditionDTOS);
 
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
     }
 }
