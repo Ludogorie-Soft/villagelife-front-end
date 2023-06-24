@@ -73,6 +73,10 @@ public class VillageController {
     public String showContactsPage(){
         return "contacts";
     }
+    @GetMapping("/about-us")
+    public String showAboutUsPage(){
+        return "about-us";
+    }
     private void addAllListsWithOptions(Model model){
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
         model.addAttribute("groundCategories", groundCategories);
