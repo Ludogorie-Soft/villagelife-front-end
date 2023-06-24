@@ -1,12 +1,13 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
+
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Controller
@@ -24,16 +25,25 @@ public class VillageController {
     private final EthnicityClient ethnicityClient;
     private final PopulationClient populationClient;
     private final QuestionClient questionClient;
-    private final ObjectAroundVillageClient objectAroundVillageClient;
+    private ObjectAroundVillageClient objectAroundVillageClient;
+    private PopulatedAssertionClient populatedAssertionClient;
+    private LivingConditionClient livingConditionClient;
+    private VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
-    private final PopulatedAssertionClient populatedAssertionClient;
-    private final LivingConditionClient livingConditionClient;
+
 
     @GetMapping
     String getVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
+    }
+
+    @GetMapping("/test")
+    String test(Model model) {
+        PopulationDTO populationDTO = populationClient.getPopulationById(1L);
+        model.addAttribute("population", populationDTO);
+        return "/test/test";
     }
 
     @GetMapping("/home-page")
@@ -46,28 +56,28 @@ public class VillageController {
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
 
-        double ecoValue=villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
+        double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
         model.addAttribute("ecoValue", ecoValue);
 
-        double delinquencyValue=villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
+        double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
         model.addAttribute("delinquencyValue", delinquencyValue);
 
-        double livingConditionsValue=villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
+        double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
         model.addAttribute("livingConditionsValue", livingConditionsValue);
 
         List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
         model.addAttribute("objectAroundVillage", objectAroundVillage);
 
-        List<ObjectVillageDTO> objectVillage =objectVillageClient.getObjectVillageByVillageID(id);
+        List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
         model.addAttribute("objectVillage", objectVillage);
 
-        EthnicityVillageDTO ethnicityVillage=villageEthnicityClient.getEthnicityVillageByVillageId(id);
+        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
         model.addAttribute("ethnicityVillage", ethnicityVillage);
 
-        EthnicityDTO ethnicity=ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
         model.addAttribute("ethnicity", ethnicity);
 
-        PopulationDTO population=populationClient.getPopulationById(id);
+        PopulationDTO population = populationClient.getPopulationById(id);
         model.addAttribute("population", population);
 
         VillageDTO village = villageClient.getVillageById(id);
@@ -97,10 +107,21 @@ public class VillageController {
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+        addAllListsWithOptions(model);
+        model.addAttribute("addVillageFormResult", addVillageFormResult);
+        return "add-village";
+    }
 
-        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-        model.addAttribute("regions", regionDTOS);
+    @PostMapping("/save")
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
+                              @RequestParam("images") List<MultipartFile> images) {
+       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+       //addVillageFormResult.setImageBytes(imageBytes);
+        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
+        return "redirect:/villages/test";
+    }
 
+    private void addAllListsWithOptions(Model model) {
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
         model.addAttribute("groundCategories", groundCategories);
 
@@ -119,21 +140,7 @@ public class VillageController {
         List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
         model.addAttribute("livingConditions", livingConditionDTOS);
 
-        model.addAttribute("addVillageFormResult", addVillageFormResult);
-        return "add-village";
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
     }
-    @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult) {
-        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        return "redirect:/villages/home-page";
-    }
-
-    @GetMapping("/test")
-    String test(Model model) {
-        PopulationDTO populationDTO = populationClient.getPopulationById(1L);
-        model.addAttribute("population", populationDTO);
-        return "/test/test";
-    }
-
-
 }
