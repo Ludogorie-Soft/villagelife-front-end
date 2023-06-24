@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,7 +51,16 @@ public class VillageController {
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
-        List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+        List<byte[]> imageBytes = new ArrayList<>();
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/test";
@@ -57,6 +68,10 @@ public class VillageController {
     @GetMapping("/partners")
     public String showPartnersPage(){
         return "partners";
+    }
+    @GetMapping("/contacts")
+    public String showContactsPage(){
+        return "contacts";
     }
     private void addAllListsWithOptions(Model model){
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
