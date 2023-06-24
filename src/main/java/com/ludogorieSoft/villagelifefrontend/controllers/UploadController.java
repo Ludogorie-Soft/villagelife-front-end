@@ -30,6 +30,8 @@ public class UploadController {
     private final VillageLivingConditionClient villageLivingConditionClient;
     private final GroundCategoryClient groundCategoryClient;
     private final VillageGroundCategoryClient villageGroundCategoryClient;
+    private final VillageAnswerQuestionClient villageAnswerQuestionClient;
+    private final QuestionClient questionClient;
 
     @GetMapping
     public String uploadForm(Model model) {
@@ -54,6 +56,7 @@ public class UploadController {
             ObjectVillageDTO objectVillage = new ObjectVillageDTO();
             VillageLivingConditionDTO villageLivingCondition = new VillageLivingConditionDTO();
             VillageGroundCategoryDTO villageGroundCategory = new VillageGroundCategoryDTO();
+            VillageAnswerQuestionDTO villageAnswerQuestion=new VillageAnswerQuestionDTO();
 
             Row row = sheet.getRow(1);
             int lastCellNum = row.getLastCellNum();
@@ -124,6 +127,13 @@ public class UploadController {
                                 }
                             }
                         }
+                    } else if (i==27 ) {
+                        villageAnswerQuestion.setVillageId(1L);
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueWhile = valueCell.getStringCellValue();
+                        villageAnswerQuestion.setAnswer(valueWhile);
+                        villageAnswerQuestion.setQuestionId(questionClient.getQuestionById(3L).getId());
+                        villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
                     }
                 }
             }
