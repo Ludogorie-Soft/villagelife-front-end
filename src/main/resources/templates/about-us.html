@@ -1,15 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>За нас</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <style>
+    .image-container {
+        position: relative;
+    }
+
+    .image {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        overflow: hidden;
+        width: 0;
+        height: 100%;
+        transition: .3s ease;
+    }
+
+    .image-container:hover .overlay {
+        width: 100%;
+    }
+    .text {
+		position: absolute;
+		top: 20%;
+		left: 20%;
+		transform: translate(-20%, -20%);
+        text-align: center;
+        margin: 5px;
+		padding: 15px 0;
+
+    }
+	/*.image-title {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 10px 0;
+			margin: 0;
+            font-weight: bold;
+	}*/
+</style>
+
+    </style>
+
 </head>
 <body>
 <div class="container">
@@ -23,7 +72,54 @@
             своето място в модерния начин на живот. Радостни сме от факта, че все повече хора
             обмислят да се върнат в селата, което ни вдъхнови да създадем Village Life. Екипът
             е отворен към всякакви предложения за развитие на платформата, така че да стане
-            по-полезна за посетителите й.</p>
+            по-полезна за посетителите й.</p><br><br>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="image-container">
+                    <img th:src="@{/images/ivo.jpg}" alt="Ивайло Вътовски" src="">
+                    <!--<div class="image-title">
+                        <h5>Ивайло Вътовски</h5>
+                        <div>Инициатор и Основател</div>
+                    </div>-->
+                    <div class="overlay">
+                        <div class="text">
+                            <h5>Ивайло Вътовски</h5>
+                            <div>Инициатор и Основател</div><br>
+                            <div>Професионално се занимава с маркетинг и иновации. В свободното си време обича да спортува,
+                                чете и размишлява върху различно социални въпроси. </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="image-container">
+                    <img src="pavel_tashev.jpg" alt="Павел Ташев" class="image">
+                    <div class="overlay">
+                        <div class="text">
+                            <h5>Павел Ташев</h5>
+                            <div>Технически ръководител</div><br>
+                            <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и - Schoodle, QRL, Peoplegogo i
+                                EasyМail. Основател на софтуерна компания DeepSource. В свободното си време - диша живее.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="image-container">
+                    <img src="you.jpg" alt="Искаш да помогнеш?" class="image">
+                    <div class="overlay">
+                        <div class="text">
+                            <h5>Искаш да помогнеш?</h5><br>
+                            <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa VillageLife?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <br><br>
     </div>
 </div>
 </body>
