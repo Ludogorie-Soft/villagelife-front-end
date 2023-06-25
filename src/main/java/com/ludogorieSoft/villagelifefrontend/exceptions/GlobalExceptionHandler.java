@@ -10,7 +10,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(value = { Exception.class })
-    protected String handleAdvancedSearchFormException(Model model) {
+    protected String handleGenericException(Model model) {
         model.addAttribute("error", "Грешка във формата за разширено търсене");
         return "SearchingForm";
     }

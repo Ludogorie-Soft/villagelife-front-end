@@ -20,18 +20,18 @@ public class AdvancedSearchFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         AdvancedSearchForm formResult = (AdvancedSearchForm) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "children", "field.invalidValue");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "livingConditionDTOS", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "objectAroundVillageDTOS", "field.required");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "children", "field.invalidValue");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "livingConditionDTOS", "field.required");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "objectAroundVillageDTOS", "field.required");
 
         String selectedChildrenCountResult = formResult.getChildren();
         List<String> selectedLivingConditions = formResult.getLivingConditionDTOS();
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
 
         if(selectedChildrenCountResult == null && selectedLivingConditions == null && selectedObjects == null){
-            errors.rejectValue("children", "field.invalidValue");
-            errors.rejectValue("livingConditionDTOS", "field.invalidLength", "Невалидна дължина на списъка");
-            errors.rejectValue("objectAroundVillageDTOS", "field.invalidLength", "Невалидна дължина на списъка");
+//            errors.rejectValue("children", "field.invalidValue");
+//            errors.rejectValue("livingConditionDTOS", "field.invalidLength", "Невалидна дължина на списъка");
+//            errors.rejectValue("objectAroundVillageDTOS", "field.invalidLength", "Невалидна дължина на списъка");
             errors.reject("form.empty", "Формата е празна");
 
         }
