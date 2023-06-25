@@ -31,7 +31,10 @@ public class VillageController {
     private VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
 
-
+    @GetMapping("/about-us")
+    public String showAboutUsPage(){
+        return "about-us";
+    }
     @GetMapping
     String getVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
