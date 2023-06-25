@@ -2,6 +2,7 @@ package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface VillageClient {
 
     @PostMapping
     VillageDTO createVillage(VillageDTO villageDTO);
+
+    @PostMapping("/null")
+    Long createVillageWithNullValues();
 
 
     @PutMapping("/{id}")
