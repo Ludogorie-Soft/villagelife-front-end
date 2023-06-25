@@ -2,32 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Excel File</title>
+    <title>Качи Excel Файл</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Upload Excel File</h1>
+<h1>Качи Excel Файл</h1>
 
-<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+<form th:action="@{/uploadController}" method="post" enctype="multipart/form-data">
     <input type="file" name="file" />
-    <input type="submit" value="Upload" />
+    <input type="submit" value="Прикачи Excel Файл" />
 </form>
 
 <p th:if="${uploadSuccess}">
-    File uploaded successfully.
+    Файла е качен успешно.
 </p>
 <p th:if="${uploadError}">
-    Error uploading file.
+    Няма избран Excel Файл.
 </p>
 
-
-<p th:if="${village != null}">
-    <td th:text="${village.name}"></td>
+<p th:if="${village != null}" style="margin-top: 50px;">
+    <strong>Успешно качени <span th:text="${village.id}"></span> села.</strong>
 </p>
-<p th:if="${objectVillage != null}">
-    <td th:text="${objectVillage.villageId} +' <- село ид ; '"></td>
-    <td th:text="${objectVillage.objectAroundVillageId +' <- обект ид ; '}"></td>
-<!--    <td th:text="${objectVillage.distance.getName() +' <- разстояние ид ; '}"></td>-->
-</p>
-
 </body>
 </html>
