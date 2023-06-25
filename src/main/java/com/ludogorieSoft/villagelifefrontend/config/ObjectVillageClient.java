@@ -2,8 +2,11 @@ package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.ObjectVillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -15,5 +18,8 @@ public interface ObjectVillageClient {
 
     @GetMapping("/village/{id}")
     public List<ObjectVillageDTO> getObjectVillageByVillageID(@PathVariable("id") Long id) ;
+
+    @PostMapping
+     void createObjectVillage( @RequestBody ObjectVillageDTO objectVillageDTO);
 
 }

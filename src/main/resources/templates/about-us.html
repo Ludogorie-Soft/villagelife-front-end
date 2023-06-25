@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>За нас</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+  <style>
+    .image-container {
+        position: relative;
+    }
+
+    .image {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 20px 0;
+		z-index: 1;
+    }
+
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        overflow: hidden;
+        width: 0;
+        height: 100%;
+        transition: .3s ease;
+		z-index: 4;
+    }
+
+    .image-container:hover .overlay {
+        width: 100%;
+    }
+    .text {
+		color: black;
+		position: absolute;
+		top: 20%;
+		left: 20%;
+		transform: translate(-20%, -20%);
+        text-align: center;
+		padding: 5px 0;
+    }
+	a{
+		text-decoration: none;
+		color: black;
+	}
+	a:hover {
+      color: black;
+    }
+    .icon{
+      height: 25px;
+      width: 25px;
+    }
+    .green-text{
+      color: #97CA31;
+    }
+
+    .image-container:hover .image-text {
+        transform: translateX(0%);
+        opacity: 0;
+    }
+
+    .image-text {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        padding: 25px 0;
+        transition: .1s ease;
+        color: white;
+		z-index: 3;
+    }
+
+    .image-container:hover .image-text {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+	.image-container::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 0) 100%);
+		z-index: 2;
+	}
+</style>
+
+</head>
+<body>
+<div class="container">
+  <div>
+    <h5>За нас</h5>
+    <p class="card-text text-secondary">Мисията нa Village Life е да спомогне за възраждането на българското село чрез
+      предоставяне на информация за условията на живот в селата и различни услуги
+      в/около тях, като по този начин улесни хората живеещи или възнамеряващи да
+      живеят на село.</p>
+    <p class="card-text text-secondary">Зад проекта седят ентусиасти, за които българското село, корени и традиции имат
+      своето място в модерния начин на живот. Радостни сме от факта, че все повече хора
+      обмислят да се върнат в селата, което ни вдъхнови да създадем Village Life. Екипът
+      е отворен към всякакви предложения за развитие на платформата, така че да стане
+      по-полезна за посетителите й.</p><br><br>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="image-container">
+          <img th:src="@{/images/ivo.jpg}" alt="village live logo" src="" class="image">
+          <div class="overlay">
+            <div class="text">
+              <h5>Ивайло Вътовски</h5>
+              <div>Инициатор и Основател</div><br>
+              <div>Професионално се занимава с маркетинг и иновации. В свободното си време обича да спортува,
+                чете и размишлява върху различно социални въпроси. </div>
+              <br>
+              <a href="https://www.facebook.com/ivaylo.vatovski" target="_blank">
+                <img th:src="@{/images/facebook.png}" alt="facebook-icon" class="icon">
+              </a>
+              <a href="https://www.linkedin.com/in/ivaylo-vatovski-688b4091/?original_referer=https%3A%2F%2Fwww.villagelife.bg%2F" target="_blank">
+                <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
+              </a>
+            </div>
+          </div>
+          <span class="image-text">
+            <h5>Ивайло Вътовски</h5>
+            <div>Инициатор и Основател</div>
+          </span>
+        </div>
+      </div>
+
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="image-container">
+          <img th:src="@{/images/pavel_tashev.jpg}" alt="village live logo" src="" class="image">
+          <div class="overlay">
+            <div class="text">
+              <a href="https://www.paveltashev.com/" target="_blank">
+                <h5>Павел Ташев</h5>
+                <div>Технически ръководител</div><br>
+                <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и - Schoodle, QRL, Peoplegogo i
+                  EasyМail. Основател на софтуерна компания DeepSource. В свободното си време - диша живее.</div>
+                <br>
+                <a href="https://www.linkedin.com/in/paveltashev" target="_blank">
+                  <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
+                </a>
+              </a>
+            </div>
+          </div>
+          <span class="image-text">
+            <h5>Павел Ташев</h5>
+            <div>Технически ръководител</div>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="image-container">
+          <img th:src="@{/images/you.jpg}" alt="village live logo" src="" class="image">
+          <div class="overlay">
+            <div class="text">
+              <a href="/villages/contacts">
+                <h5>Искаш да помогнеш?</h5><br>
+                <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa VillageLife?</div>
+                <br>
+                <p class="green-text">Пишете ни!</p>
+              </a>
+            </div>
+          </div>
+          <span class="image-text">
+            <div>Искаш да помогнеш?</div>
+          </span>
+        </div>
+
+      </div>
+    </div>
+    <br><br>
+  </div>
+</div>
+</body>
+</html>
