@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,8 +30,6 @@ public class VillageController {
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
-    private RegionClient regionClient;
-
     private VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
 
@@ -126,8 +127,6 @@ public class VillageController {
             }
         }
         addVillageFormResult.setImageBytes(imageBytes);
-       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
-       //addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/home-page";
     }
@@ -143,7 +142,6 @@ public class VillageController {
     public String showAboutUsPage(){
         return "about-us";
     }
-    private void addAllListsWithOptions(Model model){
 
     private void addAllListsWithOptions(Model model) {
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
