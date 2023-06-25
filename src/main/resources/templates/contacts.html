@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Контакти</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -22,6 +22,12 @@
         i {
             font-size: 2em;
         }
+        section {
+            margin: 25px 0px;
+        }
+        .btn {
+            color: white;
+        }
     </style>
 
 </head>
@@ -33,12 +39,45 @@
                 <p>Нека развием концепцията на VillageLife заедно!</p>
                 <p>Пишете ни с въпроси, предложения, идеи, обратна връзка и възможности за сътрудничество.</p>
             </div>
+
+            <form action="/villages/message-save" method="post" id="contact-form" th:object="${message}">
+                <section>
+                    <label for="name" class="fw-bold">
+                        Име
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="name" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" required>
+                </section>
+
+                <section>
+                    <label for="email" class="fw-bold">
+                        Email
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
+                </section>
+
+                <section>
+                    <label for="message" class="fw-bold">
+                        Съобщение
+                        <span class="text-danger">*</span>
+                    </label>
+                    <textarea id="message" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
+                </section>
+
+                <section>
+                    <button type="submit" class="btn btn-info col-12">Изпрати</button>
+                </section>
+            </form>
+            <p id="success-message" style="display: none; color: green;">Съобщението Ви беше изпратено успешно!</p>
+            <p id="error-message" style="display: none; color: red;">Грешка! Моля опитайте отново.</p>
+
         </div>
         <div class="col-4">
             <h5>За запитвания:</h5>
             <p>гр. София, бул.Гоце Делчев 100</p>
             <p><a href="tel:0888393339" class="green-link">+359 (0) 888 393 339</a></p>
-            <p><a href = "mailto: info@villagelife.bg" class="green-link">info@villagelife.bg</a></p><br><br>
+            <p><a href="mailto:info@villagelife.bg" class="green-link">info@villagelife.bg</a></p><br><br>
             <p class="text-center">
                 <a href="https://www.facebook.com/VillageLifeBulgaria/">
                     <i class="fab fa-facebook"></i>
@@ -52,5 +91,28 @@
 
     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d93873.70657875584!2d23.296352000000002!3d42.670820000000006!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa84e651414831%3A0x393ba4fa1c2653bf!2sGotse%20Delchev%20Blvd.%20100%2C%201404%2C%201404%20Motopista%2C%20Sofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1687643962068!5m2!1sen!2sus" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="col-12"></iframe>
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('#contact-form').submit(function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Perform an AJAX post request to the form's action
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        success: function(response) {
+          // Display success message
+          $('#success-message').show();
+        },
+        error: function() {
+          // Display error message
+          $('#error-message').show();
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>
