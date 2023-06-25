@@ -28,6 +28,9 @@
         .btn {
             color: white;
         }
+        .btn:hover {
+            color: white;
+        }
     </style>
 
 </head>
@@ -66,10 +69,10 @@
                 </section>
 
                 <section>
-                    <button type="submit" class="btn btn-info col-12">Изпрати</button>
+                    <button type="submit" id="submit-btn" class="btn btn-info col-12">Изпрати</button>
                 </section>
             </form>
-            <p id="success-message" style="display: none; color: green;">Съобщението Ви беше изпратено успешно!</p>
+            <p id="success-message" style="display: none; color: green;">Съобщението беше изпратено успешно!</p>
             <p id="error-message" style="display: none; color: red;">Грешка! Моля опитайте отново.</p>
 
         </div>
@@ -97,20 +100,30 @@
     $('#contact-form').submit(function(event) {
       event.preventDefault(); // Prevent the form from submitting normally
 
+      // Store form element reference
+      var $form = $(this);
+
       // Perform an AJAX post request to the form's action
       $.ajax({
         type: 'POST',
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
+        url: $form.attr('action'),
+        data: $form.serialize(),
         success: function(response) {
           // Display success message
           $('#success-message').show();
+          $form[0].reset(); // Clear the form
         },
         error: function() {
           // Display error message
           $('#error-message').show();
+          $('#success-message').hide(); // Hide the success message
         }
       });
+    });
+
+    $('#submit-btn').click(function() {
+      $('#success-message').hide(); // Hide the success message
+      $('#error-message').hide(); // Hide the error message
     });
   });
 </script>

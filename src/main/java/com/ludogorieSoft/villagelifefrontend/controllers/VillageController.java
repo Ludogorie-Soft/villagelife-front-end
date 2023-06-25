@@ -32,6 +32,7 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
+    private final MessageClient messageClient;
 
 
     @GetMapping
@@ -135,8 +136,15 @@ public class VillageController {
         return "partners";
     }
     @GetMapping("/contacts")
-    public String showContactsPage(){
+    public String showContactsPage(Model model){
+        MessageDTO messageDTO = new MessageDTO();
+        model.addAttribute("message", messageDTO);
         return "contacts";
+    }
+    @PostMapping("/message-save")
+    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
+        messageClient.createMessage(messageDTO);
+        return "redirect:/villages/contacts";
     }
     @GetMapping("/about-us")
     public String showAboutUsPage(){
