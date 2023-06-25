@@ -59,16 +59,29 @@
     .green-text{
       color: #97CA31;
     }
-	/*.image-title {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            padding: 10px 0;
-			margin: 0;
-            font-weight: bold;
-	}*/
+
+    .image-container:hover .image-text {
+        transform: translateX(0%);
+        opacity: 0;
+    }
+
+    .image-text {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        padding: 5px 0;
+        transition: .1s ease;
+        color: white;
+    }
+
+    .image-container:hover .image-text {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
 </style>
 
 </head>
@@ -89,7 +102,7 @@
     <div class="row">
       <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img th:src="@{/images/ivo.jpg}" alt="village live logo" src="" class="image">
+          <img th:src="@{/images/ivo.jpg}" alt="Ивайло Вътовски" src="" class="image">
           <div class="overlay">
             <div class="text">
               <h5>Ивайло Вътовски</h5>
@@ -105,13 +118,17 @@
               </a>
             </div>
           </div>
+          <span class="image-text">
+            <h5>Ивайло Вътовски</h5>
+            <div>Инициатор и Основател</div>
+          </span>
         </div>
       </div>
 
 
       <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img th:src="@{/images/pavel_tashev.jpg}" alt="village live logo" src="" class="image">
+          <img th:src="@{/images/pavel_tashev.jpg}" alt="Павел Ташев" src="" class="image">
           <div class="overlay">
             <div class="text">
               <a href="https://www.paveltashev.com/" target="_blank">
@@ -126,12 +143,16 @@
               </a>
             </div>
           </div>
+          <span class="image-text">
+            <h5>Павел Ташев</h5>
+            <div>Технически ръководител</div>
+          </span>
         </div>
       </div>
 
       <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img th:src="@{/images/you.jpg}" alt="village live logo" src="" class="image">
+          <img th:src="@{/images/you.jpg}" alt="Искаш да помогнеш?" src="" class="image">
           <div class="overlay">
             <div class="text">
               <a href="/villages/contacts">
@@ -142,6 +163,9 @@
               </a>
             </div>
           </div>
+          <span class="image-text">
+            <div>Искаш да помогнеш?</div>
+          </span>
         </div>
       </div>
     </div>
