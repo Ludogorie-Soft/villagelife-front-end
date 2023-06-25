@@ -2,8 +2,7 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
-import com.ludogoriesoft.villagelifefrontend.enums.Consents;
-import com.ludogoriesoft.villagelifefrontend.enums.Distance;
+import com.ludogoriesoft.villagelifefrontend.enums.*;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,6 +31,7 @@ public class UploadController {
     private final VillageGroundCategoryClient villageGroundCategoryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
     private final QuestionClient questionClient;
+    private final PopulationClient populationClient;
 
     @GetMapping
     public String uploadForm(Model model) {
@@ -56,7 +56,9 @@ public class UploadController {
             ObjectVillageDTO objectVillage = new ObjectVillageDTO();
             VillageLivingConditionDTO villageLivingCondition = new VillageLivingConditionDTO();
             VillageGroundCategoryDTO villageGroundCategory = new VillageGroundCategoryDTO();
-            VillageAnswerQuestionDTO villageAnswerQuestion=new VillageAnswerQuestionDTO();
+            VillageAnswerQuestionDTO villageAnswerQuestion = new VillageAnswerQuestionDTO();
+            PopulationDTO population = new PopulationDTO();
+
 
             Row row = sheet.getRow(1);
             int lastCellNum = row.getLastCellNum();
@@ -70,7 +72,7 @@ public class UploadController {
                         if (value != null) {
                             village.setName(value);
                         }
-                    } else if (i==3) {
+                    } else if (i == 3) {
                         long objectAroundVillageID = 1;
                         int innerIndex = i;
                         while (innerIndex <= 16) {
@@ -93,7 +95,7 @@ public class UploadController {
 
                     } else if (i == 18) {
                         int j = 0;
-                        int i1=i;
+                        int i1 = i;
                         long livingConditionID = 1;
                         while (j <= 7) {
                             villageLivingCondition.setVillageId(1L);
@@ -127,32 +129,87 @@ public class UploadController {
                                 }
                             }
                         }
-                    } else if (i==27 ) {
+                    } else if (i == 27) {
                         villageAnswerQuestion.setVillageId(1L);
                         Cell valueCell = sheet.getRow(1).getCell(i);
                         String valueWhile = valueCell.getStringCellValue();
                         villageAnswerQuestion.setAnswer(valueWhile);
                         villageAnswerQuestion.setQuestionId(questionClient.getQuestionById(3L).getId());
                         villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
+
+                    } else if (i == 28) {
+                        for (int k = 0; k < 5; k++) {
+                            villageLivingCondition.setVillageId(1L);
+                            villageLivingCondition.setLivingConditionId((long) (9 + k));
+                            Cell valueCell = sheet.getRow(1).getCell(i);
+                            if (valueCell != null) {
+                                String valueWhile = valueCell.getStringCellValue();
+                                for (Consents consents : Consents.values()) {
+                                    if (consents.getName().equalsIgnoreCase(valueWhile)) {
+                                        villageLivingCondition.setConsents(consents);
+                                        villageLivingConditionClient.createVillageLivingConditions(villageLivingCondition);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } else if (i == 33) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueNumberOfPopulation = valueCell.getStringCellValue();
+
+                        for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
+                            if (numberOfPopulation.getName().equalsIgnoreCase(valueNumberOfPopulation)) {
+                                population.setNumberOfPopulation(numberOfPopulation);
+                                break;
+                            }
+                        }
+                        i++;
+
+                        String valueResident = sheet.getRow(1).getCell(i).getStringCellValue();
+                        for (Residents residents : Residents.values()) {
+                            if (residents.getName().equalsIgnoreCase(valueResident)) {
+                                population.setResidents(residents);
+                                break;
+                            }
+                        }
+                        i++;
+
+                        String valueChildren = sheet.getRow(1).getCell(i).getStringCellValue();
+                        for (Children children : Children.values()) {
+                            if (children.getName().equalsIgnoreCase(valueChildren)) {
+                                population.setChildren(children);
+                                break;
+                            }
+                        }
+                        i++;
+
+                        String valueForeigners = sheet.getRow(1).getCell(i).getStringCellValue();
+                        for (Foreigners foreigners : Foreigners.values()) {
+                            if (foreigners.getName().equalsIgnoreCase(valueForeigners)) {
+                                population.setForeigners(foreigners);
+                                break;
+                            }
+                        }
+
+                        populationClient.createPopulation(population);
+
+                        i++; // Увеличаване на стойността на i с 1
                     }
+
                 }
             }
-// test
+                model.addAttribute("objectVillage", objectVillage);
+                model.addAttribute("village", village);
+                model.addAttribute("uploadSuccess", true);
+                model.addAttribute("uploadError", false);
+            } catch(IOException e){
+                e.printStackTrace();
+                model.addAttribute("uploadSuccess", false);
+                model.addAttribute("uploadError", true);
+            }
 
-            model.addAttribute("objectVillage", objectVillage);
-            model.addAttribute("village", village);
-            model.addAttribute("uploadSuccess", true);
-            model.addAttribute("uploadError", false);
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("uploadSuccess", false);
-            model.addAttribute("uploadError", true);
+            return "upload";
         }
 
-        return "upload";
+
     }
-
-
-
-
-}
