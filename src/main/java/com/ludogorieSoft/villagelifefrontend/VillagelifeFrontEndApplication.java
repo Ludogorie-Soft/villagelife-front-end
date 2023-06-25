@@ -9,7 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 public class VillagelifeFrontEndApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(VillagelifeFrontEndApplication.class, args);
 	}

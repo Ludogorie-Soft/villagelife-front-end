@@ -1,6 +1,5 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
-
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
@@ -28,13 +27,12 @@ public class VillageController {
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
+    private RegionClient regionClient;
+
     private VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
 
-    @GetMapping("/about-us")
-    public String showAboutUsPage(){
-        return "about-us";
-    }
+
     @GetMapping
     String getVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
@@ -43,7 +41,7 @@ public class VillageController {
     }
 
     @GetMapping("/test")
-    String test(Model model) {
+    String test(Model model){
         PopulationDTO populationDTO = populationClient.getPopulationById(1L);
         model.addAttribute("population", populationDTO);
         return "/test/test";
@@ -114,15 +112,38 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
-
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
+       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
+        List<byte[]> imageBytes = new ArrayList<>();
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        addVillageFormResult.setImageBytes(imageBytes);
        // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
        //addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/home-page";
     }
+    @GetMapping("/partners")
+    public String showPartnersPage(){
+        return "partners";
+    }
+    @GetMapping("/contacts")
+    public String showContactsPage(){
+        return "contacts";
+    }
+    @GetMapping("/about-us")
+    public String showAboutUsPage(){
+        return "about-us";
+    }
+    private void addAllListsWithOptions(Model model){
 
     private void addAllListsWithOptions(Model model) {
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
