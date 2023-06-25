@@ -118,7 +118,7 @@ public class VillageController {
        // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
        //addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        return "redirect:/villages/test";
+        return "redirect:/villages/home-page";
     }
 
     private void addAllListsWithOptions(Model model) {
