@@ -24,12 +24,16 @@
 
 <h2>Избор за брой деца в селото:</h2>
 <!--<p th:text="${selectedChildrenCountResult}"></p>-->
-<p th:text="${selectedChildrenCountResult.name}"></p>
+<!--<p th:text="${selectedChildrenCountResult.name}"></p>-->
+
+<p th:text="${selectedChildrenCountResult != null ? selectedChildrenCountResult : 'N/A'}"></p>
+<p th:text="${selectedChildrenCountResult != null ? selectedChildrenCountResult.name : 'N/A'}"></p>
 
 <h2>Открити села:</h2>
 <ul>
-    <li th:each="village : ${villageDTOs}">
-        <span th:text="${village.name}"></span>
+    <li th:each="village : ${villages}">
+        <span th:text="'село ' + ${village.name}"></span>
+        <span th:text="'област ' + ${village.region}"></span>
     </li>
 </ul>
 

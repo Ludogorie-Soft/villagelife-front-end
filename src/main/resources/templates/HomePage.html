@@ -149,64 +149,45 @@ footer p {
 
 </script>
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 98px;" src="">
 
-
-<div id="menu">
-    <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
-    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
-    <a href="#"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a href="#">ЗА НАС</a>
-    <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
-</div>
 <div class="video-container">
 <!--    <video id="video1" th:src="@{/videos/home-page-video.mp4}" alt="video1" class="fullscreen-video" autoplay loop-->
 <!--           muted></video>-->
+
+    <!--<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 98px;" src="">-->
+    <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
+
+
+
+    <div id="menu">
+        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
+        <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
+        <a href="#"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+        <a href="#">ЗА НАС</a>
+        <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+        <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+    </div>
+
     <video id="video2" th:src="@{/videos/home-page-video-2.mp4}" alt="video2" class="fullscreen-video" autoplay loop
            muted></video>
     <div class="video-overlay">
         <h1>Открий най-подходящото село!</h1>
 
         <div class="search-bar-row">
-            <form th:action="@{/filter/byName}" method="get">
-            <select name="region" style="padding: 10px; font-size: 16px;">
-                    <option value="" selected disabled style="text-align: left;">Избери област</option>
-                    <option value="Благоевград">Благоевград</option>
-                    <option value="Бургас">Бургас</option>
-                    <option value="Варна">Варна</option>
-                    <option value="Велико Търново">Велико Търново</option>
-                    <option value="Видин">Видин</option>
-                    <option value="Враца">Враца</option>
-                    <option value="Габрово">Габрово</option>
-                    <option value="Добрич">Добрич</option>
-                    <option value="Кърджали">Кърджали</option>
-                    <option value="Кюстендил">Кюстендил</option>
-                    <option value="Ловеч">Ловеч</option>
-                    <option value="Монтана">Монтана</option>
-                    <option value="Пазарджик">Пазарджик</option>
-                    <option value="Перник">Перник</option>
-                    <option value="Плевен">Плевен</option>
-                    <option value="Пловдив">Пловдив</option>
-                    <option value="Разград">Разград</option>
-                    <option value="Русе">Русе</option>
-                    <option value="Силистра">Силистра</option>
-                    <option value="Сливен">Сливен</option>
-                    <option value="Смолян">Смолян</option>
-                    <option value="София">София</option>
-                    <option value="София (столица)">София (столица)</option>
-                    <option value="Стара Загора">Стара Загора</option>
-                    <option value="Търговище">Търговище</option>
-                    <option value="Хасково">Хасково</option>
-                    <option value="Шумен">Шумен</option>
-                    <option value="Ямбол">Ямбол</option>
-                </select>
-                <div class="btn-group"><input type="text" name="keyword" placeholder="Търси по име на село"
-                                              style="width: 70%; padding: 10px; font-size: 16px;"/>
-                    <input class="btn btn-secondary" type="submit" value="Търсене"/>
+            <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
+                <div class="col-3 d-flex">
+                    <select name="region" class="form-select flex-grow-1" id="regionName">
+                        <option value="" selected disabled style="text-align: left;">Избери област</option>
+                        <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+                    </select>
+                </div>
+                <div class="col-9 d-flex">
+                    <input type="text" name="keyword" placeholder="Търси по име на село" class="form-control flex-grow-1" />
+                    <input class="btn btn-secondary ms-2" type="submit" value="Търсене" />
                 </div>
             </form>
         </div>
+
         <p> Village Life е платформа, която предоставя информация за условията на живот в
             българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
             избор

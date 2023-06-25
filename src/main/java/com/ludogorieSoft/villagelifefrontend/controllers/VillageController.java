@@ -38,6 +38,8 @@ public class VillageController {
 
     @GetMapping("/home-page")
     public String homePage(Model model) {
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
         List<VillageDTO> villageList = villageClient.getAllVillages();
         model.addAttribute("villages", villageList);
         return "HomePage";

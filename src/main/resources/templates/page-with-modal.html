@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Kyf6Ku5d2y7g+VClWmt3atRoHJoPdJn6dXlf0JmB6V8t4yynTV3CQmZBM+nqW1Ub" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha384-Kyf6Ku5d2y7g+VClWmt3atRoHJoPdJn6dXlf0JmB6V8t4yynTV3CQmZBM+nqW1Ub"
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
 
-<!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -22,11 +23,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!--                <form action="/filter/search" method="post" th:object="${advancedSearchForm}">-->
                 <form id="searchForm" action="/filter/search" method="post" th:object="${advancedSearchForm}">
 
 
-                <section>
+                    <section>
                         <p class="fw-bold">Избери обект/и в близост спрямо селото:</p>
                         <table class="table table-hover">
                             <tbody>
@@ -73,28 +73,11 @@
                     </section>
 
 
-<!--                    <input type="hidden" name="keyword" value="" id="keywordInput">-->
-<!--                    <input type="hidden" name="objectAroundVillageDTOS" value="" id="objectTypesInput">-->
-<!--                    <input type="hidden" name="livingConditionDTOS" value="" id="livingConditionsInput">-->
-<!--                    <input type="hidden" name="children" value="" id="childrenCountInput">-->
-
-
-
-<!--                    <input type="hidden" name="keyword" value="">-->
-<!--                    <input type="hidden" name="objectAroundVillageDTOS" value="">-->
-<!--                    <input type="hidden" name="livingConditionDTOS" value="">-->
-<!--                    <input type="hidden" name="children" value="">-->
-
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
                         <button type="submit" class="btn btn-primary" onclick="submitSearchForm()">Търси</button>
                     </div>
 
-<!--                                        <div class="modal-footer">-->
-<!--                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>-->
-<!--                                            <button type="submit" class="btn btn-primary">Търси</button>-->
-<!--                                        </div>-->
 
                 </form>
             </div>
@@ -130,143 +113,17 @@
         // Пример: изпращане на формата
         document.getElementById("searchForm").submit();
     }
+
+
 </script>
 
-<!-- ... останалите HTML елементи ... -->
 
-
-<!--<script>-->
-<!--    function submitSearchForm() {-->
-<!--        // Получаване на избраните опции-->
-<!--        var selectedObjects = Array.from(document.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var selectedLivingConditions = Array.from(document.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var selectedChildrenCount = document.querySelector('select[name="children"]').value;-->
-
-<!--        // Задаване на стойностите в скритите полета-->
-<!--        document.querySelector('input[name="selectedObjects"]').value = JSON.stringify(selectedObjects);-->
-<!--        document.querySelector('input[name="selectedLivingConditions"]').value = JSON.stringify(selectedLivingConditions);-->
-<!--        document.querySelector('input[name="selectedChildrenCount"]').value = selectedChildrenCount;-->
-
-<!--        // Изпращане на формата-->
-<!--        document.getElementById("searchForm").submit();-->
-<!--    }-->
-<!--</script>-->
-
-
-<!--<script>-->
-<!--    // Използване на JavaScript за задаване на стойностите на скритите полета-->
-
-<!--    // Извличане на формата за търсене-->
-<!--    var searchForm = document.getElementById("searchForm");-->
-
-<!--    // Обработка на изпращането на формата-->
-<!--    searchForm.addEventListener("submit", function(event) {-->
-<!--        event.preventDefault(); // Предотвратяване на пренасочването на страницата при изпращане на формата-->
-
-<!--        // Извличане на стойностите от формата-->
-<!--        var keyword = searchForm.querySelector('input[name="keyword"]').value;-->
-<!--        var objectTypes = Array.from(searchForm.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var livingConditions = Array.from(searchForm.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var childrenCount = parseInt(searchForm.querySelector('select[name="children"]').value);-->
-
-<!--        // Задаване на стойностите на скритите полета-->
-<!--        searchForm.querySelector('input[name="keyword"]').value = keyword;-->
-<!--        searchForm.querySelector('input[name="objectAroundVillageDTOS"]').value = objectTypes.join(",");-->
-<!--        searchForm.querySelector('input[name="livingConditionDTOS"]').value = livingConditions.join(",");-->
-<!--        searchForm.querySelector('input[name="children"]').value = childrenCount;-->
-
-<!--        // Изпращане на формата-->
-<!--        searchForm.submit();-->
-<!--    });-->
-<!--</script>-->
-
-
-<!--<script>-->
-<!--    // Използване на JavaScript за задаване на стойностите на скритите полета-->
-
-<!--    // Извличане на формата за търсене-->
-<!--    var searchForm = document.getElementById("searchForm");-->
-
-<!--    // Обработка на изпращането на формата-->
-<!--    searchForm.addEventListener("submit", function(event) {-->
-<!--        event.preventDefault(); // Предотвратяване на пренасочването на страницата при изпращане на формата-->
-
-<!--        // Извличане на стойностите от формата-->
-<!--&lt;!&ndash;        var keyword = searchForm.querySelector('input[name="keyword"]').value;&ndash;&gt;-->
-<!--        var objectTypes = Array.from(searchForm.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var livingConditions = Array.from(searchForm.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var childrenCount = parseInt(searchForm.querySelector('select[name="children"]').value);-->
-
-<!--        // Задаване на стойностите на скритите полета-->
-<!--&lt;!&ndash;        document.getElementById("keywordInput").value = keyword;&ndash;&gt;-->
-<!--        document.getElementById("objectTypesInput").value = JSON.stringify(objectTypes);-->
-<!--        document.getElementById("livingConditionsInput").value = JSON.stringify(livingConditions);-->
-<!--        document.getElementById("childrenCountInput").value = childrenCount;-->
-
-<!--        // Изпращане на формата-->
-<!--        searchForm.submit();-->
-<!--    });-->
-<!--</script>-->
-
-
-<!--<script>-->
-<!--    // Извличане на формата за търсене-->
-<!--    var searchForm = document.getElementById("searchForm");-->
-
-<!--    // Обработка на изпращането на формата-->
-<!--    searchForm.addEventListener("submit", function(event) {-->
-<!--        event.preventDefault(); // Предотвратяване на пренаправлението на страницата при изпращане на формата-->
-
-<!--        // Извличане на стойностите от формата-->
-<!--        var keyword = searchForm.querySelector('input[name="keyword"]').value;-->
-<!--        var objectTypes = Array.from(searchForm.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var livingConditions = Array.from(searchForm.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {-->
-<!--            return input.value;-->
-<!--        });-->
-<!--        var childrenCount = parseInt(searchForm.querySelector('select[name="children"]').value);-->
-
-<!--        // Изпращане на API заявка със събраните стойности-->
-<!--        var url = "/api/byName?keyword=" + encodeURIComponent(keyword) +-->
-<!--                  "&objectAroundVillageDTOS=" + encodeURIComponent(JSON.stringify(objectTypes)) +-->
-<!--                  "&livingConditionDTOS=" + encodeURIComponent(JSON.stringify(livingConditions)) +-->
-<!--                  "&children=" + childrenCount;-->
-
-<!--        // Пример за изпращане на заявка с Fetch API-->
-<!--        fetch(url)-->
-<!--            .then(function(response) {-->
-<!--                return response.json();-->
-<!--            })-->
-<!--            .then(function(data) {-->
-<!--                // Обработка на получените данни от API-->
-<!--                console.log(data);-->
-<!--            })-->
-<!--            .catch(function(error) {-->
-<!--                // Обработка на грешките при изпращане на API заявка-->
-<!--                console.error(error);-->
-<!--            });-->
-<!--    });-->
-<!--</script>-->
-
-
-<!-- Скрипт за отваряне на модалния прозорец -->
 <script>
-    // Използвайте JavaScript за да отворите модалния прозорец по желание
+    // Скрипт за отваряне на модалния прозорец по желание
     var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
     myModal.show();
+
+
 
 
 
@@ -311,6 +168,8 @@
 
 
 
+
+
 </script>
 
 
@@ -327,6 +186,8 @@ selectedChildrenCountResult.textContent = "Избрана опция: " + select
 
 console.log("Function finished"); // Проверка за завършване на функцията
 }
+
+
 
 
 

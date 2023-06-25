@@ -1,6 +1,5 @@
 package com.ludogoriesoft.villagelifefrontend.advanced;
 
-import com.ludogoriesoft.villagelifefrontend.enums.Children;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -33,10 +32,9 @@ public class AdvancedSearchFormValidator implements Validator {
             errors.rejectValue("children", "field.invalidValue");
             errors.rejectValue("livingConditionDTOS", "field.invalidLength", "Невалидна дължина на списъка");
             errors.rejectValue("objectAroundVillageDTOS", "field.invalidLength", "Невалидна дължина на списъка");
+            errors.reject("form.empty", "Формата е празна");
 
         }
-        System.out.println("ВАЛИДАТОРРРРРРР");
-
 
 
 //
