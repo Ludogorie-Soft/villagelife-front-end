@@ -2,6 +2,7 @@ package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.PopulationDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface PopulationClient {
 
     @PostMapping
     PopulationDTO createPopulation(PopulationDTO populationDTO);
+
+    @PostMapping("/null")
+    Long createPopulationWhitNullValues();
 
     @PutMapping("/{id}")
     PopulationDTO updatePopulation(@PathVariable("id") Long id,PopulationDTO populationDTO);
