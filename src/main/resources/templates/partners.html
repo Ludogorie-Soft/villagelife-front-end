@@ -9,8 +9,6 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <!--12414141-->
-
     <style>
         .card {
           border: none;
@@ -24,6 +22,14 @@
         section{
             margin: 50px 0px 50px 0px;
         }
+        .icon{
+            height: 50px;
+            width: 50px;
+        }
+        .icon-larger {
+            width: 63px;
+            height: 50px;
+        }
     </style>
 </head>
 <body>
@@ -36,10 +42,9 @@
     </section>
     <div class="row text-center">
         <section class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card">
-                <!--<img src="images/people-arrows-svgrepo-com.png" alt="Social Responsibility">
-                <img th:src="@{images/people-arrows-svgrepo-com.png}" alt="Social Responsibility">-->
-                <div class="card-body text-center">
+            <div class="card text-center">
+                <p class="text-center"><img th:src="@{/images/people-arrows-svgrepo-com.png}" alt="Социална отговорност" class="icon"></p>
+                <div class="card-body">
                     <h5 class="card-title">Социална отговорност</h5>
                     <p class="card-text text-secondary">Подкрепяте хората да следват мечтите си в търсене на по-добри условия за живот на село.</p>
                 </div>
@@ -47,8 +52,7 @@
         </section>
         <section class="col-lg-3 col-md-6 col-sm-12">
         <div class="card">
-            <!--<img src="images/people-arrows-svgrepo-com.png" alt="Social Responsibility">
-            <img th:src="@{images/people-arrows-svgrepo-com.png}" alt="Social Responsibility">-->
+            <p class="text-center"><img th:src="@{/images/chat.png}" alt="Комуникация" class="icon"></p>
             <div class="card-body text-center">
                 <h5 class="card-title">Комуникация</h5>
                 <p class="card-text text-secondary">Възможност да позиционирате компанията ви по 7 различни начина през Village Life.</p>
@@ -57,8 +61,7 @@
         </section>
         <section class="col-lg-3 col-md-6 col-sm-12">
         <div class="card">
-            <!--<img src="images/people-arrows-svgrepo-com.png" alt="Social Responsibility">
-            <img th:src="@{images/people-arrows-svgrepo-com.png}" alt="Social Responsibility">-->
+            <p class="text-center"><img th:src="@{/images/user-clock.png}" alt="Комуникация" class="icon-larger"></p>
             <div class="card-body text-center">
                 <h5 class="card-title">Клиенти</h5>
                 <p class="card-text text-secondary">Новодомците са едни от най-активните потребители на пазара.</p>
@@ -67,8 +70,7 @@
         </section>
         <section class="col-lg-3 col-md-6 col-sm-12">
         <div class="card">
-            <!--<img src="images/people-arrows-svgrepo-com.png" alt="Social Responsibility">
-            <img th:src="@{images/people-arrows-svgrepo-com.png}" alt="Social Responsibility">-->
+            <p class="text-center"><img th:src="@{/images/present.png}" alt="Комуникация" class="icon"></p>
             <div class="card-body text-center">
                 <h5 class="card-title">Социална придобивка</h5>
                 <p class="card-text text-secondary">Вероятно и хора от вашия екип търсят имот на село. Те ще имат по-бърз и задълбочен достъп до информацията.</p>

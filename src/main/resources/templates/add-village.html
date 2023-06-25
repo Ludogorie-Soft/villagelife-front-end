@@ -11,8 +11,6 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <!--12414141-->
-
     <style>
         section{
             margin: 50px 0px 50px 0px;
@@ -84,13 +82,12 @@ footer p {
 <body>
 <img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;" src="">
 
-
 <div id="menu">
     <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
     <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
-    <a href="#"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a href="#">ЗА НАС</a>
-    <a href="#"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+    <a href="/villages/partners"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+    <a href="/villages/about-us">ЗА НАС</a>
+    <a href="/villages/contacts"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
     <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
     <div class="container">
@@ -366,7 +363,7 @@ footer p {
                 </table>
             </section>
 
-             Added input field for uploading images
+             <!--Added input field for uploading images-->
             <section>
                 <div class="mb-3">
                     <label for="formFileMultiple" class="form-label fw-bold">Моля, прикачете снимки от селото:</label>

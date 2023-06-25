@@ -10,16 +10,17 @@
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
-<!--12414141-->
-
+  <style>
     .image-container {
         position: relative;
     }
+
     .image {
         display: block;
         width: 100%;
         height: auto;
     }
+
     .overlay {
         position: absolute;
         bottom: 0;
@@ -30,19 +31,22 @@
         height: 100%;
         transition: .3s ease;
     }
+
     .image-container:hover .overlay {
         width: 100%;
     }
     .text {
+		color: black;
 		position: absolute;
 		top: 20%;
 		left: 20%;
 		transform: translate(-20%, -20%);
         text-align: center;
-        margin: 5px;
-		padding: 15px 0;
-
+		padding: 5px 0;
     }
+	a{
+		text-decoration: none;
+		c
 	/*.image-title {
             position: absolute;
             bottom: 0;
@@ -54,9 +58,8 @@
             font-weight: bold;
 	}*/
 </style>
-  </style>
+
 </head>
-<img th:src="@{/images/pavel_tashev.jpg}" alt="village live logo" style="width: 175px; height: 98px;" src="">
 <body>
 <div class="container">
   <div>
@@ -72,13 +75,9 @@
       по-полезна за посетителите й.</p><br><br>
 
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img src="ivo.jpg" alt="Ивайло Вътовски" class="image">
-          <!--<div class="image-title">
-              <h5>Ивайло Вътовски</h5>
-              <div>Инициатор и Основател</div>
-          </div>-->
+          <img th:src="@{/images/ivo.jpg}" alt="village live logo" src="" class="image">
           <div class="overlay">
             <div class="text">
               <h5>Ивайло Вътовски</h5>
@@ -89,32 +88,37 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img src="pavel_tashev.jpg" alt="Ивайло Вътовски" class="image">
+          <img th:src="@{/images/pavel_tashev.jpg}" alt="village live logo" src="" class="image">
           <div class="overlay">
             <div class="text">
-              <h5>Павел Ташев</h5>
-              <div>Технически ръководител</div><br>
-              <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и - Schoodle, QRL, Peoplegogo i
-                EasyМail. Основател на софтуерна компания DeepSource. В свободното си време - диша живее.</div>
+              <a href="https://www.paveltashev.com/">
+                <h5>Павел Ташев</h5>
+                <div>Технически ръководител</div><br>
+                <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и - Schoodle, QRL, Peoplegogo i
+                  EasyМail. Основател на софтуерна компания DeepSource. В свободното си време - диша живее.</div>
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+
+      <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="image-container">
-          <img src="you.jpg" alt="Искаш да помогнеш?" class="image">
+          <img th:src="@{/images/you.jpg}" alt="village live logo" src="" class="image">
           <div class="overlay">
             <div class="text">
+              <a href="/villages/contacts">
               <h5>Искаш да помогнеш?</h5><br>
               <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa VillageLife?</div>
+              </a>
             </div>
           </div>
         </div>
       </div>
-
-
     </div>
     <br><br>
   </div>
