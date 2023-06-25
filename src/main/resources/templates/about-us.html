@@ -19,6 +19,7 @@
         display: block;
         width: 100%;
         height: auto;
+        margin: 20px 0;
     }
 
     .overlay {
@@ -46,7 +47,18 @@
     }
 	a{
 		text-decoration: none;
-		c
+		color: black;
+	}
+	a:hover {
+      color: black;
+    }
+    .icon{
+      height: 25px;
+      width: 25px;
+    }
+    .green-text{
+      color: #97CA31;
+    }
 	/*.image-title {
             position: absolute;
             bottom: 0;
@@ -84,6 +96,13 @@
               <div>Инициатор и Основател</div><br>
               <div>Професионално се занимава с маркетинг и иновации. В свободното си време обича да спортува,
                 чете и размишлява върху различно социални въпроси. </div>
+              <br>
+              <a href="https://www.facebook.com/ivaylo.vatovski" target="_blank">
+                <img th:src="@{/images/facebook.png}" alt="facebook-icon" class="icon">
+              </a>
+              <a href="https://www.linkedin.com/in/ivaylo-vatovski-688b4091/?original_referer=https%3A%2F%2Fwww.villagelife.bg%2F" target="_blank">
+                <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
+              </a>
             </div>
           </div>
         </div>
@@ -95,11 +114,15 @@
           <img th:src="@{/images/pavel_tashev.jpg}" alt="village live logo" src="" class="image">
           <div class="overlay">
             <div class="text">
-              <a href="https://www.paveltashev.com/">
+              <a href="https://www.paveltashev.com/" target="_blank">
                 <h5>Павел Ташев</h5>
                 <div>Технически ръководител</div><br>
                 <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и - Schoodle, QRL, Peoplegogo i
                   EasyМail. Основател на софтуерна компания DeepSource. В свободното си време - диша живее.</div>
+                <br>
+                <a href="https://www.linkedin.com/in/paveltashev" target="_blank">
+                  <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
+                </a>
               </a>
             </div>
           </div>
@@ -112,8 +135,10 @@
           <div class="overlay">
             <div class="text">
               <a href="/villages/contacts">
-              <h5>Искаш да помогнеш?</h5><br>
-              <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa VillageLife?</div>
+                <h5>Искаш да помогнеш?</h5><br>
+                <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa VillageLife?</div>
+                <br>
+                <p class="green-text">Пишете ни!</p>
               </a>
             </div>
           </div>
