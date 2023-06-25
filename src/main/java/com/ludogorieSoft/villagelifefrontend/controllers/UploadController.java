@@ -24,6 +24,7 @@ import java.util.List;
 @RequestMapping("/upload")
 @AllArgsConstructor
 public class UploadController {
+    private final RegionClient regionClient;
     private final VillageClient villageClient;
     private final ObjectVillageClient objectVillageClient;
     private final VillageLivingConditionClient villageLivingConditionClient;
@@ -32,6 +33,10 @@ public class UploadController {
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
     private final QuestionClient questionClient;
     private final PopulationClient populationClient;
+    private final EthnicityClient ethnicityClient;
+    private final VillageEthnicityClient villageEthnicityClient;
+    private final PopulatedAssertionClient populatedAssertionClient;
+    private final VillagePopulationAssertionClient villagePopulationAssertionClient;
 
     @GetMapping
     public String uploadForm(Model model) {
@@ -58,7 +63,11 @@ public class UploadController {
             VillageGroundCategoryDTO villageGroundCategory = new VillageGroundCategoryDTO();
             VillageAnswerQuestionDTO villageAnswerQuestion = new VillageAnswerQuestionDTO();
             PopulationDTO population = new PopulationDTO();
+            EthnicityVillageDTO ethnicityVillage = new EthnicityVillageDTO();
+            PopulatedAssertionDTO populatedAssertion = new PopulatedAssertionDTO();
+            VillagePopulationAssertionDTO villagePopulationAssertion = new VillagePopulationAssertionDTO();
 
+            Long newVillageID = villageClient.createVillageWithNullValues();
 
             Row row = sheet.getRow(1);
             int lastCellNum = row.getLastCellNum();
@@ -66,17 +75,25 @@ public class UploadController {
                 Cell cell = row.getCell(i);
                 if (cell != null) {
                     String value = cell.getStringCellValue();
+                    village.setId(newVillageID);
                     if (i == 0) {
                         village.setDateUpload(null);
                     } else if (i == 2) {
                         if (value != null) {
                             village.setName(value);
+                            List<RegionDTO> regionList = regionClient.getAllRegions();
+                            for (RegionDTO region : regionList) {
+                                if (value.contains(region.getRegionName())) {
+                                    village.setRegion(region.getRegionName());
+                                    break;
+                                }
+                            }
                         }
                     } else if (i == 3) {
                         long objectAroundVillageID = 1;
                         int innerIndex = i;
                         while (innerIndex <= 16) {
-                            objectVillage.setVillageId(1L);
+                            objectVillage.setVillageId(newVillageID);
                             objectVillage.setObjectAroundVillageId(objectAroundVillageID);
                             Cell valueCell = sheet.getRow(1).getCell(innerIndex);
                             if (valueCell != null) {
@@ -98,7 +115,7 @@ public class UploadController {
                         int i1 = i;
                         long livingConditionID = 1;
                         while (j <= 7) {
-                            villageLivingCondition.setVillageId(1L);
+                            villageLivingCondition.setVillageId(newVillageID);
                             villageLivingCondition.setLivingConditionId(livingConditionID);
                             Cell valueCell = sheet.getRow(1).getCell(i1);
                             if (valueCell != null) {
@@ -116,7 +133,7 @@ public class UploadController {
                             livingConditionID++;
                         }
                     } else if (i == 26) {
-                        villageGroundCategory.setVillageId(1L);
+                        villageGroundCategory.setVillageId(newVillageID);
                         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
                         if (!groundCategories.isEmpty()) {
                             Cell valueCell = sheet.getRow(1).getCell(i);
@@ -130,7 +147,7 @@ public class UploadController {
                             }
                         }
                     } else if (i == 27) {
-                        villageAnswerQuestion.setVillageId(1L);
+                        villageAnswerQuestion.setVillageId(newVillageID);
                         Cell valueCell = sheet.getRow(1).getCell(i);
                         String valueWhile = valueCell.getStringCellValue();
                         villageAnswerQuestion.setAnswer(valueWhile);
@@ -139,7 +156,7 @@ public class UploadController {
 
                     } else if (i == 28) {
                         for (int k = 0; k < 5; k++) {
-                            villageLivingCondition.setVillageId(1L);
+                            villageLivingCondition.setVillageId(newVillageID);
                             villageLivingCondition.setLivingConditionId((long) (9 + k));
                             Cell valueCell = sheet.getRow(1).getCell(i);
                             if (valueCell != null) {
@@ -160,6 +177,10 @@ public class UploadController {
                         for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
                             if (numberOfPopulation.getName().equalsIgnoreCase(valueNumberOfPopulation)) {
                                 population.setNumberOfPopulation(numberOfPopulation);
+                                String[] populationRange = valueNumberOfPopulation.split(" - ");
+                                String numberString = populationRange[1].split(" ")[0];
+                                int populationCount = Integer.parseInt(numberString);
+                                village.setPopulationCount(populationCount);
                                 break;
                             }
                         }
@@ -191,25 +212,92 @@ public class UploadController {
                             }
                         }
 
-                        populationClient.createPopulation(population);
+                        population=populationClient.createPopulation(population);
+                        village.setPopulationDTO(population);
 
-                        i++; // Увеличаване на стойността на i с 1
+                    } else if (i == 37) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueNumberOfPopulation = valueCell.getStringCellValue();
+                        List<EthnicityDTO> ethnicityDTOList = ethnicityClient.getAllEthnicities();
+                        String[] parts = valueNumberOfPopulation.split("\\s+");
+                        for (String part : parts) {
+                            for (EthnicityDTO ethnicityDTO : ethnicityDTOList) {
+                                if (ethnicityDTO.getEthnicityName().equalsIgnoreCase(part)) {
+                                    ethnicityVillage.setVillageId(newVillageID);
+                                    ethnicityVillage.setEthnicityId(ethnicityDTO.getId());
+                                    villageEthnicityClient.createEthnicityVillage(ethnicityVillage);
+                                }
+                            }
+                        }
+                    } else if (i == 38) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueWhile = valueCell.getStringCellValue();
+                        populatedAssertion = populatedAssertionClient.getPopulatedAssertionById(1L);
+                        villagePopulationAssertion.setPopulatedAssertionId(populatedAssertion.getId());
+                        villagePopulationAssertion.setVillageId(newVillageID);
+                        for (Consents consents : Consents.values()) {
+                            if (consents.getName().equalsIgnoreCase(valueWhile)) {
+                                villagePopulationAssertion.setAnswer(consents);
+                                villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
+                            }
+                        }
+                    } else if (i == 42) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueWhile = valueCell.getStringCellValue();
+                        populatedAssertion = populatedAssertionClient.getPopulatedAssertionById(2L);
+                        villagePopulationAssertion.setPopulatedAssertionId(populatedAssertion.getId());
+                        villagePopulationAssertion.setVillageId(newVillageID);
+                        for (Consents consents : Consents.values()) {
+                            if (consents.getName().equalsIgnoreCase(valueWhile)) {
+                                villagePopulationAssertion.setAnswer(consents);
+                                villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
+                            }
+                        }
+
+                    } else if (i == 43) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueWhile = valueCell.getStringCellValue();
+                        populatedAssertion = populatedAssertionClient.getPopulatedAssertionById(3L);
+                        villagePopulationAssertion.setPopulatedAssertionId(populatedAssertion.getId());
+                        villagePopulationAssertion.setVillageId(newVillageID);
+                        for (Consents consents : Consents.values()) {
+                            if (consents.getName().equalsIgnoreCase(valueWhile)) {
+                                villagePopulationAssertion.setAnswer(consents);
+                                villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
+                            }
+                        }
+                    } else if (i == 45) {
+                        Cell valueCell = sheet.getRow(1).getCell(i);
+                        String valueWhile = valueCell.getStringCellValue();
+                        populatedAssertion = populatedAssertionClient.getPopulatedAssertionById(4L);
+                        villagePopulationAssertion.setPopulatedAssertionId(populatedAssertion.getId());
+                        villagePopulationAssertion.setVillageId(newVillageID);
+                        for (Consents consents : Consents.values()) {
+                            if (consents.getName().equalsIgnoreCase(valueWhile)) {
+
+                                villagePopulationAssertion.setAnswer(consents);
+                                villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
+                            }
+                        }
                     }
-
                 }
             }
-                model.addAttribute("objectVillage", objectVillage);
-                model.addAttribute("village", village);
-                model.addAttribute("uploadSuccess", true);
-                model.addAttribute("uploadError", false);
-            } catch(IOException e){
-                e.printStackTrace();
-                model.addAttribute("uploadSuccess", false);
-                model.addAttribute("uploadError", true);
-            }
 
-            return "upload";
+
+            villageClient.updateVillage(newVillageID,village);
+
+            model.addAttribute("objectVillage", objectVillage);
+            model.addAttribute("village", village);
+            model.addAttribute("uploadSuccess", true);
+            model.addAttribute("uploadError", false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("uploadSuccess", false);
+            model.addAttribute("uploadError", true);
         }
 
-
+        return "upload";
     }
+
+
+}
