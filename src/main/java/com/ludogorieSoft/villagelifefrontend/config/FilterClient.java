@@ -41,4 +41,17 @@ public interface FilterClient {
    List<VillageDTO> searchVillagesByObjectAndLivingCondition(
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
+
+
+    @GetMapping("/searchVillagesByChildrenCount")
+    List<VillageDTO> searchVillagesByChildrenCount(@RequestParam("children") String children);
+
+
+    @GetMapping("/searchVillagesByObject")
+   List<VillageDTO> searchVillagesByObject(@RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
+
+
+    @GetMapping("/searchVillagesByLivingCondition")
+    List<VillageDTO> searchVillagesByLivingCondition(@RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
+
 }

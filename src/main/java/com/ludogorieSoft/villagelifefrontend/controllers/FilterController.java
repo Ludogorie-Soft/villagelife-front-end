@@ -159,17 +159,32 @@ public class FilterController {
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
 
-        if (selectedObjects == null) {
-            villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(selectedLivingConditions, selectedChildrenEnum.name());
-        } else if (selectedLivingConditions == null) {
-            villageDTOs = filterClient.searchVillagesByObjectAndChildren(selectedObjects, selectedChildrenEnum.name());
-        } else if (selectedChildrenEnum == null) {
-            villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(selectedObjects, selectedLivingConditions);
-        } else {
-            villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
-        }
 
+        if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
+            villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
+        } else {
+            if (selectedObjects == null) {
+                if (selectedChildrenEnum == null) {
+                    villageDTOs = filterClient.searchVillagesByLivingCondition(selectedLivingConditions);
+                } else {
+                    if (selectedLivingConditions == null) {
+                        villageDTOs = filterClient.searchVillagesByChildrenCount(selectedChildrenEnum.name());
+                    } else {
+                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(selectedLivingConditions, selectedChildrenEnum.name());
+                    }
+                }
+            } else if (selectedChildrenEnum == null) {
+                if (selectedLivingConditions == null) {
+                    villageDTOs = filterClient.searchVillagesByObject(selectedObjects);
+                } else {
+                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(selectedObjects, selectedLivingConditions);
+                }
+            } else {
+                villageDTOs = filterClient.searchVillagesByObjectAndChildren(selectedObjects, selectedChildrenEnum.name());
+            }
+        }
         return villageDTOs;
+
     }
 
 

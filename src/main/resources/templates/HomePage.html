@@ -170,6 +170,11 @@ footer p {
 
     <video id="video2" th:src="@{/videos/home-page-video-2.mp4}" alt="video2" class="fullscreen-video" autoplay loop
            muted></video>
+
+    <div th:if="${error}" class="error-message text-center" style="font-size: larger; color: #96c930; font-weight: bold;">
+        <p th:text="${#strings.toUpperCase(error)}"></p>
+    </div>
+
     <div class="video-overlay">
         <h1>Открий най-подходящото село!</h1>
 

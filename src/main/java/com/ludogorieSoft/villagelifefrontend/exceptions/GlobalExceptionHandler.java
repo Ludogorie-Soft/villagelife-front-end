@@ -11,7 +11,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })
     protected String handleGenericException(Model model) {
-        model.addAttribute("error", "Грешка във формата за разширено търсене");
-        return "SearchingForm";
+        model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
+        return "HomePage";
     }
+
 }
