@@ -1,20 +1,24 @@
-package com.ludogoriesoft.villagelifefrontend.auth;
+package com.ludogoriesoft.villagelifefrontend.dtos.request;
 
 import com.ludogoriesoft.villagelifefrontend.enums.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import java.time.LocalDateTime;
+
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class AdministratorRequest  {
     private String fullName;
     private String email;
     private String username;
     private String password;
     private String mobile;
+    private LocalDateTime createdAt;
+    private boolean enabled = true;
     private Role role;
+
 }

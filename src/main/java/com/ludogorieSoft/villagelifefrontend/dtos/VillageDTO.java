@@ -1,5 +1,6 @@
 package com.ludogoriesoft.villagelifefrontend.dtos;
 
+import com.ludogoriesoft.villagelifefrontend.models.Population;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ public class VillageDTO {
 
     private Long id;
     private String name;
-    private PopulationDTO populationDTO;
+    private Population population;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date dateUpload;
     private boolean status;

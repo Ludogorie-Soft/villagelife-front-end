@@ -1,8 +1,8 @@
 package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.response.VillageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +22,9 @@ public interface AdminClient {
     ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest,
                                                          @RequestHeader("Authorization") String token);
 
-    @PostMapping("/{id}")
+    @PutMapping("/update/{id}")
     ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
-                                                         @RequestBody AdministratorRequest administratorRequest,
+                                                         AdministratorRequest administratorRequest,
                                                          @RequestHeader("Authorization") String token);
 
     @DeleteMapping("/{id}")
@@ -34,5 +34,5 @@ public interface AdminClient {
     AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
 
     @GetMapping("village")
-    public List<VillageDTO> getAllVillages(@RequestHeader("Authorization") String token);
+    public List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
 }

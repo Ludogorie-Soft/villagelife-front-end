@@ -15,4 +15,5 @@ public class AppConfig {
     public HttpHeaders httpHeaders() {
         return new HttpHeaders();
     }
+
 }

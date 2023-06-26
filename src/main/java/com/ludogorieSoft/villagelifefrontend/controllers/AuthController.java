@@ -1,10 +1,10 @@
 package com.ludogoriesoft.villagelifefrontend.controllers;
 
 import com.ludogoriesoft.villagelifefrontend.auth.AuthClient;
-import com.ludogoriesoft.villagelifefrontend.auth.AuthenticationRequest;
-import com.ludogoriesoft.villagelifefrontend.auth.AuthenticationResponce;
-import com.ludogoriesoft.villagelifefrontend.auth.RegisterRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.response.AuthenticationResponce;
+import com.ludogoriesoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import lombok.RequiredArgsConstructor;
 
 
@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/auth")
@@ -21,35 +22,34 @@ import javax.servlet.http.HttpSession;
 public class AuthController {
 
     private final AuthClient authClient;
-//    private final HttpHeaders headers;
-
+    private static final String SESSION_NAME = "admin";
+    private static final String AUTH_HEATHER = "Bearer ";
     @GetMapping("/register")
-    public String createAdministrator(Model model, HttpSession session) {
+    public String createAdministrator(Model model) {
         model.addAttribute("admins", new AdministratorRequest());
         return "admin_templates/register_form";
     }
+
     @PostMapping("/register")
     public String registerAdmin(@ModelAttribute("admins") RegisterRequest request, HttpSession session) {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw";
-        session.setAttribute("admin", token);
-        //(String) session.getAttribute("admin");
-        authClient.register(request,"Bearer " + token);
-        return "redirect:/admins/menu";
+        String token  = (String) session.getAttribute(SESSION_NAME);
+            authClient.register(request, AUTH_HEATHER + token);
+        return "redirect:/admins";
     }
 
     @GetMapping("/login")
     public String showAdminLogin(Model model) {
-        model.addAttribute("admins",new AuthenticationRequest());
+        model.addAttribute("admins", new AuthenticationRequest());
         return "admin_templates/admin_login";
     }
 
     @PostMapping("/authenticate")
-    public String  authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session) {
-        ResponseEntity<AuthenticationResponce> authResponse = authClient.authenticate(request);
-        String token = authResponse.getBody().getToken();
-        System.out.println(token);
-        session.setAttribute("admin", token);
-       return "redirect:/admins/menu";
+    public String authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session) {
+        ResponseEntity<AuthenticationResponce> authResponse;
+        authResponse = authClient.authenticate(request);
+        String token = Objects.requireNonNull(authResponse.getBody()).getToken();
+        session.setAttribute(SESSION_NAME, token);
+        return "redirect:/admins/village";
     }
 
 }

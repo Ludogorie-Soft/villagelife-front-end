@@ -1,15 +1,15 @@
-package com.ludogoriesoft.villagelifefrontend.auth;
+package com.ludogoriesoft.villagelifefrontend.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponce {
-    private String token;
+public class AuthenticationRequest {
+    private String username;
+    private String password;
 }

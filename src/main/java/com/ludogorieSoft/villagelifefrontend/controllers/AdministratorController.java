@@ -2,11 +2,12 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 
 import com.ludogoriesoft.villagelifefrontend.config.AdminClient;
 import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogoriesoft.villagelifefrontend.dtos.response.VillageResponse;
 import com.ludogoriesoft.villagelifefrontend.enums.Role;
-import lombok.AllArgsConstructor;
+import com.ludogoriesoft.villagelifefrontend.services.AdminService;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,58 +23,68 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admins")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AdministratorController {
-    private AdminClient adminClient;
-    private ModelMapper modelMapper;
-//    private final HttpHeaders headers;
+    private final AdminClient adminClient;
+    private final ModelMapper modelMapper;
 
-    @GetMapping("/menu")
-    public String showMenu() {
-        return "admin_templates/admin_menu";
-    }
+    private final AdminService adminService;
+
+    private static final String SESSION_NAME = "admin";
+    private static final String AUTH_HEATHER = "Bearer ";
+    private static final String ADMINS = "admins";
+
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
-        //String token = (String) session.getAttribute("admin");
-        String token2 = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw";
-
-        ResponseEntity<List<AdministratorDTO>> administrators = adminClient.getAllAdministrators("Bearer " + token2);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        ResponseEntity<List<AdministratorDTO>> administrators = adminClient.getAllAdministrators(AUTH_HEATHER + token2);
         List<AdministratorDTO> allAdmins = administrators.getBody();
-        model.addAttribute("admins", allAdmins);
+        model.addAttribute(ADMINS, allAdmins);
         return "admin_templates/admin_all";
     }
 
     @GetMapping("/edit/{adminId}")
-    public String editAdmin(@PathVariable(name = "adminId") Long adminId,Model model) {
-        String token2 = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw"; //(String) session.getAttribute("admin");
-        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId,"Bearer " + token2);
+    public String editAdmin(@PathVariable(name = "adminId") Long adminId,Model model, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId,AUTH_HEATHER + token2);
         AdministratorDTO administratorDTO = adminById.getBody();
-        model.addAttribute("admins", administratorDTO);
+        model.addAttribute(ADMINS, administratorDTO);
         return "admin_templates/update_admin";
     }
-    @PostMapping("/update")
-    public String updateAdmin(Long adminId,@ModelAttribute("admins") AdministratorDTO administratorDTO,RedirectAttributes redirectAttributes) {
-        administratorDTO.setCreatedAt(LocalDateTime.now());
-        administratorDTO.setEnabled(true);
-        administratorDTO.setRole(Role.ADMIN);
-        AdministratorRequest administratorRequest =  modelMapper.map(administratorDTO, AdministratorRequest.class);
-        String token2 = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw"; //(String) session.getAttribute("admin");
-        adminClient.updateAdministrator(adminId, administratorRequest,"Bearer " + token2);
+    @PostMapping("/update/{id}")
+    public String updateAdmin(@PathVariable("id") Long adminId, AdministratorRequest administratorRequest, RedirectAttributes redirectAttributes,
+            HttpSession session
+    ) {
+        administratorRequest.setCreatedAt(LocalDateTime.now());
+        administratorRequest.setEnabled(true);
+        administratorRequest.setRole(Role.ADMIN);
+
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEATHER + token2);
+
         redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully updated !!!");
         return "redirect:/admins";
     }
+
     @PostMapping("/delete/{adminId}")
-    public ModelAndView deleteAdmin(@PathVariable(name = "adminId") Long adminId, RedirectAttributes redirectAttributes){
-        String token2 = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw"; //(String) session.getAttribute("admin");
-        adminClient.deleteAdministratorById(adminId,"Bearer " + token2);
+    public ModelAndView deleteAdmin(@PathVariable(name = "adminId") Long adminId, RedirectAttributes redirectAttributes,HttpSession session){
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminClient.deleteAdministratorById(adminId,AUTH_HEATHER + token2);
         redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully deleted !!!");
         return new ModelAndView("redirect:/admins");
 
     }
     @GetMapping("/village")
-    public String getAllVillages(Model model){
-        String token2 = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkaWRrYTMiLCJpYXQiOjE2ODcxMDU3NzAsImV4cCI6MTY4NzE5MjE3MH0.t6fqJKcCEnbq8BRZ8Arh1QdrPMIKLgsPyGoVK6GbwNw";
-        model.addAttribute("villages", adminClient.getAllVillages("Bearer " + token2));
+    public String getAllVillages(Model model,HttpSession session){
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageResponse> villages = adminClient.getAllVillages(AUTH_HEATHER + token2);
+        model.addAttribute(ADMINS,adminService.extractUsername(token2));
+        model.addAttribute("villages",villages );
         return "admin_templates/admin_menu";
+    }
+    @GetMapping("/logout")
+    public ModelAndView logoutButton(HttpSession session) {
+        session.removeAttribute(SESSION_NAME);
+        return new ModelAndView("redirect:/auth/login");
     }
 }
