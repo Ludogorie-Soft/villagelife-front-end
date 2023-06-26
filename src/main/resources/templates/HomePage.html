@@ -9,9 +9,9 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <title>Показване на села</title>
+    <title>Начало</title>
     <style>
-#menu {
+    #menu {
       padding: 10px;
       float: right;
     }
@@ -23,22 +23,22 @@
     }
 
     i{
-color: #96c930;
-}
-.contact-info {
-  margin-bottom: 20px;
-}
-  footer {
-  background-color: #f2f2f2;
-  padding: 20px;
-  margin: 75px 0 0 0;
-  text-align: left;
-}
+        color: #96c930;
+     }
+    .contact-info {
+        margin-bottom: 20px;
+    }
+    footer {
+        background-color: #f2f2f2;
+        padding: 20px;
+        margin: 75px 0 0 0;
+        text-align: left;
+    }
 
-footer p {
-  margin-bottom: 10px;
-}
-.footer-text {
+    footer p {
+        margin-bottom: 10px;
+    }
+    .footer-text {
         float: right;
         font-size: 14px;
         margin-top: -20px;
@@ -46,12 +46,11 @@ footer p {
     }
 
     .subscription {
-  font-style: italic;
-  margin-bottom: 10px;
-}
+        font-style: italic;
+        margin-bottom: 10px;
+    }
 
-
-.subscription, .rights {
+    .subscription, .rights {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -112,27 +111,30 @@ footer p {
         padding: 10px 20px;
         font-size: 16px;
     }
-
-    .village-grid {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.village-item {
-  flex-basis: calc(33.33% - 20px);
-  margin: 10px;
-  text-align: center;
-}
-.village-item {
-  /* останалите стилове */
-  transition: background-color 0.3s ease;
-}
-
-.village-item:hover {
-  background-color: #96c930;
-  color: white;
-}
-
+    .container{
+        margin: 25px 10px;
+    }
+    .card{
+        margin: 10px;
+    }
+    .card:hover{
+        box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    }
+    .card-body a{
+        color: black;
+        text-decoration: none;
+    }
+    .btn-info,
+    .btn-info:hover,
+    .btn-info:focus,
+    .btn-info:active {
+        background-color: #96c930;
+        border: none;
+        color: white !important;
+        float: right;
+        outline: none;
+        box-shadow: none;
+    }
 
 
 </style>
@@ -143,10 +145,6 @@ footer p {
   video1.addEventListener("ended", function() {
     video2.play();
   });
-
-
-
-
 </script>
 <body>
 
@@ -200,12 +198,21 @@ footer p {
             село за заселване.</p>
     </div>
 </div>
-<div class="village-grid">
-    <div th:each="village : ${villages}" class="village-item">
-        <a th:href="@{'/village/show/' + village.id}"></a>
-        <!--        <img th:src="${village.image}" alt="village image">-->
-        <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>
+<div class="container">
+    <div class="row col-12">
+        <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card">
+                <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}" alt="village image" src="" class="village-image">
+                <div class="card-body">
+                    <a th:href="@{'/villages/show/'}+ ${village.id}"><h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6></a>
+                    <br>
+                    <a th:href="@{'/villages/show/'}+ ${village.id}" class="btn btn-info">Още</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </div>
 <footer>
     <div class="image-container">
