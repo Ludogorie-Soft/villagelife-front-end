@@ -3,13 +3,18 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -42,10 +47,27 @@ public class VillageController {
         return "/test/testAllVillages";
     }
 
-    @GetMapping("/test")
-    String test(Model model){
-        PopulationDTO populationDTO = populationClient.getPopulationById(1L);
-        model.addAttribute("population", populationDTO);
+    //@GetMapping("/test/{imageName}")
+    //public ModelAndView showImage(@PathVariable String imageName) {
+    //    Resource resource = villageImageClient.getImage(imageName);
+//
+    //    ModelAndView modelAndView = new ModelAndView();
+    //    modelAndView.addObject("imageResource", resource);
+    //    modelAndView.setViewName("/test/test");
+//
+    //    return modelAndView;
+    //}
+    @GetMapping("/test/{imageName}")
+    public String showImage(@PathVariable String imageName, Model model) {
+        ResponseEntity<byte[]> imageResponse = villageImageClient.getImage(imageName);
+
+        if (imageResponse.getStatusCode().is2xxSuccessful()) {
+            byte[] imageBytes = imageResponse.getBody();
+            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+            String imageSrc = "data:image/jpeg;base64," + base64Image;
+            model.addAttribute("imageSrc", imageSrc);
+        }
+
         return "/test/test";
     }
 
