@@ -135,7 +135,24 @@
         outline: none;
         box-shadow: none;
     }
+    .village {
+      display: none;
+    }
+    .shown-villages-count{
+        float: right;
+    }
+    #load-more {
+      color: #96c930;
+      border-color: #96c930;
+    }
 
+    #load-more:hover {
+      background-color: #96c930;
+      color: #fff;
+    }
+    .card-actions{
+        margin: 50px 20px;
+    }
 
 </style>
     <script>
@@ -200,16 +217,20 @@
 </div>
 <div class="container">
     <div class="row col-12">
-        <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12">
+        <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
             <div class="card">
                 <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}" alt="village image" src="" class="village-image">
                 <div class="card-body">
-                    <a th:href="@{'/villages/show/'}+ ${village.id}"><h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6></a>
+                    <a th:href="@{'/villages/show/' + ${village.id}}"><h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6></a>
                     <br>
-                    <a th:href="@{'/villages/show/'}+ ${village.id}" class="btn btn-info">Още</a>
+                    <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info">Още</a>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="card-actions">
+        <button id="load-more" class="btn btn-outline-success">Покажи още</button>
+        <span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span>
     </div>
 
 
@@ -239,5 +260,41 @@
 <div class="rights">
     <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const villageElements = document.querySelectorAll('.village');
+      const loadMoreButton = document.getElementById('load-more');
+      const cardCountElement = document.getElementById('card-count');
+      const cardTotalElement = document.getElementById('card-total');
+
+      const totalVillages = villageElements.length;
+      let visibleVillages = 6;
+
+      function showVillages() {
+        for (let i = 0; i < visibleVillages; i++) {
+          if (villageElements[i]) {
+            villageElements[i].style.display = 'block';
+          }
+        }
+        cardCountElement.textContent = visibleVillages;
+      }
+
+      function loadMoreVillages() {
+        visibleVillages += 6;
+        if (visibleVillages > totalVillages) {
+          visibleVillages = totalVillages;
+          loadMoreButton.style.display = 'none';
+        }
+        showVillages();
+      }
+
+      showVillages();
+
+      loadMoreButton.addEventListener('click', loadMoreVillages);
+      cardTotalElement.textContent = totalVillages;
+    });
+  </script>
 </body>
 </html>
