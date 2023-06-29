@@ -56,7 +56,6 @@ public class AdministratorController {
             HttpSession session
     ) {
         administratorRequest.setCreatedAt(LocalDateTime.now());
-        administratorRequest.setEnabled(true);
         administratorRequest.setRole(Role.ADMIN);
 
         String token2 = (String) session.getAttribute(SESSION_NAME);
