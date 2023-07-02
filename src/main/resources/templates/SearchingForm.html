@@ -198,6 +198,13 @@ footer p {
 
 
 
+    .form-select:focus {
+        border-color: gray !important;
+        box-shadow: 0 0 0 0.2rem rgba(192, 192, 192, 0.5) !important;
+    }
+
+
+
     </style>
 
 <body>
@@ -228,7 +235,7 @@ footer p {
             <input type="text" name="keyword" placeholder="Търси по име на село" class="search-field"
                    style="outline-color: gray; height: 40px;">
 
-<!--            <input class="btn btn-outline-light" type="submit" value="Търси" style="background-color: #96c930;">-->
+            <!--            <input class="btn btn-outline-light" type="submit" value="Търси" style="background-color: #96c930;">-->
             <input class="btn btn-outline-secondary" type="submit" value="Търси"
                    style="background-color: #96c930;" id="searchButton"/>
             <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
@@ -314,33 +321,37 @@ footer p {
 <div class="rights">
     <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>
+
 <script>
-    var clearButton = document.getElementById("clearButton");
+    document.addEventListener("DOMContentLoaded", function () {
+        var clearButton = document.getElementById("clearButton");
 
-    clearButton.addEventListener("mouseover", function () {
-        clearButton.style.backgroundColor = #6b8c31;
+        clearButton.addEventListener("mouseover", function () {
+            clearButton.style.color = "#000000"; // Черен цвят на текста
+            clearButton.style.backgroundColor = "#9ac76d"; // Нов фонов цвят
+        });
+
+        clearButton.addEventListener("mouseout", function () {
+            clearButton.style.color = ""; // Възстановява оригиналния цвят на текста
+            clearButton.style.backgroundColor = ""; // Възстановява оригиналния фонов цвят
+        });
     });
-
-    clearButton.addEventListener("mouseout", function () {
-        clearButton.style.backgroundColor = "";
-    });
-
-
-
-
 
 </script>
+
 
 <script>
     var clearButton = document.getElementById("searchButton");
 
     clearButton.addEventListener("mouseover", function () {
-        clearButton.style.backgroundColor = "";
+        clearButton.style.backgroundColor = "#989e91";
     });
 
     clearButton.addEventListener("mouseout", function () {
         clearButton.style.backgroundColor = "#96c930";
     });
+
+
 
 
 
@@ -378,11 +389,15 @@ footer p {
 
 
 
+
+
 </script>
 <script type="text/javascript">
     function clearFilter(){
     window.location = '/filter/all';
 }
+
+
 
 
 
@@ -416,6 +431,8 @@ footer p {
 
 
 
+
+
 </script>
 <script type="text/javascript">
   fetch('/filter/advancedSearchModalForm')
@@ -427,6 +444,8 @@ footer p {
     .catch(error => {
       console.error('Грешка при зареждане на страницата с модалния прозорец:', error);
     });
+
+
 
 
 

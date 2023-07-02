@@ -8,7 +8,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler(value = { Exception.class })
     protected String handleGenericException(Model model) {
         model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");

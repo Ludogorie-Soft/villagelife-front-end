@@ -3,7 +3,10 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.advanced.AdvancedSearchForm;
 import com.ludogoriesoft.villagelifefrontend.advanced.AdvancedSearchFormValidator;
 import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.*;
+import com.ludogoriesoft.villagelifefrontend.dtos.LivingConditionDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.ObjectAroundVillageDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.RegionDTO;
+import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
 import com.ludogoriesoft.villagelifefrontend.enums.Children;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,13 +23,13 @@ public class FilterController {
 
     private final FilterClient filterClient;
 
-    private final VillageClient villageClient;
-
     private ObjectAroundVillageClient objectAroundVillageClient;
 
     private LivingConditionClient livingConditionClient;
 
     private final RegionClient regionClient;
+
+    private final VillageClient villageClient;
 
 
     @GetMapping("/all")
@@ -51,6 +54,7 @@ public class FilterController {
         return "SearchingForm";
     }
 
+
     private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
@@ -69,6 +73,7 @@ public class FilterController {
         return villages;
     }
 
+
     private static void displaySearchResultsMessage(String region, String keyword, Model model, int resultCount) {
         if (resultCount > 0) {
             model.addAttribute("message", "Намерени резултати: " + resultCount);
@@ -84,7 +89,6 @@ public class FilterController {
                     model.addAttribute("message", "Не бяха открити резултати от вашето търсене за село: " + keyword);
                 } else {
                     model.addAttribute("message", "Не бяха открити резултати от търсенето.");
-
                 }
             }
         }
@@ -120,6 +124,9 @@ public class FilterController {
             return "SearchingForm";
         }
 
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
+
 
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
 
@@ -141,6 +148,7 @@ public class FilterController {
 
     }
 
+
     private static void displayAdvancedSearchResultMessage(Model model, List<VillageDTO> villageDTOs) {
         int villageCount = villageDTOs.size();
         model.addAttribute("villageCount", villageCount);
@@ -158,7 +166,6 @@ public class FilterController {
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
-
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
             villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
@@ -186,6 +193,7 @@ public class FilterController {
         return villageDTOs;
 
     }
+
 
 
 }

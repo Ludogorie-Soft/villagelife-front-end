@@ -2,6 +2,7 @@ package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface FilterClient {
 
 
     @GetMapping("/searchVillagesByObjectAndLivingCondition")
-   List<VillageDTO> searchVillagesByObjectAndLivingCondition(
+    List<VillageDTO> searchVillagesByObjectAndLivingCondition(
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
 
@@ -48,10 +49,11 @@ public interface FilterClient {
 
 
     @GetMapping("/searchVillagesByObject")
-   List<VillageDTO> searchVillagesByObject(@RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
+    List<VillageDTO> searchVillagesByObject(@RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
 
 
     @GetMapping("/searchVillagesByLivingCondition")
     List<VillageDTO> searchVillagesByLivingCondition(@RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
+
 
 }
