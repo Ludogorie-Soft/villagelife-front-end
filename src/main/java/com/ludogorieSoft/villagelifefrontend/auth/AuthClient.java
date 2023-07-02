@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "villagelife-api-auth",url = "http://localhost:8088/api/v1/auth")
+import javax.validation.Valid;
+
+@FeignClient(name = "villagelife-api-auth", url = "http://localhost:8088/api/v1/auth")
 public interface AuthClient {
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponce> register(
-            @RequestBody RegisterRequest request, @RequestHeader("Authorization") String token
+   void register(
+            @Valid @RequestBody RegisterRequest request, @RequestHeader("Authorization") String token
     );
+
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponce> authenticate(
+    ResponseEntity<AuthenticationResponce> authenticate(
             @RequestBody AuthenticationRequest request
     );
 }

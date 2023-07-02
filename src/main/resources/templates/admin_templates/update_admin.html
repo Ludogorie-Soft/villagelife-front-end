@@ -54,33 +54,47 @@
 
 
                             <form class="mx-1 mx-md-4" th:action="@{/admins/update/{id}(id=${admins.id})}" th:object="${admins}" method="post">
-                                <!--              <input type="hidden" name="_method" value="PUT">-->
                                 <input type="hidden" th:field="*{id}">
                                 <div class="mb-3">
                                     <label for="fullName" class="form-label">Full Name</label>
                                     <input type="text" class="form-control" id="fullName" name="fullName"
                                            placeholder="Enter your full name" th:required="true" th:value="*{fullName}">
+                                    <div th:if="${#fields.hasErrors('fullName')}"><span th:errors="*{fullName}"
+                                                                                     class="text-danger"></span>
+                                    </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                            placeholder="Enter your email" th:required="true" th:value="*{email}">
+                                    <div th:if="${#fields.hasErrors('email')}"><span th:errors="*{email}"
+                                                                                        class="text-danger"></span>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
                                     <input type="text" class="form-control" id="username" name="username"
                                            placeholder="Enter your username" th:required="true" th:field="*{username}">
+                                    <div th:if="${#fields.hasErrors('username')}"><span th:errors="*{username}"
+                                                                                      class="text-danger"></span>
+                                    </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="mobile" class="form-label">Mobile</label>
                                     <input type="text" class="form-control" id="mobile" name="mobile"
                                            placeholder="Enter your mobile number" th:required="true"
                                            th:field="*{mobile}">
+                                    <div th:if="${#fields.hasErrors('mobile')}"><span th:errors="*{mobile}"
+                                                                                        class="text-danger"></span>
+                                    </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="text" class="form-control" id="password" name="password"
-                                           placeholder="Enter your new password">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                           placeholder="Enter your new password" >
                                 </div>
 
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">

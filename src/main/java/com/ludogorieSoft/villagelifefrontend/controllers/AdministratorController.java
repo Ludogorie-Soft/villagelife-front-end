@@ -8,15 +8,16 @@ import com.ludogoriesoft.villagelifefrontend.enums.Role;
 import com.ludogoriesoft.villagelifefrontend.services.AdminService;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,8 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdministratorController {
     private final AdminClient adminClient;
-    private final ModelMapper modelMapper;
-
     private final AdminService adminService;
 
     private static final String SESSION_NAME = "admin";
@@ -52,9 +51,12 @@ public class AdministratorController {
         return "admin_templates/update_admin";
     }
     @PostMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id") Long adminId, AdministratorRequest administratorRequest, RedirectAttributes redirectAttributes,
-            HttpSession session
+    public String updateAdmin(@PathVariable("id") Long adminId,@Valid AdministratorRequest administratorRequest, RedirectAttributes redirectAttributes,
+                              BindingResult bindingResult,   HttpSession session
     ) {
+        if(bindingResult.hasErrors()){
+            return "admin_templates/update_admin";
+        }
         administratorRequest.setCreatedAt(LocalDateTime.now());
         administratorRequest.setRole(Role.ADMIN);
 

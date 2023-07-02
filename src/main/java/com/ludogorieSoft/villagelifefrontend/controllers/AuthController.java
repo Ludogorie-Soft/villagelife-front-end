@@ -5,15 +5,18 @@ import com.ludogoriesoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogoriesoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogoriesoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogoriesoft.villagelifefrontend.enums.Role;
 import lombok.RequiredArgsConstructor;
 
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
@@ -27,13 +30,19 @@ public class AuthController {
     @GetMapping("/register")
     public String createAdministrator(Model model) {
         model.addAttribute("admins", new AdministratorRequest());
+        model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/register_form";
     }
 
     @PostMapping("/register")
-    public String registerAdmin(@ModelAttribute("admins") RegisterRequest request, HttpSession session) {
+    public String registerAdmin(@Valid @ModelAttribute("admins") RegisterRequest request, BindingResult bindingResult, Model model, HttpSession session) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("roles", Role.values());
+            return "admin_templates/register_form";
+        }
         String token  = (String) session.getAttribute(SESSION_NAME);
             authClient.register(request, AUTH_HEATHER + token);
+
         return "redirect:/admins";
     }
 

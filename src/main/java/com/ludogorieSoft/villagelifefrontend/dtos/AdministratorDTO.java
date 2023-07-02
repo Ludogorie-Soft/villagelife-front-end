@@ -12,13 +12,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AdministratorDTO {
     private Long id;
+
     private String fullName;
+
     private String email;
+
     private String username;
 
     private String newPassword;
-    private String mobile;
 
+    private String mobile;
     private LocalDateTime createdAt;
     private boolean enabled;
     private Role role;
