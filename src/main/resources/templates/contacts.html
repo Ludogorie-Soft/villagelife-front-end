@@ -168,14 +168,6 @@ footer p {
     </div>
 
     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d93873.70657875584!2d23.296352000000002!3d42.670820000000006!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa84e651414831%3A0x393ba4fa1c2653bf!2sGotse%20Delchev%20Blvd.%20100%2C%201404%2C%201404%20Motopista%2C%20Sofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1687643962068!5m2!1sen!2sus" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="col-12"></iframe>
-</div>
-<div class="village-grid">
-    <div th:each="village : ${villages}" class="village-item">
-        <a th:href="@{'/village/show/' + village.id}"></a>
-        <!--        <img th:src="${village.image}" alt="village image">-->
-        <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>
-    </div>
-</div>
 <footer>
     <div class="image-container">
         <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">

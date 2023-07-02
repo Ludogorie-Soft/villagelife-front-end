@@ -265,13 +265,6 @@ footer p {
     <br><br>
   </div>
 </div>
-<div class="village-grid">
-  <div th:each="village : ${villages}" class="village-item">
-    <a th:href="@{'/village/show/' + village.id}"></a>
-    <!--        <img th:src="${village.image}" alt="village image">-->
-    <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>
-  </div>
-</div>
 <footer>
   <div class="image-container">
     <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">

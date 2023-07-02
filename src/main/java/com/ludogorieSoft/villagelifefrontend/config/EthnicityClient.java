@@ -1,7 +1,6 @@
 package com.ludogoriesoft.villagelifefrontend.config;
 
 import com.ludogoriesoft.villagelifefrontend.dtos.EthnicityDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.EthnicityVillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
