@@ -29,10 +29,10 @@ public class VillageController {
     private final EthnicityClient ethnicityClient;
     private final PopulationClient populationClient;
     private final QuestionClient questionClient;
-    private ObjectAroundVillageClient objectAroundVillageClient;
-    private PopulatedAssertionClient populatedAssertionClient;
-    private LivingConditionClient livingConditionClient;
-    private VillageImageClient villageImageClient;
+    private final ObjectAroundVillageClient objectAroundVillageClient;
+    private final PopulatedAssertionClient populatedAssertionClient;
+    private final LivingConditionClient livingConditionClient;
+    private final VillageImageClient villageImageClient;
     private final ObjectVillageClient objectVillageClient;
     private final MessageClient messageClient;
 
