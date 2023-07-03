@@ -55,6 +55,7 @@ public class FilterController {
     }
 
 
+
     private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
@@ -89,6 +90,7 @@ public class FilterController {
                     model.addAttribute("message", "Не бяха открити резултати от вашето търсене за село: " + keyword);
                 } else {
                     model.addAttribute("message", "Не бяха открити резултати от търсенето.");
+
                 }
             }
         }
@@ -114,6 +116,7 @@ public class FilterController {
     }
 
 
+
     @PostMapping("/search")
     public String search(@ModelAttribute AdvancedSearchForm formResult, BindingResult bindingResult, Model model) {
         AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
@@ -127,14 +130,12 @@ public class FilterController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
-
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
 
         List<String> selectedLivingConditions = formResult.getLivingConditionDTOS();
 
         String selectedChildrenCountResult = formResult.getChildren();
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
-
 
         List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum);
 
@@ -161,11 +162,13 @@ public class FilterController {
     }
 
 
+
     private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions, Children selectedChildrenEnum) {
         List<VillageDTO> villageDTOs;
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
+
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
             villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
@@ -193,7 +196,6 @@ public class FilterController {
         return villageDTOs;
 
     }
-
 
 
 }

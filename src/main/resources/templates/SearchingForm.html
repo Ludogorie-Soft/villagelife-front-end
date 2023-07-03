@@ -168,23 +168,6 @@ footer p {
 
     }
 
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(20% - 10px); /* За да покажете по 2 села на ред */-->
-<!--        margin-right: 20px;-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(33.33% - 10px); /* За да покажете по 3 села на ред */-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(20% - 20px); /* За да покажете по 2 села на ред */-->
-<!--        margin-right: 20px;-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
     .village-container-grid .village-item {
         width: calc(20% - 32px); /* Променете стойността на width */
         margin-bottom: 20px;
@@ -455,80 +438,5 @@ footer p {
 
 </script>
 
-
-<!--<script>-->
-<!--    // Слушане на събитието за изпращане на формата-->
-<!--document.querySelector('form').addEventListener('submit', function(event) {-->
-<!--  event.preventDefault(); // Предотвратява презареждането на страницата-->
-
-<!--  // Извличане на стойностите от полетата за търсене-->
-<!--  var region = document.querySelector('select[name="region"]').value;-->
-<!--  var keyword = document.querySelector('input[name="keyword"]').value;-->
-
-<!--  // Извършване на търсенето-->
-<!--  performSearch(region, keyword);-->
-<!--});-->
-
-<!--// Функция за извършване на търсене-->
-<!--function performSearch(region, keyword) {-->
-<!--  // Вашата логика за търсене тук-->
-<!--  console.log('Регион:', region);-->
-<!--  console.log('Ключова дума:', keyword);-->
-
-<!--  // Тук можете да изпратите заявка към сървъра, за да получите резултатите от търсенето-->
-<!--}-->
-
-<!--</script>-->
-
-<!--<script type="text/javascript">-->
-<!--        // Слушане на събитието за изпращане на формата-->
-<!--        document.querySelector('form').addEventListener('submit', function(event) {-->
-<!--            event.preventDefault(); // Предотвратява презареждането на страницата-->
-
-<!--            // Извличане на стойностите от полетата за търсене-->
-<!--            var region = document.querySelector('select[name="region"]').value;-->
-<!--            var keyword = document.querySelector('input[name="keyword"]').value;-->
-
-<!--            // Извършване на търсенето-->
-<!--            performSearch(region, keyword);-->
-<!--        });-->
-
-<!--        // Функция за извършване на търсене-->
-<!--        function performSearch(region, keyword) {-->
-<!--            // Изпращане на заявка към сървъра-->
-<!--            fetch('/search', {-->
-<!--                method: 'POST',-->
-<!--                headers: {-->
-<!--                    'Content-Type': 'application/json',-->
-<!--                },-->
-<!--                body: JSON.stringify({ region: region, keyword: keyword }),-->
-<!--            })-->
-<!--            .then(response => response.json())-->
-<!--            .then(data => {-->
-<!--                // Обработка на отговора от сървъра-->
-<!--                displayResults(data);-->
-<!--            })-->
-<!--            .catch(error => {-->
-<!--                console.error('Грешка при търсене:', error);-->
-<!--            });-->
-<!--        }-->
-
-<!--        // Функция за показване на резултатите-->
-<!--        function displayResults(data) {-->
-<!--            var resultContainer = document.getElementById('result-container');-->
-<!--            resultContainer.innerHTML = ''; // Изчистване на предишните резултати-->
-
-<!--            // Обхождане на получените резултати и добавяне на HTML елементи за всяко село-->
-<!--            data.forEach(function(village) {-->
-<!--                var villageElement = document.createElement('div');-->
-<!--                villageElement.innerHTML = '<a href="/village/show/' + village.id + '">' +-->
-<!--                    '<i class="fas fa-map-marker-alt" style="color: #96c930;"></i>' +-->
-<!--                    '<h3 style="color: #96c930;">' + village.name + '</h3>' +-->
-<!--                    '</a>';-->
-
-<!--                resultContainer.appendChild(villageElement);-->
-<!--            });-->
-<!--        }-->
-<!--    </script>-->
 </body>
 </html>
