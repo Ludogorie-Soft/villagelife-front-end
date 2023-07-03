@@ -55,54 +55,16 @@ public class VillageController {
         }
         return "/test/test";
     }
-    @GetMapping("/{villageId}/images")
-    public String showAllImagesForVillage(@PathVariable Long villageId, Model model) {
-        ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(villageId);
-        if (imagesResponse.getStatusCode().is2xxSuccessful()) {
-            List<String> base64Images = imagesResponse.getBody();
-            List<String> imageSrcList = new ArrayList<>();
-            for (String base64Image : base64Images) {
-                String imageSrc = "data:image/jpeg;base64," + base64Image;
-                imageSrcList.add(imageSrc);
-            }
-            model.addAttribute("imageSrcList", imageSrcList);
-        }
-        return "/test/test-all-images";
-    }
-
-
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         List<VillageDTO> villageList = villageClient.getAllVillages();
         model.addAttribute("villages", villageList);
+        List<VillageImageResponse> villageImageResponses = villageImageClient.getAllVillageImageResponses().getBody();
+        model.addAttribute("villageImageResponses", villageImageResponses);
         return "HomePage";
     }
-    //@GetMapping("/home-page")
-    //public String homePage(Model model) {
-    //    List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-    //    model.addAttribute("regions", regionDTOS);
-    //    List<VillageDTO> villageList = villageClient.getAllVillages();
-    //    List<List<String>> villageImagesList = new ArrayList<>();
-    //    for (VillageDTO village : villageList) {
-    //        ResponseEntity<List<VillageImageResponse>> response = villageImageClient.getAllVillageImageResponses();
-    //        if (response.getStatusCode().is2xxSuccessful()) {
-    //            List<VillageImageResponse> villageImageResponses = response.getBody();
-    //            List<String> base64Images = new ArrayList<>();
-    //            for (VillageImageResponse imageResponse : villageImageResponses) {
-    //                List<String> images = imageResponse.getImages();
-    //                base64Images.addAll(images);
-    //            }
-    //            villageImagesList.add(base64Images);
-    //        }
-    //    }
-    //    model.addAttribute("villages", villageList);
-    //    model.addAttribute("villageImages", villageImagesList);
-//
-    //    return "/test/HomePage";
-    //}
-
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
         ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(id);

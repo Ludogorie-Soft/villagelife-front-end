@@ -153,15 +153,80 @@
     .card-actions{
         margin: 20px;
     }
-    .image-container {
+
+    * {
+  box-sizing: border-box;
+}
+
+img {
+  vertical-align: middle;
+  z-index: 1;
+}
+
+.mySlides {
+  display: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 60%;
+  width: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 16px;
+  margin-top: -50px;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  border: 1px solid black;
+  z-index: 2;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.prev {
+  left: 0;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.numbertext {
+  position: absolute;
+  top: 1%;
+  color: white;
+  font-size: 20px;
+  padding: 8px 12px;
+  z-index: 2;
+}
+.mySlides {
+  display: none;
+}
+
+/* Updated styles for card image container */
+.image-container {
   position: relative;
-  overflow: hidden;
-  max-height: 180px;
+  width: 100%;
+  padding-top: 75%; /* Set the desired height ratio (e.g., 75% for 4:3 aspect ratio) */
 }
 
 .image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -231,7 +296,13 @@
         <div th:each="villageImageResponse : ${villageImageResponses}" class="col-lg-4 col-md-6 col-sm-12 village">
             <div class="card">
                 <div class="image-container">
-                    <img th:each="imageSrc, iterStat : ${villageImageResponse.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" alt="Village Image" th:style="${iterStat.index == 0 ? 'display:block;' : 'display:none;'}" />
+                    <div class="village-image-container">
+                        <div class="mySlides">
+                            <img th:each="imageSrc : ${villageImageResponse.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" alt="Village Image" />
+                        </div>
+                        <a class="prev" onclick="plusSlides(-1)">❮</a>
+                        <a class="next" onclick="plusSlides(1)">❯</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <a th:href="@{/villages/show/{id}(id=${villageImageResponse.villageDTO.id})}">
@@ -243,6 +314,7 @@
             </div>
         </div>
     </div>
+
     <div class="card-actions">
         <span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span><br>
         <div class="text-center"><button id="load-more" class="btn btn-outline-success">Покажи още</button></div>
@@ -311,5 +383,30 @@
     cardTotalElement.textContent = totalVillages;
     });
   </script>
+<script>
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "block";
+  captionText.innerHTML = "";
+}
+</script>
 </body>
 </html>
