@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page with Modal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha384-Kyf6Ku5d2y7g+VClWmt3atRoHJoPdJn6dXlf0JmB6V8t4yynTV3CQmZBM+nqW1Ub"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Разширено търсене</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="searchForm" action="/filter/search" method="post" th:object="${advancedSearchForm}">
+
+
+                    <section>
+                        <p class="fw-bold">Избери обект/и в близост спрямо селото:</p>
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr th:each="object : ${objectsAroundVillage}">
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label" th:text="${object.type}"></label>
+                                        <input class="form-check-input" type="checkbox"
+                                               th:id="'object-' + ${object.id}"
+                                               th:name="objectAroundVillageDTOS" th:value="${object.type}"/>
+                                        <!--                                               th:name="objectAroundVillageDTOS" th:value="${object.id}" />-[извежда id тата на обектите]-->
+
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+
+                    <section>
+                        <label for="children" class="fw-bold">Избери брой на деца (до 14г.) в селото:</label>
+                        <select id="children" name="children" class="form-select">
+                            <option value="" disabled selected>Избери опция</option>
+                            <option th:each="child : ${childrenValues}" th:value="${child['valueAsNumber']}"
+                                    th:text="${child['name']}"></option>
+                        </select>
+                    </section>
+
+
+                    &nbsp;
+
+                    <section>
+                        <p class="fw-bold">Избери условие/я на живот:</p>
+                        <div class="form-check" th:each="livingCondition : ${livingConditions}">
+                            <input class="form-check-input" type="checkbox"
+                                   th:id="'livingCondition-' + ${livingCondition.id}"
+                                   th:name="livingConditionDTOS" th:value="${livingCondition.livingConditionName}"/>
+                            <!--                                   th:name="livingConditionDTOS" th:value="${livingCondition.id}"/>-[извежда id тата на исловията]-->
+
+                            <label class="form-check-label" th:for="'livingCondition-' + ${livingCondition.id}"
+                                   th:text="${livingCondition.livingConditionName}"></label>
+                        </div>
+                    </section>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitSearchForm()">Търси</button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function submitSearchForm() {
+        // Получаване на избраните опции
+        var selectedObjects = Array.from(document.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {
+            return input.value;
+        });
+        var selectedLivingConditions = Array.from(document.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {
+            return input.value;
+        });
+        var selectedChildrenCount = document.querySelector('select[name="children"]').value;
+
+        // Задаване на стойностите в скритите полета
+        document.querySelector('input[name="selectedObjects"]').value = JSON.stringify(selectedObjects);
+        document.querySelector('input[name="selectedLivingConditions"]').value = JSON.stringify(selectedLivingConditions);
+        document.querySelector('input[name="selectedChildrenCount"]').value = selectedChildrenCount;
+
+        // Извикване на метода searchVillages
+        searchVillages();
+    }
+
+    function searchVillages() {
+        // Извикване на метода searchVillages или изпълнение на необходимата логика за търсенето
+        // Например, изпращане на формата или извикване на API заявка
+
+        // Пример: изпращане на формата
+        document.getElementById("searchForm").submit();
+    }
+
+
+</script>
+
+
+<script>
+    // Скрипт за отваряне на модалния прозорец по желание
+    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+    myModal.show();
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<script>
+    // Получаване на избраните опции
+    var selectedOptions = [];
+
+    // Получаване на избраните обекти в близост до селото
+    var selectedObjects = document.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked');
+    selectedObjects.forEach(function(object) {
+        selectedOptions.push(object.value);
+    });
+
+    // Получаване на избраните условия на живот
+    var selectedLivingConditions = document.querySelectorAll('input[name="livingConditionDTOS"]:checked');
+    selectedLivingConditions.forEach(function(condition) {
+        selectedOptions.push(condition.value);
+    });
+
+     // Получаване на избраните деца
+    var selectedChildren = document.querySelector('input[name="children"]:checked');
+    if (selectedChildren) {
+        selectedOptions.push(selectedChildren.value);
+    }
+
+
+
+
+    // Запазване на избраните опции в локалното съхранение
+    localStorage.setItem('selectedOptions', JSON.stringify(selectedOptions));
+
+
+
+
+
+
+
+</script>
+
+
+<script>
+function showSelectedChildrenCount(selectElement) {
+console.log("Function called"); // Проверка за извикване на функцията
+
+var selectedChildrenCount = selectElement.value;
+var selectedChildrenCountResult = document.getElementById("selectedChildrenCountResult");
+selectedChildrenCountResult.textContent = "Избор: " + selectedChildrenCount;
+
+var selectedOption = selectElement.options[selectElement.selectedIndex];
+selectedChildrenCountResult.textContent = "Избрана опция: " + selectedOption.text;
+
+console.log("Function finished"); // Проверка за завършване на функцията
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>
