@@ -51,8 +51,8 @@ public class AdministratorController {
         return "admin_templates/update_admin";
     }
     @PostMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id") Long adminId,@Valid AdministratorRequest administratorRequest, RedirectAttributes redirectAttributes,
-                              BindingResult bindingResult,   HttpSession session
+    public String updateAdmin(@PathVariable("id") Long adminId,@Valid @ModelAttribute("admins")AdministratorRequest administratorRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                               HttpSession session
     ) {
         if(bindingResult.hasErrors()){
             return "admin_templates/update_admin";
