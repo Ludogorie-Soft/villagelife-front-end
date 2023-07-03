@@ -208,7 +208,10 @@ footer p {
     </tr>
     <tr>
         <th>Етнически състав:</th>
-        <td th:text="${ethnicity.ethnicityName}"></td>
+        <td>
+            <span th:if="${ethnicity.ethnicityName != null}" th:text="${ethnicity.ethnicityName}"></span>
+            <span th:if="${ethnicity.ethnicityName == null}">няма информация</span>
+        </td>
     </tr>
     </tbody>
 </table>

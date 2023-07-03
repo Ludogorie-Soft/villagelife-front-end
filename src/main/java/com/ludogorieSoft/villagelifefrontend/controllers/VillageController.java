@@ -43,6 +43,7 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
+
     @GetMapping("/test/{imageName}")
     public String showImage(@PathVariable String imageName, Model model) {
         ResponseEntity<byte[]> imageResponse = villageImageClient.getImage(imageName);
@@ -55,6 +56,7 @@ public class VillageController {
         }
         return "/test/test";
     }
+
     @GetMapping("/{villageId}/images")
     public String showAllImagesForVillage(@PathVariable Long villageId, Model model) {
         ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(villageId);
@@ -101,8 +103,13 @@ public class VillageController {
         EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
         model.addAttribute("ethnicityVillage", ethnicityVillage);
 
-        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-        model.addAttribute("ethnicity", ethnicity);
+        if (ethnicityVillage.getVillageId() == null) {
+            EthnicityDTO ethnicity = new EthnicityDTO();
+            model.addAttribute("ethnicity", ethnicity);
+        }else {
+            EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+            model.addAttribute("ethnicity", ethnicity);
+        }
 
         PopulationDTO population = populationClient.getPopulationById(id);
         model.addAttribute("population", population);
@@ -138,6 +145,7 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
+
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
@@ -154,23 +162,27 @@ public class VillageController {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/home-page";
     }
+
     @GetMapping("/partners")
-    public String showPartnersPage(){
+    public String showPartnersPage() {
         return "partners";
     }
+
     @GetMapping("/contacts")
-    public String showContactsPage(Model model){
+    public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
         model.addAttribute("message", messageDTO);
         return "contacts";
     }
+
     @PostMapping("/message-save")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
         messageClient.createMessage(messageDTO);
         return "redirect:/villages/contacts";
     }
+
     @GetMapping("/about-us")
-    public String showAboutUsPage(){
+    public String showAboutUsPage() {
         return "about-us";
     }
 
