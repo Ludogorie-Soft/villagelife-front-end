@@ -45,22 +45,22 @@ public class UploadController {
         model.addAttribute("uploadError", false);
         return "upload";
     }
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadFile2(@RequestParam("file") MultipartFile file, Model model) {
+        long addedVillageNumber = uploadExcelClient.uploadFile(file);
 
-//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public String uploadFile2(@RequestParam("file") MultipartFile file, Model model) {
-//        long addedVillageNumber = uploadExcelClient.uploadFile(file);
-//        if (addedVillageNumber > 0) {
-//            model.addAttribute("addedVillageNumber", addedVillageNumber);
-//            model.addAttribute("uploadSuccess", true);
-//            model.addAttribute("uploadError", false);
-//        } else {
-//            model.addAttribute("uploadSuccess", false);
-//            model.addAttribute("uploadError", true);
-//        }
-//        return "upload";
-//    }
+        if (addedVillageNumber > 0) {
+            model.addAttribute("addedVillageNumber", addedVillageNumber);
+            model.addAttribute("uploadSuccess", true);
+            model.addAttribute("uploadError", false);
+        } else {
+            model.addAttribute("uploadSuccess", false);
+            model.addAttribute("uploadError", true);
+        }
+        return "upload";
+    }
 
-    @PostMapping()
+  //  @PostMapping()
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             if (!file.getOriginalFilename().endsWith(".xlsx")) {
