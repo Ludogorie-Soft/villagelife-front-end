@@ -55,6 +55,21 @@ public class VillageController {
         }
         return "/test/test";
     }
+    @GetMapping("/{villageId}/images")
+    public String showAllImagesForVillage(@PathVariable Long villageId, Model model) {
+        ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(villageId);
+        if (imagesResponse.getStatusCode().is2xxSuccessful()) {
+            List<String> base64Images = imagesResponse.getBody();
+            List<String> imageSrcList = new ArrayList<>();
+            for (String base64Image : base64Images) {
+                String imageSrc = "data:image/jpeg;base64," + base64Image;
+                imageSrcList.add(imageSrc);
+            }
+            model.addAttribute("imageSrcList", imageSrcList);
+        }
+        return "/test/test-all-images";
+    }
+
 
     @GetMapping("/home-page")
     public String homePage(Model model) {
