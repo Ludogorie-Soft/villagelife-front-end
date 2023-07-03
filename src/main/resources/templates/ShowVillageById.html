@@ -124,9 +124,11 @@ footer p {
     }
 
 
+
 </style>
 <script>
     document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
+
 </script>
 
 
@@ -147,7 +149,8 @@ footer p {
     <tr>
         <th colspan="2"
             style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
-            <span style="font-size: 24px; font-weight: bold;" th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
+            <span style="font-size: 24px; font-weight: bold;"
+                  th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
         </th>
     </tr>
 </table>
@@ -175,8 +178,6 @@ footer p {
         </tbody>
     </table>
 </div>
-
-
 
 
 <br class="table-spacing">
@@ -213,32 +214,9 @@ footer p {
 </table>
 
 
-<!--<br class="table-spacing">-->
-<!--<h2 class="table-heading">Условия за живот</h2>-->
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th style="font-style: italic;">Условия</th>-->
-<!--        <th style="font-style: italic;">Съгласие (%)</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="villageLivingCondition : ${villageLivingCondition}" th:if="${villageLivingCondition.livingConditionId &lt; 9}">-->
-<!--        <td>-->
-<!--            <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">-->
-<!--                <span th:text="${condition.livingConditionName} + ':'"></span>-->
-<!--            </span>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <span  th:if="${villageLivingCondition.livingConditionId &lt; 9}">-->
-<!--                <span th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>-->
-<!--            </span>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
 <table th:if="${villageLivingCondition.?[consents != null and consents.getValue() != null].size() > 0}">
-    <th:block th:each="villageLivingCondition, iterStat : ${villageLivingCondition}" th:if="${villageLivingCondition.livingConditionId &lt; 9 and villageLivingCondition.consents != null}">
+    <th:block th:each="villageLivingCondition, iterStat : ${villageLivingCondition}"
+              th:if="${villageLivingCondition.livingConditionId &lt; 9 and villageLivingCondition.consents != null}">
         <th:block th:if="${iterStat.index == 0}">
             <br class="table-spacing">
             <h2 class="table-heading">Условия за живот</h2>
@@ -252,12 +230,14 @@ footer p {
         <tbody>
         <tr>
             <td>
-                <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
+                <span th:each="condition : ${livingCondition}"
+                      th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
                     <span th:text="${condition.livingConditionName} + ':'"></span>
                 </span>
             </td>
             <td>
-                <span th:if="${villageLivingCondition.consents != null and villageLivingCondition.consents.getValue() != null}" th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>
+                <span th:if="${villageLivingCondition.consents != null and villageLivingCondition.consents.getValue() != null}"
+                      th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>
             </td>
         </tr>
         </tbody>
@@ -265,41 +245,60 @@ footer p {
 </table>
 
 
-
-
-
-
-
-
-<br class="table-spacing">
-<h2 class="table-heading">Обекти в близост</h2>
-<table>
-    <thead>
-    <tr>
-        <th style="font-style: italic;">Обекти</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="distance : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}">
-        <tr >
-            <td colspan="2"></td>
+<div th:if="${objectVillage != null and objectVillage.size() > 0}">
+    <br class="table-spacing">
+    <h2 class="table-heading">Обекти в близост</h2>
+    <table>
+        <thead>
+        <tr>
+            <th style="font-style: italic;">Обекти</th>
         </tr>
-        <tr class="header-row">
-            <td colspan="2">
-                <strong th:text="${distance.getName()}"></strong>
-            </td>
+        </thead>
+        <tbody>
+        <th:block th:each="distance : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}">
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr class="header-row">
+                <td colspan="2">
+                    <strong th:text="${distance.getName()}"></strong>
+                </td>
+            </tr>
+            <tr th:each="obj : ${objectVillage}">
+                <td>
+                        <span th:each="objectAroundVillage : ${objectAroundVillage}" th:if="${obj.objectAroundVillageId == objectAroundVillage.id}">
+                            <!-- Проверка дали обектът има валидно име, преди да го отпечата -->
+                            <span th:if="${objectAroundVillage.type != null}" th:text="${objectAroundVillage.type}"></span>
+                        </span>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${validVillageAnswerQuestions != null and !validVillageAnswerQuestions.isEmpty()}">
+    <h2 class="table-heading">Въпроси и отговори</h2>
+    <table>
+        <thead>
+        <tr>
+            <th style="font-style: italic;">Въпроси</th>
+            <th style="font-style: italic;">Отговори</th>
         </tr>
-        <tr th:each="obj : ${objectVillage}" th:if="${obj.getDistance().getName() == distance.getName()}">
+        </thead>
+        <tbody>
+        <tr th:each="villageAnswerQuestion : ${validVillageAnswerQuestions}">
             <td>
-                    <span th:each="objectAroundVillage : ${objectAroundVillage}"
-                          th:if="${obj.objectAroundVillageId == objectAroundVillage.id}">
-                        <span th:text="${objectAroundVillage.type}"></span>
+                    <span th:each="question : ${questionList}" th:if="${question.id == villageAnswerQuestion.questionId}">
+                        <span th:text="${question.question}"></span>
                     </span>
             </td>
+            <td th:text="${villageAnswerQuestion.answer}"></td>
         </tr>
-    </th:block>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
 
 <h2 class="table-heading">Въпроси и отговори</h2>
 <table>
