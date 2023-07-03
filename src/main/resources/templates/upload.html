@@ -2,32 +2,97 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
     <title>Качи Excel Файл</title>
     <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
+  .card {
+          border: none;
+          transition: box-shadow 0.3s ease;
+          margin: 1px;
         }
 
-        h1 {
+        .card:hover {
+          box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        }
+        section{
+            margin: 50px 0px 50px 0px;
+        }
+        .icon{
+            height: 50px;
+            width: 50px;
+        }
+        .icon-larger {
+            width: 63px;
+            height: 50px;
+        }
+        .btn {
+            border-radius: 0;
+            margin: 0px 5px 0px 5px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        }
+        .question-wrapper {
             margin-top: 50px;
+            margin-bottom: 50px;
         }
+       #menu {
 
-        form {
-            margin-top: 30px;
-        }
+      padding: 10px;
+      float: right;
+    }
 
-        p {
-            margin-top: 20px;
-        }
+    #menu a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: #96c930;
+    }
+
+    i{
+color: #96c930;
+}
+.contact-info {
+  margin-bottom: 20px;
+}
+   footer {
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin: 75px 0 0 0;
+  text-align: left;
+}
+
+footer p {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
     </style>
 </head>
 <body>
-<h1>Качи Excel Файл</h1>
+<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;" src="">
+
+<div id="menu">
+    <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
+    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
+    <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+    <a th:href="@{/villages/about-us}">ЗА НАС</a>
+    <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+</div>
+<div class="text-center">
+ <h1>Качи Excel Файл</h1>
 
 <form th:action="@{/uploadController}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" value="Прикачи Excel Файл" />
+    <input class="btn btn-success"  type="file" name="file" />
+    <input class="btn btn-primary" type="submit" value="Прикачи Excel Файл" />
 </form>
 
 <p th:if="${uploadSuccess}">
@@ -37,8 +102,9 @@
     Няма избран Excel Файл.
 </p>
 
-<p th:if="${village != null}" style="margin-top: 50px;">
+<p th:if="${addedVillageNumber != null && addedVillageNumber > 0}" style="margin-top: 50px;">
     <strong>Успешно качени <span th:text="${village.id}"></span> села.</strong>
 </p>
+</div>
 </body>
 </html>
