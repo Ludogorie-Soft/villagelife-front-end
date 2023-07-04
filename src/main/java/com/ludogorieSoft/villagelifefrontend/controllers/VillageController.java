@@ -59,24 +59,14 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        List<VillageDTO> villageList = villageClient.getAllVillages();
-        model.addAttribute("villages", villageList);
         List<VillageImageResponse> villageImageResponses = villageImageClient.getAllVillageImageResponses().getBody();
         model.addAttribute("villageImageResponses", villageImageResponses);
         return "HomePage";
     }
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(id);
-        if (imagesResponse.getStatusCode().is2xxSuccessful()) {
-            List<String> base64Images = imagesResponse.getBody();
-            List<String> imageSrcList = new ArrayList<>();
-            for (String base64Image : base64Images) {
-                String imageSrc = "data:image/jpeg;base64," + base64Image;
-                imageSrcList.add(imageSrc);
-            }
-            model.addAttribute("imageSrcList", imageSrcList);
-        }
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        model.addAttribute("imageSrcList", imagesResponse);
 
         double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
         model.addAttribute("ecoValue", ecoValue);
