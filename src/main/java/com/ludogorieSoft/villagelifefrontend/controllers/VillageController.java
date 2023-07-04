@@ -3,7 +3,6 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -42,18 +40,6 @@ public class VillageController {
         List<VillageDTO> villages = villageClient.getAllVillages();
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
-    }
-    @GetMapping("/test/{imageName}")
-    public String showImage(@PathVariable String imageName, Model model) {
-        ResponseEntity<byte[]> imageResponse = villageImageClient.getImage(imageName);
-
-        if (imageResponse.getStatusCode().is2xxSuccessful()) {
-            byte[] imageBytes = imageResponse.getBody();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            String imageSrc = "data:image/jpeg;base64," + base64Image;
-            model.addAttribute("imageSrc", imageSrc);
-        }
-        return "/test/test";
     }
     @GetMapping("/home-page")
     public String homePage(Model model) {
