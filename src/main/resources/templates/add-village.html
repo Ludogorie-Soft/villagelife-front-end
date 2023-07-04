@@ -247,22 +247,6 @@ footer p {
 
             </section>
 
-            <!-- Population Size -->
-            <section>
-                <p class="fw-bold">
-                    Колко човека е населението в селото?
-                    <span class="text-danger">*</span>
-                </p>
-                <div th:each="populationSize : ${T(com.ludogoriesoft.villagelifefrontend.enums.NumberOfPopulation).values()}"
-                     class="radio-wrapper">
-                    <input type="radio" th:id="${'populationSize-' + populationSize}"
-                           th:name="populationDTO.numberOfPopulation"
-                           th:value="${populationSize}" required/>
-                    <label th:for="${'populationSize-' + populationSize}"
-                           class="radio-label" th:text="${populationSize.name}"></label>
-                </div>
-            </section>
-
             <!-- Residents -->
             <section>
                 <p class="fw-bold">
