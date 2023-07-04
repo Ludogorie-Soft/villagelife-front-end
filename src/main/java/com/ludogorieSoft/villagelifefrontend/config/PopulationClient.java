@@ -17,6 +17,9 @@ public interface PopulationClient {
     @PostMapping
     PopulationDTO createPopulation(PopulationDTO populationDTO);
 
+    @PostMapping("/null")
+    Long createPopulationWhitNullValues();
+
     @PutMapping("/{id}")
     PopulationDTO updatePopulation(@PathVariable("id") Long id,PopulationDTO populationDTO);
 

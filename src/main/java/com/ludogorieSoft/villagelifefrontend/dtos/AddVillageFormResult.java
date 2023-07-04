@@ -10,8 +10,13 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class AddVillageFormResult {
-    VillageDTO villageDTO;
-    PopulationDTO populationDTO;
-    String groundCategoryName;
-    List<ObjectAroundVillageDTO> objectAroundVillageDTOS;
+    private VillageDTO villageDTO;
+    private PopulationDTO populationDTO;
+    private String groundCategoryName;
+    private List<Long> ethnicityDTOIds;
+    private List<String> questionResponses;
+    private List<VillageLivingConditionDTO> villageLivingConditionDTOS;
+    private List<ObjectVillageDTO> objectVillageDTOS;
+    private List<VillagePopulationAssertionDTO> villagePopulationAssertionDTOS;
+    private List<byte[]> imageBytes;
 }

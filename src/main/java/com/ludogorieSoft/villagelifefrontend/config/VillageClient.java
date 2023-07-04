@@ -10,10 +10,14 @@ import java.util.List;
 public interface VillageClient {
     @GetMapping
     List<VillageDTO> getAllVillages();
-
+    @GetMapping("/{id}")
+    VillageDTO getVillageById(@PathVariable("id") Long id);
 
     @PostMapping
     VillageDTO createVillage(VillageDTO villageDTO);
+
+    @PostMapping("/null")
+    Long createVillageWithNullValues();
 
 
     @PutMapping("/{id}")
@@ -21,4 +25,6 @@ public interface VillageClient {
 
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
+
+
 }
