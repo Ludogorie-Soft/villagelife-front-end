@@ -10,7 +10,6 @@ import java.util.List;
 public interface VillageClient {
     @GetMapping
     List<VillageDTO> getAllVillages();
-
     @GetMapping("/{id}")
     VillageDTO getVillageById(@PathVariable("id") Long id);
 

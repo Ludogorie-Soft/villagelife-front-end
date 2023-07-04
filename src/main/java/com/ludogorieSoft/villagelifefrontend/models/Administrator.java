@@ -1,16 +1,17 @@
-package com.ludogoriesoft.villagelifefrontend.dtos;
+package com.ludogoriesoft.villagelifefrontend.models;
 
 import com.ludogoriesoft.villagelifefrontend.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
-@Data
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdministratorDTO {
+
+public class Administrator{
+
     private Long id;
 
     private String fullName;
@@ -19,11 +20,13 @@ public class AdministratorDTO {
 
     private String username;
 
-    private String newPassword;
+    private String password;
 
     private String mobile;
+
     private LocalDateTime createdAt;
-    private boolean enabled;
+    private static final  boolean ENABLED = true;
+
     private Role role;
 
 }
