@@ -175,4 +175,20 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
     }
+
+    @GetMapping("/map")
+    String mapVillages(Model model) {
+        List<VillageDTO> villages = villageClient.getAllVillages();
+        model.addAttribute("villages", villages);
+        return "/test/map";
+    }
+
+    @GetMapping("/general-terms")
+    String showGeneralTerms(Model model) {
+        List<VillageDTO> villages = villageClient.getAllVillages();
+        model.addAttribute("villages", villages);
+        model.addAttribute("pageTitle", "Общи условия");
+        return "/general-terms";
+    }
+
 }

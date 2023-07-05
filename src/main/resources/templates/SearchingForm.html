@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
 
@@ -13,7 +14,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <title>Показване на села</title>
+    <title>Търсене</title>
     <style>
         body {
         padding-left: 80px;
@@ -179,8 +180,6 @@ footer p {
     }
 
 
-
-
     .form-select:focus {
         border-color: gray !important;
         box-shadow: 0 0 0 0.2rem rgba(192, 192, 192, 0.5) !important;
@@ -197,9 +196,9 @@ footer p {
     <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
     <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
     <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a th:href="@{/villages/about-us}">ЗА НАС</a>
+    <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
     <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+    <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
 </div>
 
 
@@ -215,7 +214,7 @@ footer p {
         &nbsp;
         <div class="col-5 d-flex">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
-            <input type="text" name="keyword" placeholder="Търси по име на село" class="search-field"
+            <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село" class="search-field"
                    style="outline-color: gray; height: 40px;">
 
             <!--            <input class="btn btn-outline-light" type="submit" value="Търси" style="background-color: #96c930;">-->
@@ -247,6 +246,7 @@ footer p {
 
 <p th:if="${message}" th:text="${message}" style="font-style: italic; color: #96c930;"></p>
 
+
 <div class="village-grid">
     <div class="village-toggle">
         <a href="#" onclick="toggleVillageView()">
@@ -257,20 +257,15 @@ footer p {
         <div th:each="village : ${villages}" class="village-item">
             <div>
                 <a th:href="@{'/villages/show/' + village.id}">
-                    <!--                    <i class="fas fa-eye"></i>-->
+                    <!-- <i class="fas fa-eye"></i> -->
                 </a>
             </div>
             <div>
                 <h3 th:text="${village.id}"></h3>
                 <a th:href="@{'/villages/show/'} + ${village.id}">
-
-                    <!--                    <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>-->
-
                     <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
-                    <!--                    <h3 th:text="${village.name}" style="color: #96c930;"></h3>-->
                     <h3 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"
                         style="color: #96c930;"></h3>
-
                 </a>
             </div>
         </div>
@@ -304,6 +299,30 @@ footer p {
 <div class="rights">
     <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>
+
+<script>
+  function myFunction() {
+    // Get the input value and convert it to lowercase
+    var input = document.getElementById("myInput");
+    var filter = input.value.toLowerCase();
+
+    // Get the village container and village items
+    var villageContainer = document.getElementById("village-container");
+    var villageItems = villageContainer.getElementsByClassName("village-item");
+
+    // Loop through all village items and hide those that don't match the search query
+    for (var i = 0; i < villageItems.length; i++) {
+      var villageName = villageItems[i].getElementsByTagName("h3")[1];
+      var nameText = villageName.textContent || villageName.innerText;
+
+      if (nameText.toLowerCase().indexOf(filter) > -1) {
+        villageItems[i].style.display = "";
+      } else {
+        villageItems[i].style.display = "none";
+      }
+    }
+  }
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
