@@ -1,8 +1,8 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.*;
-import com.ludogoriesoft.villagelifefrontend.enums.*;
+import com.ludogorieSoft.villagelifefrontend.config.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.enums.*;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

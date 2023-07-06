@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogoriesoft.villagelifefrontend.exceptions.CustomErrorDecoder;
+import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

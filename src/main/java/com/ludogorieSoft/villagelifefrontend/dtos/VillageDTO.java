@@ -1,8 +1,8 @@
-package com.ludogoriesoft.villagelifefrontend.dtos;
+package com.ludogorieSoft.villagelifefrontend.dtos;
 
-import com.ludogoriesoft.villagelifefrontend.models.Population;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.ludogorieSoft.villagelifefrontend.models.Population;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

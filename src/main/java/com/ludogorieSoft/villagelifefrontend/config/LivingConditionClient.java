@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogoriesoft.villagelifefrontend.dtos.LivingConditionDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.LivingConditionDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

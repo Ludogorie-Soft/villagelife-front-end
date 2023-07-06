@@ -1,7 +1,7 @@
-package com.ludogoriesoft.villagelifefrontend.dtos.response;
+package com.ludogorieSoft.villagelifefrontend.dtos.response;
 
-import com.ludogoriesoft.villagelifefrontend.models.Administrator;
-import com.ludogoriesoft.villagelifefrontend.models.Population;
+import com.ludogorieSoft.villagelifefrontend.models.Administrator;
+import com.ludogorieSoft.villagelifefrontend.models.Population;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
