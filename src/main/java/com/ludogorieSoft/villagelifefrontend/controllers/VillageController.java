@@ -3,7 +3,6 @@ package com.ludogoriesoft.villagelifefrontend.controllers;
 import com.ludogoriesoft.villagelifefrontend.config.*;
 import com.ludogoriesoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -43,45 +41,18 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
-    @GetMapping("/test/{imageName}")
-    public String showImage(@PathVariable String imageName, Model model) {
-        ResponseEntity<byte[]> imageResponse = villageImageClient.getImage(imageName);
-
-        if (imageResponse.getStatusCode().is2xxSuccessful()) {
-            byte[] imageBytes = imageResponse.getBody();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            String imageSrc = "data:image/jpeg;base64," + base64Image;
-            model.addAttribute("imageSrc", imageSrc);
-        }
-        return "/test/test";
-    }
-    @GetMapping("/{villageId}/images")
-    public String showAllImagesForVillage(@PathVariable Long villageId, Model model) {
-        ResponseEntity<List<String>> imagesResponse = villageImageClient.getAllImagesForVillage(villageId);
-        if (imagesResponse.getStatusCode().is2xxSuccessful()) {
-            List<String> base64Images = imagesResponse.getBody();
-            List<String> imageSrcList = new ArrayList<>();
-            for (String base64Image : base64Images) {
-                String imageSrc = "data:image/jpeg;base64," + base64Image;
-                imageSrcList.add(imageSrc);
-            }
-            model.addAttribute("imageSrcList", imageSrcList);
-        }
-        return "/test/test-all-images";
-    }
-
-
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        List<VillageDTO> villageList = villageClient.getAllVillages();
-        model.addAttribute("villages", villageList);
+        List<VillageImageResponse> villageImageResponses = villageImageClient.getAllVillageImageResponses().getBody();
+        model.addAttribute("villageImageResponses", villageImageResponses);
         return "HomePage";
     }
-
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        model.addAttribute("imageSrcList", imagesResponse);
 
         double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
         model.addAttribute("ecoValue", ecoValue);

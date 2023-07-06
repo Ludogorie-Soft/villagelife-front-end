@@ -124,6 +124,79 @@ footer p {
     }
 
 
+* {
+  box-sizing: border-box;
+}
+
+img {
+  vertical-align: middle;
+  z-index: 1;
+}
+
+.mySlides {
+  display: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 60%;
+  width: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 16px;
+  margin-top: -50px;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  border: 1px solid black;
+  z-index: 2;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.prev {
+  left: 0;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.numbertext {
+  position: absolute;
+  top: 1%;
+  color: white;
+  font-size: 20px;
+  padding: 8px 12px;
+  z-index: 2;
+}
+.village-image-container {
+  position: relative;
+  overflow: hidden;
+  padding-top: 50%;
+}
+.container{
+  margin-top: 75px;
+}
+
+.village-image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 </style>
 <script>
     document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
@@ -140,6 +213,23 @@ footer p {
     <a href="/villages/about-us">ЗА НАС</a>
     <a href="/villages/contacts"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
     <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+</div>
+
+<div class="container">
+    <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
+
+        <div class="village-image-container text-center">
+            <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
+
+            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+
+
+    </div>
+
 </div>
 
 <br class="table-spacing">
@@ -311,6 +401,30 @@ footer p {
     <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
 </div>
 
+<script>
+let slideIndex = 1;
+showSlides(slideIndex);
 
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "block";
+  captionText.innerHTML = "";
+}
+</script>
 </body>
 </html>
