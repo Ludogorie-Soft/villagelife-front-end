@@ -154,14 +154,10 @@ footer p {
 
     }
 
-    .village-container-grid .village-item {
-        margin-bottom: 20px;
+    .village-container-list .village-item {
+        width: 40%; /* За да покажете по едно село на ред */
     }
 
-    .village-container-list .village-item {
-        width: 100%; /* За да покажете по едно село на ред */
-        margin-bottom: 20px;
-    }
     h6 {
         color: black;
         transition: color 0.2s ease;
@@ -196,12 +192,12 @@ footer p {
         box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     }
 
-    .village-container-grid .image-container {
+    .image-container {
         position: relative;
         overflow: hidden;
     }
 
-    .village-container-grid .image-container img {
+    .image-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -276,10 +272,10 @@ footer p {
     <div id="village-container" class="village-container-grid">
         <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
             <div class="row">
-                <div class="image-container">
+                <div class="image-container col-6">
                     <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}">
                 </div>
-                <div class="card-body">
+                <div class="card-body col-6">
                     <a th:href="@{'/villages/show/' + ${village.id}}">
                         <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
                         <h6 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"></h6>
@@ -290,7 +286,6 @@ footer p {
             </div>
         </div>
     </div>
-
 
 </div>
 
@@ -344,24 +339,47 @@ footer p {
         clearButton.style.backgroundColor = "#96c930";
     });
 </script>
-
 <script type="text/javascript">
-    function toggleVillageView() {
-        var villageContainer = document.getElementById("village-container");
-        var villageToggle = document.querySelector(".village-toggle a i");
+function toggleVillageView() {
+    var villageContainer = document.getElementById("village-container");
+    var villageToggle = document.querySelector(".village-toggle a i");
 
-        if (villageContainer.classList.contains("village-container-grid")) {
-            villageContainer.classList.remove("village-container-grid");
-            villageContainer.classList.add("village-container-list");
-            villageToggle.classList.remove("fa-th-list");
-            villageToggle.classList.add("fa-th");
-        } else {
-            villageContainer.classList.remove("village-container-list");
-            villageContainer.classList.add("village-container-grid");
-            villageToggle.classList.remove("fa-th");
-            villageToggle.classList.add("fa-th-list");
-        }
+    if (villageContainer.classList.contains("village-container-grid")) {
+        villageContainer.classList.remove("village-container-grid");
+        villageContainer.classList.add("village-container-list");
+
+        var imageContainers = villageContainer.querySelectorAll(".image-container");
+        var cardBodies = villageContainer.querySelectorAll(".card-body");
+
+        imageContainers.forEach(function(container) {
+            container.classList.remove("col-6");
+        });
+
+        cardBodies.forEach(function(body) {
+            body.classList.remove("col-6");
+        });
+
+        villageToggle.classList.remove("fa-th-list");
+        villageToggle.classList.add("fa-th");
+    } else {
+        villageContainer.classList.remove("village-container-list");
+        villageContainer.classList.add("village-container-grid");
+
+        var imageContainers = villageContainer.querySelectorAll(".image-container");
+        var cardBodies = villageContainer.querySelectorAll(".card-body");
+
+        imageContainers.forEach(function(container) {
+            container.classList.add("col-6");
+        });
+
+        cardBodies.forEach(function(body) {
+            body.classList.add("col-6");
+        });
+
+        villageToggle.classList.remove("fa-th");
+        villageToggle.classList.add("fa-th-list");
     }
+}
 </script>
 <script type="text/javascript">
     function clearFilter(){
