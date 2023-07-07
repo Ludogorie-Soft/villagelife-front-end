@@ -192,9 +192,15 @@ footer p {
         box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     }
 
-    .image-container {
+    .village-container-grid .image-container {
         position: relative;
         overflow: hidden;
+        max-height: 150px;
+    }
+    .village-container-list .image-container {
+        position: relative;
+        overflow: hidden;
+        max-height: 300px;
     }
 
     .image-container img {
@@ -273,7 +279,8 @@ footer p {
         <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
             <div class="row">
                 <div class="image-container col-6">
-                    <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}">
+                    <!-- <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}"> -->
+                    <img th:each="imageSrc, iterStat : ${village.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
                 </div>
                 <div class="card-body col-6">
                     <a th:href="@{'/villages/show/' + ${village.id}}">

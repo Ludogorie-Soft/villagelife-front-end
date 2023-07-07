@@ -27,6 +27,7 @@ public class FilterController {
     private LivingConditionClient livingConditionClient;
 
     private final RegionClient regionClient;
+    private final VillageImageClient villageImageClient;
 
 
     @GetMapping("/all")
@@ -63,7 +64,7 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
-                villages = villageClient.getAllVillages();
+                villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
             }
         }
         return villages;

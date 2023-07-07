@@ -236,19 +236,19 @@
 </div>
 <div class="container">
     <div class="row col-12">
-        <div th:each="villageImageResponse : ${villageImageResponses}" class="col-lg-4 col-md-6 col-sm-12 village">
+        <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
             <div class="card">
 
                 <div class="image-container">
-                    <img th:each="imageSrc, iterStat : ${villageImageResponse.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                    <img th:each="imageSrc, iterStat : ${village.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
                 </div>
 
                 <div class="card-body">
-                    <a th:href="@{/villages/show/{id}(id=${villageImageResponse.villageDTO.id})}">
-                        <h6 th:text="'село ' + ${villageImageResponse.villageDTO.name} + ', област ' + ${villageImageResponse.villageDTO.region}"></h6>
+                    <a th:href="@{/villages/show/{id}(id=${village.id})}">
+                        <h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6>
                     </a>
                     <br>
-                    <a th:href="@{/villages/show/{id}(id=${villageImageResponse.villageDTO.id})}" class="btn btn-info">Още</a>
+                    <a th:href="@{/villages/show/{id}(id=${village.id})}" class="btn btn-info">Още</a>
                 </div>
             </div>
         </div>
