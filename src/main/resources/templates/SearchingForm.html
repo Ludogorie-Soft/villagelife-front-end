@@ -195,7 +195,6 @@ footer p {
     .village-container-grid .image-container {
         position: relative;
         overflow: hidden;
-        max-height: 150px;
     }
     .village-container-list .image-container {
         position: relative;
@@ -207,6 +206,7 @@ footer p {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        overflow: hidden;
     }
 
     </style>
@@ -270,30 +270,33 @@ footer p {
 
 
 <div class="village-grid">
-    <div class="village-toggle">
-    <a href="#" onclick="toggleVillageView()">
-        <i class="fa fa-th-list"></i>
-    </a>
-    </div>
+
+    <div class="row col-12">
+        <div class="village-toggle">
+            <a href="#" onclick="toggleVillageView()">
+                <i class="fa fa-th-list"></i>
+            </a>
+        </div>
     <div id="village-container" class="village-container-grid">
-        <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
-            <div class="row">
-                <div class="image-container col-6">
-                    <!-- <img th:src="@{/images/pexels-alexander-kovalev-2871478.jpg}"> -->
-                    <img th:each="imageSrc, iterStat : ${village.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
-                </div>
-                <div class="card-body col-6">
-                    <a th:href="@{'/villages/show/' + ${village.id}}">
-                        <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
-                        <h6 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"></h6>
-                        <br>
-                        <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info">Още</a>
-                    </a>
+
+            <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
+                <div class="row">
+                    <div class="image-container col-6">
+                        <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                    </div>
+                    <div class="card-body col-6">
+                        <a th:href="@{'/villages/show/' + ${village.id}}">
+                            <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
+                            <h6 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"></h6>
+                            <br>
+                            <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info">Още</a>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
+    </div>
+    </div>
 </div>
 
 
@@ -351,41 +354,21 @@ function toggleVillageView() {
     var villageContainer = document.getElementById("village-container");
     var villageToggle = document.querySelector(".village-toggle a i");
 
-    if (villageContainer.classList.contains("village-container-grid")) {
-        villageContainer.classList.remove("village-container-grid");
-        villageContainer.classList.add("village-container-list");
+    villageContainer.classList.toggle("village-container-list");
 
-        var imageContainers = villageContainer.querySelectorAll(".image-container");
-        var cardBodies = villageContainer.querySelectorAll(".card-body");
+    var imageContainers = villageContainer.querySelectorAll(".image-container");
+    var cardBodies = villageContainer.querySelectorAll(".card-body");
 
-        imageContainers.forEach(function(container) {
-            container.classList.remove("col-6");
-        });
+    imageContainers.forEach(function(container) {
+        container.classList.toggle("col-6");
+    });
 
-        cardBodies.forEach(function(body) {
-            body.classList.remove("col-6");
-        });
+    cardBodies.forEach(function(body) {
+        body.classList.toggle("col-6");
+    });
 
-        villageToggle.classList.remove("fa-th-list");
-        villageToggle.classList.add("fa-th");
-    } else {
-        villageContainer.classList.remove("village-container-list");
-        villageContainer.classList.add("village-container-grid");
-
-        var imageContainers = villageContainer.querySelectorAll(".image-container");
-        var cardBodies = villageContainer.querySelectorAll(".card-body");
-
-        imageContainers.forEach(function(container) {
-            container.classList.add("col-6");
-        });
-
-        cardBodies.forEach(function(body) {
-            body.classList.add("col-6");
-        });
-
-        villageToggle.classList.remove("fa-th");
-        villageToggle.classList.add("fa-th-list");
-    }
+    villageToggle.classList.toggle("fa-th");
+    villageToggle.classList.toggle("fa-th-list");
 }
 </script>
 <script type="text/javascript">

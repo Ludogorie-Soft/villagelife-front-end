@@ -48,7 +48,7 @@ public class FilterController {
 
 
         displaySearchResultsMessage(region, keyword, model, resultCount);
-
+        System.out.println(villages);
         return "SearchingForm";
     }
 
