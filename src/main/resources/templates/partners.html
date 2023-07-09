@@ -12,103 +12,15 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <style>
-        .card {
-          border: none;
-          transition: box-shadow 0.3s ease;
-          margin: 1px;
-        }
 
-        .card:hover {
-          box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-        }
-        section{
-            margin: 50px 0px 50px 0px;
-        }
-        .icon{
-            height: 50px;
-            width: 50px;
-        }
-        .icon-larger {
-            width: 63px;
-            height: 50px;
-        }
-        .btn {
-            border-radius: 0;
-            margin: 0px 5px 0px 5px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-        }
-        .question-wrapper {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-       #menu {
+    <link rel="stylesheet" href="/css/menuStyle.css">
+    <link rel="stylesheet" href="/css/partners.css">
 
-      padding: 10px;
-      float: right;
-    }
-
-    #menu a {
-      margin-right: 10px;
-      text-decoration: none;
-      color: #96c930;
-    }
-
-    i{
-color: #96c930;
-}
-.contact-info {
-  margin-bottom: 20px;
-}
-   footer {
-  background-color: #f2f2f2;
-  padding: 20px;
-  margin: 75px 0 0 0;
-  text-align: left;
-}
-
-footer p {
-  margin-bottom: 10px;
-}
-.footer-text {
-        float: right;
-        font-size: 14px;
-        margin-top: -20px;
-        color: #96c930;
-    }
-
-    .subscription {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-
-.subscription, .rights {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-
-    .rights {
-        margin-top: 20px;
-    }
-
-
-    </style>
 </head>
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;" src="">
 
-<div id="menu">
-    <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
-    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
-    <a href="/villages/partners"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a href="/villages/about-us"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
-    <a href="/villages/contacts"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
-</div>
+<div th:replace="fragments :: menu"></div>
+
 <div class="container">
     <section class="text-center">
         <p>
@@ -157,39 +69,8 @@ footer p {
     <p class="text-center"><a href="/villages/contacts" class="btn btn-success">Пишете ни!</a></p>
     </div>
 </div>
-<div class="village-grid">
-    <div th:each="village : ${villages}" class="village-item">
-        <a th:href="@{'/village/show/' + village.id}"></a>
-        <!--        <img th:src="${village.image}" alt="village image">-->
-        <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>
-    </div>
-</div>
-<footer>
-    <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
-    </div>
-    <div class="contact-info">
-        <p>Свържи се с нас</p>
-        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
-                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
-                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
-        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
-                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
-        </p>
-        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
-                                                                             style="color: #96c930;">info@villagelife.bg</a>
-        </p>
-    </div>
-</footer>
-<div class="subscription">
-    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <label>
-        <input type="email" placeholder="Въведи електронна поща" >
-    </label>
-    <button style="color: #96c930;">Абонирай ме</button>
-</div>
-<div class="rights">
-    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
-</div>
+
+<div th:replace="fragments :: footer"></div>
+
 </body>
 </html>

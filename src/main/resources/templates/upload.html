@@ -4,26 +4,12 @@
     <meta charset="UTF-8">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <title>Качи Excel Файл</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-
-        h1 {
-            margin-top: 50px;
-        }
-
-        form {
-            margin-top: 30px;
-        }
-
-        p {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/upload.css">
+    <link rel="stylesheet" href="/css/menuStyle.css">
 </head>
 <body>
+<div th:replace="fragments :: menu"></div>
+
 <h1>Качи Excel Файл</h1>
 
 <form th:action="@{/uploadController}" method="post" enctype="multipart/form-data">

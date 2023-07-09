@@ -33,7 +33,6 @@
 </div>
 
 
-
 <div th:fragment="footer">
     <div id="footer">
         <footer class="footer-wrap footer-wrap-v1">
@@ -50,34 +49,47 @@
                                 </div>
                             </div>
                             <div id="media_image-2" class="footer-widget widget widget-wrap widget_media_image">
-                                <a href="https://www.villagelife.bg/"><img th:src="@{/images/village-live-logo-circle.png}"
-                                                                           class="image wp-image-16856 attachment-full size-full lazyload" alt
-                                                                           decoding="async" style="max-width: 100%; height: auto;"/></a>
+                                <a th:href="@{/villages/home-page}"><img
+                                        th:src="@{/images/village-live-logo-circle.png}"
+                                        class="media_image wp-image-16856 attachment-full size-full lazyload" alt
+                                        decoding="async" style="max-width: 100%; height: auto;"/></a>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
                                 <div class="widget-header">
-                                    <h3 class="widget-title" style="color: #96c930; font-weight: bold; font-size: 18px;">Свържи се с нас</h3>
+                                    <h2 class="widget-title"
+                                        style="color: #96c930; font-weight: bold; font-size: 18px;">Свържи се с нас</h2>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-content">
                                         <p></p>
                                         <ul class="list-unstyled contact-list">
-                                            <li><i class="fa-solid fa-map-location-dot"></i> <a href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></li>
-                                            <li><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339" style="color: #96c930;">+359 (0) 888 393 339</a></li>
-                                            <li><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg" style="color: #96c930;">info@villagelife.bg</a></li>
+                                            <li><i class="fa-solid fa-map-location-dot"></i> <a
+                                                    href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank"
+                                                    style="color: #96c930;">гр. София, бул. &bdquo;Гоце Делчев&rdquo;
+                                                100</a></li>
+                                            <li><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
+                                                                                     style="color: #96c930;">+359 (0)
+                                                888 393 339</a></li>
+                                            <li><i class="fa-regular fa-envelope"></i> <a
+                                                    href="mailto:info@villagelife.bg" style="color: #96c930;">info@villagelife.bg</a>
+                                            </li>
                                             <li>
                                                 &nbsp;
                                                 <div class="footer-social">
-                                                    <a class="btn-facebook" target="_blank" href="https://www.facebook.com/VillageLifeBulgaria/">
-                                                        <i class="fa-brands fa-facebook-f fa-beat fa-2xl" style="color: #96c930;"></i>
+                                                    <a class="btn-facebook" target="_blank"
+                                                       href="https://www.facebook.com/VillageLifeBulgaria/">
+                                                        <i class="fa-brands fa-facebook-f fa-beat fa-2xl web-facebook-icon"></i>
+                                                        <span style="color: #96c930;">&nbsp;VillageLifeBulgaria</span>
                                                     </a>
                                                 </div>
                                                 &nbsp;
                                                 <div class="footer-social">
-                                                    <a class="btn-instagram" target="_blank" href="https://www.instagram.com/villagelifebulgaria/?hl=bg">
-                                                        <i class="fa-brands fa-instagram fa-beat fa-2xl" style="color: #96c930;"></i>
+                                                    <a class="btn-instagram" target="_blank"
+                                                       href="https://www.instagram.com/villagelifebulgaria/?hl=bg">
+                                                        <i class="fa-brands fa-instagram fa-beat fa-2xl web-instagram-icon"></i>
+                                                        <span style="color: #96c930;">villagelifebulgaria</span>
                                                     </a>
                                                 </div>
                                             </li>
@@ -86,34 +98,44 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="widget_text footer-widget widget widget-wrap widget_custom_html">
-                                <div class="text widget custom-html-widget" style="color: #96c930; text-align: center;">
-                                    <p>Получавай известия за новите села в платформата и новости за живота на село.</p>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="footer-widget widget widget-wrap widget-contact-us">
+                                <div class="widget-header">
+                                    <h6 class="widget-title"
+                                        style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</h6>
                                 </div>
-                            </div>
-                            <div class="container">
-                                <section style="margin-bottom: 20px;">
-                                    <label for="email" class="fw-bold" style="display: block;">
-                                        Имейл
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="email" id="email" class="form-control" placeholder="Въведете електронната си поща" required style="display: block; margin: 0 auto;">
-                                </section>
-                                <section>
-                                    <button type="submit" id="submit-btn" class="btn btn-info col-3" style="background-color: #fa4a2a; color: white; font-weight: bold; border: 1px solid #fa4a2a;">Абонирай ме!</button>
-                                </section>
+                                <div class="widget-body">
+                                    <div class="widget-content">
+                                        <p></p>
+                                        <ul class="list-unstyled contact-list">
+                                            <li><p style="margin-bottom: 10px; text-align: left;">
+                                                <label for="email" class="fw-bold" style="display: block; text-align: left; color: black; font-weight: bold;">
+                                                    Имейл
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="email" id="email" class="form-control" placeholder="Въведете електронната си поща" required style="text-align: left;">
+                                            </p></li>
+                                            <li><p style="text-align: left;">
+                                                <button type="submit" id="subscribe-btn" class="btn btn-info col-3" style="background-color: #fa4a2a; color: white; font-weight: bold; border: 1px solid #fa4a2a; text-align: center; display: flex; justify-content: center; align-items: center;">
+                                                    Абонирай ме!
+                                                </button>
+                                            </p></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom-wrap footer-bottom-wrap-v1" style="text-align: center; font-weight: bold; color: black;">
+            <div class="footer-bottom-wrap footer-bottom-wrap-v1"
+                 style="text-align: center; font-weight: bold; color: black;">
                 <div class="container">
                     <div class="d-flex justify-content-center">
                         <div class="footer-copyright">
                             &copy; VillageLife - Всички права запазени. Разработка -
-                            <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;">Общи условия</a>
+                            <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;">Общи
+                                условия</a>
                         </div>
                     </div>
                 </div>
@@ -121,7 +143,6 @@
         </footer>
     </div>
 </div>
-
 
 </body>
 </html>

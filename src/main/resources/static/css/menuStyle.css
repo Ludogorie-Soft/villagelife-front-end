@@ -29,44 +29,147 @@
             margin-bottom: 20px;
         }
 
-        footer {
+
+
+        #footer {
             padding: 20px;
-            text-align: left;
         }
 
-        footer p {
+        .footer-wrap {
+            color: #333;
+        }
+
+        .footer-top-wrap {
+            padding: 10px 0;
+        }
+
+        .footer-widget {
             margin-bottom: 10px;
         }
 
-        .footer-text {
-            float: right;
-            font-size: 14px;
-            margin-top: -20px;
-            color: #96c930;
-        }
 
-        .subscription {
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-
-        .subscription,
-        .rights {
+        .widget-about-site {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .subscription p,
-        .rights p {
+        .widget-about-site p {
+            color: #96c930;
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+
+        #media_image-2 {
+            align-self: flex-start;
+            margin-top: 25px;
+        }
+
+
+        .contact-list li {
+            margin-bottom: 10px;
+        }
+
+        .contact-list li i {
+          font-size: 18px; /* Размер на иконите */
+          vertical-align: middle; /* Центриране на иконите спрямо текста */
+          margin-right: 5px; /* Разстояние между иконите и текста */
+        }
+
+
+        .footer-social .web-facebook-icon {
+             color: #96c930;
+             font-size: 2rem;
+         }
+
+        .footer-social .web-instagram-icon {
+             color: #96c930;
+             font-size: 2rem;
+        }
+
+        .contact-list a {
             color: #96c930;
         }
 
-        .rights {
-            margin-top: 20px;
+        .footer-social {
+            margin-right: 10px;
         }
 
-        .footer-bottom-wrap {
-          text-align: center;
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
+
+        #subscribe-btn {
+            background-color: #fa4a2a;
+            color: white;
+            font-weight: bold;
+            border: 1px solid #fa4a2a;
+            border-radius: 5px;
+        }
+
+        .footer-widget.widget-about-site,
+        .footer-widget.widget-contact-us,
+        .widget_text.footer-widget {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .footer-widget.widget-about-site p,
+        .footer-widget.widget-contact-us h2.widget-title,
+        .widget_text.footer-widget p {
+            display: inline;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+
+        .footer-widget .widget-content a,
+        .footer-widget .widget-content span {
+          text-decoration: none;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
