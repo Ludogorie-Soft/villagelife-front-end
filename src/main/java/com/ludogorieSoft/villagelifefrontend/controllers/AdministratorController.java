@@ -1,11 +1,11 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.AdminClient;
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.response.VillageResponse;
-import com.ludogoriesoft.villagelifefrontend.enums.Role;
-import com.ludogoriesoft.villagelifefrontend.services.AdminService;
+import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
+import com.ludogorieSoft.villagelifefrontend.enums.Role;
+import com.ludogorieSoft.villagelifefrontend.services.AdminService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.time.LocalDateTime.now;
 
 
 @Controller
@@ -57,7 +58,7 @@ public class AdministratorController {
         if(bindingResult.hasErrors()){
             return "admin_templates/update_admin";
         }
-        administratorRequest.setCreatedAt(LocalDateTime.now());
+        administratorRequest.setCreatedAt(now());
         administratorRequest.setRole(Role.ADMIN);
 
         String token2 = (String) session.getAttribute(SESSION_NAME);

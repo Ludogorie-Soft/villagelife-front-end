@@ -118,14 +118,14 @@ footer p {
                     <thead>
                     <tr>
                         <th></th>
-                        <th th:each="distance : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}"
+                        <th th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}"
                             th:text="${distance.name}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="object : ${objectsAroundVillage}">
                         <td th:text="${object.type}"></td>
-                        <td th:each="distance1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Distance).values()}">
+                        <td th:each="distance1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
                             <div class="radio-wrapper">
                                 <input type="radio" th:id="${'distance-' + object.id}"
                                        th:name="objectVillageDTOS[__${object.id}__].distance"
@@ -186,14 +186,14 @@ footer p {
                     <thead>
                     <tr>
                         <th></th>
-                        <th th:each="consent : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}"
+                        <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                             th:text="${consent.name}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
                         <td th:text="${livingCondition.livingConditionName}"></td>
-                        <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
+                        <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
                                 <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                        th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
@@ -216,14 +216,14 @@ footer p {
                     <thead>
                     <tr>
                         <th></th>
-                        <th th:each="consent : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}"
+                        <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                             th:text="${consent.name}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
                         <td th:text="${livingCondition.livingConditionName}"></td>
-                        <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
+                        <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
                                 <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                        th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
@@ -253,7 +253,7 @@ footer p {
                     Според Вас, каква част от жителите на селото са хора до 50 години?
                     <span class="text-danger">*</span>
                 </p>
-                <div th:each="residents : ${T(com.ludogoriesoft.villagelifefrontend.enums.Residents).values()}"
+                <div th:each="residents : ${T(com.ludogorieSoft.villagelifefrontend.enums.Residents).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'residents-' + residents}"
                            th:name="populationDTO.residents"
@@ -269,7 +269,7 @@ footer p {
                     Какъв е броят на децата (до 14г.) в селото според Вас?
                     <span class="text-danger">*</span>
                 </p>
-                <div th:each="children : ${T(com.ludogoriesoft.villagelifefrontend.enums.Children).values()}"
+                <div th:each="children : ${T(com.ludogorieSoft.villagelifefrontend.enums.Children).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'children-' + children}"
                            th:name="populationDTO.children"
@@ -285,7 +285,7 @@ footer p {
                     В селото живеят ли чужденци?
                     <span class="text-danger">*</span>
                 </p>
-                <div th:each="foreigners : ${T(com.ludogoriesoft.villagelifefrontend.enums.Foreigners).values()}"
+                <div th:each="foreigners : ${T(com.ludogorieSoft.villagelifefrontend.enums.Foreigners).values()}"
                      class="radio-wrapper">
                     <input type="radio" th:id="${'foreigners-' + foreigners}"
                            th:name="populationDTO.foreigners"
@@ -323,14 +323,14 @@ footer p {
                     <thead>
                     <tr>
                         <th></th>
-                        <th th:each="consent : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}"
+                        <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                             th:text="${consent.name}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="populatedAssertion : ${populatedAssertions}">
                         <td th:text="${populatedAssertion.populatedAssertionName}"></td>
-                        <td th:each="consent1 : ${T(com.ludogoriesoft.villagelifefrontend.enums.Consents).values()}">
+                        <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                             <div class="radio-wrapper">
                                 <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
                                        th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"

@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.exceptions;
+package com.ludogorieSoft.villagelifefrontend.exceptions;
 
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FeignException.class)
-    public String handleFeignException(FeignException ex, RedirectAttributes redirectAttributes) {
+    public String handleFeignException(FeignException ex, RedirectAttributes redirectAttributes,Model model) {
         String redirecting = "redirect:/auth/login";
         String message = "message";
         if (ex.status() == HttpStatus.FORBIDDEN.value()) {
@@ -38,8 +38,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             redirectAttributes.addFlashAttribute(message, "You have to sign in!");
             return redirecting;
         } else {
-            redirectAttributes.addFlashAttribute(message, "Something went wrong! Please try again!");
-            return redirecting;
+            model.addAttribute("error", "Something went wrong! Please try again!");
+            return  "redirect:/villages/home-page"; // TODO: 13.7.2023 г. view form to handle the message
         }
     }
 

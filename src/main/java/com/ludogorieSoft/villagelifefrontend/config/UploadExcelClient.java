@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

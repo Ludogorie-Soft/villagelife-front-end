@@ -1,8 +1,8 @@
-package com.ludogoriesoft.villagelifefrontend.auth;
+package com.ludogorieSoft.villagelifefrontend.auth;
 
-import com.ludogoriesoft.villagelifefrontend.dtos.request.AuthenticationRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.response.AuthenticationResponce;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
