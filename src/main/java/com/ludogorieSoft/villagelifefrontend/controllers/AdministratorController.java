@@ -18,8 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
+
+import static java.time.LocalDateTime.now;
 
 
 @Controller
@@ -57,7 +58,7 @@ public class AdministratorController {
         if(bindingResult.hasErrors()){
             return "admin_templates/update_admin";
         }
-        administratorRequest.setCreatedAt(LocalDateTime.now());
+        administratorRequest.setCreatedAt(now());
         administratorRequest.setRole(Role.ADMIN);
 
         String token2 = (String) session.getAttribute(SESSION_NAME);

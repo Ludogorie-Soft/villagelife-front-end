@@ -58,7 +58,7 @@
                 <tr align="center">
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Population</th>
+                    <th>Region</th>
                     <th>Date upload</th>
                     <th>Status</th>
                     <th>Administrator name</th>
@@ -72,7 +72,7 @@
                 <tr align="village" th:each="village : ${villages}">
                     <td th:text="${village.id}"></td>
                     <td th:text="${village.name}"></td>
-                    <td th:text="${village.population}"></td>
+                    <td th:text="${village.region.regionName}"></td>
                     <td th:text="${village.dateUpload}"></td>
                     <td th:text="${village.status}"></td>
                     <td th:text="${village.admin.fullName}"></td>
