@@ -41,14 +41,6 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
-    //@GetMapping("/home-page")
-    //public String homePage(Model model) {
-    //    List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-    //    model.addAttribute("regions", regionDTOS);
-    //    List<VillageImageResponse> villageImageResponses = villageImageClient.getAllVillageImageResponses().getBody();
-    //    model.addAttribute("villageImageResponses", villageImageResponses);
-    //    return "HomePage";
-    //}
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
