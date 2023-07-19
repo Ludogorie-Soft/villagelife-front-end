@@ -128,23 +128,10 @@ footer p {
 }
 
 .village-item {
-  flex-basis: calc(33.33% - 20px);
   margin: 10px;
   text-align: center;
-
-   display: grid;
   place-items: center;
 }
-.village-item {
-  /* останалите стилове */
-  transition: background-color 0.3s ease;
-}
-
-.village-item:hover {
-  background-color: #96c930;
-  color: white;
-}
-
 
     .search-field {
         width: 80%;
@@ -163,40 +150,60 @@ footer p {
     .village-container-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between; /* За да покажете по 2 и 3 села на ред */-->
         justify-content: flex-start;
 
     }
 
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(20% - 10px); /* За да покажете по 2 села на ред */-->
-<!--        margin-right: 20px;-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(33.33% - 10px); /* За да покажете по 3 села на ред */-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-<!--    .village-container-grid .village-item {-->
-<!--        width: calc(20% - 20px); /* За да покажете по 2 села на ред */-->
-<!--        margin-right: 20px;-->
-<!--        margin-bottom: 20px;-->
-<!--    }-->
-
-    .village-container-grid .village-item {
-        width: calc(20% - 32px); /* Променете стойността на width */
-        margin-bottom: 20px;
+    h6 {
+        color: black;
+        transition: color 0.2s ease;
     }
 
-    .village-container-list .village-item {
-        width: 100%; /* За да покажете по едно село на ред */
-        margin-bottom: 20px;
+    h6:hover {
+        color: #96c930;
     }
 
+    .card-body a {
+        color: black;
+        text-decoration: none;
+     }
 
+    .card-body .btn-info,
+    .card-body .btn-info:hover,
+    .card-body .btn-info:focus,
+    .card-body .btn-info:active {
+        background-color: #96c930 !important;
+        border: none !important;
+        color: white !important;
+        float: right;
+        outline: none !important;
+        box-shadow: none;
+    }
 
+    .card {
+        margin: 10px;
+    }
+
+    .card:hover {
+        box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    }
+
+    .village-container-grid .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+    .village-container-list .image-container {
+        position: relative;
+        overflow: hidden;
+        max-height: 300px;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        overflow: hidden;
+    }
 
     </style>
 
@@ -257,33 +264,34 @@ footer p {
 
 <p th:if="${message}" th:text="${message}" style="font-style: italic; color: #96c930;"></p>
 
+
 <div class="village-grid">
-    <div class="village-toggle">
-        <a href="#" onclick="toggleVillageView()">
-            <i class="fa fa-th-list"></i>
-        </a>
-    </div>
-    <div id="village-container" class="village-container-grid">
-        <div th:each="village : ${villages}" class="village-item">
-            <div>
-                <a th:href="@{'/villages/show/' + village.id}">
-                    <!--                    <i class="fas fa-eye"></i>-->
-                </a>
-            </div>
-            <div>
-                <h3 th:text="${village.id}"></h3>
-                <a th:href="@{'/villages/show/'} + ${village.id}">
 
-                    <!--                    <a th:href="@{'/villages/show/'}+ ${village.id}"> <h3  th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3> </a>-->
-
-                    <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
-                    <!--                    <h3 th:text="${village.name}" style="color: #96c930;"></h3>-->
-                    <h3 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"
-                        style="color: #96c930;"></h3>
-
-                </a>
-            </div>
+    <div class="row col-12">
+        <div class="village-toggle">
+            <a href="#" onclick="toggleVillageView()">
+                <i class="fa fa-th-list"></i>
+            </a>
         </div>
+    <div id="village-container" class="village-container-grid">
+
+            <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
+                <div class="row">
+                    <div class="image-container col-6">
+                        <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                    </div>
+                    <div class="card-body col-6">
+                        <a th:href="@{'/villages/show/' + ${village.id}}">
+                            <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
+                            <h6 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"></h6>
+                            <br>
+                            <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info">Още</a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+    </div>
     </div>
 </div>
 
@@ -324,11 +332,6 @@ footer p {
     clearButton.addEventListener("mouseout", function () {
         clearButton.style.backgroundColor = "";
     });
-
-
-
-
-
 </script>
 
 <script>
@@ -341,62 +344,35 @@ footer p {
     clearButton.addEventListener("mouseout", function () {
         clearButton.style.backgroundColor = "#96c930";
     });
-
-
-
-
-
 </script>
+<script>
+function toggleVillageView() {
+var villageContainer = document.getElementById("village-container");
+var villageToggle = document.querySelector(".village-toggle a i");
 
-<script type="text/javascript">
-    function toggleVillageView() {
-        var villageContainer = document.getElementById("village-container");
-        var villageToggle = document.querySelector(".village-toggle a i");
+villageContainer.classList.toggle("village-container-list");
 
-        if (villageContainer.classList.contains("village-container-grid")) {
-            villageContainer.classList.remove("village-container-grid");
-            villageContainer.classList.add("village-container-list");
-            villageToggle.classList.remove("fa-th-list");
-            villageToggle.classList.add("fa-th");
-        } else {
-            villageContainer.classList.remove("village-container-list");
-            villageContainer.classList.add("village-container-grid");
-            villageToggle.classList.remove("fa-th");
-            villageToggle.classList.add("fa-th-list");
-        }
-    }
+var imageContainers = villageContainer.querySelectorAll(".image-container");
+var cardBodies = villageContainer.querySelectorAll(".card-body");
 
+imageContainers.forEach(function (container) {
+container.classList.toggle("col-6");
+container.classList.toggle("col-md-12"); // Add this line
+});
 
+cardBodies.forEach(function (body) {
+body.classList.toggle("col-6");
+body.classList.toggle("col-md-12"); // Add this line
+});
 
-
-
-
-
-
-
-
-
-
-
+villageToggle.classList.toggle("fa-th");
+villageToggle.classList.toggle("fa-th-list");
+}
 </script>
 <script type="text/javascript">
     function clearFilter(){
     window.location = '/filter/all';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 <script type="text/javascript">
@@ -404,18 +380,6 @@ footer p {
         var modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
         modal.show();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 <script type="text/javascript">
   fetch('/filter/advancedSearchModalForm')
@@ -427,13 +391,6 @@ footer p {
     .catch(error => {
       console.error('Грешка при зареждане на страницата с модалния прозорец:', error);
     });
-
-
-
-
-
-
-
 </script>
 
 

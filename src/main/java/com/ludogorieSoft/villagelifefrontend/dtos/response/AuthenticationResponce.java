@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.dtos.response;
+package com.ludogorieSoft.villagelifefrontend.dtos.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

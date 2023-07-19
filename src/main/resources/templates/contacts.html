@@ -124,7 +124,7 @@ footer p {
                         Име
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="name" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" required>
+                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" required>
                 </section>
 
                 <section>
@@ -132,7 +132,7 @@ footer p {
                         Email
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
+                    <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
                 </section>
 
                 <section>
@@ -140,15 +140,13 @@ footer p {
                         Съобщение
                         <span class="text-danger">*</span>
                     </label>
-                    <textarea id="message" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
+                    <textarea id="message" name="userMessage" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
                 </section>
 
                 <section>
                     <button type="submit" id="submit-btn" class="btn btn-info col-12">Изпрати</button>
                 </section>
             </form>
-            <p id="success-message" style="display: none; color: green;">Съобщението беше изпратено успешно!</p>
-            <p id="error-message" style="display: none; color: red;">Грешка! Моля опитайте отново.</p>
 
         </div>
         <div class="col-4">
@@ -168,64 +166,33 @@ footer p {
     </div>
 
     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d93873.70657875584!2d23.296352000000002!3d42.670820000000006!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa84e651414831%3A0x393ba4fa1c2653bf!2sGotse%20Delchev%20Blvd.%20100%2C%201404%2C%201404%20Motopista%2C%20Sofia%2C%20Bulgaria!5e0!3m2!1sen!2sus!4v1687643962068!5m2!1sen!2sus" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="col-12"></iframe>
-<footer>
-    <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
+    <footer>
+        <div class="image-container">
+            <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
+        </div>
+        <div class="contact-info">
+            <p>Свържи се с нас</p>
+            <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
+                    href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
+                    target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
+            <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
+                                                                            style="color: #96c930;">+359 (0) 888 393 339</a>
+            </p>
+            <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
+                                                                                 style="color: #96c930;">info@villagelife.bg</a>
+            </p>
+        </div>
+    </footer>
+    <div class="subscription">
+        <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
+        <label>
+            <input type="email" placeholder="Въведи електронна поща" >
+        </label>
+        <button style="color: #96c930;">Абонирай ме</button>
     </div>
-    <div class="contact-info">
-        <p>Свържи се с нас</p>
-        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
-                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
-                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
-        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
-                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
-        </p>
-        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
-                                                                             style="color: #96c930;">info@villagelife.bg</a>
-        </p>
+    <div class="rights">
+        <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
     </div>
-</footer>
-<div class="subscription">
-    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <label>
-        <input type="email" placeholder="Въведи електронна поща" >
-    </label>
-    <button style="color: #96c930;">Абонирай ме</button>
 </div>
-<div class="rights">
-    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
-</div>
-<script>
-  $(document).ready(function() {
-    $('#contact-form').submit(function(event) {
-      event.preventDefault(); // Prevent the form from submitting normally
-
-      // Store form element reference
-      var $form = $(this);
-
-      // Perform an AJAX post request to the form's action
-      $.ajax({
-        type: 'POST',
-        url: $form.attr('action'),
-        data: $form.serialize(),
-        success: function(response) {
-          // Display success message
-          $('#success-message').show();
-          $form[0].reset(); // Clear the form
-        },
-        error: function() {
-          // Display error message
-          $('#error-message').show();
-          $('#success-message').hide(); // Hide the success message
-        }
-      });
-    });
-
-    $('#submit-btn').click(function() {
-      $('#success-message').hide(); // Hide the success message
-      $('#error-message').hide(); // Hide the error message
-    });
-  });
-</script>
 </body>
 </html>

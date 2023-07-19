@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.advanced;
+package com.ludogorieSoft.villagelifefrontend.advanced;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

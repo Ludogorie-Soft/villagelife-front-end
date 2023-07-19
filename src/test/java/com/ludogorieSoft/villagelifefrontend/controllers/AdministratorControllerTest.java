@@ -1,9 +1,9 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.AdminClient;
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
-import com.ludogoriesoft.villagelifefrontend.enums.Role;
+import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +72,7 @@ class AdministratorControllerTest {
 
         RedirectAttributes redirectAttributes = mock(RedirectAttributes.class);
 
-        String viewName = controller.updateAdmin(1L, administratorRequest, redirectAttributes, bindingResult, session);
+        String viewName = controller.updateAdmin(1L, administratorRequest, bindingResult, redirectAttributes, session);
 
         assertEquals("redirect:/admins", viewName);
         verify(bindingResult, times(1)).hasErrors();

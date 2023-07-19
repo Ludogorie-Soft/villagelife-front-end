@@ -1,7 +1,7 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.config.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,8 +45,8 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        List<VillageImageResponse> villageImageResponses = villageImageClient.getAllVillageImageResponses().getBody();
-        model.addAttribute("villageImageResponses", villageImageResponses);
+        List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
+        model.addAttribute("villages", villageDTOS);
         return "HomePage";
     }
     @GetMapping("/show/{id}")
