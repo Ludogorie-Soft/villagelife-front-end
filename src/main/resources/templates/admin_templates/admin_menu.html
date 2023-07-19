@@ -69,14 +69,14 @@
                 </thead>
 
                 <tbody>
-                <tr align="village" th:each="village : ${villages}">
+                <tr align="center" th:each="village : ${villages}">
                     <td th:text="${village.id}"></td>
                     <td th:text="${village.name}"></td>
                     <td th:text="${village.region.regionName}"></td>
                     <td th:text="${village.dateUpload}"></td>
                     <td th:text="${village.status}"></td>
                     <td th:if="${village.admin != null}" th:text="${village.admin.fullName}"></td>
-                    <td th:if="${village.admin == null}">No name</td>
+                    <td th:if="${village.admin == null}"> ****** </td>
                     <td th:text="${village.dateApproved}"></td>
                 <td>
                     <!--                        <form th:action="@{/admins/edit/{adminId}(adminId=${admin.id})}" method="get">-->

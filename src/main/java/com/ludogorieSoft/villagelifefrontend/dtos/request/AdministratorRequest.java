@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.dtos.request;
+package com.ludogorieSoft.villagelifefrontend.dtos.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

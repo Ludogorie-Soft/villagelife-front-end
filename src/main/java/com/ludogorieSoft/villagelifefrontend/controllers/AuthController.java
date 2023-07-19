@@ -4,7 +4,6 @@ import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +28,7 @@ public class AuthController {
     private static final String AUTH_HEATHER = "Bearer ";
     @GetMapping("/register")
     public String createAdministrator(Model model) {
-        model.addAttribute("admins", new AdministratorRequest());
+        model.addAttribute("admins", new com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest());
         model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/register_form";
     }

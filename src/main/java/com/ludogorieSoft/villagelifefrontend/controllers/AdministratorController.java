@@ -33,6 +33,7 @@ public class AdministratorController {
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEATHER = "Bearer ";
     private static final String ADMINS = "admins";
+    private static final String MESSAGE = "message";
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -44,19 +45,22 @@ public class AdministratorController {
     }
 
     @GetMapping("/edit/{adminId}")
-    public String editAdmin(@PathVariable(name = "adminId") Long adminId,Model model, HttpSession session) {
+    public String editAdmin(@PathVariable(name = "adminId") Long adminId, Model model, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId,AUTH_HEATHER + token2);
+        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId, AUTH_HEATHER + token2);
         AdministratorDTO administratorDTO = adminById.getBody();
         model.addAttribute(ADMINS, administratorDTO);
         model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/update_admin";
     }
+
     @PostMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id") Long adminId,@Valid @ModelAttribute("admins")AdministratorRequest administratorRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                               HttpSession session, Model model
+    public String updateAdmin(@PathVariable("id") Long adminId,
+                              @Valid @ModelAttribute("admins") AdministratorRequest administratorRequest,
+                              BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                              HttpSession session, Model model
     ) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("roles", Role.ADMIN);
             return "admin_templates/update_admin";
         }
@@ -65,40 +69,42 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEATHER + token2);
 
-        redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully updated !!!");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId
+                + " successfully updated !!!");
         return "redirect:/admins";
     }
 
     @PostMapping("/delete/{adminId}")
-    public ModelAndView deleteAdmin(@PathVariable(name = "adminId") Long adminId, RedirectAttributes redirectAttributes,HttpSession session){
+    public ModelAndView deleteAdmin(@PathVariable(name = "adminId") Long adminId,
+                                    RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminClient.deleteAdministratorById(adminId,AUTH_HEATHER + token2);
-        redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully deleted !!!");
+        adminClient.deleteAdministratorById(adminId, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId + " successfully deleted !!!");
         return new ModelAndView("redirect:/admins");
 
     }
+
     @GetMapping("/village")
-    public String getAllVillages(Model model,HttpSession session){
+    public String getAllVillages(Model model, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageResponse> villages = adminClient.getAllVillages(AUTH_HEATHER + token2);
-        model.addAttribute(ADMINS,adminService.extractUsername(token2));
-        model.addAttribute("villages",villages );
+        model.addAttribute(ADMINS, adminService.extractUsername(token2));
+        model.addAttribute("villages", villages);
         return "admin_templates/admin_menu";
     }
+
     @GetMapping("/logout")
     public ModelAndView logoutButton(HttpSession session) {
         session.removeAttribute(SESSION_NAME);
         return new ModelAndView("redirect:/auth/login");
     }
+
     @PostMapping("/village-delete/{villageId}")
-    public ModelAndView deleteVillage(@PathVariable(name = "villageId") Long villageId, RedirectAttributes redirectAttributes,HttpSession session){
-        System.out.println("delete village 1 ");
-
+    public ModelAndView deleteVillage(@PathVariable(name = "villageId") Long villageId,
+                                      RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminClient.deleteVillageById(villageId,AUTH_HEATHER + token2);
-        System.out.println("delete village 2 ");
-
-        redirectAttributes.addFlashAttribute("message", "Village with ID: " + villageId + " successfully deleted !!!");
-        return new ModelAndView("redirect:/admin_templates/admin_menu");
+        adminClient.deleteVillageById(villageId, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Village with ID: " + villageId + " successfully deleted !!!");
+        return new ModelAndView("redirect:/admins/village");
     }
 }
