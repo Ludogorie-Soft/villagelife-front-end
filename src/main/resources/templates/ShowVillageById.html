@@ -12,136 +12,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/menuStyle.css">
+    <link rel="stylesheet" href="/css/showVillageById.css">
+
 </head>
 
-<style>
-#menu {
-      padding: 10px;
-      float: right;
-    }
-
-    #menu a {
-      margin-right: 10px;
-      text-decoration: none;
-      color: #96c930;
-    }
-
-        i{
-color: #96c930;
-}
-.contact-info {
-  margin-bottom: 20px;
-}
-   footer {
-  background-color: #f2f2f2;
-  padding: 20px;
-  text-align: left;
-}
-
-footer p {
-  margin-bottom: 10px;
-}
-.footer-text {
-        float: right;
-        font-size: 14px;
-        margin-top: -20px;
-        color: #96c930;
-    }
-
-    .subscription {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-
-.subscription, .rights {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .subscription p, .rights p {
-        color: #96c930;
-    }
-
-    .rights {
-        margin-top: 20px;
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 50%;
-        margin: 0 auto;
-    }
-
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-    th {
-
-        color: black;
-    }
-     th {
-        font-weight: normal;
-    }
-    .table-heading {
-        text-align: center;
-    }
-    .table-spacing {
-        margin-bottom: 100px;
-    }
-
-     tr.header-row {
-        background-color: #96c930;
-    }
-    .centered-heading {
-        text-align: center;
-        font-size: 24px;
-    }
-
-    .table-container {
-        display: flex;
-        justify-content: center;
-    }
-
-    table {
-        width: 100%;
-        max-width: 600px;
-    }
-
-    th, td {
-        text-align: left;
-        width: 50%;
-    }
-
-    @media (min-width: 768px) {
-        th, td {
-            width: 25%;
-        }
-    }
-
-
-</style>
 <script>
     document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
 </script>
 
 
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;" src="">
 
-<div id="menu">
-    <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
-    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
-    <a href="/villages/partners"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a href="/villages/about-us"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
-    <a href="/villages/contacts"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
-</div>
+<div th:replace="fragments :: menu"></div>
 
 <br class="table-spacing">
 <table style="border-collapse: collapse; width: 100%;">
@@ -208,7 +92,10 @@ footer p {
     </tr>
     <tr>
         <th>Етнически състав:</th>
-        <td th:text="${ethnicity.ethnicityName}"></td>
+        <td>
+                <span th:each="ethnicityName : ${ethnicityNames}" th:text="${ethnicityName}"></span>
+
+        </td>
     </tr>
     </tbody>
 </table>
@@ -288,30 +175,7 @@ footer p {
     </tbody>
 </table>
 
-<br class="table-spacing">
-<footer>
-    <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
-    </div>
-    <div class="contact-info">
-        <p>Свържи се с нас</p>
-        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
-                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
-                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
-        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
-                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
-        </p>
-        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
-                                                                             style="color: #96c930;">info@villagelife.bg</a>
-        </p>
-    </div>
-</footer>
-<br class="table-spacing">
-
-<div class="rights">
-    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
-</div>
-
+<div th:replace="fragments :: footer"></div>
 
 </body>
 </html>

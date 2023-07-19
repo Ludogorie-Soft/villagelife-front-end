@@ -18,8 +18,9 @@ public interface VillageEthnicityClient {
 
     @GetMapping("/{id}")
      EthnicityVillageDTO getEthnicityVillageById(@PathVariable("id") Long id) ;
+
     @GetMapping("/village/{id}")
-     EthnicityVillageDTO getEthnicityVillageByVillageId(@PathVariable("id") Long id);
+    List<EthnicityVillageDTO> getVillageEthnicityByVillageId(@PathVariable("id") Long id);
     @PostMapping
      void createEthnicityVillage( @RequestBody EthnicityVillageDTO ethnicityVillageDTO);
 }

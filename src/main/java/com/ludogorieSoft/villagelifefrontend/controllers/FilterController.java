@@ -68,7 +68,8 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
-                villages = villageClient.getAllVillages();
+                villages = filterClient.getAllApprovedVillages();
+
             }
         }
         return villages;
