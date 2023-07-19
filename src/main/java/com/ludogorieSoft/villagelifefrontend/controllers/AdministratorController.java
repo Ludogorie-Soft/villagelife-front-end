@@ -69,8 +69,7 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEATHER + token2);
 
-        redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId
-                + " successfully updated !!!");
+        redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully updated !!!");
         return "redirect:/admins";
     }
 
