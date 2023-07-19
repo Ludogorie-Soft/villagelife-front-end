@@ -49,17 +49,18 @@ public class AdministratorController {
         ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId,AUTH_HEATHER + token2);
         AdministratorDTO administratorDTO = adminById.getBody();
         model.addAttribute(ADMINS, administratorDTO);
+        model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/update_admin";
     }
     @PostMapping("/update/{id}")
     public String updateAdmin(@PathVariable("id") Long adminId,@Valid @ModelAttribute("admins")AdministratorRequest administratorRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes,
-                               HttpSession session
+                               HttpSession session, Model model
     ) {
         if(bindingResult.hasErrors()){
+            model.addAttribute("roles", Role.ADMIN);
             return "admin_templates/update_admin";
         }
         administratorRequest.setCreatedAt(now());
-        administratorRequest.setRole(Role.ADMIN);
 
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEATHER + token2);
@@ -88,5 +89,16 @@ public class AdministratorController {
     public ModelAndView logoutButton(HttpSession session) {
         session.removeAttribute(SESSION_NAME);
         return new ModelAndView("redirect:/auth/login");
+    }
+    @PostMapping("/village-delete/{villageId}")
+    public ModelAndView deleteVillage(@PathVariable(name = "villageId") Long villageId, RedirectAttributes redirectAttributes,HttpSession session){
+        System.out.println("delete village 1 ");
+
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminClient.deleteVillageById(villageId,AUTH_HEATHER + token2);
+        System.out.println("delete village 2 ");
+
+        redirectAttributes.addFlashAttribute("message", "Village with ID: " + villageId + " successfully deleted !!!");
+        return new ModelAndView("redirect:/admin_templates/admin_menu");
     }
 }

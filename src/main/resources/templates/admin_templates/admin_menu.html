@@ -75,19 +75,20 @@
                     <td th:text="${village.region.regionName}"></td>
                     <td th:text="${village.dateUpload}"></td>
                     <td th:text="${village.status}"></td>
-                    <td th:text="${village.admin.fullName}"></td>
+                    <td th:if="${village.admin != null}" th:text="${village.admin.fullName}"></td>
+                    <td th:if="${village.admin == null}">No name</td>
                     <td th:text="${village.dateApproved}"></td>
-                    <td>
-                        <!--                        <form th:action="@{/admins/edit/{adminId}(adminId=${admin.id})}" method="get">-->
-                        <!--                            <input type="submit" name="change status" value="Change status" class="btn btn-success">-->
-                        <!--                        </form>-->
+                <td>
+                    <!--                        <form th:action="@{/admins/edit/{adminId}(adminId=${admin.id})}" method="get">-->
+                    <!--                            <input type="submit" name="change status" value="Change status" class="btn btn-success">-->
+                    <!--                        </form>-->
 
-                    </td>
-                    <td>
-                        <!--                        <form th:action="@{/admins/delete/{adminId}(adminId=${admin.id})}" method="post">-->
-                        <!--                            <input type="submit" name="delete" value="Delete" class="btn btn-danger">-->
-                        <!--                        </form>-->
-                    </td>
+                </td>
+                <td>
+                    <form th:action="@{/admins/village-delete/{villageId}(villageId=${village.id})}" method="post">
+                        <input type="submit" name="delete" value="Delete" class="btn btn-danger">
+                    </form>
+                </td>
 
                 </tr>
                 </tbody>

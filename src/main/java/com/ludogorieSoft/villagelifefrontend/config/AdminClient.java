@@ -35,4 +35,6 @@ public interface AdminClient {
 
     @GetMapping("village")
     public List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
+    @DeleteMapping("/village-delete/{villageId}")
+    public ResponseEntity<String> deleteVillageById(@PathVariable("villageId") Long villageId,@RequestHeader("Authorization") String token);
 }
