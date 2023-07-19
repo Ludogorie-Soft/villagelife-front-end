@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +26,6 @@ public class VillageDTO {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date dateUpload;
     private boolean status;
+    private List<String> images;
 
 }

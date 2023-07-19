@@ -1,7 +1,5 @@
 package com.ludogorieSoft.villagelifefrontend.models;
 
-
-
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 import com.ludogorieSoft.villagelifefrontend.enums.Foreigners;
 import com.ludogorieSoft.villagelifefrontend.enums.NumberOfPopulation;

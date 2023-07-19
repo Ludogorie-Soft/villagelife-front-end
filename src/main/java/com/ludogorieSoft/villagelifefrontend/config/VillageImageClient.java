@@ -1,6 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.VillageImageResponse;
+import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,5 +14,5 @@ public interface VillageImageClient {
     ResponseEntity<List<String>> getAllImagesForVillage(@PathVariable Long villageId);
 
     @GetMapping("/all")
-    ResponseEntity<List<VillageImageResponse>> getAllVillageImageResponses();
+    ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();
 }
