@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogoriesoft.villagelifefrontend.dtos.MessageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.MessageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

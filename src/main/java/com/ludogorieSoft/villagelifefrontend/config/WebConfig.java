@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

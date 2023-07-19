@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.models;
+package com.ludogorieSoft.villagelifefrontend.models;
 
-import com.ludogoriesoft.villagelifefrontend.enums.Role;
+import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.*;
 import java.time.LocalDateTime;
 

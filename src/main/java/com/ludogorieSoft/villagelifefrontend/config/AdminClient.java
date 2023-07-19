@@ -1,8 +1,8 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogoriesoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.request.AdministratorRequest;
-import com.ludogoriesoft.villagelifefrontend.dtos.response.VillageResponse;
+import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

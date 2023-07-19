@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.enums;
+package com.ludogorieSoft.villagelifefrontend.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

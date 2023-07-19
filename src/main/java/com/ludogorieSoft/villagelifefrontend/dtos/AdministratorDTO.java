@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.dtos;
+package com.ludogorieSoft.villagelifefrontend.dtos;
 
-import com.ludogoriesoft.villagelifefrontend.enums.Role;
+import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

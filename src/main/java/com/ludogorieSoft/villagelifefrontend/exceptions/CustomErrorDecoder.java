@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.exceptions;
+package com.ludogorieSoft.villagelifefrontend.exceptions;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;

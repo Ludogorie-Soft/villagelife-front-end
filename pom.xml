@@ -8,7 +8,7 @@
 		<version>2.7.12</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.ludogoriesoft</groupId>
+	<groupId>com.ludogorieSoft</groupId>
 	<artifactId>villagelife-front-end</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>villagelife-front-end</name>

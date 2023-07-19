@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.services;
+package com.ludogorieSoft.villagelifefrontend.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
