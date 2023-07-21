@@ -1,13 +1,11 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.advanced.AdvancedSearchForm;
-import com.ludogoriesoft.villagelifefrontend.advanced.AdvancedSearchFormValidator;
-import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.LivingConditionDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.ObjectAroundVillageDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.RegionDTO;
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
-import com.ludogoriesoft.villagelifefrontend.enums.Children;
+import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchForm;
+import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchFormValidator;
+import com.ludogorieSoft.villagelifefrontend.config.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.enums.Children;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +26,7 @@ public class FilterController {
     private LivingConditionClient livingConditionClient;
 
     private final RegionClient regionClient;
+    private final VillageImageClient villageImageClient;
 
     private final VillageClient villageClient;
 
@@ -50,7 +49,6 @@ public class FilterController {
 
 
         displaySearchResultsMessage(region, keyword, model, resultCount);
-
         return "SearchingForm";
     }
 
@@ -68,8 +66,10 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
-                villages = filterClient.getAllApprovedVillages();
 
+//                 villages = filterClient.getAllApprovedVillages();
+
+                villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
             }
         }
         return villages;

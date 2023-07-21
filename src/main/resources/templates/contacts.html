@@ -36,7 +36,7 @@
                         Име
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="name" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" required>
+                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" required>
                 </section>
 
                 <section>
@@ -44,7 +44,7 @@
                         Email
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
+                    <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
                 </section>
 
                 <section>
@@ -52,15 +52,13 @@
                         Съобщение
                         <span class="text-danger">*</span>
                     </label>
-                    <textarea id="message" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
+                    <textarea id="message" name="userMessage" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
                 </section>
 
                 <section>
                     <button type="submit" id="submit-btn" class="btn btn-info col-12">Изпрати</button>
                 </section>
             </form>
-            <p id="success-message" style="display: none; color: green;">Съобщението беше изпратено успешно!</p>
-            <p id="error-message" style="display: none; color: red;">Грешка! Моля опитайте отново.</p>
 
         </div>
         <div class="col-4">
@@ -89,6 +87,7 @@
 <div th:replace="fragments :: footer"></div>
 
 <script src="/js/contactFormSubmit.js"></script>
+
 
 </body>
 </html>

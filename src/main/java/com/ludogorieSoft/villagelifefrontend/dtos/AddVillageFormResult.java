@@ -1,9 +1,8 @@
-package com.ludogoriesoft.villagelifefrontend.dtos;
+package com.ludogorieSoft.villagelifefrontend.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

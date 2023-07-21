@@ -1,7 +1,7 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.GroundCategoryClient;
-import com.ludogoriesoft.villagelifefrontend.dtos.GroundCategoryDTO;
+import com.ludogorieSoft.villagelifefrontend.config.GroundCategoryClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.GroundCategoryDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

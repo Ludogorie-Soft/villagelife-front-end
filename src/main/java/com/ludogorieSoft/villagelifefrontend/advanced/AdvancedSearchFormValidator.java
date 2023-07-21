@@ -1,8 +1,7 @@
-package com.ludogoriesoft.villagelifefrontend.advanced;
+package com.ludogorieSoft.villagelifefrontend.advanced;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.util.List;

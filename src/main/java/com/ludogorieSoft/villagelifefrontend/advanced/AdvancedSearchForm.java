@@ -1,4 +1,4 @@
-package com.ludogoriesoft.villagelifefrontend.advanced;
+package com.ludogorieSoft.villagelifefrontend.advanced;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

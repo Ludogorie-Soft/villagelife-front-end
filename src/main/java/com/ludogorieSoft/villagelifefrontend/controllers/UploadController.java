@@ -1,47 +1,65 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
-import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.*;
-import com.ludogoriesoft.villagelifefrontend.enums.*;
+package com.ludogorieSoft.villagelifefrontend.controllers;
+
+import com.ludogorieSoft.villagelifefrontend.config.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.enums.*;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
+
 @Controller
 @RequestMapping("/uploadController")
 @AllArgsConstructor
 public class UploadController {
-    private final RegionClient regionClient;
+
+    private final UploadExcelClient uploadExcelClient;
     private final VillageClient villageClient;
+    private final PopulationClient populationClient;
+    private final RegionClient regionClient;
     private final ObjectVillageClient objectVillageClient;
     private final VillageLivingConditionClient villageLivingConditionClient;
     private final GroundCategoryClient groundCategoryClient;
     private final VillageGroundCategoryClient villageGroundCategoryClient;
-    private final VillageAnswerQuestionClient villageAnswerQuestionClient;
     private final QuestionClient questionClient;
-    private final PopulationClient populationClient;
+    private final VillageAnswerQuestionClient villageAnswerQuestionClient;
     private final EthnicityClient ethnicityClient;
     private final VillageEthnicityClient villageEthnicityClient;
     private final PopulatedAssertionClient populatedAssertionClient;
     private final VillagePopulationAssertionClient villagePopulationAssertionClient;
 
 
-    @GetMapping
+    @GetMapping()
     public String uploadForm(Model model) {
         model.addAttribute("uploadSuccess", false);
         model.addAttribute("uploadError", false);
         return "upload";
     }
+
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String uploadFile2(@RequestParam("file") MultipartFile file, Model model) {
+//        long addedVillageNumber = uploadExcelClient.uploadFile(file);
+//        if (addedVillageNumber > 0) {
+//            model.addAttribute("addedVillageNumber", addedVillageNumber);
+//            model.addAttribute("uploadSuccess", true);
+//            model.addAttribute("uploadError", false);
+//        } else {
+//            model.addAttribute("uploadSuccess", false);
+//            model.addAttribute("uploadError", true);
+//        }
+//        return "upload";
+//    }
+
     @PostMapping()
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
@@ -63,10 +81,9 @@ public class UploadController {
             VillagePopulationAssertionDTO villagePopulationAssertion = new VillagePopulationAssertionDTO();
 
 
-
-            for (int rowIndex = 1; rowIndex <=771 ; rowIndex++) {
+            for (int rowIndex = 1; rowIndex <= 771; rowIndex++) {
                 Long newVillageID = villageClient.createVillageWithNullValues();
-                Long newPopulationID=populationClient.createPopulationWhitNullValues();
+                Long newPopulationID = populationClient.createPopulationWhitNullValues();
                 Row row = sheet.getRow(rowIndex);
                 int lastCellNum = row.getLastCellNum();
                 for (int i = 0; i < lastCellNum; i++) {
@@ -199,7 +216,7 @@ public class UploadController {
                                 }
                             }
                             if (!populationFound) {
-                                if (valueNumberOfPopulation.equalsIgnoreCase("над 2000 човека")){
+                                if (valueNumberOfPopulation.equalsIgnoreCase("над 2000 човека")) {
                                     village.setPopulationCount(2000);
                                 } else if (valueNumberOfPopulation.equalsIgnoreCase("до 10 човека")) {
                                     village.setPopulationCount(10);
@@ -230,7 +247,7 @@ public class UploadController {
                                 }
                             }
 
-                           populationClient.updatePopulation(newPopulationID,population);
+                            populationClient.updatePopulation(newPopulationID, population);
                             population.setId(newPopulationID);
                             village.setPopulationDTO(population);
 
@@ -301,7 +318,7 @@ public class UploadController {
                         }
                     }
                 }
-                villageClient.updateVillage(newVillageID,village);
+                villageClient.updateVillage(newVillageID, village);
             }
             model.addAttribute("objectVillage", objectVillage);
             model.addAttribute("village", village);
@@ -315,6 +332,5 @@ public class UploadController {
 
         return "upload";
     }
-
-
 }
+

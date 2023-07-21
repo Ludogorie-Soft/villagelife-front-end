@@ -10,11 +10,179 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <title>Начало - VillageLife</title>
+    <title>Начало</title>
+    <style>
+    #menu {
+      padding: 10px;
+      float: right;
+    }
 
     <link rel="stylesheet" href="/css/homePage.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
 
     <script src="/js/homePageVideos.js"></script>
+
+
+    i{
+        color: #96c930;
+     }
+    .contact-info {
+        margin-bottom: 20px;
+    }
+    footer {
+        background-color: #f2f2f2;
+        padding: 20px;
+        margin: 75px 0 0 0;
+        text-align: left;
+    }
+
+    footer p {
+        margin-bottom: 10px;
+    }
+    .footer-text {
+        float: right;
+        font-size: 14px;
+        margin-top: -20px;
+        color: #96c930;
+    }
+
+    .subscription {
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+    .subscription, .rights {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .subscription p, .rights p {
+        color: #96c930;
+    }
+
+    .rights {
+        margin-top: 20px;
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* За съотношение на страните 16:9 (използвайте друго съотношение ако е необходимо) */
+        overflow: hidden;
+    }
+
+    .fullscreen-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .video-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .search-bar input[type="text"] {
+        width: 70%;
+        padding: 10px;
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .search-bar button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    .container{
+        margin: 25px 10px;
+    }
+    .card{
+        margin: 10px;
+    }
+    .card:hover{
+        box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    }
+    .card-body a{
+        color: black;
+        text-decoration: none;
+    }
+    .btn-info,
+    .btn-info:hover,
+    .btn-info:focus,
+    .btn-info:active {
+        background-color: #96c930;
+        border: none;
+        color: white !important;
+        float: right;
+        outline: none;
+        box-shadow: none;
+    }
+    .village {
+      display: none;
+    }
+    .shown-villages-count{
+        float: right;
+    }
+    #load-more {
+      color: #96c930;
+      border-color: #96c930;
+    }
+
+    #load-more:hover {
+      background-color: #96c930;
+      color: #fff;
+    }
+    .card-actions{
+        margin: 20px;
+    }
+    .image-container {
+        position: relative;
+        overflow: hidden;
+        max-height: 150px;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    h6 {
+        color: black;
+        transition: color 0.2s ease;
+    }
+
+    h6:hover {
+        color: #96c930;
+    }
+
+</style>
+    <script>
+  var video1 = document.getElementById("video1");
+  var video2 = document.getElementById("video2");
+
+  video1.addEventListener("ended", function() {
+    video2.play();
+  });
+</script>
 
 <body>
 
@@ -57,16 +225,98 @@
             село за заселване.</p>
     </div>
 </div>
+
 <div class="village-grid">
     <div th:each="village : ${villages}" class="village-item">
         <a th:href="@{'/village/show/' + village.id}"></a>
         <!--        <img th:src="${village.image}" alt="village image">-->
         <a th:href="@{'/villages/show/'}+ ${village.id}"><h3
                 th:text="'село '+${village.name} + ' област ' + ${village.region}" style="color: #96c930;"></h3></a>
+
+<div class="container">
+    <div class="row col-12">
+        <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
+            <div class="card">
+
+                <div class="image-container">
+                    <img th:each="imageSrc, iterStat : ${village.images}" th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                </div>
+
+                <div class="card-body">
+                    <a th:href="@{/villages/show/{id}(id=${village.id})}">
+                        <h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6>
+                    </a>
+                    <br>
+                    <a th:href="@{/villages/show/{id}(id=${village.id})}" class="btn btn-info">Още</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-actions">
+        <span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span><br>
+        <div class="text-center"><button id="load-more" class="btn btn-outline-success">Покажи още</button></div>
+    </div>
+
+
+</div>
+<footer>
+    <div class="image-container">
+        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
+    </div>
+    <div class="contact-info">
+        <p>Свържи се с нас</p>
+        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
+                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
+                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
+        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
+                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
+        </p>
+        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
+                                                                             style="color: #96c930;">info@villagelife.bg</a>
+        </p>
+
     </div>
 </div>
 
+
 <div th:replace="fragments :: footer"></div>
+
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+    const villageElements = document.querySelectorAll('.village');
+    const loadMoreButton = document.getElementById('load-more');
+    const cardCountElement = document.getElementById('card-count');
+    const cardTotalElement = document.getElementById('card-total');
+
+    const totalVillages = villageElements.length;
+    let visibleVillages = Math.min(totalVillages, 6);
+
+    function showVillages() {
+      for (let i = 0; i < visibleVillages; i++) {
+        if (villageElements[i]) {
+          villageElements[i].style.display = 'block';
+        }
+      }
+      cardCountElement.textContent = visibleVillages;
+    }
+
+    function loadMoreVillages() {
+      visibleVillages += 6;
+      if (visibleVillages > totalVillages) {
+        visibleVillages = totalVillages;
+        loadMoreButton.style.display = 'none';
+      }
+      showVillages();
+    }
+
+    showVillages();
+
+    loadMoreButton.addEventListener('click', loadMoreVillages);
+    cardTotalElement.textContent = totalVillages;
+    });
+  </script>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
-package com.ludogoriesoft.villagelifefrontend.controllers;
+package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogoriesoft.villagelifefrontend.config.*;
-import com.ludogoriesoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.config.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,25 +45,23 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
-
-    @GetMapping("/test")
-    String test(Model model){
-        PopulationDTO populationDTO = populationClient.getPopulationById(1L);
-        model.addAttribute("population", populationDTO);
-        return "/test/test";
-    }
-
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        List<VillageDTO> villageList = filterClient.getAllApprovedVillages();
-        model.addAttribute("villages", villageList);
+
+//         List<VillageDTO> villageList = filterClient.getAllApprovedVillages();
+//         model.addAttribute("villages", villageList);
+
+        List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
+        model.addAttribute("villages", villageDTOS);
+
         return "HomePage";
     }
-
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        model.addAttribute("imageSrcList", imagesResponse);
 
         double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
         model.addAttribute("ecoValue", ecoValue);
@@ -151,7 +149,6 @@ public class VillageController {
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
-       // List<byte[]> imageBytes = villageImageClient.getImageBytesFromMultipartFile(images);
         List<byte[]> imageBytes = new ArrayList<>();
         for (MultipartFile image : images) {
             try {

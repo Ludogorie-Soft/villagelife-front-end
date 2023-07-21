@@ -1,6 +1,6 @@
-package com.ludogoriesoft.villagelifefrontend.config;
+package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogoriesoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +10,6 @@ import java.util.List;
 public interface VillageClient {
     @GetMapping
     List<VillageDTO> getAllVillages();
-
     @GetMapping("/{id}")
     VillageDTO getVillageById(@PathVariable("id") Long id);
 
