@@ -5,6 +5,7 @@ import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchFormValidato
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +21,14 @@ public class FilterController {
 
     private final FilterClient filterClient;
 
-    private final VillageClient villageClient;
-
     private ObjectAroundVillageClient objectAroundVillageClient;
 
     private LivingConditionClient livingConditionClient;
 
     private final RegionClient regionClient;
     private final VillageImageClient villageImageClient;
+
+    private final VillageClient villageClient;
 
 
     @GetMapping("/all")
@@ -51,6 +52,8 @@ public class FilterController {
         return "SearchingForm";
     }
 
+
+
     private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
@@ -63,11 +66,15 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
+
+//                 villages = filterClient.getAllApprovedVillages();
+
                 villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
             }
         }
         return villages;
     }
+
 
     private static void displaySearchResultsMessage(String region, String keyword, Model model, int resultCount) {
         if (resultCount > 0) {
@@ -110,6 +117,7 @@ public class FilterController {
     }
 
 
+
     @PostMapping("/search")
     public String search(@ModelAttribute AdvancedSearchForm formResult, BindingResult bindingResult, Model model) {
         AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
@@ -120,6 +128,8 @@ public class FilterController {
             return "SearchingForm";
         }
 
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
 
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
 
@@ -127,7 +137,6 @@ public class FilterController {
 
         String selectedChildrenCountResult = formResult.getChildren();
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
-
 
         List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum);
 
@@ -141,6 +150,7 @@ public class FilterController {
 
     }
 
+
     private static void displayAdvancedSearchResultMessage(Model model, List<VillageDTO> villageDTOs) {
         int villageCount = villageDTOs.size();
         model.addAttribute("villageCount", villageCount);
@@ -151,6 +161,7 @@ public class FilterController {
             model.addAttribute("message", "Не бяха открити резултати от разширеното търсене!!!");
         }
     }
+
 
 
     private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions, Children selectedChildrenEnum) {

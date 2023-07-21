@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -34,6 +36,8 @@ public class VillageController {
     private final ObjectVillageClient objectVillageClient;
     private final MessageClient messageClient;
 
+    private FilterClient filterClient;
+
 
     @GetMapping
     String getVillages(Model model) {
@@ -45,8 +49,13 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
+
+//         List<VillageDTO> villageList = filterClient.getAllApprovedVillages();
+//         model.addAttribute("villages", villageList);
+
         List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
         model.addAttribute("villages", villageDTOS);
+
         return "HomePage";
     }
     @GetMapping("/show/{id}")
@@ -69,11 +78,8 @@ public class VillageController {
         List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
         model.addAttribute("objectVillage", objectVillage);
 
-        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
-        model.addAttribute("ethnicityVillage", ethnicityVillage);
-
-        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-        model.addAttribute("ethnicity", ethnicity);
+        List<EthnicityVillageDTO> ethnicityVillages = villageEthnicityClient.getVillageEthnicityByVillageId(id);
+        model.addAttribute("ethnicityNames", getEthnicityNames(ethnicityVillages));
 
         PopulationDTO population = populationClient.getPopulationById(id);
         model.addAttribute("population", population);
@@ -101,6 +107,37 @@ public class VillageController {
 
         return "ShowVillageById";
     }
+
+
+    private String getEthnicityNames(List<EthnicityVillageDTO> ethnicityVillages) {
+
+        Set<String> uniqueEthnicities = new HashSet<>();
+
+        for (EthnicityVillageDTO ethnicityVillage : ethnicityVillages) {
+            EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+            String ethnicityName = ethnicity.getEthnicityName();
+
+            if (!"няма малцинствени групи".equals(ethnicityName)) {
+                uniqueEthnicities.add(ethnicityName);
+            }
+        }
+
+        StringBuilder ethnicityNames = new StringBuilder();
+        for (String ethnicityName : uniqueEthnicities) {
+            if (ethnicityNames.length() > 0) {
+                ethnicityNames.append(", ");
+            }
+            ethnicityNames.append(ethnicityName);
+        }
+
+        if (ethnicityNames.length() == 0) {
+            ethnicityNames.append("няма малцинствени групи");
+        }
+
+
+        return ethnicityNames.toString();
+    }
+
 
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
@@ -167,4 +204,21 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
     }
+
+    @GetMapping("/map")
+    String mapVillages(Model model) {
+        List<VillageDTO> villages = villageClient.getAllVillages();
+        model.addAttribute("villages", villages);
+        return "/test/map";
+    }
+
+    @GetMapping("/general-terms")
+    String showGeneralTerms(Model model) {
+        List<VillageDTO> villages = filterClient.getAllApprovedVillages();
+
+        model.addAttribute("villages", villages);
+        model.addAttribute("pageTitle", "Общи условия");
+        return "/general-terms";
+    }
+
 }
