@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -53,6 +54,26 @@ public class FilterController {
     }
 
 
+//    private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
+//        List<VillageDTO> villages;
+//        if (region != null && !region.isEmpty()) {
+//            if (keyword != null && !keyword.isEmpty()) {
+//                villages = filterClient.getVillageByNameAndRegion(region, keyword);
+//            } else {
+//                villages = filterClient.getVillageByRegion(region);
+//            }
+//        } else {
+//            if (keyword != null && !keyword.isEmpty()) {
+//                villages = filterClient.getVillageByName(keyword);
+//            } else {
+//
+////                 villages = filterClient.getAllApprovedVillages();
+//
+//                villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
+//            }
+//        }
+//        return villages;
+//    }
 
     private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
         List<VillageDTO> villages;
@@ -66,12 +87,16 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
-
-//                 villages = filterClient.getAllApprovedVillages();
-
                 villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
             }
         }
+
+        Objects.requireNonNull(villages).forEach(villageDTO -> {
+            Long villageId = villageDTO.getId();
+            List<String> images = villageImageClient.getAllImagesForVillage(villageId).getBody();
+            villageDTO.setImages(images);
+        });
+
         return villages;
     }
 
