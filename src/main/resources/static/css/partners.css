@@ -1,0 +1,29 @@
+        .card {
+          border: none;
+          transition: box-shadow 0.3s ease;
+          margin: 1px;
+        }
+
+        .card:hover {
+          box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        }
+        section{
+            margin: 50px 0px 50px 0px;
+        }
+        .icon{
+            height: 50px;
+            width: 50px;
+        }
+        .icon-larger {
+            width: 63px;
+            height: 50px;
+        }
+        .btn {
+            border-radius: 0;
+            margin: 0px 5px 0px 5px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        }
+        .question-wrapper {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }

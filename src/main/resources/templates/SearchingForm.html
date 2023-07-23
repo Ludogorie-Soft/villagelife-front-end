@@ -2,17 +2,24 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="/css/menuStyle.css">
+    <link rel="stylesheet" href="/css/searchingForm.css">
+
+    <title>Търсене</title>
+=======
     <title>Показване на села</title>
     <style>
         body {
@@ -208,21 +215,12 @@ footer p {
     </style>
 
 <body>
-<img th:src="@{/images/village-life-logo.png}" alt="village live logo" style="width: 175px; height: 60px;">
 
-<div id="menu">
-    <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
-    <a href="#"> <i class="fa-regular fa-map"></i> КАРТА</a>
-    <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-    <a th:href="@{/villages/about-us}">ЗА НАС</a>
-    <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-    <a th:href="@{/villages/create}"><i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
-</div>
+<div th:replace="fragments :: menu"></div>
 
-
-<div class="search-bar-row">
+<div class="search-bar-row d-flex justify-content-between">
     <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
-        <div class="col-2 d-flex">
+        <div class="col-5 d-flex">
             <select name="region" class="form-select flex-grow-1" style="outline-color: gray; height: 40px;">
                 <option value="" selected disabled style="text-align: left;">Избери област</option>
                 <option th:each="region : ${regions}" th:value="${region.regionName}"
@@ -230,26 +228,26 @@ footer p {
             </select>
         </div>
         &nbsp;
-        <div class="col-5 d-flex">
+        <div class="col-12 d-flex">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
-            <input type="text" name="keyword" placeholder="Търси по име на село" class="search-field"
+            <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
+                   class="search-field"
                    style="outline-color: gray; height: 40px;">
 
-<!--            <input class="btn btn-outline-light" type="submit" value="Търси" style="background-color: #96c930;">-->
             <input class="btn btn-outline-secondary" type="submit" value="Търси"
                    style="background-color: #96c930;" id="searchButton"/>
             <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
                    style="background-color: #eef5e1;" id="clearButton"/>
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-light float-end" data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop">
+
+    </form>
+
+    <div class="filter-button-container">
+        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="fas fa-filter"></i> Филтър за разширено търсене
         </button>
-    </form>
+    </div>
+
 </div>
 
 
@@ -262,7 +260,31 @@ footer p {
     <p th:text="${#strings.toUpperCase(error)}"></p>
 </div>
 
-<p th:if="${message}" th:text="${message}" style="font-style: italic; color: #96c930;"></p>
+
+<div class="custom-div">
+    <p th:if="${message}" th:text="${message}" style="font-style: italic; color: #96c930;"></p>
+</div>
+
+
+<div class="village-grid">
+    <div class="village-toggle">
+        <a href="#" onclick="toggleVillageView()">
+            <i class="fa fa-th-list"></i>
+        </a>
+    </div>
+    <div id="village-container" class="village-container-grid">
+        <div th:each="village : ${villages}" class="village-item">
+            <div>
+                <a th:href="@{'/villages/show/' + village.id}">
+                </a>
+            </div>
+            <div>
+                <h3 th:text="${village.id}"></h3>
+                <a th:href="@{'/villages/show/'} + ${village.id}">
+                    <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
+                    <h3 th:text="'село '+ ${village.name} + ' област ' + ${village.region}"
+                        style="color: #96c930;"></h3>
+                </a>
 
 
 <div class="village-grid">
@@ -289,6 +311,7 @@ footer p {
                         </a>
                     </div>
                 </div>
+
             </div>
 
     </div>
@@ -296,50 +319,114 @@ footer p {
 </div>
 
 
-<footer>
-    <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;">
-    </div>
-    <div class="contact-info">
-        <p>Свържи се с нас</p>
-        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
-                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
-                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
-        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
-                                                                        style="color: #96c930;">+359 (0) 888 393
-            339</a>
-        </p>
-        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
-                                                                             style="color: #96c930;">info@villagelife.bg</a>
-        </p>
-    </div>
-</footer>
-<div class="subscription">
-    <p style="color: #96c930;">Получавай известия за новите села в платформата и новости за живота на село.</p>
-    <input type="email" placeholder="Въведи електронна поща">
-    <button style="color: #96c930;">Абонирай ме</button>
-</div>
-<div class="rights">
-    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
-</div>
-<script>
-    var clearButton = document.getElementById("clearButton");
+<div th:replace="fragments :: footer"></div>
 
-    clearButton.addEventListener("mouseover", function () {
-        clearButton.style.backgroundColor = #6b8c31;
-    });
+<script src="/js/search-script.js"></script>
+<script src="/js/clear-button-script.js"></script>
+<script src="/js/search-button-script.js"></script>
+<script src="/js/toggleVillageView.js"></script>
+<script src="/js/clearFilter.js"></script>
+<script src="/js/showModal.js"></script>
+<script src="/js/fetch-modal-script.js"></script>
+
+
+
+
+<!--<script>-->
+<!--  function myFunction() {-->
+<!--    // Get the input value and convert it to lowercase-->
+<!--    var input = document.getElementById("myInput");-->
+<!--    var filter = input.value.toLowerCase();-->
+
+<!--    // Get the village container and village items-->
+<!--    var villageContainer = document.getElementById("village-container");-->
+<!--    var villageItems = villageContainer.getElementsByClassName("village-item");-->
+
+<!--    // Loop through all village items and hide those that don't match the search query-->
+<!--    for (var i = 0; i < villageItems.length; i++) {-->
+<!--      var villageName = villageItems[i].getElementsByTagName("h3")[1];-->
+<!--      var nameText = villageName.textContent || villageName.innerText;-->
+
+<!--      if (nameText.toLowerCase().indexOf(filter) > -1) {-->
+<!--        villageItems[i].style.display = "";-->
+<!--      } else {-->
+<!--        villageItems[i].style.display = "none";-->
+<!--      }-->
+<!--    }-->
+<!--  }-->
+
+
+
+<!--</script>-->
 
     clearButton.addEventListener("mouseout", function () {
         clearButton.style.backgroundColor = "";
     });
 </script>
 
-<script>
-    var clearButton = document.getElementById("searchButton");
 
-    clearButton.addEventListener("mouseover", function () {
-        clearButton.style.backgroundColor = "";
-    });
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        var clearButton = document.getElementById("clearButton");-->
+
+<!--        clearButton.addEventListener("mouseover", function () {-->
+<!--            clearButton.style.color = "#000000"; // Черен цвят на текста-->
+<!--            clearButton.style.backgroundColor = "#9ac76d"; // Нов фонов цвят-->
+<!--        });-->
+
+<!--        clearButton.addEventListener("mouseout", function () {-->
+<!--            clearButton.style.color = ""; // Възстановява оригиналния цвят на текста-->
+<!--            clearButton.style.backgroundColor = ""; // Възстановява оригиналния фонов цвят-->
+<!--        });-->
+<!--    });-->
+
+
+
+
+
+<!--</script>-->
+
+
+<!--<script>-->
+<!--    var clearButton = document.getElementById("searchButton");-->
+
+<!--    clearButton.addEventListener("mouseover", function () {-->
+<!--        clearButton.style.backgroundColor = "#989e91";-->
+<!--    });-->
+
+<!--    clearButton.addEventListener("mouseout", function () {-->
+<!--        clearButton.style.backgroundColor = "#96c930";-->
+<!--    });-->
+
+
+
+
+
+
+
+
+
+
+<!--</script>-->
+
+<!--<script type="text/javascript">-->
+<!--    function toggleVillageView() {-->
+<!--        var villageContainer = document.getElementById("village-container");-->
+<!--        var villageToggle = document.querySelector(".village-toggle a i");-->
+
+<!--        if (villageContainer.classList.contains("village-container-grid")) {-->
+<!--            villageContainer.classList.remove("village-container-grid");-->
+<!--            villageContainer.classList.add("village-container-list");-->
+<!--            villageToggle.classList.remove("fa-th-list");-->
+<!--            villageToggle.classList.add("fa-th");-->
+<!--        } else {-->
+<!--            villageContainer.classList.remove("village-container-list");-->
+<!--            villageContainer.classList.add("village-container-grid");-->
+<!--            villageToggle.classList.remove("fa-th");-->
+<!--            villageToggle.classList.add("fa-th-list");-->
+<!--        }-->
+<!--    }-->
+
 
     clearButton.addEventListener("mouseout", function () {
         clearButton.style.backgroundColor = "#96c930";
@@ -355,6 +442,7 @@ villageContainer.classList.toggle("village-container-list");
 var imageContainers = villageContainer.querySelectorAll(".image-container");
 var cardBodies = villageContainer.querySelectorAll(".card-body");
 
+
 imageContainers.forEach(function (container) {
 container.classList.toggle("col-6");
 container.classList.toggle("col-md-12"); // Add this line
@@ -364,6 +452,53 @@ cardBodies.forEach(function (body) {
 body.classList.toggle("col-6");
 body.classList.toggle("col-md-12"); // Add this line
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--</script>-->
+<!--<script type="text/javascript">-->
+<!--    function clearFilter(){-->
+<!--    window.location = '/filter/all';-->
+<!--}-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--</script>-->
+
+<!--<script type="text/javascript">-->
+<!--    function showModal() {-->
+<!--        var modal = new bootstrap.Modal(document.getElementById('staticBackdrop'));-->
+<!--        modal.show();-->
+<!--    }-->
+
 
 villageToggle.classList.toggle("fa-th");
 villageToggle.classList.toggle("fa-th-list");
@@ -394,79 +529,45 @@ villageToggle.classList.toggle("fa-th-list");
 </script>
 
 
-<!--<script>-->
-<!--    // Слушане на събитието за изпращане на формата-->
-<!--document.querySelector('form').addEventListener('submit', function(event) {-->
-<!--  event.preventDefault(); // Предотвратява презареждането на страницата-->
 
-<!--  // Извличане на стойностите от полетата за търсене-->
-<!--  var region = document.querySelector('select[name="region"]').value;-->
-<!--  var keyword = document.querySelector('input[name="keyword"]').value;-->
 
-<!--  // Извършване на търсенето-->
-<!--  performSearch(region, keyword);-->
-<!--});-->
 
-<!--// Функция за извършване на търсене-->
-<!--function performSearch(region, keyword) {-->
-<!--  // Вашата логика за търсене тук-->
-<!--  console.log('Регион:', region);-->
-<!--  console.log('Ключова дума:', keyword);-->
 
-<!--  // Тук можете да изпратите заявка към сървъра, за да получите резултатите от търсенето-->
-<!--}-->
+
+
+
+
+
+
+
+
+
+
+
+<!--</script>-->
+<!--<script type="text/javascript">-->
+<!--  fetch('/filter/advancedSearchModalForm')-->
+<!--    .then(response => response.text())-->
+<!--    .then(html => {-->
+<!--      // Вмъкване на съдържанието на "/advancedSearch" в основната страница-->
+<!--      document.getElementById('modalContainer').innerHTML = html;-->
+<!--    })-->
+<!--    .catch(error => {-->
+<!--      console.error('Грешка при зареждане на страницата с модалния прозорец:', error);-->
+<!--    });-->
+
+
+
+
+
+
+
+
+
+
+
 
 <!--</script>-->
 
-<!--<script type="text/javascript">-->
-<!--        // Слушане на събитието за изпращане на формата-->
-<!--        document.querySelector('form').addEventListener('submit', function(event) {-->
-<!--            event.preventDefault(); // Предотвратява презареждането на страницата-->
-
-<!--            // Извличане на стойностите от полетата за търсене-->
-<!--            var region = document.querySelector('select[name="region"]').value;-->
-<!--            var keyword = document.querySelector('input[name="keyword"]').value;-->
-
-<!--            // Извършване на търсенето-->
-<!--            performSearch(region, keyword);-->
-<!--        });-->
-
-<!--        // Функция за извършване на търсене-->
-<!--        function performSearch(region, keyword) {-->
-<!--            // Изпращане на заявка към сървъра-->
-<!--            fetch('/search', {-->
-<!--                method: 'POST',-->
-<!--                headers: {-->
-<!--                    'Content-Type': 'application/json',-->
-<!--                },-->
-<!--                body: JSON.stringify({ region: region, keyword: keyword }),-->
-<!--            })-->
-<!--            .then(response => response.json())-->
-<!--            .then(data => {-->
-<!--                // Обработка на отговора от сървъра-->
-<!--                displayResults(data);-->
-<!--            })-->
-<!--            .catch(error => {-->
-<!--                console.error('Грешка при търсене:', error);-->
-<!--            });-->
-<!--        }-->
-
-<!--        // Функция за показване на резултатите-->
-<!--        function displayResults(data) {-->
-<!--            var resultContainer = document.getElementById('result-container');-->
-<!--            resultContainer.innerHTML = ''; // Изчистване на предишните резултати-->
-
-<!--            // Обхождане на получените резултати и добавяне на HTML елементи за всяко село-->
-<!--            data.forEach(function(village) {-->
-<!--                var villageElement = document.createElement('div');-->
-<!--                villageElement.innerHTML = '<a href="/village/show/' + village.id + '">' +-->
-<!--                    '<i class="fas fa-map-marker-alt" style="color: #96c930;"></i>' +-->
-<!--                    '<h3 style="color: #96c930;">' + village.name + '</h3>' +-->
-<!--                    '</a>';-->
-
-<!--                resultContainer.appendChild(villageElement);-->
-<!--            });-->
-<!--        }-->
-<!--    </script>-->
 </body>
 </html>

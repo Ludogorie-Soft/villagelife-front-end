@@ -2,6 +2,8 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
 @FeignClient(name = "villagelife-api-filter", url = "http://localhost:8088/api/v1/filter")
 public interface FilterClient {
 
+    @GetMapping
+    List<VillageDTO> getAllApprovedVillages();
 
     @GetMapping("/byName")
     List<VillageDTO> getVillageByName(@RequestParam("name") String name);
@@ -38,7 +42,7 @@ public interface FilterClient {
 
 
     @GetMapping("/searchVillagesByObjectAndLivingCondition")
-   List<VillageDTO> searchVillagesByObjectAndLivingCondition(
+    List<VillageDTO> searchVillagesByObjectAndLivingCondition(
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
 
@@ -48,7 +52,7 @@ public interface FilterClient {
 
 
     @GetMapping("/searchVillagesByObject")
-   List<VillageDTO> searchVillagesByObject(@RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
+    List<VillageDTO> searchVillagesByObject(@RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
 
 
     @GetMapping("/searchVillagesByLivingCondition")

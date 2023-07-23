@@ -4,7 +4,6 @@ import com.ludogorieSoft.villagelifefrontend.dtos.EthnicityDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @FeignClient(name = "villagelife-api-ethnicities",url = "http://localhost:8088/api/v1/ethnicities")

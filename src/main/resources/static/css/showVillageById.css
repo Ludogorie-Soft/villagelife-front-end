@@ -1,0 +1,54 @@
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+
+        color: black;
+    }
+     th {
+        font-weight: normal;
+    }
+    .table-heading {
+        text-align: center;
+    }
+    .table-spacing {
+        margin-bottom: 100px;
+    }
+
+     tr.header-row {
+        background-color: #96c930;
+    }
+    .centered-heading {
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    table {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    th, td {
+        text-align: left;
+        width: 50%;
+    }
+
+    @media (min-width: 768px) {
+        th, td {
+            width: 25%;
+        }
+    }
