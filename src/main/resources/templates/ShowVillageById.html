@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
     <title>Информация</title>
 
     <meta charset="utf-8">
@@ -13,108 +12,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="/css/menuStyle.css">
     <link rel="stylesheet" href="/css/showVillageById.css">
-
+    <link rel="stylesheet" href="/css/menuStyle.css">
 </head>
 
-<style>
-* {
-  box-sizing: border-box;
-}
-
-img {
-  vertical-align: middle;
-  z-index: 1;
-}
-
-.mySlides {
-  display: none;
-}
-
-.cursor {
-  cursor: pointer;
-}
-
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 60%;
-  width: auto;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 16px;
-  margin-top: -50px;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  -webkit-user-select: none;
-  border: 1px solid black;
-  z-index: 2;
-}
-
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-.prev {
-  left: 0;
-}
-
-.prev:hover,
-.next:hover {
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.numbertext {
-  position: absolute;
-  top: 1%;
-  color: white;
-  font-size: 20px;
-  padding: 8px 12px;
-  z-index: 2;
-}
-.village-image-container {
-  position: relative;
-  overflow: hidden;
-  padding-top: 50%;
-}
-.container{
-  margin-top: 75px;
-}
-
-.village-image-container img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-
-
-
-
-
-
-
-</style>
-
-<script>
-    document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
-
-
-
-
-
-
-
-
-</script>
-
-
+<script src="/js/querySelector.js"></script>
 <body>
 
 <div th:replace="fragments :: menu"></div>
@@ -125,8 +27,7 @@ img {
         <div class="village-image-container text-center">
             <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
 
             <a class="prev" onclick="plusSlides(-1)">❮</a>
             <a class="next" onclick="plusSlides(1)">❯</a>
@@ -142,8 +43,7 @@ img {
     <tr>
         <th colspan="2"
             style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
-            <span style="font-size: 24px; font-weight: bold;"
-                  th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
+            <span style="font-size: 24px; font-weight: bold;" th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
         </th>
     </tr>
 </table>
@@ -171,6 +71,8 @@ img {
         </tbody>
     </table>
 </div>
+
+
 
 
 <br class="table-spacing">
@@ -202,7 +104,7 @@ img {
     <tr>
         <th>Етнически състав:</th>
         <td>
-                <span th:each="ethnicityName : ${ethnicityNames}" th:text="${ethnicityName}"></span>
+            <span th:each="ethnicityName : ${ethnicityNames}" th:text="${ethnicityName}"></span>
 
         </td>
     </tr>
@@ -220,16 +122,14 @@ img {
     </tr>
     </thead>
     <tbody>
-    <tr th:each="villageLivingCondition : ${villageLivingCondition}"
-        th:if="${villageLivingCondition.livingConditionId &lt; 9}">
+    <tr th:each="villageLivingCondition : ${villageLivingCondition}" th:if="${villageLivingCondition.livingConditionId &lt; 9}">
         <td>
-            <span th:each="condition : ${livingCondition}"
-                  th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
+            <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
                 <span th:text="${condition.livingConditionName} + ':'"></span>
             </span>
         </td>
         <td>
-            <span th:if="${villageLivingCondition.livingConditionId &lt; 9}">
+            <span  th:if="${villageLivingCondition.livingConditionId &lt; 9}">
                 <span th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>
             </span>
         </td>
@@ -246,7 +146,7 @@ img {
     </thead>
     <tbody>
     <th:block th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
-        <tr>
+        <tr >
             <td colspan="2"></td>
         </tr>
         <tr class="header-row">
@@ -327,62 +227,7 @@ img {
 
 <div th:replace="fragments :: footer"></div>
 
-  <br class="table-spacing">
-<footer>
-    <div class="image-container">
-        <img th:src="@{/images/village-live-logo-circle.png}" alt="Image" style="float: right; width: 130px;" src="">
-    </div>
-    <div class="contact-info">
-        <p>Свържи се с нас</p>
-        <p style="color: #96c930;"><i class="fa-solid fa-map-location-dot"></i> <a
-                href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7"
-                target="_blank" style="color: #96c930;">гр. София, бул. Гоце Делчев 100</a></p>
-        <p style="color: #96c930;"><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
-                                                                        style="color: #96c930;">+359 (0) 888 393 339</a>
-        </p>
-        <p style="color: #96c930;"><i class="fa-regular fa-envelope"></i> <a href="mailto:info@villagelife.bg"
-                                                                             style="color: #96c930;">info@villagelife.bg</a>
-        </p>
-    </div>
-</footer>
-<br class="table-spacing">
+<script src="/js/imageSlider.js"></script>
 
-<div class="rights">
-    <p style="color: #96c930;">© VillageLife - Всички права запазени. Разработка - DeepSource. Общи условия</p>
-</div>
-
-<script>
-let slideIndex = 1;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let captionText = document.getElementById("caption");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  slides[slideIndex-1].style.display = "block";
-  captionText.innerHTML = "";
-}
-
-
-
-
-
-
-
-
-</script>
 </body>
 </html>
