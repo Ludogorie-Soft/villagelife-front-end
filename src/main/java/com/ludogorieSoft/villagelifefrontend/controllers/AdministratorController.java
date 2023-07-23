@@ -5,7 +5,6 @@ import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
-import com.ludogorieSoft.villagelifefrontend.services.AdminService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ import static java.time.LocalDateTime.now;
 @RequiredArgsConstructor
 public class AdministratorController {
     private final AdminClient adminClient;
-    private final AdminService adminService;
+    private final VillageController villageController;
 
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEATHER = "Bearer ";
@@ -40,6 +39,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         ResponseEntity<List<AdministratorDTO>> administrators = adminClient.getAllAdministrators(AUTH_HEATHER + token2);
         List<AdministratorDTO> allAdmins = administrators.getBody();
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute("admin", administratorDTO.getFullName());//adminService.extractUsername(token2)
         model.addAttribute(ADMINS, allAdmins);
         return "admin_templates/admin_all";
     }
@@ -69,7 +70,7 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEATHER + token2);
 
-        redirectAttributes.addFlashAttribute("message", "Administrator with ID: " + adminId + " successfully updated !!!");
+        redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId + " successfully updated !!!");
         return "redirect:/admins";
     }
 
@@ -87,7 +88,8 @@ public class AdministratorController {
     public String getAllVillages(Model model, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageResponse> villages = adminClient.getAllVillages(AUTH_HEATHER + token2);
-        model.addAttribute(ADMINS, adminService.extractUsername(token2));
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         model.addAttribute("villages", villages);
         return "admin_templates/admin_menu";
     }
@@ -106,4 +108,21 @@ public class AdministratorController {
         redirectAttributes.addFlashAttribute(MESSAGE, "Village with ID: " + villageId + " successfully deleted !!!");
         return new ModelAndView("redirect:/admins/village");
     }
+
+    @GetMapping("/show/{villageId}")
+    public String seeVillageToApproveIt(@PathVariable(name = "villageId") Long id, Model model, HttpSession session) {
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        villageController.getTablesVillageById(id, model, administratorDTO);
+        return "ShowVillageById";
+    }
+
+    @PostMapping("/approve/{id}")
+    public ModelAndView changeVillageStatus(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminClient.changeVillageStatus(id, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Status of village with ID: " + id + " changed successfully!!!");
+        return new ModelAndView("redirect:/admins/village");
+    }
+
+
 }

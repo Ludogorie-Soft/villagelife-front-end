@@ -37,10 +37,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         } else if (ex.status() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {/// TODO: 13.7.2023 г.
             redirectAttributes.addFlashAttribute(message, "Internal server error!");//You have to sign in!
             return  "redirect:/villages/home-page";
+        }else if (ex.status() == HttpStatus.BAD_REQUEST.value() && ex.getMessage().contains("This village already approved!")) {
+            redirectAttributes.addFlashAttribute(message,"This village already approved!");
+            return  "redirect:/admins/village";
         } else {
+
             model.addAttribute("error", "Something went wrong! Please try again!");
             return  "redirect:/villages/home-page"; // TODO: 13.7.2023 г. view form to handle the message
         }
+    }
+    @ExceptionHandler(value = {NullPointerException.class})
+    protected String handleNullPointerException(Model model) {
+        model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
+        return "HomePage";
     }
 
     @ExceptionHandler(value = {Exception.class})

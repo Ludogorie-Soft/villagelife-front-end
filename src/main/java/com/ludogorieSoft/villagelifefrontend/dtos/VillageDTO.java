@@ -25,7 +25,7 @@ public class VillageDTO {
     private PopulationDTO populationDTO;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date dateUpload;
-    private boolean status;
+    private Boolean status;
     private List<String> images;
 
 }

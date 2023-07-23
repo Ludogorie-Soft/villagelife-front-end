@@ -49,6 +49,9 @@
     </form>
 </nav>
 <!-------------------- NAV END ---------------->
+<div class="col-md-6">
+    <h4>Welcome, <span th:text="${admin}"></span>!</h4>
+</div>
 <div th:if="${message}" class="alert alert-success text-center">
     [[${message}]]
 </div>

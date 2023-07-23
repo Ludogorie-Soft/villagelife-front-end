@@ -18,3 +18,7 @@ height: 100vh !important;
  background-color: #90c90c;
  border-color: #90c90c;
 }
+th.sortable:hover {/* sorting button */
+cursor: pointer;
+background-color: #f1f1f1;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Информация</title>
@@ -197,9 +197,25 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+
+
+
+
+
+
+
 </style>
 <script>
     document.querySelector('.table-container').insertAdjacentHTML('afterbegin', '<h2 class="centered-heading">Обща информация</h2>');
+
+
+
+
+
+
+
+
 </script>
 
 
@@ -221,7 +237,8 @@ img {
         <div class="village-image-container text-center">
             <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
 
             <a class="prev" onclick="plusSlides(-1)">❮</a>
             <a class="next" onclick="plusSlides(1)">❯</a>
@@ -237,7 +254,8 @@ img {
     <tr>
         <th colspan="2"
             style="background-color: #96c930; color: #fff; padding: 20px;  border-radius: 10px; text-align: center;">
-            <span style="font-size: 24px; font-weight: bold;" th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
+            <span style="font-size: 24px; font-weight: bold;"
+                  th:text="'село '+${village.name} + ', Област ' + ${village.region}"></span>
         </th>
     </tr>
 </table>
@@ -265,8 +283,6 @@ img {
         </tbody>
     </table>
 </div>
-
-
 
 
 <br class="table-spacing">
@@ -313,14 +329,16 @@ img {
     </tr>
     </thead>
     <tbody>
-    <tr th:each="villageLivingCondition : ${villageLivingCondition}" th:if="${villageLivingCondition.livingConditionId &lt; 9}">
+    <tr th:each="villageLivingCondition : ${villageLivingCondition}"
+        th:if="${villageLivingCondition.livingConditionId &lt; 9}">
         <td>
-            <span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
+            <span th:each="condition : ${livingCondition}"
+                  th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
                 <span th:text="${condition.livingConditionName} + ':'"></span>
             </span>
         </td>
         <td>
-            <span  th:if="${villageLivingCondition.livingConditionId &lt; 9}">
+            <span th:if="${villageLivingCondition.livingConditionId &lt; 9}">
                 <span th:text="${villageLivingCondition.consents.getValue()} + '%'"></span>
             </span>
         </td>
@@ -337,7 +355,7 @@ img {
     </thead>
     <tbody>
     <th:block th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
-        <tr >
+        <tr>
             <td colspan="2"></td>
         </tr>
         <tr class="header-row">
@@ -373,6 +391,45 @@ img {
             </span>
         </td>
         <td th:if="${villageAnswerQuestion.answer != null}" th:text="${villageAnswerQuestion.answer}"></td>
+    </tr>
+    </tbody>
+</table>
+<style>
+    .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 80%;
+    }
+
+</style>
+<table>
+    <tbody>
+    <tr>
+        <td class="text-center">
+            <div th:if="${admin != null}" class="d-flex justify-content-center mt-3">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <form th:action="@{/admins/approve/{id}(id=${village.id})}" method="post"
+                              class="btn-group btn-equal-size">
+                            <button type="submit" class="btn btn-primary btn-separation">Approve village</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <form th:action="@{/admins/update/{villageId}(villageId=${village.id})}" method="get"
+                              class="btn-group btn-equal-size">
+                            <button type="submit" class="btn btn-success btn-separation">Update village</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <form th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size">
+                            <button type="submit" class="btn btn-danger btn-separation">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -425,6 +482,14 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";
   captionText.innerHTML = "";
 }
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

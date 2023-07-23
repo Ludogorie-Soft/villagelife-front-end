@@ -34,7 +34,9 @@ public interface AdminClient {
     AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
 
     @GetMapping("village")
-    public List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
+    List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
     @DeleteMapping("/village-delete/{villageId}")
-    public ResponseEntity<String> deleteVillageById(@PathVariable("villageId") Long villageId,@RequestHeader("Authorization") String token);
+    ResponseEntity<String> deleteVillageById(@PathVariable("villageId") Long villageId,@RequestHeader("Authorization") String token);
+    @PostMapping("/approve/{id}")
+    ResponseEntity<String> changeVillageStatus(@PathVariable(name = "id") Long id, @RequestHeader("Authorization") String token);
 }

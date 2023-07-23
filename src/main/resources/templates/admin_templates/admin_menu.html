@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" th:href="@{/images/tree.png}"/>
     <!--    <link href="css/styles.css" rel="stylesheet"/>-->
     <link th:href="@{/css/admin_css.css}" rel="stylesheet"/>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!----------------NAV------------------------------>
@@ -43,12 +43,13 @@
 <!-------------------- NAV END ---------------->
 
 <div class="col-md-6">
-    <h4>Welcome,<span th:text="${admins}"></span>!</h4>
+    <h4>Welcome, <span th:text="${admins}"></span>!</h4>
 </div>
 
 <div th:if="${message}" class="alert alert-success text-center">
     [[${message}]]
 </div>
+
 <tr>
     <div class="col-sm-3" align="center">
         <div class="panel-body" align="center">
@@ -57,12 +58,12 @@
                 <h1>Villages List</h1>
                 <tr align="center">
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Region</th>
-                    <th>Date upload</th>
-                    <th>Status</th>
-                    <th>Administrator name</th>
-                    <th>Date approved</th>
+                    <th class="sortable" data-sort-by="name">Name</th>
+                    <th class="sortable" data-sort-by="region">Region</th>
+                    <th class="sortable" data-sort-by="dateUpload">Date upload</th>
+                    <th class="sortable" data-sort-by="status">Approve</th>
+                    <th class="sortable" data-sort-by="admin">Administrator name</th>
+                    <th class="sortable" data-sort-by="dateApproved">Date approved</th>
                     <th>Change status</th>
                     <th>Delete Village</th>
                 </tr>
@@ -74,14 +75,14 @@
                     <td th:text="${village.name}"></td>
                     <td th:text="${village.region.regionName}"></td>
                     <td th:text="${village.dateUpload}"></td>
-                    <td th:text="${village.status}"></td>
+                    <td th:text="${village.status ? 'Yes' : 'No'}"></td>
                     <td th:if="${village.admin != null}" th:text="${village.admin.fullName}"></td>
                     <td th:if="${village.admin == null}"> ****** </td>
                     <td th:text="${village.dateApproved}"></td>
                 <td>
-                    <!--                        <form th:action="@{/admins/edit/{adminId}(adminId=${admin.id})}" method="get">-->
-                    <!--                            <input type="submit" name="change status" value="Change status" class="btn btn-success">-->
-                    <!--                        </form>-->
+                    <form th:action="@{/admins/show/{villageId}(villageId=${village.id})}" method="get">
+                        <input type="submit" name="change status" value="Change status" class="btn btn-success">
+                    </form>
 
                 </td>
                 <td>
@@ -98,5 +99,7 @@
 </tr>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/admin_table.js"></script>
 </body>
 </html>

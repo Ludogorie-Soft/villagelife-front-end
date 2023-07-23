@@ -51,54 +51,7 @@ public class VillageController {
     }
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
-        model.addAttribute("imageSrcList", imagesResponse);
-
-        double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
-        model.addAttribute("ecoValue", ecoValue);
-
-        double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
-        model.addAttribute("delinquencyValue", delinquencyValue);
-
-        double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
-        model.addAttribute("livingConditionsValue", livingConditionsValue);
-
-        List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
-        model.addAttribute("objectAroundVillage", objectAroundVillage);
-
-        List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
-        model.addAttribute("objectVillage", objectVillage);
-
-        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
-        model.addAttribute("ethnicityVillage", ethnicityVillage);
-
-        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-        model.addAttribute("ethnicity", ethnicity);
-
-        PopulationDTO population = populationClient.getPopulationById(id);
-        model.addAttribute("population", population);
-
-        VillageDTO village = villageClient.getVillageById(id);
-        model.addAttribute("village", village);
-
-        List<QuestionDTO> question = questionClient.getAllQuestions();
-        model.addAttribute("question", question);
-
-        List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
-        model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
-
-        List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
-        model.addAttribute("livingCondition", livingCondition);
-
-        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
-        model.addAttribute("villageLivingCondition", villageLivingCondition);
-
-        List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
-        model.addAttribute("villagePopulation", villagePopulation);
-
-        List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
-        model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
-
+        getTablesVillageById(id,model, null);
         return "ShowVillageById";
     }
 
@@ -166,5 +119,56 @@ public class VillageController {
 
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
+    }
+    protected void getTablesVillageById(Long id,Model model, AdministratorDTO administratorDTO){
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        model.addAttribute("imageSrcList", imagesResponse);
+
+        double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
+        model.addAttribute("ecoValue", ecoValue);
+
+        double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
+        model.addAttribute("delinquencyValue", delinquencyValue);
+
+        double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
+        model.addAttribute("livingConditionsValue", livingConditionsValue);
+
+        List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
+        model.addAttribute("objectAroundVillage", objectAroundVillage);
+
+        List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
+        model.addAttribute("objectVillage", objectVillage);
+
+        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
+        model.addAttribute("ethnicityVillage", ethnicityVillage);
+
+        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
+        model.addAttribute("ethnicity", ethnicity);
+
+        PopulationDTO population = populationClient.getPopulationById(id);
+        model.addAttribute("population", population);
+
+        VillageDTO village = villageClient.getVillageById(id);
+        model.addAttribute("village", village);
+
+        List<QuestionDTO> question = questionClient.getAllQuestions();
+        model.addAttribute("question", question);
+
+        List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
+        model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
+
+        List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
+        model.addAttribute("livingCondition", livingCondition);
+
+        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
+        model.addAttribute("villageLivingCondition", villageLivingCondition);
+
+        List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
+        model.addAttribute("villagePopulation", villagePopulation);
+
+        List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
+        model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
+
+        model.addAttribute("admin",administratorDTO);
     }
 }

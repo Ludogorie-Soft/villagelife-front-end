@@ -8,12 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ludogorieSoft.villagelifefrontend.models.Administrator;
 import com.ludogorieSoft.villagelifefrontend.models.Population;
 import com.ludogorieSoft.villagelifefrontend.models.Region;
-import com.ludogorieSoft.villagelifefrontend.models.Administrator;
-import com.ludogorieSoft.villagelifefrontend.models.Population;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +37,7 @@ public class VillageResponse {
     private boolean status;
 
     private Administrator admin;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
