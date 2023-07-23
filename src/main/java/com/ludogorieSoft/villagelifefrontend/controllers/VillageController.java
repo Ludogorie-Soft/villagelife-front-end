@@ -179,11 +179,8 @@ public class VillageController {
         List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
         model.addAttribute("objectVillage", objectVillage);
 
-        EthnicityVillageDTO ethnicityVillage = villageEthnicityClient.getEthnicityVillageByVillageId(id);
-        model.addAttribute("ethnicityVillage", ethnicityVillage);
-
-        EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-        model.addAttribute("ethnicity", ethnicity);
+        List<EthnicityVillageDTO> ethnicityVillages = villageEthnicityClient.getVillageEthnicityByVillageId(id);
+        model.addAttribute("ethnicityNames", getEthnicityNames(ethnicityVillages));
 
         PopulationDTO population = populationClient.getPopulationById(id);
         model.addAttribute("population", population);
