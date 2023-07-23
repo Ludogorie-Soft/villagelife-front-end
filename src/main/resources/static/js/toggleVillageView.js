@@ -1,16 +1,22 @@
     function toggleVillageView() {
-        var villageContainer = document.getElementById("village-container");
-        var villageToggle = document.querySelector(".village-toggle a i");
+    var villageContainer = document.getElementById("village-container");
+    var villageToggle = document.querySelector(".village-toggle a i");
 
-        if (villageContainer.classList.contains("village-container-grid")) {
-            villageContainer.classList.remove("village-container-grid");
-            villageContainer.classList.add("village-container-list");
-            villageToggle.classList.remove("fa-th-list");
-            villageToggle.classList.add("fa-th");
-        } else {
-            villageContainer.classList.remove("village-container-list");
-            villageContainer.classList.add("village-container-grid");
-            villageToggle.classList.remove("fa-th");
-            villageToggle.classList.add("fa-th-list");
-        }
+    villageContainer.classList.toggle("village-container-list");
+
+    var imageContainers = villageContainer.querySelectorAll(".image-container");
+    var cardBodies = villageContainer.querySelectorAll(".card-body");
+
+    imageContainers.forEach(function (container) {
+    container.classList.toggle("col-6");
+    container.classList.toggle("col-md-12"); // Add this line
+    });
+
+    cardBodies.forEach(function (body) {
+    body.classList.toggle("col-6");
+    body.classList.toggle("col-md-12"); // Add this line
+    });
+
+    villageToggle.classList.toggle("fa-th");
+    villageToggle.classList.toggle("fa-th-list");
     }
