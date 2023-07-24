@@ -1,0 +1,17 @@
+  /* Add custom CSS to control the spacing */
+  .upload-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .upload-form {
+    margin-top: 20px;
+  }
+
+  .upload-form .form-group {
+    margin-bottom: 15px;
+  }
+
+  .upload-messages {
+    margin-top: 20px;
+  }
