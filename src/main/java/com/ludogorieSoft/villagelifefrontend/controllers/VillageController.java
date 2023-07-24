@@ -50,9 +50,6 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
-//         List<VillageDTO> villageList = filterClient.getAllApprovedVillages();
-//         model.addAttribute("villages", villageList);
-
         List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
         model.addAttribute("villages", villageDTOS);
 
@@ -214,9 +211,8 @@ public class VillageController {
 
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {
-        List<VillageDTO> villages = filterClient.getAllApprovedVillages();
-
-        model.addAttribute("villages", villages);
+        List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
+        model.addAttribute("villages", villageDTOS);
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }

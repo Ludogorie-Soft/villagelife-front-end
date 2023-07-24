@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -21,15 +20,12 @@ import java.util.Objects;
 public class FilterController {
 
     private final FilterClient filterClient;
-
     private ObjectAroundVillageClient objectAroundVillageClient;
-
     private LivingConditionClient livingConditionClient;
-
     private final RegionClient regionClient;
     private final VillageImageClient villageImageClient;
-
-    private final VillageClient villageClient;
+    private static final String SEARCHING_FORM_VIEW = "SearchingForm";
+    private static final String MESSAGE_ATTRIBUTE = "message";
 
 
     @GetMapping("/all")
@@ -39,43 +35,20 @@ public class FilterController {
             Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
+
         List<VillageDTO> villages;
-        int resultCount;
 
+        villages = fetchVillageDTOsWithImages(region, keyword);
 
-        villages = fetchVillageDTOs(region, keyword);
-
-        resultCount = villages.size();
+        int resultCount = (villages != null) ? villages.size() : 0;
         model.addAttribute("villages", villages);
 
-
         displaySearchResultsMessage(region, keyword, model, resultCount);
-        return "SearchingForm";
+        return SEARCHING_FORM_VIEW;
     }
 
 
-//    private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
-//        List<VillageDTO> villages;
-//        if (region != null && !region.isEmpty()) {
-//            if (keyword != null && !keyword.isEmpty()) {
-//                villages = filterClient.getVillageByNameAndRegion(region, keyword);
-//            } else {
-//                villages = filterClient.getVillageByRegion(region);
-//            }
-//        } else {
-//            if (keyword != null && !keyword.isEmpty()) {
-//                villages = filterClient.getVillageByName(keyword);
-//            } else {
-//
-////                 villages = filterClient.getAllApprovedVillages();
-//
-//                villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
-//            }
-//        }
-//        return villages;
-//    }
-
-    private List<VillageDTO> fetchVillageDTOs(String region, String keyword) {
+    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
             if (keyword != null && !keyword.isEmpty()) {
@@ -87,15 +60,11 @@ public class FilterController {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByName(keyword);
             } else {
-                villages = villageImageClient.getAllVillageDTOsWithImages().getBody();
+                villages = filterClient.getAllApprovedVillages();
             }
         }
 
-        Objects.requireNonNull(villages).forEach(villageDTO -> {
-            Long villageId = villageDTO.getId();
-            List<String> images = villageImageClient.getAllImagesForVillage(villageId).getBody();
-            villageDTO.setImages(images);
-        });
+        getImagesForVillages(villages);
 
         return villages;
     }
@@ -103,20 +72,19 @@ public class FilterController {
 
     private static void displaySearchResultsMessage(String region, String keyword, Model model, int resultCount) {
         if (resultCount > 0) {
-            model.addAttribute("message", "Намерени резултати: " + resultCount);
+            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати: " + resultCount);
         } else {
             if (region != null && !region.isEmpty()) {
                 if (keyword != null && !keyword.isEmpty()) {
-                    model.addAttribute("message", "Не бяха открити резултати за избраната област: " + region + " и село: " + keyword);
+                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати за избраната област: " + region + " и село: " + keyword);
                 } else {
-                    model.addAttribute("message", "Не бяха открити резултати за избраната област: " + region);
+                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати за избраната област: " + region);
                 }
             } else {
                 if (keyword != null && !keyword.isEmpty()) {
-                    model.addAttribute("message", "Не бяха открити резултати от вашето търсене за село: " + keyword);
+                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от вашето търсене за село: " + keyword);
                 } else {
-                    model.addAttribute("message", "Не бяха открити резултати от търсенето.");
-
+                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от търсенето.");
                 }
             }
         }
@@ -142,7 +110,6 @@ public class FilterController {
     }
 
 
-
     @PostMapping("/search")
     public String search(@ModelAttribute AdvancedSearchForm formResult, BindingResult bindingResult, Model model) {
         AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
@@ -150,29 +117,23 @@ public class FilterController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
-            return "SearchingForm";
+            return SEARCHING_FORM_VIEW;
         }
 
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
-
         List<String> selectedLivingConditions = formResult.getLivingConditionDTOS();
-
         String selectedChildrenCountResult = formResult.getChildren();
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
 
         List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum);
-
         model.addAttribute("villages", villageDTOs);
 
         displayAdvancedSearchResultMessage(model, villageDTOs);
 
-//        return "result-test";
-
-        return "SearchingForm";
-
+        return SEARCHING_FORM_VIEW;
     }
 
 
@@ -181,12 +142,11 @@ public class FilterController {
         model.addAttribute("villageCount", villageCount);
 
         if (villageCount > 0) {
-            model.addAttribute("message", "Намерени резултати от разширеното търсене: " + villageCount);
+            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати от разширеното търсене: " + villageCount);
         } else {
-            model.addAttribute("message", "Не бяха открити резултати от разширеното търсене!!!");
+            model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от разширеното търсене!!!");
         }
     }
-
 
 
     private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions, Children selectedChildrenEnum) {
@@ -194,7 +154,6 @@ public class FilterController {
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
-
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
             villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
@@ -219,8 +178,20 @@ public class FilterController {
                 villageDTOs = filterClient.searchVillagesByObjectAndChildren(selectedObjects, selectedChildrenEnum.name());
             }
         }
-        return villageDTOs;
 
+        getImagesForVillages(villageDTOs);
+
+        return villageDTOs;
+    }
+
+
+    private void getImagesForVillages(List<VillageDTO> villages) {
+        if (villages != null) {
+            for (VillageDTO village : villages) {
+                List<String> images = villageImageClient.getAllImagesForVillage(village.getId()).getBody();
+                village.setImages(images);
+            }
+        }
     }
 
 
