@@ -140,36 +140,57 @@
         }
 
 
+        /* Add the following CSS styles to the container */
+        .text-left {
+            text-align: left; /* Align the button to the left */
+        }
 
+        /* Add the following CSS styles to the button */
+        .footer-widget .btn-info {
+            font-size: 15px; /* Increase the font size to make the button larger */
+            white-space: nowrap; /* Prevent text from wrapping */
+            padding: 8px 15px; /* Adjust the padding as needed */
+            display: flex; /* Use flexbox */
+            justify-content: center; /* Center the text horizontally */
+            align-items: center; /* Center the text vertically */
+        }
 
+        /* Styles for the Абонирай ме! button inside the contact-list */
+        .contact-list .btn-subscribe {
+            background-color: #fa4a2a;
+            color: white;
+            font-weight: bold;
+            border: 1px solid #fa4a2a;
+            width: 120px;
+            font-size: 15px;
+            white-space: nowrap;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        /* Add the following CSS styles to the label */
+        .subscription-container label {
+            display: block;
+        }
 
+        /* Add the following CSS styles to the input field */
+        .subscription-container input[type="email"] {
+            width: 100%;
+        }
 
+        /* Add the following CSS styles to the button */
+        .subscription-container button.btn-subscribe {
+            align-self: flex-start; /* Align the button to the left */
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        /* Add the following CSS styles to the subscription container */
+        .subscription-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px; /* Add margin-top to create space between the header and the input field */
+            justify-content: flex-start;
+            gap: 10px;
+        }
