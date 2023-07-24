@@ -1,6 +1,5 @@
 package com.ludogorieSoft.villagelifefrontend.dtos.response;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.EthnicityVillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.ObjectVillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageAnswerQuestionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
@@ -15,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class VillageInfo {
     private VillageDTO villageDTO;
-    private List<EthnicityVillageDTO> ethnicityVillageDTOS;
+    private String ethnicities;
     private List<PopulationAssertionResponse> populationAssertionResponses;
     private List<LivingConditionResponse> livingConditionResponses;
     private List<ObjectVillageDTO> objectVillages;

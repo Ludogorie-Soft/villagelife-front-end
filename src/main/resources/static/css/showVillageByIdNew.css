@@ -90,14 +90,16 @@
     }
     .section-title{
         margin-bottom: 25px;
+        font-weight: bold;
     }
     section{
-        margin-top: 50px;
+        margin-top: 70px;
     }
-    .village-info{
-        font-size: 20px;
+    .general-information .village-info{
+        font-size: 18px;
+        font-weight: bold;
     }
-    .info-title{
+    .general-information .info-title{
         font-size: 15px;
         color: #ADADAD;
     }
@@ -106,4 +108,23 @@
         height: 1px;
         background-color: #ADADAD;
         border: none;
+    }
+    .population .village-info{
+        font-size: 20px;
+        float: right;
+    }
+    .population .info-title{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .col-right {
+        float: none;
+        padding-top: 10px;
+    }
+
+    @media (min-width: 992px) {
+        .col-right {
+            float: right;
+            padding-top: 0px;
+        }
     }
