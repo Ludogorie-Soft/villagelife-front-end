@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/showVillageByIdNew.css">
+    <link rel="stylesheet" href="/css/menuStyle.css">
+</head>
+
+<script src="/js/querySelector.js"></script>
+<body>
+
+<div th:replace="fragments :: menu"></div>
+<div class="container">
+    <div class="village-title">
+        <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + ${villageInfo.villageDTO.region}"></h1>
+        <img th:src="@{/images/point.png}" class="point-icon"><span th:text="'село '+${villageInfo.villageDTO.name} + ', България'" class="village-name"></span>
+    </div>
+
+    <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
+        <div class="village-image-container text-center">
+            <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
+
+            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}" onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+    </div>
+
+    <section>
+        <h2 class="section-title">Обща информация</h2>
+        <div class="row">
+            <hr>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></div>
+                <div class="info-title">Население</div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition == 'Битови условия' or condition.livingCondition == 'Престъпност' or condition.livingCondition == 'Екосъобразност'}">
+                <div th:text="${condition.percentage} + '%'" class="village-info"></div>
+                <div class="info-title" th:text="${condition.livingCondition}">Население</div>
+            </div>
+
+            <!--<span th:each="condition : ${livingCondition}" th:if="${condition.id == villageLivingCondition.livingConditionId and condition.id &lt; 9}">
+                <span th:text="${condition.livingConditionName} + ':'"></span>
+            </span>-->
+        </div>
+    </section>
+</div>
+
+
+<div th:replace="fragments :: footer"></div>
+<script src="/js/imageSlider.js"></script>
+
+</body>
+</html>
