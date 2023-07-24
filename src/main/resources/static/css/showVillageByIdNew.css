@@ -125,3 +125,11 @@
         font-size: 18px;
         font-weight: bold;
     }
+    .living-conditions .village-info{
+        font-size: 20px;
+        float: right;
+    }
+    .living-conditions .info-title{
+        font-size: 18px;
+        font-weight: bold;
+    }

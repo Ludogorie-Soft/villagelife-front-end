@@ -141,6 +141,24 @@
             </div>
         </div>
     </section>
+
+    <section class="living-conditions">
+        <h3 class="section-title">Условия на живот</h3>
+        <div class="row">
+            <hr>
+            <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'Битови условия' and condition.livingCondition != 'Престъпност' and condition.livingCondition != 'Екосъобразност'}">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <span class="info-title" th:text="${condition.livingCondition}"></span>
+                            <span th:text="${condition.percentage} + '%'" class="village-info"></span>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 
