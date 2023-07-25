@@ -58,12 +58,15 @@
         </section>
 
         <section class="population">
-            <h3 class="section-title">Население</h3>
+            <h3 class="section-title">
+                <img th:src="@{/images/crowd.png}" alt="distance" class="object-icon">
+                <span>Население</span>
+            </h3>
             <div class="row">
                 <hr>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Население: </span>
                                 <span th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></span>
@@ -74,7 +77,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Деца: </span>
                                 <span th:text="${population.children.name}" class="village-info"></span>
@@ -88,7 +91,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Под 50г.: </span>
                                 <span th:text="${population.residents.name}" class="village-info"></span>
@@ -99,7 +102,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Чужденци: </span>
                                 <span th:text="${population.foreigners.name}" class="village-info"></span>
@@ -132,7 +135,7 @@
                 <hr>
                 <div class="col-lg-6 col-md-6 col-sm-12" th:each="assertion : ${villageInfo.populationAssertionResponses}">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title" th:text="${assertion.populationAssertionName}"></span>
                                 <span th:text="${assertion.percentage} + '%'" class="village-info"></span>
@@ -150,7 +153,7 @@
                 <hr>
                 <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'Битови условия' and condition.livingCondition != 'Престъпност' and condition.livingCondition != 'Екосъобразност'}">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title" th:text="${condition.livingCondition}"></span>
                                 <span th:text="${condition.percentage} + '%'" class="village-info"></span>
@@ -163,7 +166,11 @@
         </section>
 
         <section class="question-answers">
-            <h3 class="section-title">Повече информация</h3>
+            <h3 class="section-title">
+                <img th:src="@{/images/answer.png}" alt="distance" class="object-icon">
+                <span> Повече информация</span>
+            </h3>
+
             <div class="accordion-container" th:each="answersQuestionResponse : ${villageInfo.answersQuestionResponses}">
                 <button class="accordion" th:text="${answersQuestionResponse.question}"></button>
                 <div class="panel">
@@ -177,7 +184,20 @@
 
         <section class="objects">
             <h3 class="section-title">Обекти</h3>
-
+            <hr>
+            <table  class="table">
+                <tbody>
+                <tr th:each="objectVillageResponse : ${villageInfo.objectVillageResponses}">
+                    <td class="col-3 info-title">
+                        <span th:text="${objectVillageResponse.distance.name}"></span>
+                    </td>
+                    <td class="col-10">
+                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon">
+                        <span th:text="${objectVillageResponse.objects}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </section>
 
     </div>
