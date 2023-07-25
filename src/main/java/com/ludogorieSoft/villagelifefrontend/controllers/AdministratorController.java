@@ -1,6 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.AddVillageFormResult;
 import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
@@ -123,6 +124,15 @@ public class AdministratorController {
         redirectAttributes.addFlashAttribute(MESSAGE, "Status of village with ID: " + id + " changed successfully!!!");
         return new ModelAndView("redirect:/admins/village");
     }
+//    @GetMapping("/update/{villageId}")
+//    public String showCreateVillageForm(@PathVariable(name = "villageId")Long id, Model model,HttpSession session) {
+//        String token2 = (String) session.getAttribute(SESSION_NAME);
+////        adminClient.getVillageById(id, AUTH_HEATHER + token2);
+//        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+//        villageController.addAllListsWithOptions(model);
+//        model.addAttribute("addVillageFormResult", addVillageFormResult);
+//        return "add-village";
+//    }
 
 
 }

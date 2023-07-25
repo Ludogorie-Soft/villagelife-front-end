@@ -12,4 +12,5 @@ import java.util.List;
 public class VillageImageResponse {
     private VillageDTO villageDTO;
     private List<String> images;
+    private Boolean villageStatus;
 }

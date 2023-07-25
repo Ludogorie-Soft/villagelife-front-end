@@ -2,6 +2,8 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,5 +28,7 @@ public interface VillageClient {
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
 
+    @GetMapping("/update/{villageId}")
+    public ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
 
 }

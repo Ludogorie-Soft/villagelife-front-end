@@ -28,4 +28,13 @@ public class VillageDTO {
     private Boolean status;
     private List<String> images;
 
+//    private List<ObjectVillageDTO> objectVillages;
+//    private List<VillageLivingConditionDTO> villageLivingConditions;
+//    private List<VillageAnswerQuestionDTO> villageAnswerQuestions;
+//    private List<EthnicityVillageDTO> ethnicityVillages;
+//    private List<VillageGroundCategoryDTO> villageGroundCategories;
+////    private List<VillageImageDTO> villageImages;
+////    private List<VillageLandscapeDTO> villageLandscapes;
+//    private List<VillagePopulationAssertionDTO> villagePopulationAssertions;
+
 }

@@ -3,6 +3,8 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -138,7 +140,7 @@ public class VillageController {
         return "about-us";
     }
 
-    private void addAllListsWithOptions(Model model) {
+    protected void addAllListsWithOptions(Model model) {
         List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
         model.addAttribute("groundCategories", groundCategories);
 
@@ -223,6 +225,13 @@ public class VillageController {
         model.addAttribute("villages", villages);
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
+    }
+    @GetMapping("/update/{villageId}")
+    public ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id) {
+        ResponseEntity<VillageDTO> village = villageClient.findVillageById(id);
+//        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+
+        return village;
     }
 
 }
