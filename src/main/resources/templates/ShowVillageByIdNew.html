@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Информация</title>
-
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/css/showVillageByIdNew.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
@@ -39,131 +39,153 @@
             <a class="next" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <section class="general-information">
+            <h3 class="section-title">Обща информация</h3>
+            <div class="row">
+                <hr>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></div>
+                    <div class="info-title">Население</div>
+                </div>
 
-    <section class="general-information">
-        <h3 class="section-title">Обща информация</h3>
-        <div class="row">
-            <hr>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></div>
-                <div class="info-title">Население</div>
+                <div class="col-lg-3 col-md-6 col-sm-6" th:each="condition : ${villageInfo.livingConditionResponses}"
+                     th:if="${condition.livingCondition == 'Битови условия' or condition.livingCondition == 'Престъпност' or condition.livingCondition == 'Екосъобразност'}">
+                    <div th:text="${condition.percentage} + '%'" class="village-info"></div>
+                    <div class="info-title" th:text="${condition.livingCondition}">Население</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="population">
+            <h3 class="section-title">Население</h3>
+            <div class="row">
+                <hr>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title">Население: </span>
+                                <span th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></span>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title">Деца: </span>
+                                <span th:text="${population.children.name}" class="village-info"></span>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-6" th:each="condition : ${villageInfo.livingConditionResponses}"
-                 th:if="${condition.livingCondition == 'Битови условия' or condition.livingCondition == 'Престъпност' or condition.livingCondition == 'Екосъобразност'}">
-                <div th:text="${condition.percentage} + '%'" class="village-info"></div>
-                <div class="info-title" th:text="${condition.livingCondition}">Население</div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title">Под 50г.: </span>
+                                <span th:text="${population.residents.name}" class="village-info"></span>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title">Чужденци: </span>
+                                <span th:text="${population.foreigners.name}" class="village-info"></span>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <section class="population">
-        <h3 class="section-title">Население</h3>
-        <div class="row">
-            <hr>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title">Население: </span>
-                            <span th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></span>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title">Чужденци: </span>
-                            <span th:text="${population.foreigners.name}" class="village-info"></span>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title">Под 50г.: </span>
-                            <span th:text="${population.residents.name}" class="village-info"></span>
-                            <hr>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title">Етнически състав: </span>
+                                <span th:text="${villageInfo.ethnicities}" class="village-info"></span>
+                                <hr>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title">Етнически състав: </span>
-                            <span th:text="${villageInfo.ethnicities}" class="village-info"></span>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title">Деца: </span>
-                            <span th:text="${population.children.name}" class="village-info"></span>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="population-assertions">
-        <h3 class="section-title">Характеристики на населението</h3>
-        <div class="row">
-            <hr>
-            <div class="col-lg-6 col-md-6 col-sm-12" th:each="assertion : ${villageInfo.populationAssertionResponses}">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="population-assertions">
+            <h3 class="section-title">Характеристики на населението</h3>
+            <div class="row">
+                <hr>
+                <div class="col-lg-6 col-md-6 col-sm-12" th:each="assertion : ${villageInfo.populationAssertionResponses}">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title" th:text="${assertion.populationAssertionName}"></span>
-                            <span th:text="${assertion.percentage} + '%'" class="village-info"></span>
-                            <hr>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title" th:text="${assertion.populationAssertionName}"></span>
+                                <span th:text="${assertion.percentage} + '%'" class="village-info"></span>
+                                <hr>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="living-conditions">
-        <h3 class="section-title">Условия на живот</h3>
-        <div class="row">
-            <hr>
-            <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'Битови условия' and condition.livingCondition != 'Престъпност' and condition.livingCondition != 'Екосъобразност'}">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+        <section class="living-conditions">
+            <h3 class="section-title">Условия на живот</h3>
+            <div class="row">
+                <hr>
+                <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'Битови условия' and condition.livingCondition != 'Престъпност' and condition.livingCondition != 'Екосъобразност'}">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="row">
-                            <span class="info-title" th:text="${condition.livingCondition}"></span>
-                            <span th:text="${condition.percentage} + '%'" class="village-info"></span>
-                            <hr>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="row">
+                                <span class="info-title" th:text="${condition.livingCondition}"></span>
+                                <span th:text="${condition.percentage} + '%'" class="village-info"></span>
+                                <hr>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section class="question-answers">
+            <h3 class="section-title">Повече информация</h3>
+            <div class="accordion-container" th:each="answersQuestionResponse : ${villageInfo.answersQuestionResponses}">
+                <button class="accordion" th:text="${answersQuestionResponse.question}"></button>
+                <div class="panel">
+                    <div class="answer-container" th:each="answer : ${answersQuestionResponse.answers}">
+                        <p th:text="${answer}" class="answer"></p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="objects">
+            <h3 class="section-title">Обекти</h3>
+
+        </section>
+
+    </div>
 </div>
 
 
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
-
+<script src="/js/accordion-script.js"></script>
 </body>
 </html>

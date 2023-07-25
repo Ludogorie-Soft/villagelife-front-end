@@ -17,6 +17,6 @@ public class VillageInfo {
     private String ethnicities;
     private List<PopulationAssertionResponse> populationAssertionResponses;
     private List<LivingConditionResponse> livingConditionResponses;
-    private List<ObjectVillageDTO> objectVillages;
-    private List<VillageAnswerQuestionDTO> villageAnswerQuestionDTOs;
+    private List<ObjectVillageResponse> objectVillageResponses;
+    private List<AnswersQuestionResponse> answersQuestionResponses;
 }

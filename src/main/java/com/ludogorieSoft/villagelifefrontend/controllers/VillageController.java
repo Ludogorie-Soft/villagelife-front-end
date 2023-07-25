@@ -68,6 +68,9 @@ public class VillageController {
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
         model.addAttribute("ethnicities", ethnicityDTOS);
 
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        model.addAttribute("questions", questionDTOS);
+
         return "ShowVillageByIdNew";
     }
     //@GetMapping("/show/{id}")
