@@ -17,4 +17,8 @@ public interface VillageImageClient {
 
     @GetMapping("/all")
     ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();
+
+    @GetMapping("/approved")
+    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages();
+
 }
