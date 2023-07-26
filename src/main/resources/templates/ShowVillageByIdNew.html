@@ -136,7 +136,7 @@
             </div>
         </section>
 
-        <section class="population-assertions">
+        <section class="population-assertions" th:if="${not #lists.isEmpty(villageInfo.populationAssertionResponses)}">
             <h3 class="section-title">Характеристики на населението</h3>
             <div class="row">
                 <hr>
@@ -163,7 +163,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title" th:text="${condition.livingCondition}"></span>
-                                <span th:text="${condition.percentage} + '%'" class="village-info"></span>
+                                <span th:text="${condition.livingCondition == 'Достъпност' and condition.percentage == 0} ? '-' : (${condition.percentage} + '%')" class="village-info"></span>
                                 <hr>
                             </div>
                         </div>
@@ -172,7 +172,7 @@
             </div>
         </section>
 
-        <section class="question-answers">
+        <section class="question-answers"  th:if="${not #lists.isEmpty(villageInfo.answersQuestionResponses)}">
             <h3 class="section-title">
                 <img th:src="@{/images/answer.png}" alt="distance" class="object-icon">
                 <span> Повече информация</span>
@@ -189,7 +189,7 @@
             </div>
         </section>
 
-        <section class="objects">
+        <section class="objects" th:if="${not #lists.isEmpty(villageInfo.objectVillageResponses)}">
             <h3 class="section-title">Обекти</h3>
             <hr>
             <table  class="table">
