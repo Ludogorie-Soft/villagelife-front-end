@@ -192,9 +192,14 @@
         margin: 5px;
     }
 
+
+
     .lightbox-form-wrap {
             max-width: 400px;
-            margin: 0 auto;
+            margin: 50px auto;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 20px;
         }
 
         .property-form .form-group {
