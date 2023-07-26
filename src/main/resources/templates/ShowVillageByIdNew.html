@@ -52,9 +52,15 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-6" th:each="condition : ${villageInfo.livingConditionResponses}"
                      th:if="${condition.livingCondition == 'Битови условия' or condition.livingCondition == 'Престъпност' or condition.livingCondition == 'Екосъобразност'}">
-                    <div th:text="${condition.percentage} + '%'" class="village-info"></div>
-                    <div class="info-title" th:text="${condition.livingCondition}">Население</div>
+                    <div th:if="${condition.percentage == 0 and condition.livingCondition != 'Престъпност'}">
+                        <div class="village-info">-</div>
+                    </div>
+                    <div th:unless="${condition.percentage == 0 and condition.livingCondition != 'Престъпност'}">
+                        <div class="village-info" th:text="${condition.percentage + '%'}"></div>
+                    </div>
+                    <div class="info-title" th:text="${condition.livingCondition}"></div>
                 </div>
+
             </div>
         </section>
 
@@ -283,13 +289,7 @@
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>
-<script>
-    function makeCall() {
-        var phoneNumber = '+359888393339'; // Вашият телефонен номер тук
-        window.location.href = 'tel:' + phoneNumber;
-    }
-
-</script>
+<script src="/js/makeCallScript.js"></script>
 
 </body>
 </html>
