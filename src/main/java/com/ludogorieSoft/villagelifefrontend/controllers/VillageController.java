@@ -2,6 +2,7 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -52,50 +51,30 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
-//         List<VillageDTO> villageList = filterClient.getAllApprovedVillages();
-//         model.addAttribute("villages", villageList);
-
-        List<VillageDTO> villageDTOS = villageImageClient.getAllVillageDTOsWithImages().getBody();
+        List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
         model.addAttribute("villages", villageDTOS);
 
         return "HomePage";
     }
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        getTablesVillageById(id,model, null);
+        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
+        model.addAttribute("villageInfo", villageInfo);
+
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        model.addAttribute("imageSrcList", imagesResponse);
+
+        PopulationDTO population = populationClient.getPopulationById(id);
+        model.addAttribute("population", population);
+
+        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+        model.addAttribute("ethnicities", ethnicityDTOS);
+
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        model.addAttribute("questions", questionDTOS);
+
         return "ShowVillageById";
     }
-
-
-    private String getEthnicityNames(List<EthnicityVillageDTO> ethnicityVillages) {
-
-        Set<String> uniqueEthnicities = new HashSet<>();
-
-        for (EthnicityVillageDTO ethnicityVillage : ethnicityVillages) {
-            EthnicityDTO ethnicity = ethnicityClient.getEthnicityById(ethnicityVillage.getEthnicityId());
-            String ethnicityName = ethnicity.getEthnicityName();
-
-            if (!"няма малцинствени групи".equals(ethnicityName)) {
-                uniqueEthnicities.add(ethnicityName);
-            }
-        }
-
-        StringBuilder ethnicityNames = new StringBuilder();
-        for (String ethnicityName : uniqueEthnicities) {
-            if (ethnicityNames.length() > 0) {
-                ethnicityNames.append(", ");
-            }
-            ethnicityNames.append(ethnicityName);
-        }
-
-        if (ethnicityNames.length() == 0) {
-            ethnicityNames.append("няма малцинствени групи");
-        }
-
-
-        return ethnicityNames.toString();
-    }
-
 
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
@@ -220,9 +199,8 @@ public class VillageController {
 
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {
-        List<VillageDTO> villages = filterClient.getAllApprovedVillages();
-
-        model.addAttribute("villages", villages);
+        List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
+        model.addAttribute("villages", villageDTOS);
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
