@@ -71,61 +71,8 @@ public class VillageController {
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         model.addAttribute("questions", questionDTOS);
 
-        return "ShowVillageByIdNew";
+        return "ShowVillageById";
     }
-    //@GetMapping("/show/{id}")
-    //public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
-    //    VillageInfo villageInfo = villageClient.getVillageInfoById(id);
-    //    model.addAttribute("villageInfo", villageInfo);
-//
-    //    List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
-    //    model.addAttribute("imageSrcList", imagesResponse);
-//
-    //    double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
-    //    model.addAttribute("ecoValue", ecoValue);
-//
-    //    double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
-    //    model.addAttribute("delinquencyValue", delinquencyValue);
-//
-    //    double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
-    //    model.addAttribute("livingConditionsValue", livingConditionsValue);
-//
-    //    List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
-    //    model.addAttribute("objectAroundVillage", objectAroundVillage);
-//
-    //    List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
-    //    model.addAttribute("objectVillage", objectVillage);
-//
-    //    List<EthnicityVillageDTO> ethnicityVillages = villageEthnicityClient.getVillageEthnicityByVillageId(id);
-    //    model.addAttribute("ethnicityNames", getEthnicityNames(ethnicityVillages));
-//
-    //    PopulationDTO population = populationClient.getPopulationById(id);
-    //    model.addAttribute("population", population);
-//
-    //    VillageDTO village = villageClient.getVillageById(id);
-    //    model.addAttribute("village", village);
-//
-    //    List<QuestionDTO> question = questionClient.getAllQuestions();
-    //    model.addAttribute("question", question);
-//
-    //    List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
-    //    model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
-//
-    //    List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
-    //    model.addAttribute("livingCondition", livingCondition);
-//
-    //    List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
-    //    model.addAttribute("villageLivingCondition", villageLivingCondition);
-//
-    //    List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
-    //    model.addAttribute("villagePopulation", villagePopulation);
-//
-    //    List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
-    //    model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
-//
-    //    return "ShowVillageById";
-    //}
-
 
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {

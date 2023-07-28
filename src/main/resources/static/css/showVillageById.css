@@ -1,59 +1,3 @@
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: 0 auto;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-
-            color: black;
-        }
-         th {
-            font-weight: normal;
-        }
-        .table-heading {
-            text-align: center;
-        }
-        .table-spacing {
-            margin-bottom: 100px;
-        }
-
-         tr.header-row {
-            background-color: #96c930;
-        }
-        .centered-heading {
-            text-align: center;
-            font-size: 24px;
-        }
-
-        .table-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        table {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        th, td {
-            text-align: left;
-            width: 50%;
-        }
-
-        @media (min-width: 768px) {
-            th, td {
-                width: 25%;
-            }
-        }
-
-
     * {
       box-sizing: border-box;
     }
@@ -116,7 +60,7 @@
       padding-top: 50%;
     }
     .container{
-      margin-top: 75px;
+      margin-top: 25px;
     }
 
     .village-image-container img {
@@ -127,3 +71,242 @@
       height: 100%;
       object-fit: cover;
     }
+
+
+
+
+
+    .point-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .village-name {
+        font-size: 18px;
+        color: #ADADAD;
+        padding: 5px;
+    }
+    .village-title{
+        margin-bottom: 15px;
+    }
+    .section-title{
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+    section{
+        margin-top: 70px;
+    }
+    .general-information .village-info{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .general-information .info-title{
+        font-size: 15px;
+        color: #ADADAD;
+    }
+    hr{
+        width: 100%;
+        height: 1px;
+        background-color: #ADADAD;
+        border: none;
+    }
+    .population .village-info{
+        font-size: 17px;
+        float: right;
+    }
+    .population .info-title{
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .objects .village-info{
+       font-size: 17px;
+       float: right;
+   }
+   .objects .info-title{
+       font-size: 17px;
+       font-weight: bold;
+   }
+    .population-assertions .village-info{
+        font-size: 17px;
+        float: right;
+    }
+    .population-assertions .info-title{
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .living-conditions .village-info{
+        font-size: 17px;
+        float: right;
+    }
+    .living-conditions .info-title{
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      transition: 0.4s;
+    }
+
+    .active, .accordion:hover {
+      background-color: #ccc;
+    }
+
+    .accordion:after {
+      content: '\002B';
+      color: #777;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+    }
+
+    .active:after {
+      content: "\2212";
+    }
+
+    .panel {
+      padding: 0 18px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+    .accordion-container{
+        margin-bottom: 15px;
+    }
+    .answer{
+        margin-top: 15px;
+    }
+    .answer-container hr{
+        height: 2px;
+    }
+    .object-icon{
+        width: 35px;
+        height: 35px;
+        margin: 5px;
+    }
+
+
+
+    .lightbox-form-wrap {
+            max-width: 400px;
+            margin: 50px auto;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 20px;
+        }
+
+        .property-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control-sm {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: none;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .form-control-sm:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-secondary {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary-outlined {
+            border: 2px solid #3498db;
+            color: #3498db;
+            background-color: transparent;
+        }
+
+        .btn-secondary-outlined:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .btn-half-width {
+            width: 48%;
+            margin-right: 4%;
+        }
+
+        .btn-half-width:last-child {
+            margin-right: 0;
+        }
+
+        .btn-secondary-outlined.show-on-click {
+            display: none;
+        }
+
+        .btn-secondary-outlined.show-on-click.active {
+            display: inline-block;
+        }
+
+        .btn-secondary-outlined.hide-on-click {
+            display: inline-block;
+        }
+
+        .btn-secondary-outlined.hide-on-click.active {
+            display: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* Примерно разстояние отгоре */
+        }
+
+        /* Стил за бутоните */
+        .btn {
+            flex-basis: 45%; /* Задава ширина на бутоните, така че да има празно пространство между тях */
+        }
+
+         /* Стил за текста на чекбокса и линка */
+        .form-group label {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .form-group label a {
+            text-decoration: none;
+            color: #96c930;
+            font-weight: bold;
+        }
+
+
+        .d-flex.align-items-center {
+            justify-content: center; /* Хоризонтално центриране */
+            align-items: center; /* Вертикално центриране */
+        }
+
+        .information-wrap {
+          margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
+        }
+
+
+
