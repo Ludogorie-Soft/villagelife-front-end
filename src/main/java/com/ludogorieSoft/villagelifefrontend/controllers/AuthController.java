@@ -1,11 +1,11 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
-import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.RequiredArgsConstructor;
 
 

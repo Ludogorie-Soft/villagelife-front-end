@@ -1,6 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
+//import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,10 +24,10 @@ public class AppConfig {
         return new HttpHeaders();
     }
 
-    @Bean
-    public ErrorDecoder errorDecoder() {
-        return new CustomErrorDecoder();
-    }
+    //@Bean
+    //public ErrorDecoder errorDecoder() {
+    //    return new CustomErrorDecoder();
+    //}
 
     public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();

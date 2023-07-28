@@ -1,7 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.models;
 
-
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
+
 import lombok.*;
 import java.time.LocalDateTime;
 
