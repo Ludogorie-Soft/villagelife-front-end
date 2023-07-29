@@ -1,17 +1,136 @@
-  /* Add custom CSS to control the spacing */
-  .upload-container {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
+    /* Add custom CSS to control the spacing */
+    .upload-container {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
 
-  .upload-form {
-    margin-top: 20px;
-  }
+    .upload-form {
+        margin-top: 20px;
+    }
 
-  .upload-form .form-group {
-    margin-bottom: 15px;
-  }
+    .upload-form .form-group {
+        margin-bottom: 15px;
+    }
 
-  .upload-messages {
-    margin-top: 20px;
-  }
+    .upload-messages {
+        margin-top: 20px;
+    }
+
+    /* Custom style for the file input button */
+    .btn-file {
+        width: 400px; /* Adjust the width as per your requirement */
+        border-radius: 10px; /* Set the border-radius to make corners rounded */
+        overflow: hidden; /* Optional: Hide any content that might overflow */
+        font-size: 18px; /* Променете размера според вашите нужди */
+    }
+
+    /* Custom style for the file input button */
+    .upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Custom style for the File Input button */
+    .btn-file {
+        width: 800px; /* Adjust the width as per your requirement */
+        border-radius: 10px; /* Set the border-radius to make corners rounded */
+        overflow: hidden; /* Optional: Hide any content that might overflow */
+        margin-bottom: 30px; /* Add some bottom margin to separate from the icon */
+    }
+
+    /* Стилове само за бутона "Прикачи" с клас "btn-upload-excel" */
+    .btn-upload-excel {
+        width: 150px; /* Променете размера на бутона според вашите нужди */
+        font-size: 18px; /* Променете размера на шрифта според вашите нужди */
+    }
+
+    /* Стил за иконата за зареждане */
+    #loadingIcon {
+        display: none; /* По подразбиране скриваме иконата за зареждане */
+        margin-top: 10px; /* Добавяме някакъв разстояние от горната част на бутона */
+        margin-bottom: 20px;
+    }
+
+    body {
+        background-color: #f8f9fa; /* Променете цвета според вашите предпочитания */-->
+        padding: 5px;
+    }
+
+    .text-center {
+        margin-top: 50px;
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Син цвят на бутона */
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* По-тъмно син цвят при ховър */
+    }
+
+    h2 {
+        font-size: 30px;
+        font-weight: bold;
+        color: #00050a;
+        margin-bottom: 20px;
+    }
+
+
+    /* Стил за съобщенията */
+    .message {
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Стил за успешното съобщение */
+    .message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    /* Стил за грешното съобщение */
+    .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Стил за съобщението за успешно добавени села */
+    .message.added-villages {
+        background-color: #cce5ff;
+        color: #004085;
+        border: 1px solid #b8daff;
+    }
+
+
+    .btn-upload-excel i.fa-file-arrow-up {
+        font-size: 20px; /* Променете размера на иконата според вашите нужди */
+    }
+
+    /* Стил за бутона "Изчисти" */
+    #clearButton {
+        padding: 8px 20px; /* Размер на padding-а (горе/долу, ляво/дясно) */
+        font-size: 16px; /* Размер на шрифта */
+        background-color: #eef5e1; /* Цвят на фона на бутона */
+        border: 1px solid #96c930; /* Цвят на границата на бутона */
+        border-radius: 20px; /* Закръглени ъгли на бутона */
+        color: #96c930; /* Цвят на текста */
+        cursor: pointer; /* Показване на курсора като ръка при ховър */
+    }
+
+    /* Стил при ховър на бутона "Изчисти" */
+    #clearButton:hover {
+        background-color: #96c930; /* Цвят на фона на бутона при ховър */
+        color: #000000; /* Цвят на текста при ховър */
+    }
+
+    .clear-button-container {
+        margin-left: 1200px;
+        /* Добавете още стилове според вашите изисквания */
+    }
+
