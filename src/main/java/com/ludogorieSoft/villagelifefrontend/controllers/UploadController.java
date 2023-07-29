@@ -54,8 +54,8 @@ public class UploadController {
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
         try {
             if (!file.getOriginalFilename().endsWith(".xlsx")) {
-                model.addAttribute(UPLOAD_VIEW + "Success", false);
-                model.addAttribute(UPLOAD_VIEW + "Error", true);
+                model.addAttribute(UPLOAD_SUCCESS, false);
+                model.addAttribute(UPLOAD_ERROR, true);
                 return UPLOAD_VIEW;
             }
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -70,10 +70,8 @@ public class UploadController {
             PopulatedAssertionDTO populatedAssertion = new PopulatedAssertionDTO();
             VillagePopulationAssertionDTO villagePopulationAssertion = new VillagePopulationAssertionDTO();
 
-
             int totalVillages = sheet.getLastRowNum();
             model.addAttribute("totalVillages", totalVillages);
-
             int uploadedVillagesCount = 0;
 
             for (int rowIndex = 1; rowIndex <= totalVillages; rowIndex++) {
@@ -121,6 +119,7 @@ public class UploadController {
                                     for (Distance distance : Distance.values()) {
                                         if (distance.getName().equalsIgnoreCase(valueWhile)) {
                                             objectVillage.setDistance(distance);
+                                            objectVillage.setStatus(true);
                                             objectVillageClient.createObjectVillage(objectVillage);
                                             break;
                                         }
@@ -142,6 +141,7 @@ public class UploadController {
                                     for (Consents consents : Consents.values()) {
                                         if (consents.getName().equalsIgnoreCase(valueWhile)) {
                                             villageLivingCondition.setConsents(consents);
+                                            villageLivingCondition.setStatus(true);
                                             villageLivingConditionClient.createVillageLivingConditions(villageLivingCondition);
                                             break;
                                         }
@@ -160,6 +160,7 @@ public class UploadController {
                                 for (int j = 0; j < groundCategories.size(); j++) {
                                     if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
                                         villageGroundCategory.setGroundCategoryId((long) (j + 1));
+                                        villageGroundCategory.setStatus(true);
                                         villageGroundCategoryClient.createVillageGroundCategories(villageGroundCategory);
                                         break;
                                     }
@@ -171,6 +172,7 @@ public class UploadController {
                             String valueWhile = valueCell.getStringCellValue();
                             villageAnswerQuestion.setAnswer(valueWhile);
                             villageAnswerQuestion.setQuestionId(questionClient.getQuestionById(3L).getId());
+                            villageAnswerQuestion.setStatus(true);
                             villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
 
                         } else if (i == 28) {
@@ -183,6 +185,7 @@ public class UploadController {
                                     for (Consents consents : Consents.values()) {
                                         if (consents.getName().equalsIgnoreCase(valueWhile)) {
                                             villageLivingCondition.setConsents(consents);
+                                            villageLivingCondition.setStatus(true);
                                             villageLivingConditionClient.createVillageLivingConditions(villageLivingCondition);
                                             break;
                                         }
@@ -259,6 +262,7 @@ public class UploadController {
                                     if (ethnicityDTO.getEthnicityName().equalsIgnoreCase(part)) {
                                         ethnicityVillage.setVillageId(newVillageID);
                                         ethnicityVillage.setEthnicityId(ethnicityDTO.getId());
+                                        ethnicityVillage.setStatus(true);
                                         villageEthnicityClient.createEthnicityVillage(ethnicityVillage);
                                     }
                                 }
@@ -272,6 +276,7 @@ public class UploadController {
                             for (Consents consents : Consents.values()) {
                                 if (consents.getName().equalsIgnoreCase(valueWhile)) {
                                     villagePopulationAssertion.setAnswer(consents);
+                                    villagePopulationAssertion.setStatus(true);
                                     villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
                                 }
                             }
