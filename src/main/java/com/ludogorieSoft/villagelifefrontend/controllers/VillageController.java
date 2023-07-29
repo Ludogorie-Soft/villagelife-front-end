@@ -57,10 +57,12 @@ public class VillageController {
     }
     @GetMapping("/show/{id}")
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        model.addAttribute("inquiry", new InquiryDTO());
-
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         model.addAttribute("villageInfo", villageInfo);
+
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
+        model.addAttribute("inquiry", inquiryDTO);
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
