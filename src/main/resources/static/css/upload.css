@@ -54,7 +54,7 @@
 
     body {
         background-color: #f8f9fa; /* Променете цвета според вашите предпочитания */-->
-        padding: 10px;
+        padding: 5px;
     }
 
     .text-center {
@@ -81,7 +81,7 @@
     /* Стил за съобщенията */
     .message {
         font-size: 18px;
-        padding: 10px;
+        padding: 5px;
         border-radius: 5px;
         margin-bottom: 10px;
     }
