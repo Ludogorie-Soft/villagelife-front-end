@@ -36,6 +36,7 @@ public class VillageController {
     private final MessageClient messageClient;
 
     private FilterClient filterClient;
+    private  InquiryClient inquiryClient;
 
 
     @GetMapping
@@ -55,7 +56,9 @@ public class VillageController {
         return "HomePage";
     }
     @GetMapping("/show/{id}")
-    public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+    public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
+        model.addAttribute("inquiry", new InquiryDTO());
+
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         model.addAttribute("villageInfo", villageInfo);
 
@@ -72,6 +75,11 @@ public class VillageController {
         model.addAttribute("questions", questionDTOS);
 
         return "ShowVillageById";
+    }
+    @PostMapping("/inquiry-save")
+    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO) {
+        inquiryClient.createInquiry(inquiryDTO);
+        return "redirect:/villages/show/" + inquiryDTO.getVillageId();
     }
 
     @GetMapping("/create")
