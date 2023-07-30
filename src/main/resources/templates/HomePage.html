@@ -36,21 +36,25 @@
 
         <div class="search-bar-row">
             <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
-                <div class="col-3 d-flex">
-                    <select name="region" class="form-select flex-grow-1" id="regionName">
-                        <option value="" selected disabled style="text-align: left;">Избери област</option>
-                        <option th:each="region : ${regions}" th:value="${region.regionName}"
-                                th:text="${region.regionName}"></option>
-                    </select>
+                <div class="col-3 d-flex align-items-center">
+                    <div class="input-group">
+                        <select name="region" class="form-select flex-grow-1" id="regionName">
+                            <option value="" selected disabled style="text-align: left;">Избери област</option>
+                            <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-9 d-flex">
-                    <input type="text" name="keyword" placeholder="Търси по име на село"
-                           class="form-control flex-grow-1"/>
-                    <input class="btn btn-secondary ms-2" type="submit" value="Търсене"/>
+                    <div class="input-group">
+                        <label class="input-group-text" for="search-input">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </label>
+                        <input type="text" name="keyword" id="search-input" class="form-control" placeholder="Търси по име на село">
+                        <button class="btn btn-secondary" type="submit">Търсене</button>
+                    </div>
                 </div>
             </form>
         </div>
-
         <p> Village Life е платформа, която предоставя информация за условията на живот в
             българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
             избор

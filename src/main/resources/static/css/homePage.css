@@ -47,6 +47,51 @@
         font-size: 16px;
     }
 
+    .form-control:focus {
+      box-shadow: 0 0 3px 2px #ccc;
+    }
+
+    .form-select:focus {
+      box-shadow: 0 0 3px 2px #ccc;
+    }
+
+    .form-select {
+      height: 40px;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .input-group {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 3px 2px #ccc;
+      padding: 5px;
+    }
+
+    .input-group-text {
+      background-color: #f7f7f7;
+      border: none;
+      padding: 5px;
+    }
+
+    .form-control {
+      height: 40px;
+      padding: 5px;
+      font-size: 16px;
+      border: none;
+      outline: none;
+    }
+
+    .btn-secondary {
+      height: 40px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+
     .village-grid {
     display: flex;
     flex-wrap: wrap;
@@ -112,7 +157,7 @@
       color: #fff;
     }
     .card-actions{
-        margin: 20px 40px 20px 0; /* top right bottom left */
+        margin: 20px 40px 20px 0;
     }
     .image-container {
         position: relative;
@@ -138,5 +183,5 @@
         font-weight: bold;
         text-transform: uppercase;
         padding: 10px;
-        margin-top: 20px; /* Добавяме разстояние над съобщението */
+        margin-top: 20px;
     }
