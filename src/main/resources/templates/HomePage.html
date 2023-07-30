@@ -9,6 +9,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+
     <title>Начало - VillageLife</title>
 
     <link rel="stylesheet" href="/css/homePage.css">
@@ -58,7 +59,8 @@
     </div>
 </div>
 
-<div class="custom-container">
+<div class="custom-container" th:if="${villages != null and !villages.empty}">
+
     <div class="row col-12">
         <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
             <div class="card">
@@ -85,6 +87,14 @@
             <button id="load-more" class="btn btn-outline-success">Покажи още</button>
         </div>
     </div>
+</div>
+
+<div th:if="${noVillagesMessage}" class="message alert alert-info text-center">
+    <p th:text="${noVillagesMessage}"></p>
+</div>
+
+<div th:if="${errorMessage}" class="message alert alert-danger text-center">
+    <p th:text="${errorMessage}"></p>
 </div>
 
 <div th:replace="fragments :: footer"></div>
