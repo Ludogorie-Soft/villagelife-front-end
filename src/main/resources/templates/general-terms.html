@@ -45,7 +45,7 @@
         <div class="row ">
             <div class="col-lg-8 col-md-12 bt-content-wrap">
                 <div class="article-wrap">
-                    <article id="post-745" class="article-page-wrap post-745 page type-page status-publish hentry">
+                    <article>
 
                         <div class="page-content-wrap">
                             <p><strong>Общи условия за използване на Village Life</strong><br/>
@@ -275,15 +275,18 @@
                     </article>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-12 village-list-wrap">
+            <div class="col-lg-4 village-list-wrap">
                 <div class="custom-container">
-                    <div class="row col-12">
-                            <div th:each="village, iterStat : ${villages}" class="col-lg-12 col-md-12 col-sm-12 village" th:if="${iterStat.index} &lt; 11">
-                            <div class="card">
+                    <div th:if="${noVillagesMessage}" class="message alert alert-info text-center">
+                        <p th:text="${noVillagesMessage}"></p>
+                    </div>
+                    <div class="row village-list-wrap">
+                    <div th:each="village, iterStat : ${villages}" class="col-12 col-md-6 col-lg-12 village" th:if="${iterStat.index} &lt; 10">
+
+                        <div class="card">
                                 <div class="image-container" th:if="${village.images}">
                                     <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
-                                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';"
-                                         >
+                                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
                                 </div>
                                 <div class="card-body">
                                     <a th:href="@{/villages/show/{id}(id=${village.id})}">
