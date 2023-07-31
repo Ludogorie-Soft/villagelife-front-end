@@ -212,7 +212,7 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
-                    <form method="post" action="#" class="details">
+                    <form method="post" action="/villages/inquiry-save" class="details" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-live-logo-circle.png"
@@ -228,36 +228,34 @@
                             </ul>
                         </div>
 
+                        <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
+
                         <div class="form-group">
-                            <input class="form-control-sm" name="name" value type="text" placeholder="Име">
+                            <input class="form-control-sm" name="name" value type="text" placeholder="Име" th:field="*{userName}" minlength="2" required>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон">
+                            <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон" th:field="*{mobile}" minlength="10" required>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="email" value type="email" placeholder="Имейл">
+                            <input class="form-control-sm" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
                         </div>
 
                         <div class="form-group form-group-textarea">
-                    <textarea class="form-control-sm form-message" name="message" rows="4"
-                              placeholder="Съобщение" th:text="'Здравейте, желая повече информация за [село ' + ${villageInfo.villageDTO.name} + ', област ' + ${villageInfo.villageDTO.region} + ']'"></textarea>
+                            <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение" th:text="*{userMessage}" th:field="*{userMessage}" required></textarea>
                         </div>
 
                         <div class="form-group">
-                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери">
-                                <option value="buyer">Запитване за контакт в село</option>
-                                <option value="tennant">Търся село с по-добри показатели</option>
-                                <option value="agent">Възможности за работа</option>
-                                <option value="other">Друго</option>
+                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}">
+                                <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label class="control-checkbox" for="privacy_policy_checkbox">
                                 <span class="custom-checkbox"></span>
-                                <input type="checkbox" id="privacy_policy_checkbox" name="privacy_policy" style="display: none;">
+                                <input type="checkbox" id="privacy_policy_checkbox" name="privacy_policy" required>
                                 Изпращайки това съобщение аз се съгласявам с
                                 <a target="_blank" th:href="@{/villages/general-terms}">
                                     Общите условия
@@ -269,7 +267,7 @@
                         <div class="form_messages"></div>
 
                         <div class="button-container">
-                            <button type="button" class="btn btn-secondary btn-half-width">
+                            <button type="submit" class="btn btn-secondary btn-half-width">
                                 Изпрати
                             </button>
 

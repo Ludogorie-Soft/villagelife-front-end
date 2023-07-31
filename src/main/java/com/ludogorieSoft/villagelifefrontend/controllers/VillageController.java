@@ -34,6 +34,7 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
+    private  InquiryClient inquiryClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
 
 
@@ -73,9 +74,13 @@ public class VillageController {
 
 
     @GetMapping("/show/{id}")
-    public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+    public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         model.addAttribute("villageInfo", villageInfo);
+
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
+        model.addAttribute("inquiry", inquiryDTO);
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
@@ -90,6 +95,11 @@ public class VillageController {
         model.addAttribute("questions", questionDTOS);
 
         return "ShowVillageById";
+    }
+    @PostMapping("/inquiry-save")
+    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO) {
+        inquiryClient.createInquiry(inquiryDTO);
+        return "redirect:/villages/show/" + inquiryDTO.getVillageId();
     }
 
     @GetMapping("/create")
