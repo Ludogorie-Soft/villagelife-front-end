@@ -3,7 +3,7 @@
         position: relative;
         width: 100%;
         height: 0;
-        padding-bottom: 56.25%; /* За съотношение на страните 16:9 (използвайте друго съотношение ако е необходимо) */
+        padding-bottom: 42.25%; /* За съотношение на страните 16:9 (използвайте друго съотношение ако е необходимо) */
         overflow: hidden;
     }
 
@@ -46,6 +46,51 @@
         padding: 10px 20px;
         font-size: 16px;
     }
+
+    .form-control:focus {
+      box-shadow: 0 0 3px 2px #ccc;
+    }
+
+    .form-select:focus {
+      box-shadow: 0 0 3px 2px #ccc;
+    }
+
+    .form-select {
+      height: 40px;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .input-group {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 3px 2px #ccc;
+      padding: 5px;
+    }
+
+    .input-group-text {
+      background-color: #f7f7f7;
+      border: none;
+      padding: 5px;
+    }
+
+    .form-control {
+      height: 40px;
+      padding: 5px;
+      font-size: 16px;
+      border: none;
+      outline: none;
+    }
+
+    .btn-secondary {
+      height: 40px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
 
     .village-grid {
     display: flex;
@@ -112,7 +157,7 @@
       color: #fff;
     }
     .card-actions{
-        margin: 20px 40px 20px 0; /* top right bottom left */
+        margin: 20px 40px 20px 0;
     }
     .image-container {
         position: relative;
@@ -132,4 +177,11 @@
 
     h6:hover {
         color: #96c930;
+    }
+
+    .message {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 10px;
+        margin-top: 20px;
     }

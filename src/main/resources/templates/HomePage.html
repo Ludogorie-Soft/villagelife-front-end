@@ -9,6 +9,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+
     <title>Начало - VillageLife</title>
 
     <link rel="stylesheet" href="/css/homePage.css">
@@ -35,21 +36,25 @@
 
         <div class="search-bar-row">
             <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
-                <div class="col-3 d-flex">
-                    <select name="region" class="form-select flex-grow-1" id="regionName">
-                        <option value="" selected disabled style="text-align: left;">Избери област</option>
-                        <option th:each="region : ${regions}" th:value="${region.regionName}"
-                                th:text="${region.regionName}"></option>
-                    </select>
+                <div class="col-3 d-flex align-items-center">
+                    <div class="input-group">
+                        <select name="region" class="form-select flex-grow-1" id="regionName">
+                            <option value="" selected disabled style="text-align: left;">Избери област</option>
+                            <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-9 d-flex">
-                    <input type="text" name="keyword" placeholder="Търси по име на село"
-                           class="form-control flex-grow-1"/>
-                    <input class="btn btn-secondary ms-2" type="submit" value="Търсене"/>
+                    <div class="input-group">
+                        <label class="input-group-text" for="search-input">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </label>
+                        <input type="text" name="keyword" id="search-input" class="form-control" placeholder="Търси по име на село">
+                        <button class="btn btn-secondary" type="submit">Търсене</button>
+                    </div>
                 </div>
             </form>
         </div>
-
         <p> Village Life е платформа, която предоставя информация за условията на живот в
             българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
             избор
@@ -58,7 +63,8 @@
     </div>
 </div>
 
-<div class="custom-container">
+<div class="custom-container" th:if="${villages != null and !villages.empty}">
+
     <div class="row col-12">
         <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
             <div class="card">
@@ -85,6 +91,14 @@
             <button id="load-more" class="btn btn-outline-success">Покажи още</button>
         </div>
     </div>
+</div>
+
+<div th:if="${noVillagesMessage}" class="message alert alert-info text-center">
+    <p th:text="${noVillagesMessage}"></p>
+</div>
+
+<div th:if="${errorMessage}" class="message alert alert-danger text-center">
+    <p th:text="${errorMessage}"></p>
 </div>
 
 <div th:replace="fragments :: footer"></div>
