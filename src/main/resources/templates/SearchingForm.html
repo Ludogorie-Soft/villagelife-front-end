@@ -24,37 +24,31 @@
 
 <div th:replace="fragments :: menu"></div>
 
-<div class="search-bar-row d-flex justify-content-between">
-    <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
-        <div class="col-5 d-flex">
-            <select name="region" class="form-select flex-grow-1" style="outline-color: gray; height: 40px;">
-                <option value="" selected disabled style="text-align: left;">Избери област</option>
-                <option th:each="region : ${regions}" th:value="${region.regionName}"
-                        th:text="${region.regionName}"></option>
-            </select>
-        </div>
-        &nbsp;
-        <div class="col-12 d-flex">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-            <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
-                   class="search-field"
-                   style="outline-color: gray; height: 40px;">
+<div class="search-bar-row">
+    <div class="col-5 d-flex">
+        <select name="region" class="form-select flex-grow-1" style="outline-color: gray; height: 40px;">
+            <option value="" selected disabled style="text-align: left;">Избери област</option>
+            <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+        </select>
+    </div>
 
-            <input class="btn btn-outline-secondary" type="submit" value="Търси"
-                   style="background-color: #96c930;" id="searchButton"/>
-            <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
-                   style="background-color: #eef5e1;" id="clearButton"/>
-        </div>
-
-    </form>
+    <div class="col-12 d-flex search-input-container">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
+               class="search-field"
+               style="outline-color: gray; height: 40px;">
+        <input class="btn btn-outline-secondary" type="submit" value="Търси" style="background-color: #96c930;" id="searchButton"/>
+        <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
+               style="background-color: #eef5e1;" id="clearButton"/>
+    </div>
 
     <div class="filter-button-container">
         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="fas fa-filter"></i> Филтър за разширено търсене
         </button>
     </div>
-
 </div>
+
 
 
 <div id="modalContainer"></div>

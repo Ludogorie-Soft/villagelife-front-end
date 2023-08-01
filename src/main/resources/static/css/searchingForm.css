@@ -108,3 +108,90 @@
         font-style: italic;
         color: #96c930;
     }
+
+    /* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+/* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+    /* Mobile devices (up to 767px) */
+    /* Base styles for all devices */
+
+/* Base styles for all devices */
+    /* Base styles for all devices */
+
+/* Base styles for all devices */
+
+    /* Base styles for all devices */
+
+/* Mobile devices (up to 767px) */
+/* Mobile devices (up to 767px) */
+@media only screen and (max-width: 767px) {
+    /* Add your mobile-specific styles here */
+    body {
+        font-size: 16px; /* Adjust font size for better readability on small screens */
+    }
+
+    .search-bar-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-bar-row form, .filter-button-container {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .search-bar-row .col-5, .search-bar-row .col-12, .search-bar-row .filter-button-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Adjust the width of the "Регион" element */
+    .search-bar-row .col-5 {
+        flex-basis: 30%;
+        margin-bottom: 5px; /* Reduce the margin between the two elements */
+    }
+
+    /* Adjust the margin-top for the search input container */
+    .search-bar-row .col-12 {
+        flex-basis: 70%;
+        margin-top: 5px; /* Reduce the margin between the two elements */
+    }
+}
+
+/* Larger screens (above 767px) */
+@media only screen and (min-width: 768px) {
+    .search-bar-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-bar-row .col-5 {
+        flex-basis: 15%;
+        margin-top: 0;
+        margin-bottom: 0; /* Reset the margin for larger screens */
+    }
+
+    .search-bar-row .col-12 {
+        flex-basis: 50%;
+        margin-top: 0;
+        margin-bottom: 0; /* Reset the margin for larger screens */
+    }
+
+    .search-bar-row .filter-button-container {
+        flex-basis: 15%;
+        margin-top: 0;
+    }
+}
