@@ -3,6 +3,7 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import feign.FeignException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -75,24 +78,24 @@ public class VillageController {
 
     @GetMapping("/show/{id}")
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
-        model.addAttribute("villageInfo", villageInfo);
-
-        InquiryDTO inquiryDTO = new InquiryDTO();
-        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
-        model.addAttribute("inquiry", inquiryDTO);
-
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
-        model.addAttribute("imageSrcList", imagesResponse);
-
-        PopulationDTO population = populationClient.getPopulationById(id);
-        model.addAttribute("population", population);
-
-        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
-        model.addAttribute("ethnicities", ethnicityDTOS);
-
-        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
-        model.addAttribute("questions", questionDTOS);
+//        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
+//        model.addAttribute("villageInfo", villageInfo);
+//
+//        InquiryDTO inquiryDTO = new InquiryDTO();
+//        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
+//        model.addAttribute("inquiry", inquiryDTO);
+//
+//        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+//        model.addAttribute("imageSrcList", imagesResponse);
+//
+//        PopulationDTO population = populationClient.getPopulationById(id);
+//        model.addAttribute("population", population);
+//
+//        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+//        model.addAttribute("ethnicities", ethnicityDTOS);
+//
+//        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+//        model.addAttribute("questions", questionDTOS);
 
         AdministratorDTO administratorDTO = null;
         getTablesVillageById(id, model, administratorDTO);
@@ -180,6 +183,10 @@ public class VillageController {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         model.addAttribute("villageInfo", villageInfo);
 
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
+        model.addAttribute("inquiry", inquiryDTO);
+
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
 
@@ -187,7 +194,6 @@ public class VillageController {
         model.addAttribute("population", population);
 
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
-        System.out.println(ethnicityDTOS);
         model.addAttribute("ethnicities", ethnicityDTOS);
 
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
@@ -244,5 +250,19 @@ public class VillageController {
         List<VillageResponse> villages = villageResponses.getBody();
         model.addAttribute("villages", villages);
         return "testForm";
+    }
+    @PostMapping("/approve-answer/{villageId}")
+    public ResponseEntity<String> approveAnswer(@RequestParam("villageId") Long villageId,
+                                                @RequestParam("answerDate") String answerDate) {
+        System.out.println( "from form " + villageId + " " + answerDate);
+        String dateTimeString = "2023-07-29T21:44:12";
+        String formattedDateTime = dateTimeString.replace("T", " ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+        System.out.println("converted "  + villageId + " " + localDateTime);
+
+        String message = "Answer for Village ID " + villageId + " and Answer Date " + answerDate + " is approved.";
+
+        return ResponseEntity.ok(message);
     }
 }

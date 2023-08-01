@@ -49,15 +49,23 @@ public class AppConfig {
         return multipartResolver;
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        Jackson2ObjectMapperBuilder builder =
-                new Jackson2ObjectMapperBuilder()
-                        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                        .serializers(
-                                new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")))
-                        .serializationInclusion(JsonInclude.Include.NON_NULL);
-        return new MappingJackson2HttpMessageConverter(builder.build());
-    }
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//        Jackson2ObjectMapperBuilder builder =
+//                new Jackson2ObjectMapperBuilder()
+//                        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+//                        .serializers(
+//                                new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")))
+//                        .serializationInclusion(JsonInclude.Include.NON_NULL);
+//        return new MappingJackson2HttpMessageConverter(builder.build());
+//    }
+@Bean
+public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+    Jackson2ObjectMapperBuilder builder =
+            new Jackson2ObjectMapperBuilder()
+                    .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                    .serializationInclusion(JsonInclude.Include.NON_NULL);
+    return new MappingJackson2HttpMessageConverter(builder.build());
+}
 
 }
