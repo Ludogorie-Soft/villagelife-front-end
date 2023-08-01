@@ -45,39 +45,31 @@
     }
 
     .btn-equal-size {
-        width: 80%;
+        width: 100%;
     }
 
 </style>
-    <table>
-        <tbody>
-        <tr>
-            <td class="text-center">
-                <div th:if="${admin != null}" class="d-flex justify-content-center mt-3">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <form th:action="@{/admins/approve/{id}(id=${village.id})}" method="post"
-                                  class="btn-group btn-equal-size">
-                                <button type="submit" class="btn btn-primary btn-separation">Approve village</button>
-                            </form>
-                        </div>
-                        <div class="col-sm-4">
-                            <form th:action="@{/admins/update/{villageId}(villageId=${village.id})}" method="get"
-                                  class="btn-group btn-equal-size">
-                                <button type="submit" class="btn btn-success btn-separation">Update village</button>
-                            </form>
-                        </div>
-                        <div class="col-sm-4">
-                            <form th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size">
-                                <button type="submit" class="btn btn-danger btn-separation">Cancel</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div th:if="${admin != null}" class="row justify-content-center mt-3">
+        <div class="col-sm-4">
+            <form th:action="@{/admins/approve/{id}(id=${villageInfo.villageDTO.id})}" method="post"
+                  class="btn-group btn-equal-size text-center">
+                <button type="submit" class="btn btn-primary">Approve response</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form th:action="@{/admins/update/{villageId}(villageId=${villageInfo.villageDTO.id})}" method="get"
+                  class="btn-group btn-equal-size text-center">
+                <button type="submit" class="btn btn-success">Update response</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size text-center">
+                <button type="submit" class="btn btn-danger">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">

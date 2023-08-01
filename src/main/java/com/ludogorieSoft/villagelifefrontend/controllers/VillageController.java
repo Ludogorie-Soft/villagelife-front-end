@@ -3,8 +3,8 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +46,7 @@ public class VillageController {
         model.addAttribute("villages", villages);
         return "/test/testAllVillages";
     }
+
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
@@ -56,23 +57,25 @@ public class VillageController {
 
         return "HomePage";
     }
+
     @GetMapping("/show/{id}")
     public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
-        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
-        model.addAttribute("villageInfo", villageInfo);
-
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
-        model.addAttribute("imageSrcList", imagesResponse);
-
-        PopulationDTO population = populationClient.getPopulationById(id);
-        model.addAttribute("population", population);
-
-        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
-        model.addAttribute("ethnicities", ethnicityDTOS);
-
-        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
-        model.addAttribute("questions", questionDTOS);
-
+//        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
+//        model.addAttribute("villageInfo", villageInfo);
+//
+//        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+//        model.addAttribute("imageSrcList", imagesResponse);
+//
+//        PopulationDTO population = populationClient.getPopulationById(id);
+//        model.addAttribute("population", population);
+//
+//        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+//        model.addAttribute("ethnicities", ethnicityDTOS);
+//
+//        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+//        model.addAttribute("questions", questionDTOS);
+        AdministratorDTO administratorDTO = null;
+        getTablesVillageById(id, model, administratorDTO);
         return "ShowVillageById";
     }
 
@@ -83,6 +86,7 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
+
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
@@ -99,23 +103,27 @@ public class VillageController {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/home-page";
     }
+
     @GetMapping("/partners")
-    public String showPartnersPage(){
+    public String showPartnersPage() {
         return "partners";
     }
+
     @GetMapping("/contacts")
-    public String showContactsPage(Model model){
+    public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
         model.addAttribute("message", messageDTO);
         return "contacts";
     }
+
     @PostMapping("/message-save")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
         messageClient.createMessage(messageDTO);
         return "redirect:/villages/contacts";
     }
+
     @GetMapping("/about-us")
-    public String showAboutUsPage(){
+    public String showAboutUsPage() {
         return "about-us";
     }
 
@@ -141,53 +149,25 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
     }
-    protected void getTablesVillageById(Long id,Model model, AdministratorDTO administratorDTO){
+
+    protected void getTablesVillageById(Long id, Model model, AdministratorDTO administratorDTO) {
+        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
+        model.addAttribute("villageInfo", villageInfo);
+
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
-
-        double ecoValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdEcoValue(id);
-        model.addAttribute("ecoValue", ecoValue);
-
-        double delinquencyValue = villageLivingConditionClient.getVillagePopulationAssertionByVillageIdDelinquencyValue(id);
-        model.addAttribute("delinquencyValue", delinquencyValue);
-
-        double livingConditionsValue = villageLivingConditionClient.getVillageLivingConditionsByVillageIdValue(id);
-        model.addAttribute("livingConditionsValue", livingConditionsValue);
-
-        List<ObjectAroundVillageDTO> objectAroundVillage = objectAroundVillageClient.getAllObjectsAroundVillage();
-        model.addAttribute("objectAroundVillage", objectAroundVillage);
-
-        List<ObjectVillageDTO> objectVillage = objectVillageClient.getObjectVillageByVillageID(id);
-        model.addAttribute("objectVillage", objectVillage);
-
-        List<EthnicityVillageDTO> ethnicityVillages = villageEthnicityClient.getVillageEthnicityByVillageId(id);
-        model.addAttribute("ethnicityNames", getEthnicityNames(ethnicityVillages));
 
         PopulationDTO population = populationClient.getPopulationById(id);
         model.addAttribute("population", population);
 
-        VillageDTO village = villageClient.getVillageById(id);
-        model.addAttribute("village", village);
+        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+        System.out.println(ethnicityDTOS);
+        model.addAttribute("ethnicities", ethnicityDTOS);
 
-        List<QuestionDTO> question = questionClient.getAllQuestions();
-        model.addAttribute("question", question);
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        model.addAttribute("questions", questionDTOS);
 
-        List<VillageAnswerQuestionDTO> villageAnswerQuestion = villageAnswerQuestionClient.getVillageAnswerQuestionByVillageId(id);
-        model.addAttribute("villageAnswerQuestion", villageAnswerQuestion);
-
-        List<LivingConditionDTO> livingCondition = livingConditionClient.getAllLivingConditions();
-        model.addAttribute("livingCondition", livingCondition);
-
-        List<VillageLivingConditionDTO> villageLivingCondition = villageLivingConditionClient.getVillageLivingConditionsByVillageId(id);
-        model.addAttribute("villageLivingCondition", villageLivingCondition);
-
-        List<PopulatedAssertionDTO> villagePopulation = populatedAssertionClient.getAllPopulatedAssertion();
-        model.addAttribute("villagePopulation", villagePopulation);
-
-        List<VillagePopulationAssertionDTO> villagePopulationAssertion = villagePopulationAssertionClient.getVillagePopulationAssertionByVillageId(id);
-        model.addAttribute("villagePopulationAssertion", villagePopulationAssertion);
-
-        model.addAttribute("admin",administratorDTO);
+        model.addAttribute("admin", administratorDTO);
     }
 
     @GetMapping("/map")
@@ -204,12 +184,30 @@ public class VillageController {
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
-    @GetMapping("/update/{villageId}")
-    public ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id) {
-        ResponseEntity<VillageDTO> village = villageClient.findVillageById(id);
-//        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
 
-        return village;
+    //    @GetMapping("/update/{villageId}")
+//    public ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id) {
+//        ResponseEntity<VillageDTO> village = villageClient.findVillageById(id);
+////        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+//
+//        return village;
+//    }
+//    @GetMapping(value = "/update")
+//    public String findVillageById(Model model) {
+//        ResponseEntity<VillageResponse> villages = villageClient.findUnapprovedVillageResponseByVillageId();
+//        System.out.println("controller " + villages);
+//        model.addAttribute("nestedVillageResponses",villages.getBody().getNestedVillageResponses());
+//        model.addAttribute("groupedAnswers", villages.getBody().getGroupedAnswers());
+//
+//        return "testForm";
+//    }
+    @GetMapping("/update")
+    public String findUnapprovedVillageResponseByVillageId(Model model) {
+        ResponseEntity<List<VillageResponse>> villageResponses = villageClient.findUnapprovedVillageResponseByVillageId();
+        System.out.println(villageResponses);
+
+        List<VillageResponse> villages = villageResponses.getBody();
+        model.addAttribute("villages", villages);
+        return "testForm";
     }
-
 }
