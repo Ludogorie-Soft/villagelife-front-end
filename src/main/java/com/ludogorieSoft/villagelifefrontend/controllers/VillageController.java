@@ -4,14 +4,19 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import feign.FeignException;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 
 @Controller
 @AllArgsConstructor
@@ -21,10 +26,6 @@ public class VillageController {
     private final VillageClient villageClient;
     private final AddVillageFormClient addVillageFormClient;
     private final GroundCategoryClient groundCategoryClient;
-    private final VillageEthnicityClient villageEthnicityClient;
-    private final VillageAnswerQuestionClient villageAnswerQuestionClient;
-    private final VillageLivingConditionClient villageLivingConditionClient;
-    private final VillagePopulationAssertionClient villagePopulationAssertionClient;
     private final EthnicityClient ethnicityClient;
     private final PopulationClient populationClient;
     private final QuestionClient questionClient;
@@ -32,29 +33,46 @@ public class VillageController {
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
-    private final ObjectVillageClient objectVillageClient;
     private final MessageClient messageClient;
-
-    private FilterClient filterClient;
     private  InquiryClient inquiryClient;
+    private static final String VILLAGES_ATTRIBUTE = "villages";
 
 
     @GetMapping
     String getVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
-        model.addAttribute("villages", villages);
+        model.addAttribute(VILLAGES_ATTRIBUTE, villages);
         return "/test/testAllVillages";
     }
+
+
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
-        List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
-        model.addAttribute("villages", villageDTOS);
+        try {
+            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                List<VillageDTO> villageDTOS = response.getBody();
+                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
+            } else {
+                model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+                model.addAttribute("noVillagesMessage", "Списъкът с одобрени села е празен!");
+            }
+        } catch (FeignException.NotFound e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+            model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
+        } catch (FeignException e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+            model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
+        }
 
         return "HomePage";
     }
+
+
     @GetMapping("/show/{id}")
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
@@ -91,6 +109,7 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
+
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                               @RequestParam("images") List<MultipartFile> images) {
@@ -107,23 +126,27 @@ public class VillageController {
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         return "redirect:/villages/home-page";
     }
+
     @GetMapping("/partners")
-    public String showPartnersPage(){
+    public String showPartnersPage() {
         return "partners";
     }
+
     @GetMapping("/contacts")
-    public String showContactsPage(Model model){
+    public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
         model.addAttribute("message", messageDTO);
         return "contacts";
     }
+
     @PostMapping("/message-save")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
         messageClient.createMessage(messageDTO);
         return "redirect:/villages/contacts";
     }
+
     @GetMapping("/about-us")
-    public String showAboutUsPage(){
+    public String showAboutUsPage() {
         return "about-us";
     }
 
@@ -153,14 +176,23 @@ public class VillageController {
     @GetMapping("/map")
     String mapVillages(Model model) {
         List<VillageDTO> villages = villageClient.getAllVillages();
-        model.addAttribute("villages", villages);
+        model.addAttribute(VILLAGES_ATTRIBUTE, villages);
         return "/test/map";
     }
 
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {
-        List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
-        model.addAttribute("villages", villageDTOS);
+        try {
+            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                List<VillageDTO> villageDTOS = response.getBody();
+                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
+            }
+        } catch (FeignException.NotFound e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+        }
+
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
