@@ -229,33 +229,33 @@
                         </div>
 
                         <div class="message-container">
-                            <div class="message col-12" id="message"></div>
+                            <div class="message col-12 text-center" id="message"></div>
                         </div>
 
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="name" value type="text" placeholder="Име" th:field="*{userName}" minlength="2">
+                            <input class="form-control-sm" name="name" value type="text" placeholder="Име" th:field="*{userName}" minlength="2" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон" th:field="*{mobile}" minlength="10">
+                            <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон" th:field="*{mobile}" minlength="10" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></p>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="email" value type="email" placeholder="Имейл" th:field="*{email}">
+                            <input class="form-control-sm" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         </div>
 
                         <div class="form-group form-group-textarea">
-                            <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение" th:text="*{userMessage}" th:field="*{userMessage}"></textarea>
+                            <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение" th:text="*{userMessage}" th:field="*{userMessage}" required></textarea>
                             <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
                         </div>
 
                         <div class="form-group">
-                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}">
+                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>
                                 <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
                             <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
@@ -298,27 +298,8 @@
 <script src="/js/accordion-script.js"></script>
 <script src="/js/makeCallScript.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const messageContainer = document.getElementById("message");
-
   const isSent = [[${isSent}]];
-
-  if (isSent) {
-    messageContainer.textContent = "Съобщението беше изпратено успешно!";
-    messageContainer.classList.add("message-true");
-  } else {
-    messageContainer.textContent = "Съобщението не беше изпратено!";
-    messageContainer.classList.add("message-false");
-  }
-
-  setTimeout(function() {
-    messageContainer.style.animation = "fadeOut 2s linear";
-  }, 5000);
-
-  setTimeout(function() {
-    messageContainer.style.display = "none";
-  }, 7000);
-});
 </script>
+<script src="/js/isSentMessageScript.js"></script>
 </body>
 </html>
