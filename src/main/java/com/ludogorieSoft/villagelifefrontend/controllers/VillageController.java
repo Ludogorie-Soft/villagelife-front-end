@@ -1,6 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
+import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
@@ -38,6 +39,7 @@ public class VillageController {
     private final MessageClient messageClient;
     private  InquiryClient inquiryClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
+    private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
 
 
@@ -158,9 +160,18 @@ public class VillageController {
     }
 
     @PostMapping("/message-save")
-    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
-        messageClient.createMessage(messageDTO);
-        return "redirect:/villages/contacts";
+    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
+        messageValidator.validate(messageDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("isSent", false);
+            model.addAttribute("message", messageDTO);
+            return "contacts";
+        }else {
+            model.addAttribute("isSent", true);
+            messageClient.createMessage(messageDTO);
+            model.addAttribute("message", new MessageDTO());
+        }
+        return "contacts";
     }
 
     @GetMapping("/about-us")
