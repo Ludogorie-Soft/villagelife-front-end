@@ -306,5 +306,34 @@
           margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
         }
 
+        .message-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .message {
+          padding: 10px;
+          margin: 10px 0;
+          border-radius: 5px;
+          font-size: 18px;
+          color: #fff;
+          opacity: 1;
+          transition: opacity 2s linear;
+        }
+
+        .message-true {
+          background-color: green;
+        }
+
+        .message-false {
+          background-color: red;
+        }
+
+        @keyframes fadeOut {
+          80% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
 
 
