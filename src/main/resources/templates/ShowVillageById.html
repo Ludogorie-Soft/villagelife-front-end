@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Информация</title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png" />
+    <title th:text="${title}">Информация</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
@@ -12,6 +13,7 @@
             integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="/css/message.css">
     <link rel="stylesheet" href="/css/showVillageById.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
 </head>
@@ -228,34 +230,43 @@
                             </ul>
                         </div>
 
+                        <div class="message-container">
+                            <div class="message col-12 text-center" id="message"></div>
+                        </div>
+
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
                         <div class="form-group">
                             <input class="form-control-sm" name="name" value type="text" placeholder="Име" th:field="*{userName}" minlength="2" required>
+                            <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
                         </div>
 
                         <div class="form-group">
                             <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон" th:field="*{mobile}" minlength="10" required>
+                            <p class="text-danger" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></p>
                         </div>
 
                         <div class="form-group">
                             <input class="form-control-sm" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
+                            <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         </div>
 
                         <div class="form-group form-group-textarea">
                             <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение" th:text="*{userMessage}" th:field="*{userMessage}" required></textarea>
+                            <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
                         </div>
 
                         <div class="form-group">
-                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}">
+                            <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>
                                 <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
+                            <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
                         </div>
 
                         <div class="form-group">
                             <label class="control-checkbox" for="privacy_policy_checkbox">
                                 <span class="custom-checkbox"></span>
-                                <input type="checkbox" id="privacy_policy_checkbox" name="privacy_policy" required>
+                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required>
                                 Изпращайки това съобщение аз се съгласявам с
                                 <a target="_blank" th:href="@{/villages/general-terms}">
                                     Общите условия
@@ -288,6 +299,9 @@
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>
 <script src="/js/makeCallScript.js"></script>
-
+<script>
+  const isSent = [[${isSent}]];
+</script>
+<script src="/js/isSentMessageScript.js"></script>
 </body>
 </html>
