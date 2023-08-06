@@ -266,7 +266,7 @@
                         <div class="form-group">
                             <label class="control-checkbox" for="privacy_policy_checkbox">
                                 <span class="custom-checkbox"></span>
-                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}">
+                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required>
                                 Изпращайки това съобщение аз се съгласявам с
                                 <a target="_blank" th:href="@{/villages/general-terms}">
                                     Общите условия
