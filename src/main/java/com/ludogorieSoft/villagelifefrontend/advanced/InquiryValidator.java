@@ -29,5 +29,8 @@ public class InquiryValidator implements Validator {
         if (inquiryDTO.getEmail() != null && inquiryDTO.getMobile().length() < 10) {
             errors.rejectValue("mobile", "field.minlength", "Телефонният номер трябва да бъде поне 10 символа");
         }
+        if(!inquiryDTO.isHasAgreed()){
+            errors.rejectValue("hasAgreed", "field.required");
+        }
     }
 }
