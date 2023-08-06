@@ -4,14 +4,32 @@
             padding-right: 0px;
         }
 
+        @media (max-width: 991.98px) {
+            .menu-container {
+                display: none;
+            }
+            #hamburger-menu {
+                display: block;
+            }
+        }
+
+        @media (min-width: 992px) {
+            #hamburger-menu {
+                display: none;
+            }
+        }
+
+
         #menu {
             padding: 10px;
-            margin-right: 80px;
+            margin-right: 40px;
+            margin-top: 5px;
             float: right;
         }
 
-        .menu-container {
-           margin-left: 100px;
+        .menu-container,
+        #hamburger-menu{
+           margin-left: 70px;
            margin-bottom: 20px;
         }
 
@@ -193,4 +211,58 @@
             margin-top: 10px; /* Add margin-top to create space between the header and the input field */
             justify-content: flex-start;
             gap: 10px;
+        }
+
+
+
+
+
+
+
+        .nav-overlay {
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: rgb(0,0,0);
+          background-color: rgba(0,0,0, 0.9);
+          overflow-x: hidden;
+          transition: 0.5s;
+        }
+
+        .nav-overlay-content {
+          position: relative;
+          top: 25%;
+          width: 100%;
+          text-align: center;
+          margin-top: 30px;
+        }
+
+        .nav-overlay a {
+          padding: 8px;
+          text-decoration: none;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+        }
+
+        .nav-overlay a:hover, .nav-overlay a:focus {
+          color: #f1f1f1;
+        }
+
+        .nav-overlay .closebtn {
+          position: absolute;
+          right: 40px;
+          font-size: 60px;
+        }
+
+        @media screen and (max-height: 450px) {
+          .nav-overlay a {font-size: 20px}
+          .nav-overlay .closebtn {
+          font-size: 40px;
+          top: 15px;
+          right: 35px;
+          }
         }
