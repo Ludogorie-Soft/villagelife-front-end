@@ -63,8 +63,9 @@ public class FilterController {
                 villages = filterClient.getAllApprovedVillages();
             }
         }
-
-        getImagesForVillages(villages);
+        boolean status = true;
+        String date = null;
+        getImagesForVillages(villages,status,date);
 
         return villages;
     }
@@ -178,17 +179,18 @@ public class FilterController {
                 villageDTOs = filterClient.searchVillagesByObjectAndChildren(selectedObjects, selectedChildrenEnum.name());
             }
         }
-
-        getImagesForVillages(villageDTOs);
+        boolean status = true;
+        String date = null;
+        getImagesForVillages(villageDTOs,status,date);
 
         return villageDTOs;
     }
 
 
-    private void getImagesForVillages(List<VillageDTO> villages) {
+    private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
         if (villages != null) {
             for (VillageDTO village : villages) {
-                List<String> images = villageImageClient.getAllImagesForVillage(village.getId()).getBody();
+                List<String> images = villageImageClient.getAllImagesForVillage(village.getId(), status, date).getBody();
                 village.setImages(images);
             }
         }

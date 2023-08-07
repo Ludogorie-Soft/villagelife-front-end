@@ -1,12 +1,14 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AddVillageFormResult;
 import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.InquiryDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -34,6 +37,7 @@ public class AdministratorController {
     private static final String AUTH_HEATHER = "Bearer ";
     private static final String ADMINS = "admins";
     private static final String MESSAGE = "message";
+    private static final String VILLAGES_ATTRIBUTE = "villages";
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -85,16 +89,6 @@ public class AdministratorController {
 
     }
 
-    @GetMapping("/village")
-    public String getAllVillages(Model model, HttpSession session) {
-        String token2 = (String) session.getAttribute(SESSION_NAME);
-        List<VillageResponse> villages = adminClient.getAllVillages(AUTH_HEATHER + token2);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
-        model.addAttribute("villages", villages);
-        return "admin_templates/admin_menu";
-    }
-
     @GetMapping("/logout")
     public ModelAndView logoutButton(HttpSession session) {
         session.removeAttribute(SESSION_NAME);
@@ -111,28 +105,55 @@ public class AdministratorController {
     }
 
     @GetMapping("/show/{villageId}")
-    public String seeVillageToApproveIt(@PathVariable(name = "villageId") Long id, Model model, HttpSession session) {
+    public String seeVillageToApproveIt(@RequestParam("villageId") Long villageId,
+                                        @RequestParam("answerDate") String answerDate, Model model, HttpSession session) {
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        villageController.getTablesVillageById(id, model, administratorDTO);
+        boolean status = false;
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        VillageInfo villageInfo = adminClient.getVillageInfoById(villageId, answerDate,status,AUTH_HEATHER + token2);
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO);
         return "ShowVillageById";
     }
 
-    @PostMapping("/approve/{id}")
-    public ModelAndView changeVillageStatus(@PathVariable(name = "id") Long id, RedirectAttributes redirectAttributes, HttpSession session) {
+    @PostMapping("/approve/{villageId}")
+    public ModelAndView approveVillageResponse(@RequestParam("villageId") Long villageId,
+                                            @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminClient.changeVillageStatus(id, AUTH_HEATHER + token2);
-        redirectAttributes.addFlashAttribute(MESSAGE, "Status of village with ID: " + id + " changed successfully!!!");
+        adminClient.changeVillageStatus(villageId,answerDate, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Status of village with ID: " + villageId + " changed successfully!!!");
         return new ModelAndView("redirect:/admins/village");
     }
-//    @GetMapping("/update/{villageId}")
-//    public String showCreateVillageForm(@PathVariable(name = "villageId")Long id, Model model,HttpSession session) {
-//        String token2 = (String) session.getAttribute(SESSION_NAME);
-////        adminClient.getVillageById(id, AUTH_HEATHER + token2);
-//        AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
-//        villageController.addAllListsWithOptions(model);
-//        model.addAttribute("addVillageFormResult", addVillageFormResult);
-//        return "add-village";
-//    }
 
+    @GetMapping("/village")
+    public String findUnapprovedVillageResponseByVillageId(Model model,HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        try {
+            ResponseEntity<List<VillageResponse>> villageResponses = adminClient.findUnapprovedVillageResponseByVillageId(AUTH_HEATHER + token2);
+
+            if (villageResponses.getStatusCode().is2xxSuccessful()) {
+                AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+                model.addAttribute(ADMINS, administratorDTO.getFullName());
+                List<VillageResponse> villages = villageResponses.getBody();
+                model.addAttribute(VILLAGES_ATTRIBUTE, villages);
+            } else {
+                model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+            }
+        } catch (FeignException.BadRequest e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+        }
+
+        return "admin_templates/admin_menu";
+    }
+
+    @PostMapping("/reject/{villageId}")
+    public ModelAndView rejectVillageResponse(@RequestParam("villageId") Long villageId,
+                                            @RequestParam("answerDate") String answerDate,
+                                              RedirectAttributes redirectAttributes, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminClient.rejectVillageResponse(villageId,answerDate, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " rejected successfully!!!");
+        return new ModelAndView("redirect:/admins/village");
+    }
 
 }

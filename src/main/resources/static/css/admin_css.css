@@ -22,3 +22,30 @@ th.sortable:hover {/* sorting button */
 cursor: pointer;
 background-color: #f1f1f1;
 }
+/* CSS style to remove bullets from the list */
+ul.no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+ }
+    /* Align the content in the "Answer date" and "Approval" cells */
+    .table td:nth-child(7),
+    .table td:nth-child(8) {
+        vertical-align: middle;
+    }
+
+    /* Add some spacing between the rows in the "Answer date" column */
+    .table td:nth-child(7) ul li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    /* Add some padding to the buttons in the "Approval" column */
+    .table td:nth-child(8) form {
+        margin-bottom:10;
+    }
+.btn-approval {
+    margin-right:0px; /* Adjust the horizontal spacing as needed */
+    margin-bottom: 15px; /* Add vertical spacing between buttons */
+}
+
+

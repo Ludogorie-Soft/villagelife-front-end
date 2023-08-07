@@ -2,9 +2,7 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
-import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +31,6 @@ public interface VillageClient {
     @GetMapping("/info/{id}")
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
     @GetMapping("/update/{villageId}")
-    public ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
-    @GetMapping(value = "/update")//{villageId}
-    public ResponseEntity<List<VillageResponse>> findUnapprovedVillageResponseByVillageId();
+    ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
 
 }
