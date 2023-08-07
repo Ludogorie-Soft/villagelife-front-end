@@ -226,7 +226,7 @@
           z-index: 1;
           top: 0;
           left: 0;
-          background-color: rgba(0, 0, 0, 0.95);
+          background-color: rgba(0, 0, 0, 1);
           overflow-x: hidden;
           transition: 0.5s;
           z-index: 99;
@@ -261,9 +261,9 @@
         @media screen and (max-height: 450px) {
           .nav-overlay a {font-size: 20px}
           .nav-overlay .closebtn {
-          font-size: 40px;
-          top: 15px;
-          right: 35px;
+                font-size: 40px;
+                top: 15px;
+                right: 35px;
           }
         }
         #hamburger-menu hr{
