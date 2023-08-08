@@ -206,7 +206,7 @@
     }
 
     #village-life-text {
-        --b: .4em; /* border width */
+        --b: .3em; /* border width */
         --c: 3em; /* corner size */
         --r: 2em;; /* corner rounding */
         position: relative;
@@ -222,7 +222,7 @@
             inset: calc(-1*var(--b));
             border: inherit;
             border-radius: var(--r);
-            background: linear-gradient(#A5914C, #96c930, grey) border-box; /* #A79F53, #91954C, #A5914C */
+            background: linear-gradient(#DBD654, #A6B06B, #96c930) border-box; /* #A79F53, #91954C, #A5914C */
             --corner:
                 conic-gradient(from -90deg at var(--c) var(--c), red 25%, #0000 0)
                     0 0/ calc(100% - var(--c))  calc(100% - var(--c)) border-box;
