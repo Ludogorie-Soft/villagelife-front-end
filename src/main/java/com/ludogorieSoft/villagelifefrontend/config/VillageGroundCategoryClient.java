@@ -13,7 +13,7 @@ public interface VillageGroundCategoryClient {
 
 
     @PostMapping("/{villageId}/{groundCategoryId}")
-    void updateVillageGroundCategory(@PathVariable Long villageId, @PathVariable Long groundCategoryId);
+    void updateVillageGroundCategories(@PathVariable Long villageId, @PathVariable Long groundCategoryId);
 
 
     @GetMapping("/check-village-exists/{villageId}")

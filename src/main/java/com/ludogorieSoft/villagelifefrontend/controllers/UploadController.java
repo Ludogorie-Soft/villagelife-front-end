@@ -183,7 +183,7 @@ public class UploadController {
                                         newVillageGroundCategory.setStatus(true);
                                         villageGroundCategoryClient.createVillageGroundCategories(newVillageGroundCategory);
                                     } else {
-                                        villageGroundCategoryClient.updateVillageGroundCategory(village.getId(), groundCategoryId);
+                                        villageGroundCategoryClient.updateVillageGroundCategories(village.getId(), groundCategoryId);
                                     }
 
                                     break;
