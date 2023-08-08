@@ -18,11 +18,10 @@
     <script src="/js/homePageVideos.js"></script>
 
 <body>
-
+<div th:replace="fragments :: hamburger-menu"></div>
 <div class="video-container">
 
     <div th:replace="fragments :: menu"></div>
-    <div th:replace="fragments :: hamburger-menu"></div>
 
     <video id="video2" th:src="@{/videos/home-page-video-2.mp4}" alt="video2" class="fullscreen-video" autoplay loop
            muted></video>
