@@ -278,15 +278,13 @@
         .button-container {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px; /* Примерно разстояние отгоре */
+            margin-top: 10px;
         }
 
-        /* Стил за бутоните */
         .btn {
-            flex-basis: 45%; /* Задава ширина на бутоните, така че да има празно пространство между тях */
+            flex-basis: 45%;
         }
 
-         /* Стил за текста на чекбокса и линка */
         .form-group label {
             font-size: 14px;
             color: #444;
@@ -307,6 +305,3 @@
         .information-wrap {
           margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
         }
-
-
-
