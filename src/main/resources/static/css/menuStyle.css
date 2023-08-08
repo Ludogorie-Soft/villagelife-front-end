@@ -218,7 +218,8 @@
           z-index: 1;
           top: 0;
           left: 0;
-          background-color: rgba(0, 0, 0, 1);
+          background-color: #F2F2F2 /*rgba(0, 0, 0, 1)*/;
+          border-right: solid 1px #595959;
           overflow-x: hidden;
           transition: 0.5s;
           z-index: 99;
@@ -235,19 +236,21 @@
         .nav-overlay a {
           padding: 8px;
           text-decoration: none;
-          color: #818181;
+          color: #595959 /*#818181*/;
           display: block;
           transition: 0.3s;
         }
 
         .nav-overlay a:hover, .nav-overlay a:focus {
-          color: #f1f1f1;
+          color: black /*#f1f1f1*/;
+          font-weight: bold;
         }
 
         .nav-overlay .closebtn {
           position: absolute;
           right: 0;
           font-size: 60px;
+          color: #595959;
         }
 
         @media screen and (max-height: 450px) {
@@ -261,7 +264,7 @@
         #hamburger-menu hr{
             width: 100%;
             height: 1px;
-            background-color: white;
+            background-color: /*white*/ #595959;
             border: none;
         }
         .hamburger-menu-icon {

@@ -222,7 +222,7 @@
             inset: calc(-1*var(--b));
             border: inherit;
             border-radius: var(--r);
-            background: linear-gradient(#A79F53, #91954C, #A5914C) border-box; /* Use the specified colors */
+            background: linear-gradient(#A5914C, #96c930, grey) border-box; /* #A79F53, #91954C, #A5914C */
             --corner:
                 conic-gradient(from -90deg at var(--c) var(--c), red 25%, #0000 0)
                     0 0/ calc(100% - var(--c))  calc(100% - var(--c)) border-box;
@@ -245,7 +245,7 @@
         }
         #village-life-text-container {
             display: block;
-            background-color: #535830;
+            background-color: white; /* #535830 */
             color: #968D52;
             font-size: 24px;
             text-align: center;
