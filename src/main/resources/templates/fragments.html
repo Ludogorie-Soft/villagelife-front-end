@@ -14,8 +14,6 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/css/menuStyle.css">
-
 </head>
 <body>
 
@@ -144,6 +142,31 @@
         </footer>
     </div>
 </div>
+
+
+
+<div th:fragment="hamburger-menu" id="hamburger-menu">
+    <img th:src="@{/images/village-life-logo.png}" alt="village live logo" class="smaller-logo-image">
+
+    <div id="myNav" class="nav-overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="nav-overlay-content">
+            <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
+            <hr>
+            <a th:href="@{/villages/map}"> <i class="fa-regular fa-map"></i> КАРТА</a>
+            <hr>
+            <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+            <hr>
+            <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
+            <hr>
+            <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+            <hr>
+            <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+        </div>
+    </div>
+    <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>
+</div>
+
 
 </body>
 </html>

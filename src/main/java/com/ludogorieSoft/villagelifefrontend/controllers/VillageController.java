@@ -1,5 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
+import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
@@ -7,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +37,10 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
+    private  InquiryClient inquiryClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
+    private final MessageValidator messageValidator;
+    private final InquiryValidator inquiryValidator;
 
 
     @GetMapping
@@ -73,14 +79,41 @@ public class VillageController {
 
 
     @GetMapping("/show/{id}")
-    public String getAllTablesByVillageId(@PathVariable(name = "id") Long id, Model model) {
+    public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
+        InquiryDTO inquiryDTO = new InquiryDTO();
+        getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+        return "ShowVillageById";
+    }
+    @PostMapping("/inquiry-save")
+    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
+        inquiryValidator.validate(inquiryDTO, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+            getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+            model.addAttribute("isSent", false);
+        }else {
+            inquiryClient.createInquiry(inquiryDTO);
+            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+            inquiryDTO = new InquiryDTO();
+            getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+            model.addAttribute("isSent", true);
+        }
+        return "ShowVillageById";
+    }
+
+    private void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, Model model){
+        model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(id).getBody();
+        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
+        model.addAttribute("inquiry", inquiryDTO);
+
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId()).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
 
-        PopulationDTO population = populationClient.getPopulationById(id);
+        PopulationDTO population = populationClient.getPopulationById(villageInfo.getVillageDTO().getId());
         model.addAttribute("population", population);
 
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
@@ -89,9 +122,7 @@ public class VillageController {
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         model.addAttribute("questions", questionDTOS);
 
-        return "ShowVillageById";
     }
-
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
@@ -130,9 +161,18 @@ public class VillageController {
     }
 
     @PostMapping("/message-save")
-    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO) {
-        messageClient.createMessage(messageDTO);
-        return "redirect:/villages/contacts";
+    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
+        messageValidator.validate(messageDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("isSent", false);
+            model.addAttribute("message", messageDTO);
+            return "contacts";
+        }else {
+            model.addAttribute("isSent", true);
+            messageClient.createMessage(messageDTO);
+            model.addAttribute("message", new MessageDTO());
+        }
+        return "contacts";
     }
 
     @GetMapping("/about-us")
