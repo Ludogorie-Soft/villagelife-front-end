@@ -19,9 +19,9 @@ public interface AdminClient {
     @GetMapping("/{id}")
     ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 
-    @PostMapping
-    ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest,
-                                                         @RequestHeader("Authorization") String token);
+//    @PostMapping
+//    ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest,
+//                                                         @RequestHeader("Authorization") String token);
 
     @PutMapping("/update/{id}")
     ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
@@ -31,8 +31,8 @@ public interface AdminClient {
     @DeleteMapping("/{id}")
     void deleteAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 
-    @GetMapping("/username/{username}")
-    AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
+//    @GetMapping("/username/{username}")
+//    AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
 
     @GetMapping("village")
     List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
