@@ -25,4 +25,7 @@ public interface PopulationClient {
 
     @DeleteMapping("/{id}")
     String deletePopulationById(@PathVariable("id") Long id);
+
+    @GetMapping("/{villageName}/{region}")
+    PopulationDTO findPopulationByVillageNameAndRegion(@PathVariable("villageName") String villageName, @PathVariable("region") String region);
 }

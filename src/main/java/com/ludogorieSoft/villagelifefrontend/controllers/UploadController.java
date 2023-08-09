@@ -3,12 +3,15 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.*;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +28,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class UploadController {
 
-    private final UploadExcelClient uploadExcelClient;
+
     private final VillageClient villageClient;
     private final PopulationClient populationClient;
     private final RegionClient regionClient;
@@ -43,6 +46,9 @@ public class UploadController {
     private static final String UPLOAD_VIEW = "upload";
     private static final String UPLOAD_SUCCESS = "uploadSuccess";
     private static final String UPLOAD_ERROR = "uploadError";
+
+    private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
+
 
 
     @GetMapping()
@@ -88,10 +94,9 @@ public class UploadController {
 
                 VillageAnswerQuestionDTO villageAnswerQuestion = new VillageAnswerQuestionDTO();
                 PopulationDTO population = new PopulationDTO();
-                PopulatedAssertionDTO populatedAssertion = new PopulatedAssertionDTO();
+                PopulatedAssertionDTO populatedAssertion;
                 VillagePopulationAssertionDTO villagePopulationAssertion = new VillagePopulationAssertionDTO();
 
-                Long newPopulationID = populationClient.createPopulationWhitNullValues();
 
                 for (int i = 0; i < lastCellNum; i++) {
                     cell = row.getCell(i);
@@ -176,14 +181,16 @@ public class UploadController {
                                 if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
                                     Long groundCategoryId = groundCategories.get(j).getId();
 
+
+                                    VillageGroundCategoryDTO newVillageGroundCategory = new VillageGroundCategoryDTO();
+                                    newVillageGroundCategory.setVillageId(village.getId());
+                                    newVillageGroundCategory.setGroundCategoryId(groundCategoryId);
+                                    newVillageGroundCategory.setStatus(true);
+
                                     if (!villageGroundCategoryClient.isVillageExists(village.getId())) {
-                                        VillageGroundCategoryDTO newVillageGroundCategory = new VillageGroundCategoryDTO();
-                                        newVillageGroundCategory.setVillageId(village.getId());
-                                        newVillageGroundCategory.setGroundCategoryId(groundCategoryId);
-                                        newVillageGroundCategory.setStatus(true);
                                         villageGroundCategoryClient.createVillageGroundCategories(newVillageGroundCategory);
                                     } else {
-                                        villageGroundCategoryClient.updateVillageGroundCategories(village.getId(), groundCategoryId);
+                                        villageGroundCategoryClient.updateVillageGroundCategory(village.getId(), newVillageGroundCategory);
                                     }
 
                                     break;
@@ -219,6 +226,10 @@ public class UploadController {
                             }
 
                         } else if (i == 33) {
+                            Long newPopulationID;
+
+                            newPopulationID = getNewPopulationID(village);
+
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueNumberOfPopulation = valueCell.getStringCellValue().trim();
                             boolean populationFound = false;
@@ -230,13 +241,7 @@ public class UploadController {
                                     if (populationRange.length >= 2) {
                                         String numberString = populationRange[1].trim().split(" ")[0];
 
-                                        try {
-                                            int populationCount = Integer.parseInt(numberString);
-                                            village.setPopulationCount(populationCount);
-                                            populationFound = true;
-                                        } catch (NumberFormatException e) {
-                                            System.err.println("Невалиден брой жители: " + e);
-                                        }
+                                        populationFound = isPopulationFound(village, populationFound, numberString);
                                     }
                                     break;
                                 }
@@ -374,6 +379,29 @@ public class UploadController {
         return UPLOAD_VIEW;
     }
 
+    private static boolean isPopulationFound(VillageDTO village, boolean populationFound, String numberString) {
+        try {
+            int populationCount = Integer.parseInt(numberString);
+            village.setPopulationCount(populationCount);
+            populationFound = true;
+        } catch (NumberFormatException e) {
+            logger.error("Невалиден брой жители: ", e);
+        }
+        return populationFound;
+    }
+
+    private Long getNewPopulationID(VillageDTO village) {
+        Long newPopulationID;
+        try {
+            populationClient.findPopulationByVillageNameAndRegion(village.getName(), village.getRegion());
+            newPopulationID = village.getId();
+
+        } catch (FeignException.BadRequest e) {
+            newPopulationID = populationClient.createPopulationWhitNullValues();
+        }
+        return newPopulationID;
+    }
+
 
     private void setVillageIdBasedOnKeyOrCreateNewVillage(Map<String, VillageDTO> existingVillagesMap, String key, VillageDTO village) {
         if (existingVillagesMap.containsKey(key)) {
@@ -410,8 +438,7 @@ public class UploadController {
         }
 
         name = VillageNameProcessor.processVillageName(name);
-        String key = name + ", " + regionName;
-        return key;
+        return name + ", " + regionName;
     }
 
 
