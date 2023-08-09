@@ -4,17 +4,33 @@
             padding-right: 0px;
         }
 
+        @media (max-width: 991.98px) {
+            .menu-container {
+                display: none;
+            }
+            #hamburger-menu {
+                display: block;
+            }
+        }
+
+        @media (min-width: 992px) {
+            #hamburger-menu {
+                display: none;
+            }
+        }
+
+
         #menu {
             padding: 10px;
-            margin-right: 80px;
+            margin-right: 40px;
+            margin-top: 5px;
             float: right;
         }
 
-        .menu-container {
-           margin-left: 100px;
+        .menu-container{
+           margin-left: 70px;
            margin-bottom: 20px;
         }
-
         #menu a {
             margin-right: 10px;
             text-decoration: none;
@@ -194,3 +210,77 @@
             justify-content: flex-start;
             gap: 10px;
         }
+
+        .nav-overlay {
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: #F2F2F2 /*rgba(0, 0, 0, 1)*/;
+          border-right: solid 1px #595959;
+          overflow-x: hidden;
+          transition: 0.5s;
+          z-index: 99;
+        }
+
+        .nav-overlay-content {
+          position: relative;
+          top: 10%;
+          width: 100%;
+          text-align: center;
+          margin-top: 30px;
+        }
+
+        .nav-overlay a {
+          padding: 8px;
+          text-decoration: none;
+          color: #595959 /*#818181*/;
+          display: block;
+          transition: 0.3s;
+        }
+
+        .nav-overlay a:hover, .nav-overlay a:focus {
+          color: black /*#f1f1f1*/;
+          font-weight: bold;
+        }
+
+        .nav-overlay .closebtn {
+          position: absolute;
+          right: 0;
+          font-size: 60px;
+          color: #595959;
+        }
+
+        @media screen and (max-height: 450px) {
+          .nav-overlay a {font-size: 20px}
+          .nav-overlay .closebtn {
+                font-size: 40px;
+                top: 15px;
+                right: 35px;
+          }
+        }
+        #hamburger-menu hr{
+            width: 100%;
+            height: 1px;
+            background-color: /*white*/ #595959;
+            border: none;
+        }
+        .hamburger-menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            position: relative;
+            float: right;
+            margin: 2px 10px 0 0;
+        }
+        #hamburger-menu{
+            background-color: white;
+        }
+        .smaller-logo-image{
+             position: relative;
+             left: 20px;
+             width: 125px;
+             height: auto;
+             margin-top: 3px;
+         }

@@ -22,10 +22,13 @@
 <body>
 
 <div th:replace="fragments :: menu"></div>
+<div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
     <div class="village-title">
         <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + ${villageInfo.villageDTO.region}"></h1>
+        <input value='' type='button' onclick='handlePrint()' class="print-button"/>
+
         <img th:src="@{/images/point.png}" class="point-icon"><span
             th:text="'село '+${villageInfo.villageDTO.name} + ', България'" class="village-name"></span>
     </div>
@@ -42,6 +45,9 @@
         </div>
     </div>
     <div class="row">
+
+    <p style="color: #B5B5B5; margin-top: 20px">Предоставената информация е ориентировъчна и с относителна достоверност.</p>
+
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">
             <h3 class="section-title">Обща информация</h3>
@@ -303,5 +309,7 @@
   const isSent = [[${isSent}]];
 </script>
 <script src="/js/isSentMessageScript.js"></script>
+<script src="/js/navScript.js"></script>
+<script src="/js/handlePrint.js"></script>
 </body>
 </html>
