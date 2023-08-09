@@ -16,4 +16,5 @@ public class InquiryDTO {
     private String mobile;
     private Long villageId;
     private InquiryType inquiryType;
+    private boolean hasAgreed;
 }

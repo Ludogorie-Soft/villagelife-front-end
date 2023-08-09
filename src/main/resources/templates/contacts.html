@@ -14,6 +14,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+    <link rel="stylesheet" href="/css/message.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
     <link rel="stylesheet" href="/css/contacts.css">
 
@@ -21,10 +22,11 @@
 <body>
 
 <div th:replace="fragments :: menu"></div>
+<div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="custom-container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-lg-8 col-md-8 col-sm-12">
             <div>
                 <p>Нека развием концепцията на VillageLife заедно!</p>
                 <p>Пишете ни с въпроси, предложения, идеи, обратна връзка и възможности за сътрудничество.</p>
@@ -36,7 +38,8 @@
                         Име
                         <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име" minlength="2" required>
+                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" placeholder="Въведете Вашето име"  minlength="2" required>
+                    <span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
                 </section>
 
                 <section>
@@ -45,14 +48,16 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email адрес" required>
+                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </section>
 
                 <section>
-                    <label for="message" class="fw-bold">
+                    <label for="userMessage" class="fw-bold">
                         Съобщение
                         <span class="text-danger">*</span>
                     </label>
-                    <textarea id="message" name="userMessage" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
+                    <textarea id="userMessage" name="userMessage" th:field="*{userMessage}" class="form-control" placeholder="Запитване или заявка..." required></textarea>
+                    <span class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></span>
                 </section>
 
                 <section>
@@ -60,8 +65,12 @@
                 </section>
             </form>
 
+            <div class="message-container">
+                <div class="message col-12 text-center" id="message"></div>
+            </div>
+
         </div>
-        <div class="col-4">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <h5>За запитвания:</h5>
             <p><i class="fa-solid fa-map-location-dot fa-beat-fade"></i> <a href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank" class="green-link" style="color: #96c930;">гр. София, бул.  &bdquo;Гоце Делчев&rdquo; 100</a></p>
             <p><i class="fa-solid fa-phone fa-shake"></i> <a href="tel:+359888393339" class="green-link" style="color: #96c930;">+359 (0) 888 393 339</a></p>
@@ -85,9 +94,10 @@
 </div>
 
 <div th:replace="fragments :: footer"></div>
-
-<script src="/js/contactFormSubmit.js"></script>
-
-
+<script>
+  const isSent = [[${isSent}]];
+</script>
+<script src="/js/isSentMessageScript.js"></script>
+<script src="/js/navScript.js"></script>
 </body>
 </html>
