@@ -19,10 +19,6 @@ public interface AdminClient {
     @GetMapping("/{id}")
     ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 
-//    @PostMapping
-//    ResponseEntity<AdministratorDTO> createAdministrator(@Valid @RequestBody AdministratorRequest administratorRequest,
-//                                                         @RequestHeader("Authorization") String token);
-
     @PutMapping("/update/{id}")
     ResponseEntity<AdministratorDTO> updateAdministrator(@PathVariable("id") Long id,
                                                          AdministratorRequest administratorRequest,
@@ -30,30 +26,5 @@ public interface AdminClient {
 
     @DeleteMapping("/{id}")
     void deleteAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
-
-//    @GetMapping("/username/{username}")
-//    AdministratorRequest getAdministratorByUsername(@PathVariable("username") String username);
-
-    @GetMapping("village")
-    List<VillageResponse> getAllVillages(@RequestHeader("Authorization") String token);
-
-    @DeleteMapping("/village-delete/{villageId}")
-    ResponseEntity<String> deleteVillageById(@PathVariable("villageId") Long villageId, @RequestHeader("Authorization") String token);
-
-    @PostMapping("/approve/{villageId}")
-    ResponseEntity<String> changeVillageStatus(@RequestParam("villageId") Long villageId,
-                                               @RequestParam("answerDate") String answerDate, @RequestHeader("Authorization") String token);
-
-    @GetMapping(value = "/update")
-    ResponseEntity<List<VillageResponse>> findUnapprovedVillageResponseByVillageId(@RequestHeader("Authorization") String token);
-
-    @PostMapping("/reject/{villageId}")
-    void rejectVillageResponse(@RequestParam("villageId") Long villageId,
-                               @RequestParam("answerDate") String answerDate, @RequestHeader("Authorization") String token);
-
-    @GetMapping("/info/{villageId}")
-    public VillageInfo getVillageInfoById(@RequestParam("villageId") Long villageId,
-                                          @RequestParam("answerDate") String answerDate,@RequestParam boolean status,
-                                          @RequestHeader("Authorization") String token);
 
 }
