@@ -17,6 +17,10 @@
         box-shadow: 0 0 3px 2px #ccc;
     }
 
+    .filter-button-container {
+        justify-content: space-between;
+    }
+
     /* Village grid styles */
     .village-grid {
         display: flex;
@@ -108,3 +112,170 @@
         font-style: italic;
         color: #96c930;
     }
+
+    @media (max-width: 767px) {
+
+        body {
+            font-size: 12px;
+        }
+
+
+        .search-bar-row {
+            padding-left: 10px;
+            padding-right: 10px;
+            flex-direction: column;
+            flex-wrap: wrap;
+            margin-bottom: 20x;
+            margin-top: 100px;
+
+        }
+
+        .col-5,
+        .col-12 {
+            width: 100%;
+            flex: 0 0 100%;
+            text-align: center;
+        }
+
+        .col-12 {
+            padding-left: 0;
+        }
+
+        .search-bar-row .col-5,
+        .filter-button-container {
+            flex: 0 0 50%;
+        }
+
+        .search-bar-row .col-12 {
+            flex: 0 0 50%;
+            flex-wrap: wrap;
+        }
+
+        .search-bar-row > * {
+           margin-bottom: 10px;
+        }
+
+        /* Adjust the layout of search input elements on mobile */
+        .search-input-container span,
+        .search-input-container input {
+            flex-basis: 100%;
+            order: 2;
+
+        }
+
+        /* Adjust the order of the search elements for mobile devices */
+        .search-bar-row .search-input-container {
+            order: 2;
+        }
+
+        /* Move the search input container below the region select box on mobile devices */
+        .search-input-container {
+            order: 2;
+        }
+
+        .form-select {
+            font-size: 20px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .input-group-text {
+            font-size: 24px;
+            width: 45px;
+            height: 40px;
+        }
+
+        .search-field {
+            font-size: 16px;
+            height: 45px;
+            padding-left: 50px;
+            margin-bottom: 15px;
+        }
+
+        .btn.btn-outline-secondary {
+            font-size: 16px;
+            height: 45px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+
+        .filter-button-container {
+            text-align: center;
+        }
+
+        .btn-outline-secondary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #96c930;
+            color: white;
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Стилове за по-малки екрани (мобилни устройства) */
+@media (max-width: 767px) {
+
+
+    /* Променяме flex-direction на .village-item, за да сложим .village-item на нов ред */
+    .village-item {
+        flex-direction: column;
+    }
+
+    /* Village grid styles */
+    .village-grid {
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0px;
+    }
+
+    /* Променяме размера на .image-container, за да заеме цялата ширина на екрана */
+    .image-container {
+        width: 100%;
+    }
+
+    /* Центрираме изображението в .image-container */
+    .image-container img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Променяме размера на .card-body */
+    .card-body {
+        padding-left: 20px; /* Променете стойността тук според вашите нужди */
+    }
+
+    /* Additional styles for the search results section */
+    .search-results {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 2px; /* Add some padding on top */
+    }
+
+
+
+}
+
+
+        /* Hide the search icon on mobile screens */
+        @media (max-width: 576px) { /* Change the breakpoint if needed */
+
+        }
+

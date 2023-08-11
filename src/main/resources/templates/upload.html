@@ -25,8 +25,6 @@
 <div th:replace="fragments :: menu"></div>
 <div class="text-center">
     <h2>Качи Excel Файл</h2>
-<!--    <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearUpload()"-->
-<!--           style="background-color: #eef5e1;" id="clearButton"/>-->
     <div class="clear-button-container">
         <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearUpload()"
                style="background-color: #eef5e1;" id="clearButton"/>
@@ -50,8 +48,8 @@
     <p th:if="${uploadError}" class="message error">
         Файлът, който се опитвате да прикачите е невалиден! Моля, изберете файл в (.xlsx) формат!
     </p>
-    <p th:if="${addedVillageNumber != null && addedVillageNumber > 0}" class="message added-villages" style="margin-top: 30px;">
-        <strong>Успешно добавени <span th:text="${addedVillageNumber}"></span> села.</strong>
+    <p th:if="${uploadedVillagesCount != null && uploadedVillagesCount > 0}" class="message added-villages" style="margin-top: 30px;">
+        <strong>Успешно добавени <span th:text="${totalUniqueVillages}"></span> села от общо <span th:text="${addedVillageNumber}"></span> записа.</strong>
     </p>
 
 </div>

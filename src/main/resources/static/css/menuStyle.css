@@ -211,6 +211,34 @@
             gap: 10px;
         }
 
+
+        @media (max-width: 767px) {
+                #menu {
+                    padding: 10px;
+                    margin-right: 10px;
+                    float: right;
+                }
+
+                .menu-container {
+                   margin-left: 20px;
+                   margin-bottom: 20px;
+                }
+
+                #menu a {
+                    margin-right: 5px;
+                    text-decoration: none;
+                    color: #96c930;
+                }
+
+                i {
+                    color: #96c930;
+                }
+
+                .contact-info {
+                    margin-bottom: 20px;
+                }
+        }
+
         .nav-overlay {
           height: 100%;
           width: 0;
