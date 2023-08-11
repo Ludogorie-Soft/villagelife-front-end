@@ -3,7 +3,6 @@ package com.ludogorieSoft.villagelifefrontend.config;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +20,15 @@ public interface FilterClient {
     List<VillageDTO> getVillageByRegion(@RequestParam("region") String region);
 
     @GetMapping("/searchAll")
-    List<VillageDTO> getVillageByNameAndRegion(@RequestParam String region, @RequestParam String keyword);
+    List<VillageDTO> getVillageByNameAndRegion(@RequestParam String region, @RequestParam String keyword, @RequestParam(required = false) String sort);
+
 
     @GetMapping("/searchVillages")
     List<VillageDTO> searchVillagesByCriteria(
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS,
-            @RequestParam("children") String children);
+            @RequestParam("children") String children,
+            @RequestParam(required = false) String sort);
 
 
     @GetMapping("/searchVillagesByObjectAndChildren")

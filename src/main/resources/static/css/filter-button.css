@@ -1,0 +1,28 @@
+    .filter-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+
+    .custom-filter-button {
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 3px 2px #ccc;
+        padding: 5px;
+        transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+
+    .custom-filter-button:hover {
+        background-color: #ff9900;
+        color: #fff;
+        border-radius: 25px;
+    }
+
+
+    .custom-filter-button i {
+        margin-right: 5px;
+    }
