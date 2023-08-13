@@ -1,314 +1,286 @@
 
-        body {
-            padding-left: 0px;
-            padding-right: 0px;
+    body {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    @media (max-width: 991.98px) {
+        .menu-container {
+            display: none;
         }
-
-        @media (max-width: 991.98px) {
-            .menu-container {
-                display: none;
-            }
-            #hamburger-menu {
-                display: block;
-            }
-        }
-
-        @media (min-width: 992px) {
-            #hamburger-menu {
-                display: none;
-            }
-        }
-
-
-        #menu {
-            padding: 10px;
-            margin-right: 40px;
-            margin-top: 5px;
-            float: right;
-        }
-
-        .menu-container{
-           margin-left: 70px;
-           margin-bottom: 20px;
-        }
-        #menu a {
-            margin-right: 10px;
-            text-decoration: none;
-            color: #96c930;
-        }
-
-        i {
-            color: #96c930;
-        }
-
-        .contact-info {
-            margin-bottom: 20px;
-        }
-
-
-
-        #footer {
-            padding: 20px;
-        }
-
-        .footer-wrap {
-            color: #333;
-        }
-
-        .footer-top-wrap {
-            padding: 10px 0;
-        }
-
-        .footer-widget {
-            margin-bottom: 10px;
-        }
-
-
-        .widget-about-site {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .widget-about-site p {
-            color: #96c930;
-            margin-bottom: 0;
-            margin-top: 10px;
-        }
-
-        #media_image-2 {
-            align-self: flex-start;
-            margin-top: 25px;
-        }
-
-
-        .contact-list li {
-            margin-bottom: 10px;
-        }
-
-        .contact-list li i {
-          font-size: 18px; /* Размер на иконите */
-          vertical-align: middle; /* Центриране на иконите спрямо текста */
-          margin-right: 5px; /* Разстояние между иконите и текста */
-        }
-
-
-        .footer-social .web-facebook-icon {
-             color: #96c930;
-             font-size: 2rem;
-         }
-
-        .footer-social .web-instagram-icon {
-             color: #96c930;
-             font-size: 2rem;
-        }
-
-        .contact-list a {
-            color: #96c930;
-        }
-
-        .footer-social {
-            margin-right: 10px;
-        }
-
-
-        .form-control {
-            display: block;
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #ced4da;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        #subscribe-btn {
-            background-color: #fa4a2a;
-            color: white;
-            font-weight: bold;
-            border: 1px solid #fa4a2a;
-            border-radius: 5px;
-        }
-
-        .footer-widget.widget-about-site,
-        .footer-widget.widget-contact-us,
-        .widget_text.footer-widget {
-            display: flex;
-            flex-direction: column;
-        }
-
-
-        .footer-widget.widget-about-site p,
-        .footer-widget.widget-contact-us h2.widget-title,
-        .widget_text.footer-widget p {
-            display: inline;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-
-
-        .footer-widget .widget-content a,
-        .footer-widget .widget-content span {
-          text-decoration: none;
-        }
-
-
-        /* Add the following CSS styles to the container */
-        .text-left {
-            text-align: left; /* Align the button to the left */
-        }
-
-        /* Add the following CSS styles to the button */
-        .footer-widget .btn-info {
-            font-size: 15px; /* Increase the font size to make the button larger */
-            white-space: nowrap; /* Prevent text from wrapping */
-            padding: 8px 15px; /* Adjust the padding as needed */
-            display: flex; /* Use flexbox */
-            justify-content: center; /* Center the text horizontally */
-            align-items: center; /* Center the text vertically */
-        }
-
-        /* Styles for the Абонирай ме! button inside the contact-list */
-        .contact-list .btn-subscribe {
-            background-color: #fa4a2a;
-            color: white;
-            font-weight: bold;
-            border: 1px solid #fa4a2a;
-            width: 120px;
-            font-size: 15px;
-            white-space: nowrap;
-            padding: 8px 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Add the following CSS styles to the label */
-        .subscription-container label {
+        #hamburger-menu {
             display: block;
         }
+    }
 
-        /* Add the following CSS styles to the input field */
-        .subscription-container input[type="email"] {
-            width: 100%;
+    @media (min-width: 992px) {
+        #hamburger-menu {
+            display: none;
         }
-
-        /* Add the following CSS styles to the button */
-        .subscription-container button.btn-subscribe {
-            align-self: flex-start; /* Align the button to the left */
-        }
-
-        /* Add the following CSS styles to the subscription container */
-        .subscription-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px; /* Add margin-top to create space between the header and the input field */
-            justify-content: flex-start;
-            gap: 10px;
-        }
+    }
 
 
-        @media (max-width: 767px) {
-                #menu {
-                    padding: 10px;
-                    margin-right: 10px;
-                    float: right;
-                }
+    #menu {
+        padding: 10px;
+        margin-right: 40px;
+        margin-top: 5px;
+        float: right;
+    }
 
-                .menu-container {
-                   margin-left: 20px;
-                   margin-bottom: 20px;
-                }
+    .menu-container{
+       margin-left: 70px;
+       margin-bottom: 20px;
+    }
+    #menu a {
+        margin-right: 10px;
+        text-decoration: none;
+        color: #96c930;
+    }
 
-                #menu a {
-                    margin-right: 5px;
-                    text-decoration: none;
-                    color: #96c930;
-                }
+    i {
+        color: #96c930;
+    }
 
-                i {
-                    color: #96c930;
-                }
+    .contact-info {
+        margin-bottom: 20px;
+    }
 
-                .contact-info {
-                    margin-bottom: 20px;
-                }
-        }
 
-        .nav-overlay {
-          height: 100%;
-          width: 0;
-          position: fixed;
-          z-index: 1;
-          top: 0;
-          left: 0;
-          background-color: #F2F2F2 /*rgba(0, 0, 0, 1)*/;
-          border-right: solid 1px #595959;
-          overflow-x: hidden;
-          transition: 0.5s;
-          z-index: 99;
-        }
 
-        .nav-overlay-content {
-          position: relative;
-          top: 10%;
-          width: 100%;
-          text-align: center;
-          margin-top: 30px;
-        }
+    #footer {
+        padding: 20px;
+    }
 
-        .nav-overlay a {
-          padding: 8px;
-          text-decoration: none;
-          color: #595959 /*#818181*/;
-          display: block;
-          transition: 0.3s;
-        }
+    .footer-wrap {
+        color: #333;
+    }
 
-        .nav-overlay a:hover, .nav-overlay a:focus {
-          color: black /*#f1f1f1*/;
-          font-weight: bold;
-        }
+    .footer-top-wrap {
+        padding: 10px 0;
+    }
 
-        .nav-overlay .closebtn {
-          position: absolute;
-          right: 0;
-          font-size: 60px;
-          color: #595959;
-        }
+    .footer-widget {
+        margin-bottom: 10px;
+    }
 
-        @media screen and (max-height: 450px) {
-          .nav-overlay a {font-size: 20px}
-          .nav-overlay .closebtn {
-                font-size: 40px;
-                top: 15px;
-                right: 35px;
-          }
-        }
-        #hamburger-menu hr{
-            width: 100%;
-            height: 1px;
-            background-color: /*white*/ #595959;
-            border: none;
-        }
-        .hamburger-menu-icon {
-            font-size: 30px;
-            cursor: pointer;
-            position: relative;
-            float: right;
-            margin: 2px 10px 0 0;
-        }
-        #hamburger-menu{
-            background-color: white;
-        }
-        .smaller-logo-image{
-             position: relative;
-             left: 20px;
-             width: 125px;
-             height: auto;
-             margin-top: 3px;
-         }
+
+    .widget-about-site {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .widget-about-site p {
+        color: #96c930;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+
+    #media_image-2 {
+        align-self: flex-start;
+        margin-top: 25px;
+    }
+
+
+    .contact-list li {
+        margin-bottom: 10px;
+    }
+
+    .contact-list li i {
+      font-size: 18px; /* Размер на иконите */
+      vertical-align: middle; /* Центриране на иконите спрямо текста */
+      margin-right: 5px; /* Разстояние между иконите и текста */
+    }
+
+
+    .footer-social .web-facebook-icon {
+         color: #96c930;
+         font-size: 2rem;
+     }
+
+    .footer-social .web-instagram-icon {
+         color: #96c930;
+         font-size: 2rem;
+    }
+
+    .contact-list a {
+        color: #96c930;
+    }
+
+    .footer-social {
+        margin-right: 10px;
+    }
+
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    #subscribe-btn {
+        background-color: #fa4a2a;
+        color: white;
+        font-weight: bold;
+        border: 1px solid #fa4a2a;
+        border-radius: 5px;
+    }
+
+    .footer-widget.widget-about-site,
+    .footer-widget.widget-contact-us,
+    .widget_text.footer-widget {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .footer-widget.widget-about-site p,
+    .footer-widget.widget-contact-us h2.widget-title,
+    .widget_text.footer-widget p {
+        display: inline;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+
+    .footer-widget .widget-content a,
+    .footer-widget .widget-content span {
+      text-decoration: none;
+    }
+
+
+    /* Add the following CSS styles to the container */
+    .text-left {
+        text-align: left; /* Align the button to the left */
+    }
+
+    /* Add the following CSS styles to the button */
+    .footer-widget .btn-info {
+        font-size: 15px; /* Increase the font size to make the button larger */
+        white-space: nowrap; /* Prevent text from wrapping */
+        padding: 8px 15px; /* Adjust the padding as needed */
+        display: flex; /* Use flexbox */
+        justify-content: center; /* Center the text horizontally */
+        align-items: center; /* Center the text vertically */
+    }
+
+    /* Styles for the Абонирай ме! button inside the contact-list */
+    .contact-list .btn-subscribe {
+        background-color: #fa4a2a;
+        color: white;
+        font-weight: bold;
+        border: 1px solid #fa4a2a;
+        width: 120px;
+        font-size: 15px;
+        white-space: nowrap;
+        padding: 8px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Add the following CSS styles to the label */
+    .subscription-container label {
+        display: block;
+    }
+
+    /* Add the following CSS styles to the input field */
+    .subscription-container input[type="email"] {
+        width: 100%;
+    }
+
+    /* Add the following CSS styles to the button */
+    .subscription-container button.btn-subscribe {
+        align-self: flex-start; /* Align the button to the left */
+    }
+
+    /* Add the following CSS styles to the subscription container */
+    .subscription-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px; /* Add margin-top to create space between the header and the input field */
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .nav-overlay {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #F2F2F2 /*rgba(0, 0, 0, 1)*/;
+      border-right: solid 1px #595959;
+      overflow-x: hidden;
+      transition: 0.5s;
+      z-index: 99;
+    }
+
+    .nav-overlay-content {
+      position: relative;
+      top: 10%;
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .nav-overlay a {
+      padding: 8px;
+      text-decoration: none;
+      color: #595959 /*#818181*/;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .nav-overlay a:hover, .nav-overlay a:focus {
+      color: black /*#f1f1f1*/;
+      font-weight: bold;
+    }
+
+    .nav-overlay .closebtn {
+      position: absolute;
+      right: 0;
+      font-size: 60px;
+      color: #595959;
+    }
+
+    @media screen and (max-height: 450px) {
+      .nav-overlay a {font-size: 20px}
+      .nav-overlay .closebtn {
+            font-size: 40px;
+            top: 15px;
+            right: 35px;
+      }
+    }
+    #hamburger-menu hr{
+        width: 100%;
+        height: 1px;
+        background-color: /*white*/ #595959;
+        border: none;
+    }
+    .hamburger-menu-icon {
+        font-size: 30px;
+        cursor: pointer;
+        position: relative;
+        float: right;
+        margin: 2px 10px 0 0;
+    }
+    #hamburger-menu{
+        background-color: white;
+    }
+    .smaller-logo-image{
+         position: relative;
+         left: 20px;
+         width: 125px;
+         height: auto;
+         margin-top: 3px;
+     }

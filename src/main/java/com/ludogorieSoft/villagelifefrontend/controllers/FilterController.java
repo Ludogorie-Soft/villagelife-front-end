@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -32,27 +33,44 @@ public class FilterController {
     public String findAll(
             @RequestParam(name = "region", required = false) String region,
             @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
             Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
 
         List<VillageDTO> villages;
 
-        villages = fetchVillageDTOsWithImages(region, keyword);
+        villages = fetchVillageDTOsWithImages(region, keyword, sort);
+
+        sortVillages(sort, villages);
 
         int resultCount = (villages != null) ? villages.size() : 0;
         model.addAttribute("villages", villages);
+        model.addAttribute("sort", sort);
 
         displaySearchResultsMessage(region, keyword, model, resultCount);
         return SEARCHING_FORM_VIEW;
     }
 
 
-    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword) {
+    private void sortVillages(String sort, List<VillageDTO> villages) {
+        if ("nameAsc".equals(sort)) {
+            villages.sort(Comparator.comparing(VillageDTO::getName));
+        } else if ("nameDesc".equals(sort)) {
+            villages.sort(Comparator.comparing(VillageDTO::getName).reversed());
+        } else if ("regionAsc".equals(sort)) {
+            villages.sort(Comparator.comparing(VillageDTO::getRegion).thenComparing(VillageDTO::getName));
+        } else if ("regionDesc".equals(sort)) {
+            villages.sort(Comparator.comparing(VillageDTO::getRegion).reversed().thenComparing(VillageDTO::getName));
+        }
+    }
+
+
+    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword, String sort) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
             if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByNameAndRegion(region, keyword);
+                villages = filterClient.getVillageByNameAndRegion(region, keyword, sort);
             } else {
                 villages = filterClient.getVillageByRegion(region);
             }
@@ -110,8 +128,11 @@ public class FilterController {
     }
 
 
-    @PostMapping("/search")
-    public String search(@ModelAttribute AdvancedSearchForm formResult, BindingResult bindingResult, Model model) {
+    @GetMapping("/search")
+    public String search(@ModelAttribute AdvancedSearchForm formResult,
+                         @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
+                         BindingResult bindingResult, Model model) {
+
         AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
         validator.validate(formResult, bindingResult);
 
@@ -128,14 +149,15 @@ public class FilterController {
         String selectedChildrenCountResult = formResult.getChildren();
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
 
-        List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum);
+        List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort);
+        sortVillages(sort, villageDTOs);
+
         model.addAttribute("villages", villageDTOs);
 
         displayAdvancedSearchResultMessage(model, villageDTOs);
 
         return SEARCHING_FORM_VIEW;
     }
-
 
     private static void displayAdvancedSearchResultMessage(Model model, List<VillageDTO> villageDTOs) {
         int villageCount = villageDTOs.size();
@@ -149,14 +171,15 @@ public class FilterController {
     }
 
 
-    private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions, Children selectedChildrenEnum) {
+    private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
+                                            Children selectedChildrenEnum, String sort) {
         List<VillageDTO> villageDTOs;
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
-            villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
+            villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
         } else {
             if (selectedObjects == null) {
                 if (selectedChildrenEnum == null) {
