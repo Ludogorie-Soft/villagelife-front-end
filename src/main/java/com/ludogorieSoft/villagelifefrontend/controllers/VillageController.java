@@ -80,12 +80,14 @@ public class VillageController {
         return "HomePage";
     }
 
-
     @GetMapping("/show/{id}")
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+        AdministratorDTO administratorDTO = null;
+        String answerDate = null;
+        boolean status = true;
+        getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO);
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
@@ -101,19 +103,18 @@ public class VillageController {
 
         if (bindingResult.hasErrors()) {
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
-            getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null);
             model.addAttribute("isSent", false);
         }else {
             inquiryClient.createInquiry(inquiryDTO);
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
             inquiryDTO = new InquiryDTO();
-            getInfoForShowingVillage(villageInfo, inquiryDTO, model);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null);
             model.addAttribute("isSent", true);
         }
         return "ShowVillageById";
     }
-
-    private void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, Model model){
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO) {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
@@ -122,7 +123,7 @@ public class VillageController {
         inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
 
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId()).getBody();
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
 
         PopulationDTO population = populationClient.getPopulationById(villageInfo.getVillageDTO().getId());
@@ -133,6 +134,10 @@ public class VillageController {
 
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         model.addAttribute("questions", questionDTOS);
+
+        model.addAttribute("answerDate", answerDate);
+
+        model.addAttribute("admin", administratorDTO);
 
     }
     @GetMapping("/create")
@@ -242,5 +247,4 @@ public class VillageController {
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
-
 }
