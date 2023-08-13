@@ -8,12 +8,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ludogorieSoft.villagelifefrontend.models.Population;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -37,14 +35,5 @@ public class VillageDTO {
     private LocalDateTime dateUpload;
     private Boolean status;
     private List<String> images;
-
-//    private List<ObjectVillageDTO> objectVillages;
-//    private List<VillageLivingConditionDTO> villageLivingConditions;
-//    private List<VillageAnswerQuestionDTO> villageAnswerQuestions;
-//    private List<EthnicityVillageDTO> ethnicityVillages;
-//    private List<VillageGroundCategoryDTO> villageGroundCategories;
-////    private List<VillageImageDTO> villageImages;
-////    private List<VillageLandscapeDTO> villageLandscapes;
-//    private List<VillagePopulationAssertionDTO> villagePopulationAssertions;
 
 }

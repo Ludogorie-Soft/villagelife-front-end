@@ -76,7 +76,7 @@
                 <td th:text="${village.status ? 'Yes' : 'No'}"></td>
                 <td th:if="${village.admin != null}" th:text="${village.admin.fullName}"></td>
                 <td th:if="${village.admin == null}">******</td>
-                <td th:text="${village.dateApproved}"></td>
+                <td th:text="${village.dateApproved != null ? #temporals.format(village.dateApproved, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
                 <td>
                     <ul th:if="${village.groupedAnswers != null}" class="no-bullets">
                         <li th:each="entry : ${village.groupedAnswers}">
