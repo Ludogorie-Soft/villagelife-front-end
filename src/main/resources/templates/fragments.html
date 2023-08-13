@@ -105,19 +105,22 @@
                                 <div class="widget-body">
                                     <div class="widget-content">
                                         <p>
-                                            <label for="email" class="fw-bold"
-                                                   style="display: block; text-align: left; color: black; font-weight: bold;">
-                                                Имейл
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                        <div class="subscription-container">
-                                            <input type="email" id="email" class="form-control"
-                                                   placeholder="Въведете електронната си поща" required
-                                                   style="text-align: left;">
-                                            <button type="submit" id="subscribe-btn" class="btn btn-info btn-subscribe">
-                                                Абонирай ме!
-                                            </button>
-                                        </div>
+                                            <form action="/villages/subscription-save" method="post" id="subscription-form" th:object="${subscription}">
+                                                <label for="email" class="fw-bold"
+                                                       style="display: block; text-align: left; color: black; font-weight: bold;">
+                                                    Имейл
+                                                    <span class="text-danger">*</span>
+                                                </label>
+
+                                                <div class="subscription-container">
+                                                    <input type="email" id="email"  name="email" th:field="*{email}" class="form-control"
+                                                           placeholder="Въведете електронната си поща" required
+                                                           style="text-align: left;">
+                                                    <button type="submit" id="subscribe-btn" class="btn btn-info btn-subscribe">
+                                                        Абонирай ме!
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </p>
                                     </div>
                                 </div>
