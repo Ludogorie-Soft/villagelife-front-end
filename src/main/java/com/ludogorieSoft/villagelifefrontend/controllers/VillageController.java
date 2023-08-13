@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import feign.FeignException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +42,7 @@ public class VillageController {
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
+    private final SubscriptionClient subscriptionClient;
 
 
     @GetMapping
@@ -55,6 +57,7 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
+        model.addAttribute("subscription", new SubscriptionDTO());
 
         try {
             ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
@@ -85,6 +88,13 @@ public class VillageController {
         getInfoForShowingVillage(villageInfo, inquiryDTO, model);
         return "ShowVillageById";
     }
+    @PostMapping("/subscription-save")
+    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, BindingResult bindingResult, HttpServletRequest request) {
+        subscriptionClient.createSubscription(subscriptionDTO);
+        String referer = request.getHeader("referer");
+        return "redirect:" + referer;
+    }
+
     @PostMapping("/inquiry-save")
     public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
@@ -106,6 +116,8 @@ public class VillageController {
     private void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, Model model){
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
+
+        model.addAttribute("subscription", new SubscriptionDTO());
 
         inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
@@ -149,13 +161,15 @@ public class VillageController {
     }
 
     @GetMapping("/partners")
-    public String showPartnersPage() {
+    public String showPartnersPage(Model model) {
+        model.addAttribute("subscription", new SubscriptionDTO());
         return "partners";
     }
 
     @GetMapping("/contacts")
     public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
+        model.addAttribute("subscription", new SubscriptionDTO());
         model.addAttribute("message", messageDTO);
         return "contacts";
     }
@@ -176,7 +190,8 @@ public class VillageController {
     }
 
     @GetMapping("/about-us")
-    public String showAboutUsPage() {
+    public String showAboutUsPage(Model model) {
+        model.addAttribute("subscription", new SubscriptionDTO());
         return "about-us";
     }
 
@@ -223,6 +238,7 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
         }
 
+        model.addAttribute("subscription", new SubscriptionDTO());
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
