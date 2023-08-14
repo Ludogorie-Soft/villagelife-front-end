@@ -23,7 +23,7 @@ public interface VillageClient {
 
 
     @PutMapping("/{id}")
-    void updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
+    VillageDTO updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
 
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
