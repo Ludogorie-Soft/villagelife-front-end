@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-object-village-client",url = "http://localhost:8088/api/v1/objectVillages")
+@FeignClient(name = "villagelife-api-object-village-client",url = "${backend.url}/objectVillages")
 
 public interface ObjectVillageClient {
     @GetMapping

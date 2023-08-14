@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "villagelife-api-inquiry",url = "http://localhost:8088/api/v1/inquiries")
+@FeignClient(name = "villagelife-api-inquiry",url = "${backend.url}/inquiries")
 public interface InquiryClient {
     @PostMapping
     InquiryDTO createInquiry(@Valid @RequestBody InquiryDTO inquiryDTO);

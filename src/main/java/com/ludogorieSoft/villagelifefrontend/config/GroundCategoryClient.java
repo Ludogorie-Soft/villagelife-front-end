@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-ground-categories",url = "http://localhost:8088/api/v1/groundCategories")
+@FeignClient(name = "villagelife-api-ground-categories",url = "${backend.url}/groundCategories")
 public interface GroundCategoryClient {
     @GetMapping
     List<GroundCategoryDTO> getAllGroundCategories();
