@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "villagelife-api-ground-village-ground-categories",url = "http://localhost:8088/api/v1/villageGroundCategory")
+@FeignClient(name = "villagelife-api-ground-village-ground-categories",url = "${backend.url}/villageGroundCategory")
 
 public interface VillageGroundCategoryClient {
 

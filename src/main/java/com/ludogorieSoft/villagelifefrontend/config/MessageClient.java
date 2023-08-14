@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name = "villagelife-api-messages",url = "http://localhost:8088/api/v1/messages")
+@FeignClient(name = "villagelife-api-messages",url = "${backend.url}/messages")
 public interface MessageClient {
     @PostMapping
     MessageDTO createMessage(MessageDTO messageDTO);

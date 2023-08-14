@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-filter", url = "http://localhost:8088/api/v1/filter")
+@FeignClient(name = "villagelife-api-filter", url = "${backend.url}/filter")
 public interface FilterClient {
 
     @GetMapping

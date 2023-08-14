@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-populations",url = "http://localhost:8088/api/v1/populations")
+@FeignClient(name = "villagelife-api-populations",url = "${backend.url}/populations")
 public interface PopulationClient {
     @GetMapping
     List<PopulationDTO> getAllPopulation();

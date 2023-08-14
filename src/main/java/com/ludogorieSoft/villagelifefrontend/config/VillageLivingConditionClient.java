@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-villageLivingConditions",url = "http://localhost:8088/api/v1/villageLivingConditions")
+@FeignClient(name = "villagelife-api-villageLivingConditions",url = "${backend.url}/villageLivingConditions")
 public interface VillageLivingConditionClient {
     @GetMapping
     List<VillageLivingConditionDTO> getAllVillageLivingConditions();
@@ -32,4 +32,3 @@ public interface VillageLivingConditionClient {
      void createVillageLivingConditions(@RequestBody VillageLivingConditionDTO villageLivingConditionsDTO);
 
 }
-
