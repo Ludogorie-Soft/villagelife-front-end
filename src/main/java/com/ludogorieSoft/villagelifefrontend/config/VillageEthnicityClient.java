@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-villagesEthnicityClient",url = "http://localhost:8088/api/v1/villageEthnicities")
+@FeignClient(name = "villagelife-api-villagesEthnicityClient",url = "${backend.url}/villageEthnicities")
 
 public interface VillageEthnicityClient {
     @GetMapping

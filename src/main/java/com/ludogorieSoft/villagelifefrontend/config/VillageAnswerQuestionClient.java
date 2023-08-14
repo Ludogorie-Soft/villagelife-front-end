@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-VillageAnswerQuestionService", url = "http://localhost:8088/api/v1/villageAnswerQuestion")
+@FeignClient(name = "villagelife-api-VillageAnswerQuestionService", url = "${backend.url}/villageAnswerQuestion")
 
 public interface VillageAnswerQuestionClient {
 

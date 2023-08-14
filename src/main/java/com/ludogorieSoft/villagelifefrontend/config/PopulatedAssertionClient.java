@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-populated-assertion",url = "http://localhost:8088/api/v1/populatedAssertions")
+@FeignClient(name = "villagelife-api-populated-assertion",url = "${backend.url}/populatedAssertions")
 public interface PopulatedAssertionClient {
     @GetMapping
     List<PopulatedAssertionDTO> getAllPopulatedAssertion();

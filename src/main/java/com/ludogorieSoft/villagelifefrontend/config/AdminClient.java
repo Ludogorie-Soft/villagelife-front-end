@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-admin", url = "http://localhost:8088/api/v1/admins")
+@FeignClient(name = "villagelife-api-admin", url = "${backend.url}/admins")
 public interface AdminClient {
     @GetMapping
     ResponseEntity<List<AdministratorDTO>> getAllAdministrators(@RequestHeader("Authorization") String token);
