@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-subscription",url = "http://localhost:8088/api/v1/subscriptions")
+@FeignClient(name = "villagelife-api-subscription",url = "${backend.url}/subscriptions")
 public interface SubscriptionClient {
     @PostMapping
     ResponseEntity<SubscriptionDTO> createSubscription(@Valid @RequestBody SubscriptionDTO subscriptionDTO);

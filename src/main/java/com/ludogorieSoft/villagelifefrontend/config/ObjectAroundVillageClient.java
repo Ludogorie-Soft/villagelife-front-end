@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-object-around-village",url = "http://localhost:8088/api/v1/objectsAroundVillage")
+@FeignClient(name = "villagelife-api-object-around-village",url = "${backend.url}/objectsAroundVillage")
 public interface ObjectAroundVillageClient {
     @GetMapping
     List<ObjectAroundVillageDTO> getAllObjectsAroundVillage();
