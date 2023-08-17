@@ -87,7 +87,7 @@ public class VillageController {
         AdministratorDTO administratorDTO = null;
         String answerDate = null;
         boolean status = true;
-        getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO);
+        getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO,null);
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
@@ -103,18 +103,18 @@ public class VillageController {
 
         if (bindingResult.hasErrors()) {
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
             model.addAttribute("isSent", false);
         }else {
             inquiryClient.createInquiry(inquiryDTO);
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
             inquiryDTO = new InquiryDTO();
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
             model.addAttribute("isSent", true);
         }
         return "ShowVillageById";
     }
-    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO) {
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
@@ -138,6 +138,8 @@ public class VillageController {
         model.addAttribute("answerDate", answerDate);
 
         model.addAttribute("admin", administratorDTO);
+
+        model.addAttribute("status", keyWord);
 
     }
     @GetMapping("/create")

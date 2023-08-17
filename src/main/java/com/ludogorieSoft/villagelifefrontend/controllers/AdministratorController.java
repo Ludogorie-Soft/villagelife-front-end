@@ -108,27 +108,27 @@ public class AdministratorController {
 
     @GetMapping("/show/{villageId}")
     public String seeVillageToApproveIt(@RequestParam("villageId") Long villageId,
-                                        @RequestParam("answerDate") String answerDate, Model model, HttpSession session) {
+                                        @RequestParam("answerDate") String answerDate, @RequestParam("archived") String archived, Model model, HttpSession session) {
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         boolean status = false;
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        VillageInfo villageInfo = adminFunctionClient.getVillageInfoById(villageId, answerDate,status,AUTH_HEATHER + token2);
+        VillageInfo villageInfo = adminFunctionClient.getVillageInfoById(villageId, answerDate, status, AUTH_HEATHER + token2);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO);
+        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO, archived);
         return "ShowVillageById";
     }
 
     @PostMapping("/approve/{villageId}")
     public ModelAndView approveVillageResponse(@RequestParam("villageId") Long villageId,
-                                            @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) {
+                                               @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminFunctionClient.changeVillageStatus(villageId,answerDate, AUTH_HEATHER + token2);
-        redirectAttributes.addFlashAttribute(MESSAGE, "Status of village with ID: " + villageId + " changed successfully!!!");
+        adminFunctionClient.changeVillageStatus(villageId, answerDate, AUTH_HEATHER + token2);
+        redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " approved successfully!!!");
         return new ModelAndView("redirect:/admins/village");
     }
 
     @GetMapping("/village")
-    public String findUnapprovedVillageResponseByVillageId(Model model,HttpSession session) {
+    public String findUnapprovedVillageResponseByVillageId(Model model, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         try {
             ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.findUnapprovedVillageResponseByVillageId(AUTH_HEATHER + token2);
@@ -137,6 +137,7 @@ public class AdministratorController {
                 AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
                 model.addAttribute(ADMINS, administratorDTO.getFullName());
                 List<VillageResponse> villages = villageResponses.getBody();
+                model.addAttribute("status", "toApproved");
                 model.addAttribute(VILLAGES_ATTRIBUTE, villages);
             } else {
                 model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
@@ -150,12 +151,35 @@ public class AdministratorController {
 
     @PostMapping("/reject/{villageId}")
     public ModelAndView rejectVillageResponse(@RequestParam("villageId") Long villageId,
-                                            @RequestParam("answerDate") String answerDate,
+                                              @RequestParam("answerDate") String answerDate,
                                               RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminFunctionClient.rejectVillageResponse(villageId,answerDate, AUTH_HEATHER + token2);
+        adminFunctionClient.rejectVillageResponse(villageId, answerDate, AUTH_HEATHER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " rejected successfully!!!");
         return new ModelAndView("redirect:/admins/village");
+    }
+
+    @GetMapping("/getRejected")
+    public String getVillagesWithRejectedResponses(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        String token = (String) session.getAttribute(SESSION_NAME);
+        try {
+            ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.getVillagesWithRejectedResponses(AUTH_HEATHER + token);
+
+            if (villageResponses.getStatusCode().is2xxSuccessful()) {
+                AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+                model.addAttribute(ADMINS, administratorDTO.getFullName());
+                List<VillageResponse> villages = villageResponses.getBody();
+                if (villages != null && villages.isEmpty()) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "There is no villages with rejected answers!");
+                }
+                model.addAttribute("status", "archived");
+                model.addAttribute(VILLAGES_ATTRIBUTE, villages);
+
+            }
+        } catch (FeignException.BadRequest e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+        }
+        return "admin_templates/admin_menu";
     }
 
 }

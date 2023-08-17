@@ -324,3 +324,10 @@
             background-image: url('/images/printer-white.png');
             background-color: black;
         }
+  .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 100%;
+    }
