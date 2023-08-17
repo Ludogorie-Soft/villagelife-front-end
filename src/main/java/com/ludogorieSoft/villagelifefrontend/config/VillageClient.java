@@ -30,7 +30,5 @@ public interface VillageClient {
 
     @GetMapping("/info/{id}")
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
-    @GetMapping("/update/{villageId}")
-    ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
 
 }

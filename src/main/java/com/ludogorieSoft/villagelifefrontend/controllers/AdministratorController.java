@@ -2,8 +2,9 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
 import com.ludogorieSoft.villagelifefrontend.config.AdminFunctionClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.InquiryDTO;
+import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
+import com.ludogorieSoft.villagelifefrontend.config.VillageImageClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
@@ -11,16 +12,21 @@ import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +46,8 @@ public class AdministratorController {
     private static final String ADMINS = "admins";
     private static final String MESSAGE = "message";
     private static final String VILLAGES_ATTRIBUTE = "villages";
+    private final VillageClient villageClient;
+    private final VillageImageClient villageImageClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -109,6 +117,7 @@ public class AdministratorController {
     @GetMapping("/show/{villageId}")
     public String seeVillageToApproveIt(@RequestParam("villageId") Long villageId,
                                         @RequestParam("answerDate") String answerDate, Model model, HttpSession session) {
+        model.addAttribute("subscription", new SubscriptionDTO());
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         boolean status = false;
         String token2 = (String) session.getAttribute(SESSION_NAME);
@@ -116,6 +125,36 @@ public class AdministratorController {
         InquiryDTO inquiryDTO = new InquiryDTO();
         villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO);
         return "ShowVillageById";
+    }
+    @GetMapping("/manage-images/{villageId}")
+    public String manageImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId);
+        model.addAttribute("villageImageDTOs", villageImageDTOs);
+        return "admin_templates/admin_images";
+    }
+    @GetMapping("/image-reject/{villageImageId}")
+    public String rejectImage(@PathVariable("villageImageId") Long villageImageId){
+        VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
+        villageImageClient.rejectVillageImage(villageImageId);
+        return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId() + "?villageId=" + villageImageDTO.getVillageId();
+    }
+
+    @PostMapping("/save-images")
+    public String saveVillage(@RequestParam("newImages") List<MultipartFile> images,
+                              @RequestParam("villageId") Long villageId) {
+        List<byte[]> imageBytes = new ArrayList<>();
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        villageImageClient.adminUploadImages(villageId, imageBytes);
+        return "redirect:/admins/manage-images/" + villageId + "?villageId=" + villageId;
     }
 
     @PostMapping("/approve/{villageId}")
@@ -129,6 +168,7 @@ public class AdministratorController {
 
     @GetMapping("/village")
     public String findUnapprovedVillageResponseByVillageId(Model model,HttpSession session) {
+        model.addAttribute("subscription", new SubscriptionDTO());
         String token2 = (String) session.getAttribute(SESSION_NAME);
         try {
             ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.findUnapprovedVillageResponseByVillageId(AUTH_HEATHER + token2);
@@ -157,5 +197,36 @@ public class AdministratorController {
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " rejected successfully!!!");
         return new ModelAndView("redirect:/admins/village");
     }
+    @GetMapping("/deleted-images/{villageId}")
+    public String getDeletedImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId);
+        model.addAttribute("villageImageDTOs", villageImageDTOs);
+        return "admin_templates/deleted_images";
+    }
 
+    @GetMapping("/delete/{villageImageId}")
+    public String deleteImage(@PathVariable("villageImageId") Long villageImageId) {
+        VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
+        Long villageId = villageImageDTO.getVillageId();
+        villageImageClient.deleteImageFileById(villageImageId);
+        return "redirect:/admins/deleted-images/" + villageId;
+    }
+
+    @GetMapping("/resume/{villageImageId}")
+    public String resumeImage(@PathVariable("villageImageId") Long villageImageId) {
+        VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
+        Long villageId = villageImageDTO.getVillageId();
+        villageImageClient.resumeImageVillageById(villageImageId);
+        return "redirect:/admins/deleted-images/" + villageId;
+    }
+
+    @GetMapping("/approve-image/{villageImageId}")
+    public String approveImage(@PathVariable("villageImageId") Long villageImageId) {
+        VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
+        villageImageDTO.setStatus(true);
+        villageImageClient.updateVillageImage(villageImageId, villageImageDTO);
+        return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId();
+    }
 }

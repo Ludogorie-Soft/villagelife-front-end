@@ -65,6 +65,7 @@
                 <th>Response date</th>
                 <th>Approval</th>
                 <th>Delete</th>
+                <th>Images</th>
             </tr>
             </thead>
             <tbody>
@@ -109,6 +110,12 @@
                     <button type="button" class="btn btn-danger" onclick="showConfirmation(this)">Delete</button>
                     <form th:action="@{/admins/village-delete/{villageId}(villageId=${village.id})}" method="post" style="display: none;">
                         <input type="submit" name="delete" value="Delete" class="btn btn-danger">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/admins/manage-images/{villageId}(villageId=${village.id})}" method="get">
+                        <input type="hidden" name="villageId" th:value="${village.id}">
+                        <input type="submit" value="Manage images" class="btn btn-secondary">
                     </form>
                 </td>
             </tr>

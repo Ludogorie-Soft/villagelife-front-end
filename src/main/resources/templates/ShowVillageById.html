@@ -16,6 +16,15 @@
     <link rel="stylesheet" href="/css/message.css">
     <link rel="stylesheet" href="/css/showVillageById.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
+    <style>
+    .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 100%;
+    }
+    </style>
 </head>
 
 <script src="/js/querySelector.js"></script>
@@ -44,16 +53,6 @@
             <a class="next" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
-    <style>
-    .btn-separation {
-        margin-right: 30px;
-    }
-
-    .btn-equal-size {
-        width: 100%;
-    }
-
-</style>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
         <div class="col-sm-4">

@@ -1,0 +1,64 @@
+#openModalImage{
+    width: 40px;
+    cursor: pointer;
+}
+.village-title{
+    font-size: 35px;
+}
+.image-container {
+    position: relative;
+    overflow: hidden;
+    max-height: 300px;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.card{
+    margin: 15px 0;
+}
+.card-body div{
+    font-size: 18px;
+}
+.cancel-image{
+    width: 50px;
+}
+.btn-outline-danger{
+    float: right;
+    margin-top: 10px;
+}
+.btn-outline-success{
+    float: left;
+    margin-top: 10px;
+}
+
+.deleted-images-link,
+.back-link{
+    text-decoration: none;
+    font-size: 28px;
+    transition: font-size 0.5s;
+}
+.deleted-images-link,
+.deleted-images-link:hover{
+    color: #CA3232;
+}
+.back-link,
+.back-link:hover{
+    color: #318013;
+}
+.deleted-images-link:hover,
+ .back-link:hover{
+    text-decoration: none;
+    font-size: 30px;
+}
+.delete-button{
+    width: 60px;
+}
+.back-button-img{
+    width: 40px;
+}
+.alert{
+    margin: 75px 0;
+}

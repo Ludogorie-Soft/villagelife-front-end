@@ -55,6 +55,7 @@ public class UploadController {
     public String uploadForm(Model model) {
         model.addAttribute(UPLOAD_SUCCESS, false);
         model.addAttribute(UPLOAD_ERROR, false);
+        model.addAttribute("subscription", new SubscriptionDTO());
         return UPLOAD_VIEW;
     }
 
@@ -376,6 +377,7 @@ public class UploadController {
 
         }
 
+        model.addAttribute("subscription", new SubscriptionDTO());
         return UPLOAD_VIEW;
     }
 
