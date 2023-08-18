@@ -12,13 +12,11 @@ import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -130,20 +128,22 @@ public class AdministratorController {
     public String manageImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
         model.addAttribute("village", villageDTO);
-        List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEATHER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
         return "admin_templates/admin_images";
     }
     @GetMapping("/image-reject/{villageImageId}")
-    public String rejectImage(@PathVariable("villageImageId") Long villageImageId){
+    public String rejectImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session){
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
-        villageImageClient.rejectVillageImage(villageImageId);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        villageImageClient.rejectVillageImage(villageImageId, AUTH_HEATHER + token2);
         return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId() + "?villageId=" + villageImageDTO.getVillageId();
     }
 
     @PostMapping("/save-images")
-    public String saveVillage(@RequestParam("newImages") List<MultipartFile> images,
-                              @RequestParam("villageId") Long villageId) {
+    public String saveImages(@RequestParam("newImages") List<MultipartFile> images,
+                              @RequestParam("villageId") Long villageId, HttpSession session) {
         List<byte[]> imageBytes = new ArrayList<>();
         for (MultipartFile image : images) {
             try {
@@ -153,7 +153,8 @@ public class AdministratorController {
                 e.printStackTrace();
             }
         }
-        villageImageClient.adminUploadImages(villageId, imageBytes);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        villageImageClient.adminUploadImages(villageId, imageBytes, AUTH_HEATHER + token2);
         return "redirect:/admins/manage-images/" + villageId + "?villageId=" + villageId;
     }
 
@@ -201,32 +202,36 @@ public class AdministratorController {
     public String getDeletedImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
         model.addAttribute("village", villageDTO);
-        List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEATHER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
         return "admin_templates/deleted_images";
     }
 
     @GetMapping("/delete/{villageImageId}")
-    public String deleteImage(@PathVariable("villageImageId") Long villageImageId) {
+    public String deleteImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session) {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         Long villageId = villageImageDTO.getVillageId();
-        villageImageClient.deleteImageFileById(villageImageId);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        villageImageClient.deleteImageFileById(villageImageId, AUTH_HEATHER + token2);
         return "redirect:/admins/deleted-images/" + villageId;
     }
 
     @GetMapping("/resume/{villageImageId}")
-    public String resumeImage(@PathVariable("villageImageId") Long villageImageId) {
+    public String resumeImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session) {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         Long villageId = villageImageDTO.getVillageId();
-        villageImageClient.resumeImageVillageById(villageImageId);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        villageImageClient.resumeImageVillageById(villageImageId, AUTH_HEATHER + token2);
         return "redirect:/admins/deleted-images/" + villageId;
     }
 
     @GetMapping("/approve-image/{villageImageId}")
-    public String approveImage(@PathVariable("villageImageId") Long villageImageId) {
+    public String approveImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session) {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         villageImageDTO.setStatus(true);
-        villageImageClient.updateVillageImage(villageImageId, villageImageDTO);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        villageImageClient.updateVillageImage(villageImageId, villageImageDTO, AUTH_HEATHER + token2);
         return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId();
     }
 }
