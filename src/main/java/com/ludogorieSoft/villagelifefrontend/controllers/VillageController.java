@@ -42,6 +42,9 @@ public class VillageController {
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
+    private static final String MESSAGE_ATTRIBUTE = "message";
+    private static final String IS_SENT_ATTRIBUTE = "isSent";
+    private static final String CONTACTS_VIEW = "contacts";
     private final SubscriptionClient subscriptionClient;
 
 
@@ -103,14 +106,18 @@ public class VillageController {
 
         if (bindingResult.hasErrors()) {
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
-            model.addAttribute("isSent", false);
+            model.addAttribute(IS_SENT_ATTRIBUTE, false);
+
         }else {
             inquiryClient.createInquiry(inquiryDTO);
             VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
             inquiryDTO = new InquiryDTO();
+
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
-            model.addAttribute("isSent", true);
+            model.addAttribute(IS_SENT_ATTRIBUTE, true);
+
         }
         return "ShowVillageById";
     }
@@ -177,23 +184,23 @@ public class VillageController {
     public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
         model.addAttribute("subscription", new SubscriptionDTO());
-        model.addAttribute("message", messageDTO);
-        return "contacts";
+        model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
+        return CONTACTS_VIEW;
     }
 
     @PostMapping("/message-save")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("isSent", false);
-            model.addAttribute("message", messageDTO);
-            return "contacts";
+            model.addAttribute(IS_SENT_ATTRIBUTE, false);
+            model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
+            return CONTACTS_VIEW;
         }else {
-            model.addAttribute("isSent", true);
+            model.addAttribute(IS_SENT_ATTRIBUTE, true);
             messageClient.createMessage(messageDTO);
-            model.addAttribute("message", new MessageDTO());
+            model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
-        return "contacts";
+        return CONTACTS_VIEW;
     }
 
     @GetMapping("/about-us")
@@ -225,12 +232,6 @@ public class VillageController {
         model.addAttribute("regions", regionDTOS);
     }
 
-    @GetMapping("/map")
-    String mapVillages(Model model) {
-        List<VillageDTO> villages = villageClient.getAllVillages();
-        model.addAttribute(VILLAGES_ATTRIBUTE, villages);
-        return "/test/map";
-    }
 
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {

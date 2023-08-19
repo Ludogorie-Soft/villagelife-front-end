@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+    <link rel="stylesheet" href="/css/searchBar.css">
     <link rel="stylesheet" href="/css/searchingForm.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
     <link rel="stylesheet" href="/css/sort.css">
@@ -26,31 +25,30 @@
 <div th:replace="fragments :: menu"></div>
 <div th:replace="fragments :: hamburger-menu"></div>
 
-<div class="search-bar-row d-flex justify-content-between">
-    <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center flex-column flex-sm-row">
-        <div class="col-12 col-sm-5 d-flex mb-3 mb-sm-3">
-            <select name="region" class="form-select flex-grow-1" style="outline-color: gray; height: 40px;">
-                <option value="" selected disabled style="text-align: left;">Избери област</option>
-                <option th:each="region : ${regions}" th:value="${region.regionName}"
-                        th:text="${region.regionName}"></option>
-            </select>
-        </div>
 
-        <div class="col-12 d-flex mb-3">
-            <span class="input-group-text search-icon"><i class="fas fa-search"></i></span>
-            <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
-                   class="search-field form-control"
-                   style="outline-color: gray; height: 40px;">
+<div class="search-bar-row">
+        <form th:action="@{/filter/all}" method="get" class="search-bar-form d-flex align-items-center center-content">
+
+        <select name="region" class="form-select me-2">
+            <option value="" selected disabled style="text-align: left;">Избери област</option>
+            <option th:each="region : ${regions}" th:value="${region.regionName}"
+                    th:text="${region.regionName}"></option>
+        </select>
+        <div class="search-input-container">
+            <div class="input-group">
+                <span class="input-group-text search-icon"><i class="fas fa-search"></i></span>
+                <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
+                       class="search-field form-control"/>
+            </div>
         </div>
-        <div class="col-12 d-flex mb-3 mb-sm-3">
-            <input class="btn btn-outline-secondary mb-2 mb-sm-0" type="submit" value="Търси"
-                   style="background-color: #96c930;" id="searchButton"/>
+        <div class="search-buttons">
+            <input class="btn btn-outline-secondary me-2" type="submit" value="Търси" id="searchButton"/>
             <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
-                   style="background-color: #eef5e1;" id="clearButton"/>
+                   id="clearButton"/>
         </div>
     </form>
-    <div class="filter-button-container">
-        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <div class="filter-button-container mt-3 mt-sm-0">
+        <button type="button" class="btn btn-light" style="margin-top: 10px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="fas fa-filter"></i> Филтър за разширено търсене
         </button>
     </div>
@@ -59,8 +57,8 @@
 
 <div class="sort-container">
     <form th:action="@{/filter/all}" method="get">
-        <input type="hidden" name="region" th:value="${region}" />
-        <input type="hidden" name="keyword" th:value="${keyword}" />
+        <input type="hidden" name="region" th:value="${region}"/>
+        <input type="hidden" name="keyword" th:value="${keyword}"/>
         <label for="sort" class="sort-label">Сортиране:</label>
         <select id="sort" name="sort" onchange="handleSortChange()" class="sort-select">
             <option value="default" th:selected="${sort == 'default'}">По подразбиране</option>
@@ -117,8 +115,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <div th:replace="fragments :: footer"></div>
