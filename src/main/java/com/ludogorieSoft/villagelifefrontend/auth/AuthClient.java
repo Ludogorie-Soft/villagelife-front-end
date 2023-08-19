@@ -26,4 +26,6 @@ public interface AuthClient {
     );
     @GetMapping("/get-info")
     ResponseEntity<AdministratorDTO> getAdministratorInfo(@RequestHeader("Authorization") String token);
+    @GetMapping("/check")
+    public ResponseEntity<String> authorizeAdminToken(@RequestHeader("Authorization") String token);
 }

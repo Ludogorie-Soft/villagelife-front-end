@@ -26,5 +26,4 @@ public interface AdminClient {
 
     @DeleteMapping("/{id}")
     void deleteAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
-
 }

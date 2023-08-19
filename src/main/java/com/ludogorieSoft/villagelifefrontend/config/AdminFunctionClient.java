@@ -18,8 +18,8 @@ public interface AdminFunctionClient {
    void changeVillageStatus(@RequestParam("villageId") Long villageId,
                                                @RequestParam("answerDate") String answerDate, @RequestHeader("Authorization") String token);
 
-    @GetMapping(value = "/update")
-    ResponseEntity<List<VillageResponse>> findUnapprovedVillageResponseByVillageId(@RequestHeader("Authorization") String token);
+    @GetMapping("/toApprove")
+    ResponseEntity<List<VillageResponse>> getUnapprovedVillageResponses(@RequestHeader("Authorization") String token);
 
     @PostMapping("/reject/{villageId}")
     void rejectVillageResponse(@RequestParam("villageId") Long villageId,
