@@ -44,6 +44,41 @@
             <a class="next" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
+    <style>
+    .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 100%;
+    }
+
+</style>
+
+    <div th:if="${admin != null}" class="row justify-content-center mt-3">
+        <div class="col-sm-4">
+            <form th:action="@{/admins/approve/{villageId}(villageId=${villageInfo.villageDTO.id})}" method="post"
+                  class="btn-group btn-equal-size text-center">
+                <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
+                <input type="hidden" name="answerDate" th:value="${answerDate}">
+                <button type="submit" class="btn btn-success">Approve response</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form id="rejectForm" th:action="@{/admins/reject/{villageId}(villageId=${villageInfo.villageDTO.id})}" method="post"
+                  class="btn-group btn-equal-size text-center">
+                <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
+                <input type="hidden" name="answerDate" th:value="${answerDate}">
+                <button type="submit" class="btn btn-primary" onclick="return showConfirmation()">Reject response</button>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <form th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size text-center">
+                <button type="submit" class="btn btn-danger">Back to menu</button>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
 
     <p style="color: #B5B5B5; margin-top: 20px">Предоставената информация е ориентировъчна и с относителна достоверност.</p>
@@ -300,7 +335,17 @@
     </div>
 </div>
 
-
+<script>
+    function showConfirmation() {
+        if (confirm("Are you sure you want to reject the response?")) {
+            // User clicked OK, proceed with form submission
+            return true;
+        } else {
+            // User clicked Cancel, cancel form submission
+            return false;
+        }
+    }
+</script>
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>

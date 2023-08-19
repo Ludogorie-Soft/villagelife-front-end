@@ -16,5 +16,4 @@ public interface EthnicityClient {
     EthnicityDTO updateEthnicity(@PathVariable("id") Long id, EthnicityDTO ethnicityDTO);
     @DeleteMapping("/{id}")
     String deleteEthnicityById(@PathVariable("id") Long id);
-
 }

@@ -3,6 +3,7 @@ package com.ludogorieSoft.villagelifefrontend.config;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,4 +30,7 @@ public interface VillageClient {
 
     @GetMapping("/info/{id}")
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
+    @GetMapping("/update/{villageId}")
+    ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
+
 }

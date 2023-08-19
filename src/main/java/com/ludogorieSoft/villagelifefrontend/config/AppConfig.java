@@ -1,8 +1,8 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
-//import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import java.time.format.DateTimeFormatter;
 
 @Configuration
@@ -29,10 +28,10 @@ public class AppConfig {
         return new HttpHeaders();
     }
 
-    //@Bean
-    //public ErrorDecoder errorDecoder() {
-    //    return new CustomErrorDecoder();
-    //}
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomErrorDecoder();
+    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {

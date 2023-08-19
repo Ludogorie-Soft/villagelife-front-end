@@ -1,10 +1,11 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
+import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.RequiredArgsConstructor;
 
@@ -57,7 +58,9 @@ public class AuthController {
         ResponseEntity<AuthenticationResponce> authResponse;
         authResponse = authClient.authenticate(request);
         String token = Objects.requireNonNull(authResponse.getBody()).getToken();
+        ResponseEntity<AdministratorDTO> administratorDTO = authClient.getAdministratorInfo(AUTH_HEATHER + token);
         session.setAttribute(SESSION_NAME, token);
+        session.setAttribute("info", administratorDTO.getBody());
         return "redirect:/admins/village";
     }
 
