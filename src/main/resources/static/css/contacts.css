@@ -52,3 +52,18 @@
             }
 
 
+@media (max-width: 768px) {
+    .text-center a {
+          white-space: nowrap;
+        text-align: center;
+    }
+}
+
+@media (min-width: 867px) and (max-width: 1300px) {
+    .text-center a {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+}

@@ -284,3 +284,27 @@
          height: auto;
          margin-top: 3px;
      }
+
+
+
+    @media (max-width: 991.98px) {
+        .col-lg-6.col-md-6.col-sm-6 {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+
+        .widget-title {
+            font-size: 16px;
+        }
+
+        .subscription-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .btn-subscribe {
+            align-self: flex-start;
+        }
+    }
