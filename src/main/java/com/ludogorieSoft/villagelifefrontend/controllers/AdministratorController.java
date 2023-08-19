@@ -129,7 +129,7 @@ public class AdministratorController {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
         model.addAttribute("village", villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEATHER + token2);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
         return "admin_templates/admin_images";
     }
@@ -137,7 +137,7 @@ public class AdministratorController {
     public String rejectImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session){
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        villageImageClient.rejectVillageImage(villageImageId, AUTH_HEATHER + token2);
+        villageImageClient.rejectVillageImage(villageImageId, AUTH_HEADER + token2);
         return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId() + "?villageId=" + villageImageDTO.getVillageId();
     }
 
@@ -154,7 +154,7 @@ public class AdministratorController {
             }
         }
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        villageImageClient.adminUploadImages(villageId, imageBytes, AUTH_HEATHER + token2);
+        villageImageClient.adminUploadImages(villageId, imageBytes, AUTH_HEADER + token2);
         return "redirect:/admins/manage-images/" + villageId + "?villageId=" + villageId;
     }
 
@@ -204,7 +204,7 @@ public class AdministratorController {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
         model.addAttribute("village", villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEATHER + token2);
+        List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
         return "admin_templates/deleted_images";
     }
@@ -214,7 +214,7 @@ public class AdministratorController {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         Long villageId = villageImageDTO.getVillageId();
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        villageImageClient.deleteImageFileById(villageImageId, AUTH_HEATHER + token2);
+        villageImageClient.deleteImageFileById(villageImageId, AUTH_HEADER + token2);
         return "redirect:/admins/deleted-images/" + villageId;
     }
 
@@ -246,7 +246,7 @@ public class AdministratorController {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         Long villageId = villageImageDTO.getVillageId();
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        villageImageClient.resumeImageVillageById(villageImageId, AUTH_HEATHER + token2);
+        villageImageClient.resumeImageVillageById(villageImageId, AUTH_HEADER + token2);
         return "redirect:/admins/deleted-images/" + villageId;
     }
 
@@ -255,7 +255,7 @@ public class AdministratorController {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         villageImageDTO.setStatus(true);
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        villageImageClient.updateVillageImage(villageImageId, villageImageDTO, AUTH_HEATHER + token2);
+        villageImageClient.updateVillageImage(villageImageId, villageImageDTO, AUTH_HEADER + token2);
         return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId();
     }
 }
