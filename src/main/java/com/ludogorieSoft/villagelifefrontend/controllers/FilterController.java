@@ -47,7 +47,7 @@ public class FilterController {
         int resultCount = (villages != null) ? villages.size() : 0;
         model.addAttribute("villages", villages);
         model.addAttribute("sort", sort);
-
+        model.addAttribute("subscription", new SubscriptionDTO());
         displaySearchResultsMessage(region, keyword, model, resultCount);
         return SEARCHING_FORM_VIEW;
     }
@@ -155,7 +155,7 @@ public class FilterController {
         sortVillages(sort, villageDTOs);
 
         model.addAttribute("villages", villageDTOs);
-
+        model.addAttribute("subscription", new SubscriptionDTO());
         displayAdvancedSearchResultMessage(model, villageDTOs);
 
         return SEARCHING_FORM_VIEW;

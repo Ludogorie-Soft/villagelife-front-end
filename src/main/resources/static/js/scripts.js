@@ -18,3 +18,10 @@ formContainer.addEventListener('submit', (event) => {
   event.preventDefault();
   addForm();
 });
+   function showConfirmation(button) {
+            if (confirm("Are you sure you want to delete this village?")) {
+                var form = button.nextElementSibling;
+                form.submit();
+            } else {
+            }
+        }

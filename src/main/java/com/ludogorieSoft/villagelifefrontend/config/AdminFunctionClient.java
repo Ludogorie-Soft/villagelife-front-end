@@ -12,21 +12,24 @@ import java.util.List;
 public interface AdminFunctionClient {
 
     @DeleteMapping("/village-delete/{villageId}")
-    ResponseEntity<String> deleteVillageById(@PathVariable("villageId") Long villageId, @RequestHeader("Authorization") String token);
+    void deleteVillageById(@PathVariable("villageId") Long villageId, @RequestHeader("Authorization") String token);
 
     @PostMapping("/approve/{villageId}")
-    ResponseEntity<String> changeVillageStatus(@RequestParam("villageId") Long villageId,
+   void changeVillageStatus(@RequestParam("villageId") Long villageId,
                                                @RequestParam("answerDate") String answerDate, @RequestHeader("Authorization") String token);
 
-    @GetMapping(value = "/update")
-    ResponseEntity<List<VillageResponse>> findUnapprovedVillageResponseByVillageId(@RequestHeader("Authorization") String token);
+    @GetMapping("/toApprove")
+    ResponseEntity<List<VillageResponse>> getUnapprovedVillageResponses(@RequestHeader("Authorization") String token);
 
     @PostMapping("/reject/{villageId}")
     void rejectVillageResponse(@RequestParam("villageId") Long villageId,
                                @RequestParam("answerDate") String answerDate, @RequestHeader("Authorization") String token);
 
     @GetMapping("/info/{villageId}")
-    public VillageInfo getVillageInfoById(@RequestParam("villageId") Long villageId,
+    VillageInfo getVillageInfoById(@RequestParam("villageId") Long villageId,
                                           @RequestParam("answerDate") String answerDate, @RequestParam boolean status,
                                           @RequestHeader("Authorization") String token);
+    @GetMapping("/getRejected")
+    ResponseEntity<List<VillageResponse>> getVillagesWithRejectedResponses(@RequestHeader("Authorization") String token);
+
 }
