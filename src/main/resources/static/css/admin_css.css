@@ -44,8 +44,13 @@ ul.no-bullets {
         margin-bottom:10;
     }
 .btn-approval {
-    margin-right:0px; /* Adjust the horizontal spacing as needed */
-    margin-bottom: 15px; /* Add vertical spacing between buttons */
+    margin-left:10px; /* Adjust the horizontal spacing as needed */
+    margin-top: 5px; /* Add vertical spacing between buttons */
 }
-
+/* Center the "Delete" button in the column */
+.table td:nth-child(10) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 

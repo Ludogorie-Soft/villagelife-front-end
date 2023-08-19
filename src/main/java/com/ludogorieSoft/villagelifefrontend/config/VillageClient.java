@@ -23,12 +23,13 @@ public interface VillageClient {
 
 
     @PutMapping("/{id}")
-    VillageDTO updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
+    void updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
 
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
 
     @GetMapping("/info/{id}")
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
-
+    @GetMapping("/update/{villageId}")
+    ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
 }

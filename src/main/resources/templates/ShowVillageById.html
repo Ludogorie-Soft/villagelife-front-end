@@ -64,16 +64,20 @@
             </form>
         </div>
         <div class="col-sm-4">
-            <form id="rejectForm" th:action="@{/admins/reject/{villageId}(villageId=${villageInfo.villageDTO.id})}" method="post"
+            <form th:if="${status != 'archived'}" id="rejectForm" th:action="@{/admins/reject/{villageId}(villageId=${villageInfo.villageDTO.id})}" method="post"
                   class="btn-group btn-equal-size text-center">
                 <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
                 <input type="hidden" name="answerDate" th:value="${answerDate}">
                 <button type="submit" class="btn btn-primary" onclick="return showConfirmation()">Reject response</button>
             </form>
+            <p th:if="${status == 'archived'}" class="text-center" style="font-size: 1.2rem; font-weight: bold;">This response already rejected</p>
         </div>
         <div class="col-sm-4">
-            <form th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size text-center">
+            <form th:if="${status != 'archived'}" th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size text-center">
                 <button type="submit" class="btn btn-danger">Back to menu</button>
+            </form>
+            <form th:if="${status == 'archived'}" th:action="@{/admins/getRejected}" method="get" class="btn-group btn-equal-size text-center">
+                <button type="submit" class="btn btn-danger">Back to archive</button>
             </form>
         </div>
     </div>
@@ -334,17 +338,6 @@
     </div>
 </div>
 
-<script>
-    function showConfirmation() {
-        if (confirm("Are you sure you want to reject the response?")) {
-            // User clicked OK, proceed with form submission
-            return true;
-        } else {
-            // User clicked Cancel, cancel form submission
-            return false;
-        }
-    }
-</script>
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>
