@@ -12,41 +12,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     String homePage = "HomePage";
+    String redirecting = "redirect:/auth/login";
+    String message = "errorMessage";
+    String error = "error";
+    String message2 = "message";
+
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(RuntimeException ex, RedirectAttributes redirectAttributes) {
-        String message = "message";
         if (ex.getMessage().equals("Duplicate entry error")) {
-            redirectAttributes.addFlashAttribute(message, ex.getMessage());
+            redirectAttributes.addFlashAttribute(message2, ex.getMessage());
             return "redirect:/admins";
         } else {
-            redirectAttributes.addFlashAttribute(message, ex.getMessage());
+            redirectAttributes.addFlashAttribute(message2, ex.getMessage());
             return "redirect:/admins/village";
         }
     }
+
     @ExceptionHandler(FeignException.class)
-    public String handleFeignException(FeignException ex, RedirectAttributes redirectAttributes,Model model) {
-        String redirecting = "redirect:/auth/login";
-        String message = "message";
-        String error = "error";
-
-        if (ex.status() == HttpStatus.FORBIDDEN.value()) {
-            redirectAttributes.addFlashAttribute(message, "Wrong password or username!");
-            return redirecting;
-        } else if (ex.status() == HttpStatus.UNAUTHORIZED.value()) {
-            redirectAttributes.addFlashAttribute(message, "Your session has expired!");
-            return redirecting;
-        } else if (ex.status() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-            model.addAttribute(message, "Internal server error!");
-            return "HomePage" ;
-        }else if (ex.status() == HttpStatus.BAD_REQUEST.value() && ex.getMessage().contains("This village already approved!")) {
-            redirectAttributes.addFlashAttribute(message,"This village already approved!");
-            return  "redirect:/admins/village";
-        } else {
-
-           model.addAttribute(error, "Something went wrong!");
-            return  "HomePage";
-        }
+    public String handleFeignException(FeignException ex, Model model) {
+        model.addAttribute("errorMessage", "Unauthorized: Invalid request");
+        return "/admin_templates/error";
     }
+
     @ExceptionHandler(value = {NullPointerException.class})
     protected String handleNullPointerException(Model model) {
         model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
@@ -58,5 +45,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
         return "HomePage";
     }
+
 }
 
