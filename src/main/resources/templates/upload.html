@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <title>Качи Excel Файл</title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -23,36 +23,37 @@
 <body>
 
 <div th:replace="fragments :: menu"></div>
+<div th:replace="fragments :: hamburger-menu"></div>
+
 <div class="text-center">
     <h2>Качи Excel Файл</h2>
-    <div class="clear-button-container">
-        <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearUpload()"
-               style="background-color: #eef5e1;" id="clearButton"/>
-    </div>
     <form th:action="@{/uploadFile}" method="post" enctype="multipart/form-data">
-        <div class="btn-container">
-            <input class="btn btn-success btn-file" type="file" name="file"/>
-            <button type="submit" class="btn btn-primary btn-file btn-upload-excel" onclick="uploadFile(event)">
-                <i class="fas fa-file-upload" style="color:#ffffff;"></i> Прикачи
-            </button>
+        <div class="d-flex flex-column align-items-center">
+            <div class="d-flex justify-content-center mb-2">
+                <input class="btn btn-success btn-file mr-2" type="file" name="file"/>
+                <button type="submit" class="btn btn-primary btn-file btn-upload-excel" onclick="uploadFile(event)">
+                    <i class="fas fa-file-upload" style="color:#ffffff;"></i> Прикачи
+                </button>
+            </div>
+            <input class="btn btn-outline-secondary mb-2" type="button" value="Изчисти" onclick="clearUpload()"
+                   style="background-color: #eef5e1;" id="clearButton"/>
         </div>
     </form>
-    <div id="loadingIcon">
-        <i class="fa fa-spinner fa-spin" style="color: #000000; font-size:36px"></i> Зареждане...
+    <div id="loadingIcon" class="mt-3">
+        <i class="fa fa-spinner fa-spin" style="color: #000000; font-size:36px"></i> <strong>Изчакайте, в момента данните се обработват...</strong>
     </div>
 
-
-    <p th:if="${uploadSuccess}" class="message success">
+    <p th:if="${uploadSuccess}" class="message success mt-3">
         Файлът е качен успешно!
     </p>
-    <p th:if="${uploadError}" class="message error">
+    <p th:if="${uploadError}" class="message error mt-3">
         Файлът, който се опитвате да прикачите е невалиден! Моля, изберете файл в (.xlsx) формат!
     </p>
-    <p th:if="${uploadedVillagesCount != null && uploadedVillagesCount > 0}" class="message added-villages" style="margin-top: 30px;">
+    <p th:if="${uploadedVillagesCount != null && uploadedVillagesCount > 0}" class="message added-villages mt-3">
         <strong>Успешно добавени <span th:text="${totalUniqueVillages}"></span> села от общо <span th:text="${addedVillageNumber}"></span> записа.</strong>
     </p>
-
 </div>
+
 <div th:replace="fragments :: footer"></div>
 
 </body>

@@ -27,7 +27,7 @@
 
 
                     <section>
-                        <p class="fw-bold">Избери обект/и в близост спрямо селото:</p>
+                        <p class="fw-bold">Избери обект/и в селото:</p>
                         <table class="table table-hover">
                             <tbody>
                             <tr th:each="object : ${objectsAroundVillage}">
@@ -37,8 +37,6 @@
                                         <input class="form-check-input" type="checkbox"
                                                th:id="'object-' + ${object.id}"
                                                th:name="objectAroundVillageDTOS" th:value="${object.type}"/>
-                                        <!--                                               th:name="objectAroundVillageDTOS" th:value="${object.id}" />-[извежда id тата на обектите]-->
-
                                     </div>
                                 </td>
                             </tr>
@@ -47,17 +45,19 @@
                     </section>
 
 
-                    <section>
-                        <label for="children" class="fw-bold">Избери брой на деца (до 14г.) в селото:</label>
-                        <select id="children" name="children" class="form-select">
-                            <option value="" disabled selected>Избери опция</option>
-                            <option th:each="child : ${childrenValues}" th:value="${child['valueAsNumber']}"
-                                    th:text="${child['name']}"></option>
-                        </select>
-                    </section>
+                        <section>
+                            <label for="children" class="fw-bold">Избери брой на деца (до 14г.) в селото:</label>
+                            <div class="d-flex">
+                                <select id="children" name="children" class="form-select flex-grow-1">
+                                    <option value="" disabled selected>Избери опция</option>
+                                    <option th:each="child : ${childrenValues}" th:value="${child['valueAsNumber']}"
+                                            th:text="${child['name']}"></option>
+                                </select>
+                            </div>
+                        </section>
 
 
-                    &nbsp;
+                        &nbsp;
 
                     <section>
                         <p class="fw-bold">Избери условие/я на живот:</p>
@@ -65,8 +65,6 @@
                             <input class="form-check-input" type="checkbox"
                                    th:id="'livingCondition-' + ${livingCondition.id}"
                                    th:name="livingConditionDTOS" th:value="${livingCondition.livingConditionName}"/>
-                            <!--                                   th:name="livingConditionDTOS" th:value="${livingCondition.id}"/>-[извежда id тата на исловията]-->
-
                             <label class="form-check-label" th:for="'livingCondition-' + ${livingCondition.id}"
                                    th:text="${livingCondition.livingConditionName}"></label>
                         </div>
@@ -85,113 +83,10 @@
     </div>
 </div>
 
+<script src="/js/submitSearchForm.js"></script>
+<script src="/js/showModal.js"></script>
+<script src="/js/selectedOptions.js"></script>
+<script src="/js/selectedChildrenCount.js"></script>
 
-<script>
-    function submitSearchForm() {
-        // Получаване на избраните опции
-        var selectedObjects = Array.from(document.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked')).map(function(input) {
-            return input.value;
-        });
-        var selectedLivingConditions = Array.from(document.querySelectorAll('input[name="livingConditionDTOS"]:checked')).map(function(input) {
-            return input.value;
-        });
-        var selectedChildrenCount = document.querySelector('select[name="children"]').value;
-
-        // Задаване на стойностите в скритите полета
-        document.querySelector('input[name="selectedObjects"]').value = JSON.stringify(selectedObjects);
-        document.querySelector('input[name="selectedLivingConditions"]').value = JSON.stringify(selectedLivingConditions);
-        document.querySelector('input[name="selectedChildrenCount"]').value = selectedChildrenCount;
-
-        // Извикване на метода searchVillages
-        searchVillages();
-    }
-
-    function searchVillages() {
-        // Извикване на метода searchVillages или изпълнение на необходимата логика за търсенето
-        // Например, изпращане на формата или извикване на API заявка
-
-        // Пример: изпращане на формата
-        document.getElementById("searchForm").submit();
-    }
-
-
-</script>
-
-
-<script>
-    // Скрипт за отваряне на модалния прозорец по желание
-    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-    myModal.show();
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-
-<script>
-    // Получаване на избраните опции
-    var selectedOptions = [];
-
-    // Получаване на избраните обекти в близост до селото
-    var selectedObjects = document.querySelectorAll('input[name="objectAroundVillageDTOS"]:checked');
-    selectedObjects.forEach(function(object) {
-        selectedOptions.push(object.value);
-    });
-
-    // Получаване на избраните условия на живот
-    var selectedLivingConditions = document.querySelectorAll('input[name="livingConditionDTOS"]:checked');
-    selectedLivingConditions.forEach(function(condition) {
-        selectedOptions.push(condition.value);
-    });
-
-     // Получаване на избраните деца
-    var selectedChildren = document.querySelector('input[name="children"]:checked');
-    if (selectedChildren) {
-        selectedOptions.push(selectedChildren.value);
-    }
-
-
-
-
-    // Запазване на избраните опции в локалното съхранение
-    localStorage.setItem('selectedOptions', JSON.stringify(selectedOptions));
-
-
-
-
-
-
-
-</script>
-
-
-<script>
-function showSelectedChildrenCount(selectElement) {
-console.log("Function called"); // Проверка за извикване на функцията
-
-var selectedChildrenCount = selectElement.value;
-var selectedChildrenCountResult = document.getElementById("selectedChildrenCountResult");
-selectedChildrenCountResult.textContent = "Избор: " + selectedChildrenCount;
-
-var selectedOption = selectElement.options[selectElement.selectedIndex];
-selectedChildrenCountResult.textContent = "Избрана опция: " + selectedOption.text;
-
-console.log("Function finished"); // Проверка за завършване на функцията
-}
-
-
-
-
-
-
-</script>
 </body>
 </html>
