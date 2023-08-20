@@ -87,9 +87,9 @@
     }
 
     .contact-list li i {
-      font-size: 18px; /* Размер на иконите */
-      vertical-align: middle; /* Центриране на иконите спрямо текста */
-      margin-right: 5px; /* Разстояние между иконите и текста */
+      font-size: 18px;
+      vertical-align: middle;
+      margin-right: 5px;
     }
 
 
@@ -156,22 +156,22 @@
     }
 
 
-    /* Add the following CSS styles to the container */
+
     .text-left {
-        text-align: left; /* Align the button to the left */
+        text-align: left;
     }
 
-    /* Add the following CSS styles to the button */
+
     .footer-widget .btn-info {
-        font-size: 15px; /* Increase the font size to make the button larger */
-        white-space: nowrap; /* Prevent text from wrapping */
-        padding: 8px 15px; /* Adjust the padding as needed */
-        display: flex; /* Use flexbox */
-        justify-content: center; /* Center the text horizontally */
-        align-items: center; /* Center the text vertically */
+        font-size: 15px;
+        white-space: nowrap;
+        padding: 8px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    /* Styles for the Абонирай ме! button inside the contact-list */
+
     .contact-list .btn-subscribe {
         background-color: #fa4a2a;
         color: white;
@@ -186,27 +186,27 @@
         align-items: center;
     }
 
-    /* Add the following CSS styles to the label */
+
     .subscription-container label {
         display: block;
     }
 
-    /* Add the following CSS styles to the input field */
+
     .subscription-container input[type="email"] {
         width: 100%;
     }
 
-    /* Add the following CSS styles to the button */
+
     .subscription-container button.btn-subscribe {
-        align-self: flex-start; /* Align the button to the left */
+        align-self: flex-start;
     }
 
-    /* Add the following CSS styles to the subscription container */
+
     .subscription-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 10px; /* Add margin-top to create space between the header and the input field */
+        margin-top: 10px;
         justify-content: flex-start;
         gap: 10px;
     }
@@ -218,7 +218,7 @@
       z-index: 1;
       top: 0;
       left: 0;
-      background-color: #F2F2F2 /*rgba(0, 0, 0, 1)*/;
+      background-color: #F2F2F2
       border-right: solid 1px #595959;
       overflow-x: hidden;
       transition: 0.5s;
@@ -236,13 +236,13 @@
     .nav-overlay a {
       padding: 8px;
       text-decoration: none;
-      color: #595959 /*#818181*/;
+      color: #595959;
       display: block;
       transition: 0.3s;
     }
 
     .nav-overlay a:hover, .nav-overlay a:focus {
-      color: black /*#f1f1f1*/;
+      color: black;
       font-weight: bold;
     }
 
@@ -264,7 +264,7 @@
     #hamburger-menu hr{
         width: 100%;
         height: 1px;
-        background-color: /*white*/ #595959;
+        background-color: #595959;
         border: none;
     }
     .hamburger-menu-icon {

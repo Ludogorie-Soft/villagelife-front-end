@@ -84,17 +84,18 @@
             </section>
 
             <!-- Region -->
-            <section class="col-3">
+            <section class="col-md-3 col-9 mb-3">
                 <label for="regionName" class="fw-bold">
                     Избери област:
                     <span class="text-danger">*</span>
                 </label>
-                <select th:field="*{villageDTO.region}" class="form-select"  id="regionName">
+                <select th:field="*{villageDTO.region}" class="form-select" id="regionName">
                     <option th:each="region : ${regions}"
                             th:value="${region.regionName}"
                             th:text="${region.regionName}"></option>
                 </select>
             </section>
+
         </div>
 
         <!-- Ground Category -->

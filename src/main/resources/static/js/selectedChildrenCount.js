@@ -1,5 +1,5 @@
     function showSelectedChildrenCount(selectElement) {
-    console.log("Function called"); // Проверка за извикване на функцията
+    console.log("Function called");
 
     var selectedChildrenCount = selectElement.value;
     var selectedChildrenCountResult = document.getElementById("selectedChildrenCountResult");
@@ -8,7 +8,7 @@
     var selectedOption = selectElement.options[selectElement.selectedIndex];
     selectedChildrenCountResult.textContent = "Избрана опция: " + selectedOption.text;
 
-    console.log("Function finished"); // Проверка за завършване на функцията
+    console.log("Function finished");
     }
 
 
