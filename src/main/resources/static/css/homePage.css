@@ -2,7 +2,7 @@
         position: relative;
         width: 100%;
         height: 0;
-        padding-bottom: 42.25%; /* За съотношение на страните 16:9 (използвайте друго съотношение ако е необходимо) */
+        padding-bottom: 42.25%;
         overflow: hidden;
     }
 
@@ -205,9 +205,9 @@
     }
 
     #village-life-text {
-        --b: .3em; /* border width */
-        --c: 3em; /* corner size */
-        --r: 2em;; /* corner rounding */
+        --b: .3em;
+        --c: 3em;
+        --r: 2em;;
         position: relative;
         margin: 20px auto;
         border: solid var(--b) transparent;
@@ -221,7 +221,7 @@
             inset: calc(-1*var(--b));
             border: inherit;
             border-radius: var(--r);
-            background: linear-gradient(#DBD654, #A6B06B, #96c930) border-box; /* #A79F53, #91954C, #A5914C */
+            background: linear-gradient(#DBD654, #A6B06B, #96c930) border-box;
             --corner:
                 conic-gradient(from -90deg at var(--c) var(--c), red 25%, #0000 0)
                     0 0/ calc(100% - var(--c))  calc(100% - var(--c)) border-box;
@@ -245,7 +245,7 @@
 
         #village-life-text-container {
             display: block;
-            background-color: white; /* #535830 */
+            background-color: white;
             color: #968D52;
             font-size: 16px;
             text-align: center;

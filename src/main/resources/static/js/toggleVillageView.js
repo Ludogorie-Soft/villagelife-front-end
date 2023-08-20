@@ -9,12 +9,12 @@
 
     imageContainers.forEach(function (container) {
     container.classList.toggle("col-6");
-    container.classList.toggle("col-md-12"); // Add this line
+    container.classList.toggle("col-md-12");
     });
 
     cardBodies.forEach(function (body) {
     body.classList.toggle("col-6");
-    body.classList.toggle("col-md-12"); // Add this line
+    body.classList.toggle("col-md-12");
     });
 
     villageToggle.classList.toggle("fa-th");

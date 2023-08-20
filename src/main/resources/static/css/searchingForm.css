@@ -34,7 +34,7 @@
     h3 {
         color: black;
         transition: color 0.2s ease;
-        white-space: nowrap; /* Предотвратява пренасяне на текст на нов ред */
+        white-space: nowrap;
         padding-left: 10px;
     }
 
@@ -114,6 +114,11 @@
 
         .search-bar-row .filter-button-container {
             margin-top: 5px;
+        }
+
+        .custom-div {
+            padding-left: 20px;
+            white-space: normal;
         }
 
     }
