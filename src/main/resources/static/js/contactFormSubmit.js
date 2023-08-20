@@ -1,8 +1,8 @@
       $(document).ready(function() {
         $('#contact-form').submit(function(event) {
-          event.preventDefault(); // Prevent the form from submitting normally
+          event.preventDefault();
 
-          // Store form element reference
+
           var $form = $(this);
 
 
