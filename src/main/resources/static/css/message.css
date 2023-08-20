@@ -18,13 +18,13 @@
  .message-true {
    background-color: rgba(0, 128, 0, 0.5);
    border-color: green;
-   text-shadow: 1px 1px 0px green, -1px -1px 0px green, 1px -1px 0px green, -1px 1px 0px green; /* Green text outlining */
+   text-shadow: 1px 1px 0px green, -1px -1px 0px green, 1px -1px 0px green, -1px 1px 0px green;
  }
 
  .message-false {
    background-color: rgba(255, 0, 0, 0.5);
    border-color: red;
-   text-shadow: 1px 1px 0px red, -1px -1px 0px red, 1px -1px 0px red, -1px 1px 0px red; /* Red text outlining */
+   text-shadow: 1px 1px 0px red, -1px -1px 0px red, 1px -1px 0px red, -1px 1px 0px red;
  }
 
  @keyframes fadeOut {

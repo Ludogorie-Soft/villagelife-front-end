@@ -1,6 +1,5 @@
     function uploadFile(event) {
 
-        // Показваме иконата за зареждане преди изпращането на заявката
         var loadingIcon = document.getElementById("loadingIcon");
         loadingIcon.style.display = 'block';
 
