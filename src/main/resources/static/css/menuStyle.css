@@ -218,7 +218,7 @@
       z-index: 1;
       top: 0;
       left: 0;
-      background-color: #F2F2F2
+      background-color: #F2F2F2;
       border-right: solid 1px #595959;
       overflow-x: hidden;
       transition: 0.5s;
