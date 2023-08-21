@@ -36,6 +36,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/admins/village">Villages</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admins/getRejected">
+                    <i class="far fa-folder-open"></i> Archive
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">Administrators</a>
@@ -43,6 +48,9 @@
                     <li><a class="dropdown-item" th:href="@{/admins}">All Administrators</a></li>
                     <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>
                 </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admins/subscriptions">Subscriptions</a>
             </li>
         </ul>
     </div>

@@ -37,6 +37,9 @@
                     <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admins/subscriptions">Subscriptions</a>
+            </li>
         </ul>
     </div>
     <form class="logout-button" th:action="@{/admins/logout}" method="get">
@@ -80,7 +83,7 @@
                     <td th:text="${admin.email}"></td>
                     <td th:text="${admin.username}"></td>
                     <td th:text="${admin.mobile}"></td>
-                    <td th:text="${admin.createdAt != null ? #strings.substring(admin.createdAt, 0, 10) + ' ' + #strings.substring(admin.createdAt, 11, 19) : ''}"></td>
+                    <td th:text="${admin.createdAt != null ? #temporals.format(admin.createdAt, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
                     <td th:text="${admin.enabled}"></td>
                     <td th:text="${admin.role}"></td>
                     <td>

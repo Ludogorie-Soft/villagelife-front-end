@@ -1,0 +1,19 @@
+@media (min-width: 992px) {
+    .table-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 991px) {
+    .table-container {
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+.subscriptionStatusContainer{
+    margin: 15px 0;
+}
+#container{
+    margin-bottom: 100px;
+}
