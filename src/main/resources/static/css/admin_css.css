@@ -53,4 +53,64 @@ ul.no-bullets {
     justify-content: center;
     align-items: center;
 }
+/* Add these styles to your existing CSS file or <style> tag */
+
+/* Style for the whole table */
+/* Adjust the width of the table */
+#table_id {
+    width: 99.9%; /* Change the width value as needed */
+    border-collapse: collapse;
+    margin: 20px auto; /* Center the table */
+}
+/* Header row */
+#table_id th {
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px;
+}
+
+/* Data rows */
+#table_id td {
+    padding: 8px;
+    text-align: center;
+}
+
+/* Alternating row background */
+#table_id tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Hover effect */
+#table_id tbody tr:hover {
+    background-color: #e2e3e5;
+}
+
+/* Buttons */
+.btn-approval {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Delete button */
+.btn-danger {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Table responsiveness */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Center table heading */
+#table-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+  .custom-container {
+        max-width: 1300px;
+        margin: left;
+        padding: 0 15px;
+    }
 

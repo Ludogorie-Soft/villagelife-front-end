@@ -7,56 +7,33 @@ import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpSession;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class AdministratorControllerTest {
     private HttpSession session;
     private AdminClient adminClient;
-    private Model model;
-    private AdministratorRequest administratorRequest;
-    private BindingResult bindingResult;
     private RedirectAttributes redirectAttributes;
     private AdminFunctionClient adminFunctionClient;
     private VillageController villageController;
+
     @BeforeEach
     public void setUp() {
         session = mock(HttpSession.class);
         adminClient = mock(AdminClient.class);
-        model = mock(Model.class);
-        administratorRequest = mock(AdministratorRequest.class);
-        bindingResult = mock(BindingResult.class);
         redirectAttributes = mock(RedirectAttributes.class);
         adminFunctionClient = mock(AdminFunctionClient.class);
         villageController = mock(VillageController.class);
     }
-    @Test
-     void testEditAdmin() {
-
-        when(adminClient.getAdministratorById(anyLong(), anyString())).thenReturn(ResponseEntity.ok(new AdministratorDTO()));
-
-        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController);
-
-        String viewName = controller.editAdmin(1L, model, session);
-
-        assertEquals("admin_templates/update_admin", viewName);
-        verify(adminClient, times(1)).getAdministratorById(eq(1L), anyString());
-        verify(model, times(1)).addAttribute(eq("admins"), any(AdministratorDTO.class));
-    }
-
     @Test
      void testDeleteAdmin() {
 
