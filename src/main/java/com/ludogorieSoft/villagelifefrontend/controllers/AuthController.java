@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class AuthController {
     private final AuthClient authClient;
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEADER = "Bearer ";
+    private static final String ADMINS = "admins";
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -41,7 +43,9 @@ public class AuthController {
             throw new ApiRequestException("An error occurred while communicating with the API");
         }
         if (auth.getStatusCode().is2xxSuccessful()) {
-            model.addAttribute("admins", new AdministratorRequest());
+            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            model.addAttribute(ADMINS, admin.getFullName());
+            model.addAttribute("adminNew", new AdministratorRequest());
             model.addAttribute("roles", Role.ADMIN);
         } else {
             throw new ApiRequestException("Unauthorized: Invalid request");
@@ -50,20 +54,22 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerAdmin(@Valid @ModelAttribute("admins") RegisterRequest request, BindingResult bindingResult, Model model, HttpSession session) {
+    public String registerAdmin(@Valid @ModelAttribute("admins") RegisterRequest request,
+                                BindingResult bindingResult, Model model,
+                                HttpSession session, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", Role.values());
             return "admin_templates/register_form";
         }
         String token = (String) session.getAttribute(SESSION_NAME);
-        authClient.register(request, AUTH_HEADER + token);
-
+        String message = authClient.register(request, AUTH_HEADER + token);
+        redirectAttributes.addFlashAttribute("message", message);
         return "redirect:/admins";
     }
 
     @GetMapping("/login")
     public String showAdminLogin(Model model) {
-        model.addAttribute("admins", new AuthenticationRequest());
+        model.addAttribute(ADMINS, new AuthenticationRequest());
         return "admin_templates/admin_login";
     }
 

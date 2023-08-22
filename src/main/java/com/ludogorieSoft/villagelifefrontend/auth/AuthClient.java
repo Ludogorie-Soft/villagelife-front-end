@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "villagelife-api-auth", url = "http://localhost:8088/api/v1/auth")
+@FeignClient(name = "villageLife-api-auth", url = "http://localhost:8088/api/v1/auth")
 public interface AuthClient {
     @PostMapping("/register")
-   void register(
+   String register(
             @Valid @RequestBody RegisterRequest request, @RequestHeader("Authorization") String token
     );
 
