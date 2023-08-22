@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpSession;
 
 
@@ -23,6 +22,7 @@ class AdministratorControllerTest {
     private RedirectAttributes redirectAttributes;
     private AdminFunctionClient adminFunctionClient;
     private VillageController villageController;
+
     private VillageClient villageClient;
     private VillageImageClient villageImageClient;
     private SubscriptionClient subscriptionClient;
@@ -52,6 +52,7 @@ class AdministratorControllerTest {
     }
 
     @Test
+
      void testDeleteAdmin() {
 
         doNothing().when(adminClient).deleteAdministratorById(anyLong(), anyString());

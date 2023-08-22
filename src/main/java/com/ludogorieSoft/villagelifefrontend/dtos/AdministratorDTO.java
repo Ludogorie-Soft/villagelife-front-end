@@ -25,8 +25,6 @@ public class AdministratorDTO implements Serializable {
 
     private String username;
 
-    private String newPassword;
-
     private String mobile;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

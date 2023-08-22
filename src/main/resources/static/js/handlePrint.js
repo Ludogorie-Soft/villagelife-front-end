@@ -11,3 +11,11 @@ const handlePrint = () => {
             return false;
         }
     }
+    function showConfirmationApprove() {
+            if (confirm("Are you sure you want to approve this response?")) {
+
+                return true;
+            } else {
+                return false;
+            }
+        }

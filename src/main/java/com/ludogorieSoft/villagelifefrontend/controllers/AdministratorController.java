@@ -51,17 +51,23 @@ public class AdministratorController {
         ResponseEntity<List<AdministratorDTO>> administrators = adminClient.getAllAdministrators(AUTH_HEADER + token);
         List<AdministratorDTO> allAdmins = administrators.getBody();
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(SESSION_NAME, administratorDTO.getFullName());
-        model.addAttribute(ADMINS, allAdmins);
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        model.addAttribute("adminsAll", allAdmins);
         return "admin_templates/admin_all";
     }
 
     @GetMapping("/edit/{adminId}")
     public String editAdmin(@PathVariable(name = "adminId") Long adminId, Model model, HttpSession session) {
-        String token2 = (String) session.getAttribute(SESSION_NAME);
-        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId, AUTH_HEADER + token2);
+        String token = (String) session.getAttribute(SESSION_NAME);
+
+        AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+        if (admin != null) {
+            model.addAttribute(ADMINS, admin.getFullName());
+        }
+
+        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId, AUTH_HEADER + token);
         AdministratorDTO administratorDTO = adminById.getBody();
-        model.addAttribute(ADMINS, administratorDTO);
+        model.addAttribute("adminById", administratorDTO);
         model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/update_admin";
     }
@@ -78,8 +84,8 @@ public class AdministratorController {
         }
         administratorRequest.setCreatedAt(now());
 
-        String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEADER + token2);
+        String token = (String) session.getAttribute(SESSION_NAME);
+        adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEADER + token);
 
         redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId + " successfully updated !!!");
         return "redirect:/admins";
@@ -219,16 +225,17 @@ public class AdministratorController {
     @GetMapping("/getRejected")
     public String getVillagesWithRejectedResponses(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         String token = (String) session.getAttribute(SESSION_NAME);
+
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         try {
             ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.getVillagesWithRejectedResponses(AUTH_HEADER + token);
 
             if (villageResponses.getStatusCode().is2xxSuccessful()) {
-                AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-                model.addAttribute(ADMINS, administratorDTO.getFullName());
+
                 List<VillageResponse> villages = villageResponses.getBody();
-                if (villages != null && villages.isEmpty()) {
-                    redirectAttributes.addFlashAttribute("errorMessage", "There is no villages with rejected answers!");
-                }
+
                 model.addAttribute("status", "archived");
                 model.addAttribute(VILLAGES_ATTRIBUTE, villages);
 

@@ -7,7 +7,8 @@
   <link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
-<img src="/images/logo.png" alt="Logo" class="logo">
+<a class="navbar-brand" th:href="@{/villages/home-page}">
+  <img th:src="@{/images/logo.png}" alt="Logo" style="max-width: 130px; height: auto;" class="logo" ></a>
 <div th:if="${message}" class="alert alert-danger text-center" role="alert" >
   [[${message}]]
 </div>
