@@ -16,15 +16,6 @@
     <link rel="stylesheet" href="/css/message.css">
     <link rel="stylesheet" href="/css/showVillageById.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
-    <style>
-    .btn-separation {
-        margin-right: 30px;
-    }
-
-    .btn-equal-size {
-        width: 100%;
-    }
-    </style>
 </head>
 
 <script src="/js/querySelector.js"></script>
@@ -84,7 +75,10 @@
 
     <div class="row">
 
-    <p style="color: #B5B5B5; margin-top: 20px">Предоставената информация е ориентировъчна и с относителна достоверност.</p>
+        <p style="color: #B5B5B5; margin-top: 20px">
+            Предоставената информация е ориентировъчна и с относителна достоверност<span th:text="${admin == null ? ', на базата на ' + villageInfo.villageDTO.approvedResponsesCount + ' отговор' + (villageInfo.villageDTO.approvedResponsesCount == 1 ? '' : 'а') : ''}"></span>.
+        </p>
+
 
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">
