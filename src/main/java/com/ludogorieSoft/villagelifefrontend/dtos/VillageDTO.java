@@ -35,5 +35,6 @@ public class VillageDTO {
     private LocalDateTime dateUpload;
     private Boolean status;
     private List<String> images;
+    private int approvedResponsesCount;
 
 }

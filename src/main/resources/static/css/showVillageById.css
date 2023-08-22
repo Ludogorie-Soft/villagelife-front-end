@@ -72,10 +72,6 @@
       object-fit: cover;
     }
 
-
-
-
-
     .point-icon {
         width: 25px;
         height: 25px;
@@ -192,139 +188,151 @@
         margin: 5px;
     }
 
-
-
     .lightbox-form-wrap {
-            max-width: 400px;
-            margin: 50px auto;
-            position: -webkit-sticky;
-            position: sticky;
-            top: 20px;
-        }
+        max-width: 400px;
+        margin: 50px auto;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 20px;
+    }
 
-        .property-form .form-group {
-            margin-bottom: 15px;
-        }
+    .property-form .form-group {
+        margin-bottom: 15px;
+    }
 
-        .form-control-sm {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: none;
-            transition: border-color 0.2s ease-in-out;
-        }
+    .form-control-sm {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: none;
+        transition: border-color 0.2s ease-in-out;
+    }
 
-        .form-control-sm:focus {
-            outline: none;
-            border-color: #3498db;
-        }
+    .form-control-sm:focus {
+        outline: none;
+        border-color: #3498db;
+    }
 
-        .btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-        }
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
 
-        .btn-secondary {
-            background-color: #3498db;
-            color: #fff;
-        }
+    .btn-secondary {
+        background-color: #3498db;
+        color: #fff;
+    }
 
-        .btn-secondary:hover {
-            background-color: #2980b9;
-        }
+    .btn-secondary:hover {
+        background-color: #2980b9;
+    }
 
-        .btn-secondary-outlined {
-            border: 2px solid #3498db;
-            color: #3498db;
-            background-color: transparent;
-        }
+    .btn-secondary-outlined {
+        border: 2px solid #3498db;
+        color: #3498db;
+        background-color: transparent;
+    }
 
-        .btn-secondary-outlined:hover {
-            background-color: #3498db;
-            color: #fff;
-        }
+    .btn-secondary-outlined:hover {
+        background-color: #3498db;
+        color: #fff;
+    }
 
-        .btn-half-width {
-            width: 48%;
-            margin-right: 4%;
-        }
+    .btn-half-width {
+        width: 48%;
+        margin-right: 4%;
+    }
 
-        .btn-half-width:last-child {
-            margin-right: 0;
-        }
+    .btn-half-width:last-child {
+        margin-right: 0;
+    }
 
-        .btn-secondary-outlined.show-on-click {
-            display: none;
-        }
+    .btn-secondary-outlined.show-on-click {
+        display: none;
+    }
 
-        .btn-secondary-outlined.show-on-click.active {
-            display: inline-block;
-        }
+    .btn-secondary-outlined.show-on-click.active {
+        display: inline-block;
+    }
 
-        .btn-secondary-outlined.hide-on-click {
-            display: inline-block;
-        }
+    .btn-secondary-outlined.hide-on-click {
+        display: inline-block;
+    }
 
-        .btn-secondary-outlined.hide-on-click.active {
-            display: none;
-        }
+    .btn-secondary-outlined.hide-on-click.active {
+        display: none;
+    }
 
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
 
-        .btn {
-            flex-basis: 45%;
-        }
+    .btn {
+        flex-basis: 45%;
+    }
 
-        .form-group label {
-            font-size: 14px;
-            color: #444;
-        }
+    .form-group label {
+        font-size: 14px;
+        color: #444;
+    }
 
-        .form-group label a {
-            text-decoration: none;
-            color: #96c930;
-            font-weight: bold;
-        }
+    .form-group label a {
+        text-decoration: none;
+        color: #96c930;
+        font-weight: bold;
+    }
 
 
-        .d-flex.align-items-center {
-            justify-content: center; /* Хоризонтално центриране */
-            align-items: center; /* Вертикално центриране */
-        }
+    .d-flex.align-items-center {
+        justify-content: center; /* Хоризонтално центриране */
+        align-items: center; /* Вертикално центриране */
+    }
 
-        .information-wrap {
-          margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
-        }
+    .information-wrap {
+      margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
+    }
 
-        .print-button {
-            background-image: url('/images/printer.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 40px;
-            height: 40px;
-            float: right;
-            border: solid 1px black;
-            background-color: white;
-            padding: 2px;
-            border-radius: 6px;
-            transition: background-color 0.4s ease, background-image 0.4s ease;
-        }
-        .print-button:hover {
-            background-image: url('/images/printer-white.png');
-            background-color: black;
-        }
-  .btn-separation {
+    .print-button {
+        background-image: url('/images/printer.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 40px;
+        height: 40px;
+        float: right;
+        border: solid 1px black;
+        background-color: white;
+        padding: 2px;
+        border-radius: 6px;
+        transition: background-color 0.4s ease, background-image 0.4s ease;
+    }
+    .print-button:hover {
+        background-image: url('/images/printer-white.png');
+        background-color: black;
+    }
+    .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 100%;
+    }
+    .btn-separation {
+        margin-right: 30px;
+    }
+
+    .btn-equal-size {
+        width: 100%;
+    }
+    .btn-separation {
         margin-right: 30px;
     }
 
