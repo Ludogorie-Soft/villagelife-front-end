@@ -1,12 +1,11 @@
     .sort-container {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         margin-top: 10px;
         margin-bottom: 10px;
-        float:right;
-        margin-right: 61px;
+        margin-right: 20px;
     }
-
 
     .sort-label {
         margin-right: 10px;
@@ -39,7 +38,6 @@
         background-color: #f8f9fa;
     }
 
-
     .sort-select::-ms-expand {
         display: none;
     }
@@ -48,14 +46,17 @@
         border-radius: 5px;
     }
 
-
     @media (max-width: 768px) {
         .sort-container {
             flex-direction: column;
+            align-items: center;
+        }
+
+        .sort-label {
+            margin-top: 10px;
+        }
+
+        .sort-select {
+            margin-top: 5px;
         }
     }
-
-     /*   .sort-select option:hover {
-            background-color: #b3412b;
-        } */
-

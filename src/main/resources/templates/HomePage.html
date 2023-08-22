@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-
-
 
     <title>Начало - VillageLife</title>
 
@@ -41,39 +38,38 @@
         <h1>Открий най-подходящото село!</h1>
 
         <div class="search-bar-row">
-            <form th:action="@{/filter/all}" method="get" class="d-flex align-items-center">
-                <div class="col-3 d-flex align-items-center">
+            <form th:action="@{/filter/all}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
+                <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
-                        <select name="region" class="form-select flex-grow-1" id="regionName">
+                        <select name="region" class="form-select fixed-width" id="regionName">
                             <option value="" selected disabled style="text-align: left;">Избери област</option>
-                            <option th:each="region : ${regions}" th:value="${region.regionName}"
-                                    th:text="${region.regionName}"></option>
+                            <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="col-9 d-flex">
+                <div class="col-12 col-sm-9 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
-                        <label class="input-group-text" for="search-input">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <label class="input-group-text icon-label" for="search-input">
+                            <i class="fa-solid fa-magnifying-glass" ></i>
                         </label>
-                        <input type="text" name="keyword" id="search-input" class="form-control"
-                               placeholder="Търси по име на село">
-                        <button class="btn btn-secondary" type="submit">Търсене</button>
+                        <input type="text" name="keyword" id="search-input" class="form-control form-control-sm" placeholder="Търси по име на село">
+                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене</button>
                     </div>
                 </div>
             </form>
-            <div class="filter-button-container">
+            <div class="filter-button-container mt-2">
                 <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     <i class="fas fa-filter"></i> Филтър за разширено търсене
                 </button>
             </div>
         </div>
-
-        <p> Village Life е платформа, която предоставя информация за условията на живот в
-            българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
-            избор
-            на
-            село за заселване.</p>
+        <div class="mt-4">
+            <p style="font-size: 22px; line-height: 1.5; padding: 10px;">Village Life е платформа, която предоставя информация за условията на живот в
+                българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
+                избор
+                на
+                село за заселване.</p>
+        </div>
     </div>
 </div>
 <div id="village-life-text-container">

@@ -52,3 +52,29 @@
             }
 
 
+@media (max-width: 768px) {
+
+    .custom-container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .text-center a {
+        white-space: nowrap;
+        text-align: center;
+    }
+}
+
+@media (min-width: 867px) and (max-width: 1300px) {
+    .custom-container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .text-center a {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+}

@@ -4,6 +4,6 @@
 
         if (!allowedFormats.includes(file.type)) {
             alert("Невлиден формат. Разрешени са само JPG и PNG.");
-            input.value = ''; // Clear the file input field
+            input.value = '';
         }
     }

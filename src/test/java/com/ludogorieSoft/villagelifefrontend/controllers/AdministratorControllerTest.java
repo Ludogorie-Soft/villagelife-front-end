@@ -2,6 +2,8 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
 import com.ludogorieSoft.villagelifefrontend.config.AdminFunctionClient;
+import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
+import com.ludogorieSoft.villagelifefrontend.config.VillageImageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
@@ -34,12 +36,14 @@ class AdministratorControllerTest {
         adminFunctionClient = mock(AdminFunctionClient.class);
         villageController = mock(VillageController.class);
     }
+
     @Test
+
      void testDeleteAdmin() {
 
         doNothing().when(adminClient).deleteAdministratorById(anyLong(), anyString());
 
-        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController);
+        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient);
 
         ModelAndView modelAndView = controller.deleteAdmin(1L, redirectAttributes, session);
 
