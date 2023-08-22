@@ -1,9 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogorieSoft.villagelifefrontend.config.AdminClient;
-import com.ludogorieSoft.villagelifefrontend.config.AdminFunctionClient;
-import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
-import com.ludogorieSoft.villagelifefrontend.config.VillageImageClient;
+import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
@@ -46,6 +43,7 @@ public class AdministratorController {
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private final VillageClient villageClient;
     private final VillageImageClient villageImageClient;
+    private final SubscriptionClient subscriptionClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -137,6 +135,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/admin_images";
     }
     @GetMapping("/image-reject/{villageImageId}")
@@ -212,6 +212,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/deleted_images";
     }
 
@@ -264,5 +266,15 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         villageImageClient.updateVillageImage(villageImageId, villageImageDTO, AUTH_HEADER + token2);
         return "redirect:/admins/manage-images/" + villageImageDTO.getVillageId();
+    }
+
+    @GetMapping("/subscriptions")
+    public String showSubscriptions(HttpSession session, Model model){
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<SubscriptionDTO> subscriptionDTOS = subscriptionClient.getAllSubscriptions(AUTH_HEADER + token2);
+        model.addAttribute("subscriptions", subscriptionDTOS);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/all_subscriptions";
     }
 }
