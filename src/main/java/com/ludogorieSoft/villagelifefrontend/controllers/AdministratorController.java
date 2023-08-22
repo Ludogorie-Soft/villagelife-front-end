@@ -135,6 +135,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/admin_images";
     }
     @GetMapping("/image-reject/{villageImageId}")
@@ -210,6 +212,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/deleted_images";
     }
 
@@ -269,6 +273,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<SubscriptionDTO> subscriptionDTOS = subscriptionClient.getAllSubscriptions(AUTH_HEADER + token2);
         model.addAttribute("subscriptions", subscriptionDTOS);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/all_subscriptions";
     }
 }
