@@ -3,10 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/images/tree.png}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <script src=https://code.jquery.com/jquery-3.6.0.js></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+
+    <link th:href="@{/css/errorPage.css}" rel="stylesheet"/>
 </head>
 <body>
-<h1>Error</h1>
-<p th:text="${errorMessage}" style="font-size: 1.5rem; font-weight: bold;"></p>
+
+
+
+<div class="error-container col-lg-5 col-md-7 col-sm-10 text-center">
+    <img th:src="@{/images/tree.png}" alt="Back" class="back-button-img">
+    <h1>Oops!</h1>
+    <h2>Something went wrong.</h2>
+    <hr>
+    <br>
+    <p th:text="${errorMessage}" class="error-message"></p>
+    <a th:href="@{/villages/home-page}" class="btn">Home</a>
+</div>
+
+
 </body>
 </html>
