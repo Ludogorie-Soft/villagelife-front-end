@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.validation.Valid;
 
-@FeignClient(name = "villageLife-api-auth", url = "http://localhost:8088/api/v1/auth")
+@FeignClient(name = "villageLife-api-auth", url = "${backend.url}/auth")
 public interface AuthClient {
     @PostMapping("/register")
    String register(
