@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
 
@@ -20,18 +21,15 @@
 </head>
 <body>
 
-
-
-<div class="error-container col-lg-5 col-md-7 col-sm-10 text-center">
-    <img th:src="@{/images/tree.png}" alt="Back" class="back-button-img">
-    <h1>Oops!</h1>
-    <h2>Something went wrong.</h2>
-    <hr>
-    <br>
-    <p th:text="${errorMessage}" class="error-message"></p>
-    <a th:href="@{/villages/home-page}" class="btn">Home</a>
-</div>
-
+    <div class="error-container col-lg-5 col-md-7 col-sm-10 text-center">
+        <a th:href="@{/villages/home-page}"><img th:src="@{/images/tree.png}" alt="Village life Image"></a>
+        <h1>Oops!</h1>
+        <h2>Something went wrong.</h2>
+        <hr>
+        <br>
+        <p th:text="${errorMessage}" class="error-message"></p>
+        <a th:href="@{/villages/home-page}" class="btn">Home</a>
+    </div>
 
 </body>
 </html>
