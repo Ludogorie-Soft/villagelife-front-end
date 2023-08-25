@@ -249,9 +249,9 @@ public class UploadController {
                             }
                             if (!populationFound) {
                                 if (valueNumberOfPopulation.equalsIgnoreCase("над 2000 човека")) {
-                                    village.setPopulationCount(2000);
+//                                    village.setPopulationCount(2000);
                                 } else if (valueNumberOfPopulation.equalsIgnoreCase("до 10 човека")) {
-                                    village.setPopulationCount(10);
+//                                    village.setPopulationCount(10);
                                 }
                             }
                             i++;
@@ -281,7 +281,7 @@ public class UploadController {
 
                             populationClient.updatePopulation(newPopulationID, population);
                             population.setId(newPopulationID);
-                            village.setPopulationDTO(population);
+//                            village.setPopulationDTO(population);
 
                         } else if (i == 37) {
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
@@ -384,7 +384,7 @@ public class UploadController {
     private static boolean isPopulationFound(VillageDTO village, boolean populationFound, String numberString) {
         try {
             int populationCount = Integer.parseInt(numberString);
-            village.setPopulationCount(populationCount);
+//            village.setPopulationCount(populationCount);
             populationFound = true;
         } catch (NumberFormatException e) {
             logger.error("Невалиден брой жители: ", e);
