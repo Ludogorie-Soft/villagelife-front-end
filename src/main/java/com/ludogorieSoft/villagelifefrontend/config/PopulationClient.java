@@ -28,4 +28,7 @@ public interface PopulationClient {
 
     @GetMapping("/{villageName}/{region}")
     PopulationDTO findPopulationByVillageNameAndRegion(@PathVariable("villageName") String villageName, @PathVariable("region") String region);
+    @GetMapping("/village/{id}")
+    PopulationDTO getPopulationByVillageId(@PathVariable("id") Long id);
+
 }

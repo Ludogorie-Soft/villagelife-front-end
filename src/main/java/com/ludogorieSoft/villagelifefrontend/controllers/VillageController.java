@@ -87,10 +87,8 @@ public class VillageController {
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        AdministratorDTO administratorDTO = null;
-        String answerDate = null;
-        boolean status = true;
-        getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO,null);
+        PopulationDTO populationDTO = populationClient.getPopulationByVillageId(id);
+        getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null, populationDTO);
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
@@ -103,25 +101,24 @@ public class VillageController {
     @PostMapping("/inquiry-save")
     public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
+        VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+        PopulationDTO populationDTO = populationClient.getPopulationByVillageId(villageInfo .getVillageDTO().getId());
 
         if (bindingResult.hasErrors()) {
-            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
-
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null, populationDTO);
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
 
         }else {
             inquiryClient.createInquiry(inquiryDTO);
-            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
             inquiryDTO = new InquiryDTO();
 
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null, populationDTO);
             model.addAttribute(IS_SENT_ATTRIBUTE, true);
 
         }
         return "ShowVillageById";
     }
-    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord, PopulationDTO populationDTO) {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
@@ -133,8 +130,7 @@ public class VillageController {
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
 
-        PopulationDTO population = populationClient.getPopulationById(villageInfo.getVillageDTO().getId());
-        model.addAttribute("population", population);
+        model.addAttribute("population", populationDTO);
 
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
         model.addAttribute("ethnicities", ethnicityDTOS);

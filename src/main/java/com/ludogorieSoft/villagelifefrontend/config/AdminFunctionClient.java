@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
+import com.ludogorieSoft.villagelifefrontend.dtos.PopulationDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -31,5 +32,7 @@ public interface AdminFunctionClient {
                                           @RequestHeader("Authorization") String token);
     @GetMapping("/getRejected")
     ResponseEntity<List<VillageResponse>> getVillagesWithRejectedResponses(@RequestHeader("Authorization") String token);
-
+    @GetMapping("/population/villageId/{id}")
+    PopulationDTO getPopulationByVillageId(@PathVariable("id") Long id,
+                                                                  @RequestParam("answerDate") String answerDate, boolean status);
 }

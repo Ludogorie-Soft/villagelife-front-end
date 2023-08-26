@@ -124,8 +124,9 @@ public class AdministratorController {
         boolean status = false;
         String token2 = (String) session.getAttribute(SESSION_NAME);
         VillageInfo villageInfo = adminFunctionClient.getVillageInfoById(villageId, answerDate, status, AUTH_HEADER + token2);
+        PopulationDTO population = adminFunctionClient.getPopulationByVillageId(villageId, answerDate, status);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO, archived);
+        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO, archived, population);
         return "ShowVillageById";
     }
     @GetMapping("/manage-images/{villageId}")
