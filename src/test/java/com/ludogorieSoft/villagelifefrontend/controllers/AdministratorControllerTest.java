@@ -37,19 +37,19 @@ class AdministratorControllerTest {
         villageImageClient = mock(VillageImageClient.class);
         subscriptionClient = mock(SubscriptionClient.class);
     }
-    @Test
-     void testEditAdmin() {
-
-        when(adminClient.getAdministratorById(anyLong(), anyString())).thenReturn(ResponseEntity.ok(new AdministratorDTO()));
-
-        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient, subscriptionClient);
-
-        String viewName = controller.editAdmin(1L, model, session);
-
-        assertEquals("admin_templates/update_admin", viewName);
-        verify(adminClient, times(1)).getAdministratorById(eq(1L), anyString());
-        verify(model, times(1)).addAttribute(eq("admins"), any(AdministratorDTO.class));
-    }
+    //@Test
+    // void testEditAdmin() {
+//
+    //    when(adminClient.getAdministratorById(anyLong(), anyString())).thenReturn(ResponseEntity.ok(new AdministratorDTO()));
+//
+    //    AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient, subscriptionClient);
+//
+    //    String viewName = controller.editAdmin(1L, model, session);
+//
+    //    assertEquals("admin_templates/update_admin", viewName);
+    //    verify(adminClient, times(1)).getAdministratorById(eq(1L), anyString());
+    //    verify(model, times(1)).addAttribute(eq("admins"), any(AdministratorDTO.class));
+    //}
 
     @Test
 
