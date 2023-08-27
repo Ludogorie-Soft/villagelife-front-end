@@ -175,7 +175,8 @@
                 Колко човека е населението в селото?
                 <span class="text-danger">*</span>
             </label>
-            <input type="number" id="villagePopulationCount" th:field="*{populationDTO.populationCount}" class="form-control" required>
+            <input type="number" id="villagePopulationCount" th:field="*{populationDTO.populationCount}" class="form-control" required min="1">
+
 
         </section>
         <!-- Residents -->
