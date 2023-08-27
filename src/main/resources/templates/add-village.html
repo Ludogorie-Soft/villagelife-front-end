@@ -27,7 +27,9 @@
         <div>Сътрудничество</div>
         </p>
     </section>
-
+    <div th:if="${consentMessage}" class="message alert alert-info text-center">
+        <p th:text="${consentMessage}"></p>
+    </div>
     <section class="lower-line-spacing">
         <p>
         <div>Здравейте,</div>
@@ -282,6 +284,28 @@
                 <label for="formFileMultiple" class="form-label fw-bold">Моля, прикачете снимки от селото:</label>
                 <input class="form-control" id="formFileMultiple" name="images" type="file" multiple accept="image/*" onchange="validateImageFormat(this)">
             </div>
+
+            <div id="consentAndInfoContainer" style="display: none;">
+                <p>
+                    Потвърждавам че снимките са лични. Давам съгласието си Village Life да използва добавените снимки.
+                </p>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fullName" class="form-label fw-bold">Име Фамилия:</label>
+                        <input th:field="*{userDTO.fullName}" type="text" class="form-control" id="fullName" name="userDTO.fullName">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label fw-bold">Електронна поща:</label>
+                        <input th:filed="*{userDTO.email}" type="email" class="form-control" id="email" name="userDTO.email">
+                    </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input th:checked="*{userDTO.consent}" type="checkbox" class="form-check-input" id="consent" name="userDTO.consent">
+                    <label class="form-check-label" for="consent">Съгласен/съгласна с условията</label>
+                </div>
+            </div>
         </section>
 
         <section class="text-center">
@@ -291,8 +315,9 @@
 
     </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/validateImageFormat.js"></script>
 <script src="/js/navScript.js"></script>
+<script src="/js/consentScript.js"></script>
 </body>
 </html>

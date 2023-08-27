@@ -1,50 +1,31 @@
 package com.ludogorieSoft.villagelifefrontend.exceptions;
 
-import feign.FeignException;
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    String homePage = "HomePage";
-    String redirecting = "redirect:/auth/login";
-    String message = "errorMessage";
-    String error = "error";
-    String message2 = "message";
 
-    @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeException(RuntimeException ex, RedirectAttributes redirectAttributes) {
-        if (ex.getMessage().equals("Duplicate entry error")) {
-            redirectAttributes.addFlashAttribute(message2, ex.getMessage());
-            return "redirect:/admins";
-        } else {
-            redirectAttributes.addFlashAttribute(message2, ex.getMessage());
-            return "redirect:/admins/village";
-        }
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleFeignException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", "Invalid request");
+        return new ModelAndView("/admin_templates/error");
     }
 
-    @ExceptionHandler(FeignException.class)
-    public String handleFeignException(FeignException ex, Model model) {
-        model.addAttribute("errorMessage", "Unauthorized: Invalid request");
-        return "/admin_templates/error";
+    @ExceptionHandler(NoConsentException.class)
+    public ModelAndView handleNoConsentException(NoConsentException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("consentMessage", ex.getMessage());
+        return new ModelAndView("redirect:/villages/create");
     }
 
-    @ExceptionHandler(value = {NullPointerException.class})
-    protected String handleNullPointerException(Model model) {
-        model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
-        return "HomePage";
+    @ExceptionHandler(ApiRequestException.class)
+    public ModelAndView handleApiRequestException(ApiRequestException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", ex.getMessage());
+        return new ModelAndView("redirect:/villages/home-page");
     }
-
-    @ExceptionHandler(value = {Exception.class})
-    protected String handleGenericException(Model model) {
-        model.addAttribute("error", "Възникна неочаквана грешка в приложението!!!");
-        return "HomePage";
-    }
-
 }
 

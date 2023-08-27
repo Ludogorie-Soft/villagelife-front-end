@@ -2,7 +2,9 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
+import feign.Logger;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,10 @@ public class AppConfig {
     public ErrorDecoder errorDecoder() {
         return new CustomErrorDecoder();
     }
+    @Bean
+    Logger.Level feignLoggerLevel(){
+        return Logger.Level.FULL;
+    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
@@ -50,5 +56,4 @@ public class AppConfig {
                         .serializationInclusion(JsonInclude.Include.NON_NULL);
         return new MappingJackson2HttpMessageConverter(builder.build());
     }
-
 }
