@@ -32,4 +32,7 @@ public interface VillageClient {
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
     @GetMapping("/update/{villageId}")
     ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
+
+    @PutMapping("/{id}/increase-approved-responses-count")
+    public void increaseApprovedResponsesCount(@PathVariable Long id);
 }
