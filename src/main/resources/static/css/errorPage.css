@@ -1,0 +1,48 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-container {
+    padding: 15px;
+    background-color: #F9E289;
+    box-shadow: 20px 20px #EB842A;
+    text-align: center;
+    width: 150%;
+}
+
+h1{
+    font-size: 2rem
+}
+.error-message{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+img{
+    width: 70px;
+}
+.btn{
+    background-color: #6A971B;
+    color: white;
+    width: 100px;
+    height: 40px;
+    box-shadow: rgba(42, 44, 20, 0.6) 0px 0px 0px 2px;
+    transition: all 0.5s ease;
+}
+.btn:hover{
+    font-size: 18px;
+    color: white;
+    width: 100px;
+    height: 40px;
+}
+hr {
+    width: 70%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-top: 2px solid #2A2C14;
+}
