@@ -39,10 +39,10 @@ public class WebConfig implements WebMvcConfigurer {
 //                .setCachePeriod(0);
 //    }
 //
-    @Bean
-    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-        return new HiddenHttpMethodFilter();
-    }
+//    @Bean
+//    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+//        return new HiddenHttpMethodFilter();
+//    }
 
 //    @Bean
 //    public LocaleResolver localeResolver() {

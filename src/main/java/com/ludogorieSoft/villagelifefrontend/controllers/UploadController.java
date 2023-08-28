@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.*;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -43,6 +45,7 @@ public class UploadController {
     private final VillageEthnicityClient villageEthnicityClient;
     private final PopulatedAssertionClient populatedAssertionClient;
     private final VillagePopulationAssertionClient villagePopulationAssertionClient;
+    private final AuthClient authClient;
 
     private static final String UPLOAD_VIEW = "upload";
     private static final String UPLOAD_SUCCESS = "uploadSuccess";
@@ -52,7 +55,9 @@ public class UploadController {
 
 
     @GetMapping()
-    public String uploadForm(Model model) {
+    public String uploadForm(Model model, HttpSession session) {
+        String token = (String) session.getAttribute("admin");
+        authClient.authorizeAdminToken("Bearer " + token);
         model.addAttribute(UPLOAD_SUCCESS, false);
         model.addAttribute(UPLOAD_ERROR, false);
         model.addAttribute("subscription", new SubscriptionDTO());
@@ -62,6 +67,7 @@ public class UploadController {
     @PostMapping()
     @Transactional
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
+
         try {
             if (!file.getOriginalFilename().endsWith(".xlsx")) {
                 model.addAttribute(UPLOAD_SUCCESS, false);

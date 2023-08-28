@@ -116,6 +116,7 @@ public class VillageController {
         }
         return "ShowVillageById";
     }
+
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
@@ -151,14 +152,16 @@ public class VillageController {
 
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
-                              @RequestParam("images") List<MultipartFile> images) {
+                              @RequestParam("images") List<MultipartFile> images, Model model) {
         List<byte[]> imageBytes = new ArrayList<>();
-        for (MultipartFile image : images) {
-            try {
-                byte[] imageData = image.getBytes();
-                imageBytes.add(imageData);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (images.get(0).getSize() > 0) {
+            for (MultipartFile image : images) {
+                try {
+                    byte[] imageData = image.getBytes();
+                    imageBytes.add(imageData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         addVillageFormResult.setImageBytes(imageBytes);
