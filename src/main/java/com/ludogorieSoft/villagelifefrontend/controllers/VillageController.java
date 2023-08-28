@@ -87,10 +87,7 @@ public class VillageController {
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        AdministratorDTO administratorDTO = null;
-        String answerDate = null;
-        boolean status = true;
-        getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO,null);
+        getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
@@ -103,16 +100,14 @@ public class VillageController {
     @PostMapping("/inquiry-save")
     public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
+        VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
 
         if (bindingResult.hasErrors()) {
-            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
-
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
 
         }else {
             inquiryClient.createInquiry(inquiryDTO);
-            VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
             inquiryDTO = new InquiryDTO();
 
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
@@ -132,9 +127,6 @@ public class VillageController {
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
-
-        PopulationDTO population = populationClient.getPopulationById(villageInfo.getVillageDTO().getId());
-        model.addAttribute("population", population);
 
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
         model.addAttribute("ethnicities", ethnicityDTOS);

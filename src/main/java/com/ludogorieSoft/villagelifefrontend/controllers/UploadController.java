@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,6 @@ public class UploadController {
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
 
-
     @GetMapping()
     public String uploadForm(Model model) {
         model.addAttribute(UPLOAD_SUCCESS, false);
@@ -76,6 +76,7 @@ public class UploadController {
             int uploadedVillagesCount = 0;
 
             Map<String, VillageDTO> existingVillagesMap = new HashMap<>();
+            Map<String, Integer> villageOccurrencesMap = new HashMap<>();
 
             for (int rowIndex = 1; rowIndex <= totalVillages; rowIndex++) {
 
@@ -84,6 +85,13 @@ public class UploadController {
 
                 String key = getExistingVillageKey(cell);
                 if (key == null) continue;
+
+                if (villageOccurrencesMap.containsKey(key)) {
+                    int occurrences = villageOccurrencesMap.get(key);
+                    villageOccurrencesMap.put(key, occurrences + 1);
+                } else {
+                    villageOccurrencesMap.put(key, 1);
+                }
 
                 String[] parts;
 
@@ -94,7 +102,6 @@ public class UploadController {
                 int lastCellNum = row.getLastCellNum();
 
                 VillageAnswerQuestionDTO villageAnswerQuestion = new VillageAnswerQuestionDTO();
-                PopulationDTO population = new PopulationDTO();
                 PopulatedAssertionDTO populatedAssertion;
                 VillagePopulationAssertionDTO villagePopulationAssertion = new VillagePopulationAssertionDTO();
 
@@ -104,8 +111,17 @@ public class UploadController {
                     if (cell != null) {
                         String value = cell.getStringCellValue();
                         village.setId(village.getId());
+                        village.setDateUpload(LocalDateTime.now());
+
                         if (i == 0) {
-                            village.setDateUpload(null);
+                            LocalDateTime currentDateTime = LocalDateTime.now();
+                            village.setDateUpload(currentDateTime);
+
+                            if (villageOccurrencesMap.containsKey(key)) {
+                                int occurrences = villageOccurrencesMap.get(key);
+                                village.setApprovedResponsesCount(occurrences);
+                            }
+
                         } else if (i == 2) {
                             if (value != null) {
                                 String processedVillageName = VillageNameProcessor.processVillageName(value);
@@ -124,7 +140,6 @@ public class UploadController {
                                     village.setRegion("Ямбол");
                                 }
                             }
-
 
                         } else if (i == 3) {
                             long objectAroundVillageID = 1;
@@ -227,12 +242,11 @@ public class UploadController {
                             }
 
                         } else if (i == 33) {
-                            Long newPopulationID;
-
-                            newPopulationID = getNewPopulationID(village);
-
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueNumberOfPopulation = valueCell.getStringCellValue().trim();
+                            PopulationDTO population = new PopulationDTO();
+                            population.setVillageId(village.getId());
+                            population.setStatus(true);
                             boolean populationFound = false;
 
                             for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
@@ -242,16 +256,16 @@ public class UploadController {
                                     if (populationRange.length >= 2) {
                                         String numberString = populationRange[1].trim().split(" ")[0];
 
-                                        populationFound = isPopulationFound(village, populationFound, numberString);
+                                        populationFound = isPopulationFound(population, populationFound, numberString);
                                     }
                                     break;
                                 }
                             }
                             if (!populationFound) {
                                 if (valueNumberOfPopulation.equalsIgnoreCase("над 2000 човека")) {
-                                    village.setPopulationCount(2000);
+                                    population.setPopulationCount(2000);
                                 } else if (valueNumberOfPopulation.equalsIgnoreCase("до 10 човека")) {
-                                    village.setPopulationCount(10);
+                                    population.setPopulationCount(10);
                                 }
                             }
                             i++;
@@ -279,9 +293,7 @@ public class UploadController {
                                 }
                             }
 
-                            populationClient.updatePopulation(newPopulationID, population);
-                            population.setId(newPopulationID);
-                            village.setPopulationDTO(population);
+                            populationClient.createPopulation(population);
 
                         } else if (i == 37) {
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
@@ -361,6 +373,8 @@ public class UploadController {
 
                 existingVillagesMap.put(key, village);
                 villageClient.updateVillage(village.getId(), village);
+                villageClient.increaseApprovedResponsesCount(village.getId());
+
                 uploadedVillagesCount++;
                 model.addAttribute("uploadedVillagesCount", uploadedVillagesCount);
                 model.addAttribute("totalUniqueVillages", existingVillagesMap.size());
@@ -381,27 +395,15 @@ public class UploadController {
         return UPLOAD_VIEW;
     }
 
-    private static boolean isPopulationFound(VillageDTO village, boolean populationFound, String numberString) {
+    private static boolean isPopulationFound(PopulationDTO population, boolean populationFound, String numberString) {
         try {
             int populationCount = Integer.parseInt(numberString);
-            village.setPopulationCount(populationCount);
+            population.setPopulationCount(populationCount);
             populationFound = true;
         } catch (NumberFormatException e) {
             logger.error("Невалиден брой жители: ", e);
         }
         return populationFound;
-    }
-
-    private Long getNewPopulationID(VillageDTO village) {
-        Long newPopulationID;
-        try {
-            populationClient.findPopulationByVillageNameAndRegion(village.getName(), village.getRegion());
-            newPopulationID = village.getId();
-
-        } catch (FeignException.BadRequest e) {
-            newPopulationID = populationClient.createPopulationWhitNullValues();
-        }
-        return newPopulationID;
     }
 
 

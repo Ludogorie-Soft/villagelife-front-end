@@ -7,7 +7,8 @@ public class VillageNameProcessor {
 
     public static String processVillageName(String villageName) {
 
-        String regex = "^(?:село\\s*|с\\.\\s*|Село\\s*|С\\.)\\s*(.*?)(?:,|$)";
+        String regex = "^(?:село\\s*|с\\.\\s*|Село\\s*|С\\.\\s*|СЕЛО\\s*)\\s*(.*?)(?:,|$)";
+
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(villageName);
 
