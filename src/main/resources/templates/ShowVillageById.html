@@ -86,7 +86,7 @@
             <div class="row">
                 <hr>
                 <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></div>
+                    <div th:text="${villageInfo.populationDTO.populationCount}" class="village-info"></div>
                     <div class="info-title">Население</div>
                 </div>
 
@@ -116,7 +116,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Население: </span>
-                                <span th:text="${villageInfo.villageDTO.populationCount}" class="village-info"></span>
+                                <span th:text="${villageInfo.populationDTO.populationCount}" class="village-info"></span>
                                 <hr>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Деца: </span>
-                                <span th:text="${population.children.name}" class="village-info"></span>
+                                <span th:text="${villageInfo.populationDTO.children.name}" class="village-info"></span>
                                 <hr>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Под 50г.: </span>
-                                <span th:text="${population.residents.name}" class="village-info"></span>
+                                <span th:text="${villageInfo.populationDTO.residents.name}" class="village-info"></span>
                                 <hr>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title">Чужденци: </span>
-                                <span th:text="${population.foreigners.name}" class="village-info"></span>
+                                <span th:text="${villageInfo.populationDTO.foreigners.name}" class="village-info"></span>
                                 <hr>
                             </div>
                         </div>

@@ -31,5 +31,4 @@ public interface AdminFunctionClient {
                                           @RequestHeader("Authorization") String token);
     @GetMapping("/getRejected")
     ResponseEntity<List<VillageResponse>> getVillagesWithRejectedResponses(@RequestHeader("Authorization") String token);
-
 }
