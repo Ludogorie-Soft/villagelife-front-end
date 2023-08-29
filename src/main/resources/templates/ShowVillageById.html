@@ -115,8 +115,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title">Население: </span>
-                                <span th:text="${villageInfo.populationDTO.populationCount}" class="village-info"></span>
+                                <span class="info-title col">Население: </span>
+                                <span th:text="${villageInfo.populationDTO.populationCount}" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -126,8 +126,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title">Деца: </span>
-                                <span th:text="${villageInfo.populationDTO.children.name}" class="village-info"></span>
+                                <span class="info-title col">Деца: </span>
+                                <span th:text="${villageInfo.populationDTO.children.name}" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -140,8 +140,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title">Под 50г.: </span>
-                                <span th:text="${villageInfo.populationDTO.residents.name}" class="village-info"></span>
+                                <span class="info-title col">Под 50г.: </span>
+                                <span th:text="${villageInfo.populationDTO.residents.name}" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -151,8 +151,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title">Чужденци: </span>
-                                <span th:text="${villageInfo.populationDTO.foreigners.name}" class="village-info"></span>
+                                <span class="info-title col">Чужденци: </span>
+                                <span th:text="${villageInfo.populationDTO.foreigners.name}" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -166,8 +166,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="row">
-                                <span class="info-title">Етнически състав: </span>
-                                <span th:text="${villageInfo.ethnicities}" class="village-info"></span>
+                                <span class="info-title col">Етнически състав: </span>
+                                <span th:text="${villageInfo.ethnicities}" class="ethnicities village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -184,8 +184,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title" th:text="${assertion.populationAssertionName}"></span>
-                                <span th:text="${assertion.percentage} + '%'" class="village-info"></span>
+                                <span class="info-title col" th:text="${assertion.populationAssertionName}"></span>
+                                <span th:text="${assertion.percentage} + '%'" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -202,8 +202,8 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title" th:text="${condition.livingCondition}"></span>
-                                <span th:text="${condition.livingCondition == 'Достъпност' and condition.percentage == 0} ? '-' : (${condition.percentage} + '%')" class="village-info"></span>
+                                <span class="info-title col" th:text="${condition.livingCondition}"></span>
+                                <span th:text="${condition.livingCondition == 'Достъпност' and condition.percentage == 0} ? '-' : (${condition.percentage} + '%')" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
