@@ -21,12 +21,6 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
-    <section class="text-center lower-line-spacing">
-        <p>
-        <div>Pomorie & Village Life</div>
-        <div>Сътрудничество</div>
-        </p>
-    </section>
     <div th:if="${consentMessage}" class="message alert alert-info text-center">
         <p th:text="${consentMessage}"></p>
     </div>
@@ -63,7 +57,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'distance-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].distance"
-                                   th:value="${distance1}" />
+                                   th:value="${distance1}"  class="radio-button"/>
                             <input type="hidden" th:id="${'object-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
                                    th:value="${object.id}" />
@@ -108,7 +102,7 @@
             </p>
             <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
                 <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
-                       th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required/>
+                       th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required class="radio-button"/>
                 <label th:for="${'groundCategory-' + groundCategory.id}"
                        class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
             </div>
@@ -131,7 +125,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" />
+                                   th:value="${consent1}"  class="radio-button"/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -161,7 +155,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" />
+                                   th:value="${consent1}"  class="radio-button"/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -191,7 +185,7 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'residents-' + residents}"
                        th:name="populationDTO.residents"
-                       th:value="${residents}" required/>
+                       th:value="${residents}" required class="radio-button"/>
                 <label th:for="${'residents-' + residents}"
                        class="radio-label" th:text="${residents.name}"></label>
             </div>
@@ -207,7 +201,7 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'children-' + children}"
                        th:name="populationDTO.children"
-                       th:value="${children}" required/>
+                       th:value="${children}" required  class="radio-button"/>
                 <label th:for="${'children-' + children}"
                        class="radio-label" th:text="${children.name}"></label>
             </div>
@@ -223,7 +217,7 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'foreigners-' + foreigners}"
                        th:name="populationDTO.foreigners"
-                       th:value="${foreigners}" required/>
+                       th:value="${foreigners}" required class="radio-button"/>
                 <label th:for="${'foreigners-' + foreigners}"
                        class="radio-label" th:text="${foreigners.name}"></label>
             </div>
@@ -238,7 +232,7 @@
             <div th:each="ethnicity : ${ethnicities}" class="checkbox-wrapper">
                 <input type="checkbox" th:id="${'ethnicity-' + ethnicity.id}"
                        th:name="ethnicityDTOIds"
-                       th:value="${ethnicity.id}" />
+                       th:value="${ethnicity.id}" class="checkbox" />
                 <label th:for="${'ethnicity-' + ethnicity.id}"
                        class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
             </div>
@@ -268,7 +262,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
-                                   th:value="${consent1}" />
+                                   th:value="${consent1}" class="radio-button" />
                             <input type="hidden" th:id="${'populatedAssertion-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
                                    th:value="${populatedAssertion.id}" />
@@ -311,7 +305,6 @@
 
         <section class="text-center">
             <button type="submit" class="btn btn-primary">Изпрати</button>
-            <button type="reset" class="btn btn-danger ">Изчисти</button>
         </section>
 
     </form>

@@ -1,12 +1,19 @@
         section{
             margin: 50px 0px 50px 0px;
         }
-        .btn {
+        .btn,
+        .btn:hover{
+            border: none;
             border-radius: 0;
             margin: 0px 5px 0px 5px;
+            background-color: #96c930;
             box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         }
         .question-wrapper {
             margin-top: 50px;
             margin-bottom: 50px;
+        }
+        .radio-button,
+        .checkbox{
+            accent-color: #96c930;
         }
