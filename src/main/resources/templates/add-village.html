@@ -48,7 +48,7 @@
     <form action="/villages/save" method="post" th:object="${addVillageFormResult}" enctype="multipart/form-data">
         <section>
             <p class="fw-bold">На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
-            <table  class="table table-hover">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th></th>
@@ -63,10 +63,11 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'distance-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].distance"
-                                   th:value="${distance1}" />
+                                   th:value="${distance1}"
+                                   th:disabled="${object.type == 'областен град' && distance1 == T(com.ludogorieSoft.villagelifefrontend.enums.Distance).IN_THE_VILLAGE}"/>
                             <input type="hidden" th:id="${'object-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
-                                   th:value="${object.id}" />
+                                   th:value="${object.id}"/>
                         </div>
                     </td>
                 </tr>
