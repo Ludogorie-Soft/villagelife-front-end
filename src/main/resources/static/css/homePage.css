@@ -1,3 +1,7 @@
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+
     .video-container {
         position: relative;
         width: 100%;
@@ -63,11 +67,15 @@
 
 
 
-    .input-group {
+    /* .input-group {
       border: 1px solid #ccc;
       border-radius: 5px;
       box-shadow: 0 0 3px 2px #ccc;
       padding: 5px;
+    } */
+
+    h1 {
+      font-family: Arial, sans-serif;
     }
 
     .input-group-text {
