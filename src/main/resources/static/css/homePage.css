@@ -193,9 +193,11 @@
         position: relative;
         padding: 10px;
         z-index: 1;
+        text-align: justify;
     }
 
-    #village-life-text {
+
+    /* #village-life-text {
         --b: .3em;
         --c: 3em;
         --r: 2em;;
@@ -222,7 +224,7 @@
                             mask: var(--corner) subtract, var(--inner);
             content: ''
         }
-    }
+    }*/
 
 
     .video-overlay p {
