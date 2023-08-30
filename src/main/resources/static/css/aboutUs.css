@@ -1,4 +1,6 @@
-
+        .container{
+            margin-top: 20px;
+        }
         .image-container {
             position: relative;
         }
