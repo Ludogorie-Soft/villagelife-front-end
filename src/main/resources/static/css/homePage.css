@@ -121,6 +121,7 @@
 
     .card{
         margin: 10px;
+        transition: box-shadow 0.4s ease;
     }
     .card:hover{
         box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -133,8 +134,8 @@
     .btn-info:hover,
     .btn-info:focus,
     .btn-info:active {
-        background-color: #96c930;
-        border: none;
+        background-color: #96c930 !important;
+        border: none !important;
         color: white !important;
         float: right;
         outline: none;
@@ -276,7 +277,7 @@
 
         .icon-label {
             width: 30px;
-                height: 40px;
+            height: 40px;
             font-size: 14px
             display: flex;
             justify-content: center;
