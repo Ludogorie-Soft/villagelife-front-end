@@ -42,32 +42,37 @@
 
         <div class="search-bar-row">
             <form th:action="@{/filter/all}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
-                <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
+                <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
                         <select name="region" class="form-select fixed-width" id="regionName">
                             <option value="" selected disabled style="text-align: left;">Избери област</option>
-                            <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+                            <option th:each="region : ${regions}" th:value="${region.regionName}"
+                                    th:text="${region.regionName}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-9 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
+                <div class="col-12 col-sm-8 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
                         <label class="input-group-text icon-label" for="search-input">
-                            <i class="fa-solid fa-magnifying-glass" ></i>
+                            <i class="fa-solid fa-magnifying-glass"></i>
                         </label>
-                        <input type="text" name="keyword" id="search-input" class="form-control form-control-sm" placeholder="Търси по име на село">
-                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене</button>
+                        <input type="text" name="keyword" id="search-input" class="form-control form-control-sm"
+                               placeholder="Търси по име на село">
+                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене
+                        </button>
                     </div>
                 </div>
             </form>
             <div class="filter-button-container mt-2">
-                <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
                     <i class="fas fa-filter"></i> Филтър за разширено търсене
                 </button>
             </div>
         </div>
         <div class="mt-4">
-            <p style="font-size: 22px; line-height: 1.5; padding: 10px;">Village Life е платформа, която предоставя информация за условията на живот в
+            <p style="font-size: 22px; line-height: 1.5; padding: 10px;">Village Life е платформа, която предоставя
+                информация за условията на живот в
                 българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
                 избор
                 на
