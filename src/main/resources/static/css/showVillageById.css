@@ -86,7 +86,7 @@
     }
     .section-title{
         margin-bottom: 25px;
-        font-weight: bold;
+        font-weight: 400;
     }
     section{
         margin-top: 70px;
@@ -108,7 +108,6 @@
     .population-assertions .village-info,
     .living-conditions .village-info{
         color: #707070;
-        font-size: 17px;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -117,7 +116,7 @@
     .objects .info-title,
     .population-assertions .info-title,
     .living-conditions .info-title{
-        font-size: 17px;
+        font-weight: 500;
     }
 
     .ethnicities {
