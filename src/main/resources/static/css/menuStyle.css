@@ -162,7 +162,8 @@
     }
 
 
-    .footer-widget .btn-info {
+    .footer-widget .btn-info,
+    .footer-widget .btn-subscribe{
         font-size: 15px;
         white-space: nowrap;
         padding: 8px 15px;
@@ -217,7 +218,7 @@
       position: fixed;
       z-index: 1;
       top: 0;
-      left: 0;
+      right: 0;
       background-color: #F2F2F2;
       border-right: solid 1px #595959;
       overflow-x: hidden;
@@ -243,14 +244,17 @@
 
     .nav-overlay a:hover, .nav-overlay a:focus {
       color: black;
-      font-weight: bold;
+      font-weight: 500;
     }
 
     .nav-overlay .closebtn {
       position: absolute;
       right: 0;
-      font-size: 60px;
-      color: #595959;
+      padding: 0;
+      margin: 5px 5px 0 0;
+    }
+    .closebtn img{
+        width: 35px;
     }
 
     @media screen and (max-height: 450px) {
@@ -279,7 +283,8 @@
     }
     .smaller-logo-image{
          position: relative;
-         left: 20px;
+         top: 0;
+         left: calc(50% - 125px / 2);
          width: 125px;
          height: auto;
          margin-top: 3px;
