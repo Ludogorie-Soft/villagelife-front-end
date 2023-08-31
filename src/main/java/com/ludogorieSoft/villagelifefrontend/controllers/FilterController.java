@@ -140,6 +140,7 @@ public class FilterController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
+            model.addAttribute("subscription", new SubscriptionDTO());
             return SEARCHING_FORM_VIEW;
         }
 

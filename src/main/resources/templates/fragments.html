@@ -18,7 +18,8 @@
 
 <div th:fragment="menu" class="menu-container">
     <a th:href="@{/villages/home-page}">
-        <img th:src="@{/images/village-life-logo.png}" alt="village life logo" style="width: 175px; height: 60px; margin-top:10px;">
+        <img th:src="@{/images/village-life-logo.png}" alt="village life logo"
+             style="width: 175px; height: 60px; margin-top:10px;">
     </a>
 
     <div id="menu">
@@ -26,7 +27,9 @@
         <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
         <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
         <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-        <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+        <!--        <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>-->
+        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
+
     </div>
 </div>
 
@@ -97,29 +100,33 @@
                         </div>
                         <div class="col-lg-5 col-md-12 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
-                                <div class="widget-header">
-                                    <h6 class="widget-title" style="color: #96c930; font-weight: 400;">Получавай известия за новите села в
-                                        платформата и новости за живота на село.</h6>
-                                </div>
+                                <!--                                <div class="widget-header">-->
+                                <!--                                    <h6 class="widget-title" style="color: #96c930; font-weight: 400;">Получавай известия за новите села в-->
+                                <!--                                        платформата и новости за живота на село.</h6>-->
+                                <!--                                </div>-->
+                                <p style="color: #96c930; font-weight: 400;">Получавай известия за новите села в
+                                    платформата и новости за живота на село.</p>
                                 <div class="widget-body">
                                     <div class="widget-content">
                                         <p>
-                                            <form action="/villages/subscription-save" method="post" id="subscription-form" th:object="${subscription}">
-                                                <label for="email"
-                                                       style="display: block; text-align: left; color: black; font-weight: 500;">
-                                                    Имейл
-                                                    <span class="text-danger">*</span>
-                                                </label>
+                                        <form action="/villages/subscription-save" method="post" id="subscription-form"
+                                              th:object="${subscription}">
+                                            <label for="email"
+                                                   style="display: block; text-align: left; color: black; font-weight: 500;">
+                                                Имейл
+                                                <span class="text-danger">*</span>
+                                            </label>
 
-                                                <div class="subscription-container">
-                                                    <input type="email" id="email"  name="email" th:field="*{email}" class="form-control"
-                                                           placeholder="Въведете електронната си поща" required
-                                                           style="text-align: left;">
-                                                    <button type="submit" id="subscribe-btn" class="btn btn-subscribe">
-                                                        Абонирай ме!
-                                                    </button>
-                                                </div>
-                                            </form>
+                                            <div class="subscription-container">
+                                                <input type="email" id="email" name="email" th:field="*{email}"
+                                                       class="form-control"
+                                                       placeholder="Въведете електронната си поща" required
+                                                       style="text-align: left;">
+                                                <button type="submit" id="subscribe-btn" class="btn btn-subscribe">
+                                                    Абонирай ме!
+                                                </button>
+                                            </div>
+                                        </form>
                                         </p>
                                     </div>
                                 </div>
@@ -133,7 +140,16 @@
                 <div class="container">
                     <div class="d-flex justify-content-center">
                         <div class="footer-copyright">
-                            &copy; VillageLife - Всички права запазени. Разработка - <span><a href="https://ludogoriesoft.com/" target="_blank" style="color: #96c930; text-decoration: none;">Ludogorie soft</a></span>
+                            &copy; VillageLife - Всички права запазени. Разработка -
+                            <span><a href="https://ludogoriesoft.com/" target="_blank"
+                                     style="color: #96c930; text-decoration: none;">Ludogorie soft</a></span>
+
+                            <span><a href="https://ludogoriesoft.com/" target="_blank"
+                                     style="color: #96c930; text-decoration: none;">
+                                <img th:src="@{/images/cropped-ludogorie-soft-logo-white.jpg}" alt="Ludogorie soft"
+                                     style="width: 200px; height: auto;"></a></span>
+
+
                             <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;"> | Общи
                                 условия |</a>
                         </div>
@@ -163,7 +179,8 @@
             <hr>
             <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
             <hr>
-            <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>
+            <!--            <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>-->
+            <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
         </div>
     </div>
     <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>
@@ -171,7 +188,7 @@
 
 <nav th:fragment="admin-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" th:href="@{/villages/home-page}">
-        <img th:src="@{/images/logo.png}" alt="Logo" style="max-width: 130px; height: auto;" class="logo" ></a>
+        <img th:src="@{/images/logo.png}" alt="Logo" style="max-width: 130px; height: auto;" class="logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
