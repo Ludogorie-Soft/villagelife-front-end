@@ -46,9 +46,8 @@
     }
 
 
-
     #footer {
-        padding: 20px;
+        padding: 20px 5px;
     }
 
     .footer-wrap {
@@ -128,9 +127,9 @@
     #subscribe-btn {
         background-color: #fa4a2a;
         color: white;
-        font-weight: bold;
         border: 1px solid #fa4a2a;
         border-radius: 5px;
+        margin: 5px;
     }
 
     .footer-widget.widget-about-site,
@@ -155,12 +154,9 @@
       text-decoration: none;
     }
 
-
-
     .text-left {
         text-align: left;
     }
-
 
     .footer-widget .btn-info,
     .footer-widget .btn-subscribe{
@@ -171,22 +167,6 @@
         justify-content: center;
         align-items: center;
     }
-
-
-    .contact-list .btn-subscribe {
-        background-color: #fa4a2a;
-        color: white;
-        font-weight: bold;
-        border: 1px solid #fa4a2a;
-        width: 120px;
-        font-size: 15px;
-        white-space: nowrap;
-        padding: 8px 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
 
     .subscription-container label {
         display: block;
@@ -211,6 +191,25 @@
         justify-content: flex-start;
         gap: 10px;
     }
+    #footer hr {
+        margin: 70px 0;
+    }
+    .footer-bottom-wrap{
+        text-align: center;
+        font-weight: 500;
+        color: black;
+        margin: 70px 0 10px;
+    }
+    .widget-title{
+        color: #96c930;
+        font-weight: 500;
+        font-size: 17px;
+        margin: 20px 0;
+    }
+    li {
+        margin: 25px 0;
+    }
+
 
     .nav-overlay {
       height: 100%;
