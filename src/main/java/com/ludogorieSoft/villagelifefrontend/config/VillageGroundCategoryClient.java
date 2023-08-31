@@ -19,4 +19,7 @@ public interface VillageGroundCategoryClient {
     @PutMapping("/{id}")
     VillageGroundCategoryDTO updateVillageGroundCategory(@PathVariable("id") Long id, @Valid @RequestBody VillageGroundCategoryDTO villageGroundCategoryDTO);
 
+    @GetMapping("/check-existence")
+    boolean checkExistence(@RequestParam Long villageId, @RequestParam Long groundCategoryId);
+
 }
