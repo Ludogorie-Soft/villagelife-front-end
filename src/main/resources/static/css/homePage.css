@@ -1,3 +1,7 @@
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+
     .video-container {
         position: relative;
         width: 100%;
@@ -35,6 +39,8 @@
         text-overflow: ellipsis;
     }
 
+
+
     .search-bar {
         display: flex;
         align-items: center;
@@ -63,11 +69,19 @@
 
 
 
-    .input-group {
+    /* .input-group {
       border: 1px solid #ccc;
       border-radius: 5px;
       box-shadow: 0 0 3px 2px #ccc;
       padding: 5px;
+    } */
+
+    .input-group {
+        margin-top: 30px;
+    }
+
+    .h1 {
+      margin-bottom: 30px;
     }
 
     .input-group-text {
@@ -304,4 +318,13 @@
               overflow: hidden;
               text-overflow: ellipsis;
           }
+
+              .input-group {
+                  margin-top: 10px;
+              }
+
+              .h1 {
+                margin-bottom: 10px;
+              }
+
      }
