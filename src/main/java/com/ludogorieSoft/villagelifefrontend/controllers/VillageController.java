@@ -195,6 +195,7 @@ public class VillageController {
             messageClient.createMessage(messageDTO);
             model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
+        model.addAttribute("subscription", new SubscriptionDTO());
         return CONTACTS_VIEW;
     }
 

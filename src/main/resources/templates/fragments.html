@@ -30,9 +30,9 @@
     </div>
 </div>
 
-
 <div th:fragment="footer">
     <div id="footer">
+        <hr>
         <footer class="footer-wrap footer-wrap-v1">
             <div class="footer-top-wrap">
                 <div class="container">
@@ -53,11 +53,10 @@
                                         decoding="async" style="max-width: 100%; height: auto;"/></a>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
                                 <div class="widget-header">
-                                    <h2 class="widget-title"
-                                        style="color: #96c930; font-weight: bold; font-size: 18px;">Свържи се с нас</h2>
+                                    <h2 class="widget-title">Свържи се с нас</h2>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-content">
@@ -96,18 +95,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="col-lg-5 col-md-12 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
                                 <div class="widget-header">
-                                    <h6 class="widget-title" style="color: #96c930;">Получавай известия за новите села в
+                                    <h6 class="widget-title" style="color: #96c930; font-weight: 400;">Получавай известия за новите села в
                                         платформата и новости за живота на село.</h6>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-content">
                                         <p>
                                             <form action="/villages/subscription-save" method="post" id="subscription-form" th:object="${subscription}">
-                                                <label for="email" class="fw-bold"
-                                                       style="display: block; text-align: left; color: black; font-weight: bold;">
+                                                <label for="email"
+                                                       style="display: block; text-align: left; color: black; font-weight: 500;">
                                                     Имейл
                                                     <span class="text-danger">*</span>
                                                 </label>
@@ -116,7 +115,7 @@
                                                     <input type="email" id="email"  name="email" th:field="*{email}" class="form-control"
                                                            placeholder="Въведете електронната си поща" required
                                                            style="text-align: left;">
-                                                    <button type="submit" id="subscribe-btn" class="btn btn-info btn-subscribe">
+                                                    <button type="submit" id="subscribe-btn" class="btn btn-subscribe">
                                                         Абонирай ме!
                                                     </button>
                                                 </div>
@@ -130,8 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom-wrap footer-bottom-wrap-v1"
-                 style="text-align: center; font-weight: bold; color: black;">
+            <div class="footer-bottom-wrap footer-bottom-wrap-v1">
                 <div class="container">
                     <div class="d-flex justify-content-center">
                         <div class="footer-copyright">
@@ -147,15 +145,15 @@
 </div>
 
 
-
 <div th:fragment="hamburger-menu" id="hamburger-menu">
-<!--    <img th:src="@{/images/village-life-logo.png}" alt="village life logo" class="smaller-logo-image">-->
     <a th:href="@{/villages/home-page}">
         <img th:src="@{/images/village-life-logo.png}" alt="village life logo" class="smaller-logo-image">
     </a>
 
     <div id="myNav" class="nav-overlay">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            <img th:src="@{/images/x-button.png}" alt="x">
+        </a>
         <div class="nav-overlay-content">
             <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
             <hr>

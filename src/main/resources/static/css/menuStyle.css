@@ -48,9 +48,8 @@
     }
 
 
-
     #footer {
-        padding: 20px;
+        padding: 20px 5px;
     }
 
     .footer-wrap {
@@ -130,9 +129,9 @@
     #subscribe-btn {
         background-color: #fa4a2a;
         color: white;
-        font-weight: bold;
         border: 1px solid #fa4a2a;
         border-radius: 5px;
+        margin: 5px;
     }
 
     .footer-widget.widget-about-site,
@@ -157,14 +156,12 @@
       text-decoration: none;
     }
 
-
-
     .text-left {
         text-align: left;
     }
 
-
-    .footer-widget .btn-info {
+    .footer-widget .btn-info,
+    .footer-widget .btn-subscribe{
         font-size: 15px;
         white-space: nowrap;
         padding: 8px 15px;
@@ -172,22 +169,6 @@
         justify-content: center;
         align-items: center;
     }
-
-
-    .contact-list .btn-subscribe {
-        background-color: #fa4a2a;
-        color: white;
-        font-weight: bold;
-        border: 1px solid #fa4a2a;
-        width: 120px;
-        font-size: 15px;
-        white-space: nowrap;
-        padding: 8px 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
 
     .subscription-container label {
         display: block;
@@ -212,6 +193,25 @@
         justify-content: flex-start;
         gap: 10px;
     }
+    #footer hr {
+        margin: 70px 0;
+    }
+    .footer-bottom-wrap{
+        text-align: center;
+        font-weight: 500;
+        color: black;
+        margin: 70px 0 10px;
+    }
+    .widget-title{
+        color: #96c930;
+        font-weight: 500;
+        font-size: 17px;
+        margin: 20px 0;
+    }
+    li {
+        margin: 25px 0;
+    }
+
 
     .nav-overlay {
       height: 100%;
@@ -219,7 +219,7 @@
       position: fixed;
       z-index: 1;
       top: 0;
-      left: 0;
+      right: 0;
       background-color: #F2F2F2;
       border-right: solid 1px #595959;
       overflow-x: hidden;
@@ -245,14 +245,17 @@
 
     .nav-overlay a:hover, .nav-overlay a:focus {
       color: black;
-      font-weight: bold;
+      font-weight: 500;
     }
 
     .nav-overlay .closebtn {
       position: absolute;
       right: 0;
-      font-size: 60px;
-      color: #595959;
+      padding: 0;
+      margin: 5px 5px 0 0;
+    }
+    .closebtn img{
+        width: 35px;
     }
 
     @media screen and (max-height: 450px) {
@@ -281,7 +284,8 @@
     }
     .smaller-logo-image{
          position: relative;
-         left: 20px;
+         top: 0;
+         left: calc(50% - 125px / 2);
          width: 125px;
          height: auto;
          margin-top: 3px;

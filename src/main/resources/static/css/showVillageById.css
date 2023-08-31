@@ -86,7 +86,7 @@
     }
     .section-title{
         margin-bottom: 25px;
-        font-weight: bold;
+        font-weight: 400;
     }
     section{
         margin-top: 70px;
@@ -97,46 +97,45 @@
     }
     .general-information .info-title{
         font-size: 15px;
-        color: #ADADAD;
+        color: #707070;
     }
     hr{
-        width: 100%;
         height: 1px;
         background-color: #ADADAD;
         border: none;
     }
-    .population .village-info{
-        font-size: 17px;
-        float: right;
+    .population .village-info,
+    .population-assertions .village-info,
+    .living-conditions .village-info{
+        color: #707070;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
     }
-    .population .info-title{
-        font-size: 17px;
-        font-weight: bold;
+    .population .info-title,
+    .objects .info-title,
+    .population-assertions .info-title,
+    .living-conditions .info-title{
+        font-weight: 500;
     }
+
+    .ethnicities {
+      margin-right: 25px;
+    }
+    @media screen and (max-width: 768px) {
+        .ethnicities {
+          margin-right: 35px;
+        }
+      }
+    @media screen and (max-width: 575px) {
+            .ethnicities {
+              margin-right: 0;
+            }
+        }
     .objects .village-info{
        font-size: 17px;
-       float: right;
-   }
-   .objects .info-title{
-       font-size: 17px;
-       font-weight: bold;
-   }
-    .population-assertions .village-info{
-        font-size: 17px;
-        float: right;
     }
-    .population-assertions .info-title{
-        font-size: 17px;
-        font-weight: bold;
-    }
-    .living-conditions .village-info{
-        font-size: 17px;
-        float: right;
-    }
-    .living-conditions .info-title{
-        font-size: 17px;
-        font-weight: bold;
-    }
+
     .accordion {
       background-color: #eee;
       color: #444;
@@ -292,12 +291,12 @@
 
 
     .d-flex.align-items-center {
-        justify-content: center; /* Хоризонтално центриране */
-        align-items: center; /* Вертикално центриране */
+        justify-content: center;
+        align-items: center;
     }
 
     .information-wrap {
-      margin-left: 10px; /* Променете стойността на margin, ако искате повече или по-малко празно място */
+      margin-left: 10px;
     }
 
     .print-button {
