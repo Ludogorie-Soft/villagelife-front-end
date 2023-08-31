@@ -194,39 +194,12 @@ public class UploadController {
                                 livingConditionID++;
                             }
                         } else if (i == 26) {
-
-//                            List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
-//                            Cell valueCell = sheet.getRow(rowIndex).getCell(i);
-//                            String valueWhile = valueCell.getStringCellValue();
-//
-//                            for (int j = 0; j < groundCategories.size(); j++) {
-//                                if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
-//                                    Long groundCategoryId = groundCategories.get(j).getId();
-//
-//
-//                                    VillageGroundCategoryDTO newVillageGroundCategory = new VillageGroundCategoryDTO();
-//                                    newVillageGroundCategory.setVillageId(village.getId());
-//                                    newVillageGroundCategory.setGroundCategoryId(groundCategoryId);
-//                                    newVillageGroundCategory.setStatus(true);
-//
-//                                    if (!villageGroundCategoryClient.isVillageExists(village.getId())) {
-//                                        villageGroundCategoryClient.createVillageGroundCategories(newVillageGroundCategory);
-//                                    } else {
-//                                        villageGroundCategoryClient.updateVillageGroundCategory(village.getId(), newVillageGroundCategory);
-//                                    }
-//
-//                                    break;
-//                                }
-//                            }
-
                             List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueWhile = valueCell.getStringCellValue();
 
                             for (int j = 0; j < groundCategories.size(); j++) {
                                 if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
-//                                    Long groundCategoryId = groundCategories.get(j).getId();
-
 
                                     Long villageId = village.getId();
                                     Long groundCategoryId = groundCategories.get(j).getId();
@@ -238,26 +211,9 @@ public class UploadController {
                                         villageGroundCategory.setStatus(true);
                                         villageGroundCategoryClient.createVillageGroundCategories(villageGroundCategory);
                                     }
-
-
-
-
-//                                    VillageGroundCategoryDTO newVillageGroundCategory = new VillageGroundCategoryDTO();
-//                                    newVillageGroundCategory.setVillageId(village.getId());
-//                                    newVillageGroundCategory.setGroundCategoryId(groundCategoryId);
-//                                    newVillageGroundCategory.setStatus(true);
-
-
-//                                    if (!villageGroundCategoryClient.isVillageExists(village.getId())) {
-//                                        villageGroundCategoryClient.createVillageGroundCategories(newVillageGroundCategory);
-//                                    } else {
-//                                        villageGroundCategoryClient.updateVillageGroundCategory(village.getId(), newVillageGroundCategory);
-//                                    }
-
                                     break;
                                 }
                             }
-
 
                         } else if (i == 27) {
                             villageAnswerQuestion.setVillageId(village.getId());

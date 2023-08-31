@@ -35,8 +35,13 @@
                     <i class="fas fa-file-upload" style="color:#ffffff;"></i> Прикачи
                 </button>
             </div>
-            <input class="btn btn-outline-secondary mb-2" type="button" value="Изчисти" onclick="clearUpload()"
-                   style="background-color: #eef5e1;" id="clearButton"/>
+            <div class="d-flex justify-content-between">
+                <a th:href="@{/admins/village}" class="btn btn-outline-secondary mb-2" type="button" id="backButton">
+                    <i class="fas fa-arrow-left"></i> Върни се обратно
+                </a>
+                <input class="btn btn-outline-secondary mb-2" type="button" value="Изчисти" onclick="clearUpload()"
+                       style="background-color: #eef5e1;" id="clearButton"/>
+            </div>
         </div>
     </form>
     <div id="loadingIcon" class="mt-3">
