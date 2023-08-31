@@ -34,10 +34,11 @@
 
     .video-overlay h1 {
         margin-top: 55px;
-        font-size: 2.75vw;
+        font-size: 3.15vw;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-weight: 300;
     }
 
 
