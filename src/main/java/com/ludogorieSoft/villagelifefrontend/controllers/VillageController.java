@@ -2,6 +2,7 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
+import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
@@ -149,12 +150,19 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
-
+UserValidator userValidator;
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
-                              @RequestParam("images") List<MultipartFile> images, Model model) {
+                                    @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {
+
         List<byte[]> imageBytes = new ArrayList<>();
         if (images.get(0).getSize() > 0) {
+            userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
+            if(bindingResult.hasErrors()){
+                addAllListsWithOptions(model);
+                model.addAttribute("addVillageFormResult", addVillageFormResult);
+                return "add-village";
+            }
             for (MultipartFile image : images) {
                 try {
                     byte[] imageData = image.getBytes();
