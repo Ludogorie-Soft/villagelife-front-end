@@ -2,6 +2,8 @@
     body {
         padding-left: 0px;
         padding-right: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     @media (max-width: 991.98px) {
@@ -21,7 +23,7 @@
 
 
     #menu {
-        padding: 10px;
+        padding: 35px;
         margin-right: 40px;
         margin-top: 5px;
         float: right;

@@ -1,7 +1,6 @@
     .filter-button-container {
         display: flex;
         justify-content: center;
-        margin-top: 20px;
     }
 
 
@@ -13,6 +12,7 @@
         box-shadow: 0 0 3px 2px #ccc;
         padding: 5px;
         transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        margin-top: 30px;
     }
 
 
@@ -73,4 +73,11 @@
             padding: 5px;
             transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
+    }
+
+    @media (max-width: 575.98px) {
+         .custom-filter-button {
+              margin-top: 10px;
+         }
+
     }
