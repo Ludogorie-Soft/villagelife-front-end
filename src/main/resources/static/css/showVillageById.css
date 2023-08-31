@@ -119,16 +119,19 @@
         font-weight: 500;
     }
 
-    .ethnicities {
+    .ethnicities,
+    .groundCategory {
       margin-right: 25px;
     }
     @media screen and (max-width: 768px) {
-        .ethnicities {
+        .ethnicities,
+        .groundCategory {
           margin-right: 35px;
         }
       }
     @media screen and (max-width: 575px) {
-            .ethnicities {
+            .ethnicities,
+            .groundCategory {
               margin-right: 0;
             }
         }

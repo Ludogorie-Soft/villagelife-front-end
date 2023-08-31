@@ -96,7 +96,7 @@
         </div>
 
         <!-- Ground Category -->
-        <section>
+        <!--<section>
             <p class="fw-bold">
                 Към коя категория предимно спада земята в и около селото?
                 <span class="text-danger">*</span>
@@ -106,6 +106,20 @@
                        th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required class="radio-button"/>
                 <label th:for="${'groundCategory-' + groundCategory.id}"
                        class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
+            </div>
+        </section>-->
+
+        <section>
+            <p class="fw-bold">
+                Към коя/кои категория/и предимно спада земята в и около селото?
+                <span class="text-danger">*</span>
+            </p>
+            <div th:each="groundCategory : ${groundCategories}" class="checkbox-wrapper">
+                <input type="checkbox" th:id="${'groundCategory-' + groundCategory.id}"
+                       th:name="groundCategoryIds"
+                       th:value="${groundCategory.id}" class="checkbox" />
+                <label th:for="${'groundCategory-' + groundCategory.id}"
+                       class="checkbox-label" th:text="${groundCategory.groundCategoryName}"></label>
             </div>
         </section>
 
