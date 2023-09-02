@@ -77,7 +77,8 @@
                     Как се казва селото?
                     <span class="text-danger">*</span>
                 </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
+                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required >
+                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.name')}" th:errors="*{villageDTO.name}"></p>
             </section>
 
             <!-- Region -->
@@ -92,26 +93,11 @@
                             th:text="${region.regionName}"></option>
                 </select>
             </section>
-
         </div>
-
-        <!-- Ground Category -->
-        <!--<section>
-            <p class="fw-bold">
-                Към коя категория предимно спада земята в и около селото?
-                <span class="text-danger">*</span>
-            </p>
-            <div th:each="groundCategory : ${groundCategories}" class="radio-wrapper">
-                <input type="radio" th:id="${'groundCategory-' + groundCategory.id}"
-                       th:field="*{groundCategoryName}" th:value="${groundCategory.groundCategoryName}" required class="radio-button"/>
-                <label th:for="${'groundCategory-' + groundCategory.id}"
-                       class="radio-label" th:text="${groundCategory.groundCategoryName}"></label>
-            </div>
-        </section>-->
 
         <section>
             <p class="fw-bold">
-                Към коя/кои категория/и предимно спада земята в и около селото?
+                Към коя/и категория/и предимно спада земята в и около селото?
                 <span class="text-danger">*</span>
             </p>
             <div th:each="groundCategory : ${groundCategories}" class="checkbox-wrapper">
@@ -121,6 +107,7 @@
                 <label th:for="${'groundCategory-' + groundCategory.id}"
                        class="checkbox-label" th:text="${groundCategory.groundCategoryName}"></label>
             </div>
+            <p class="text-danger" th:if="${#fields.hasErrors('groundCategoryIds')}" th:errors="*{groundCategoryIds}"></p>
         </section>
 
         <section>
@@ -181,15 +168,16 @@
             </table>
         </section>
 
+        <!-- PopulationCount -->
         <section>
             <label for="villagePopulationCount" class="fw-bold">
                 Колко човека е населението в селото?
                 <span class="text-danger">*</span>
             </label>
-            <input type="number" id="villagePopulationCount" th:field="*{populationDTO.populationCount}" class="form-control" required min="1">
-
-
+            <input type="number" id="villagePopulationCount" th:field="*{populationDTO.populationCount}" class="form-control" required min="1" >
+            <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.populationCount')}" th:errors="*{populationDTO.populationCount}"></p>
         </section>
+
         <!-- Residents -->
         <section>
             <p class="fw-bold">
@@ -200,10 +188,11 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'residents-' + residents}"
                        th:name="populationDTO.residents"
-                       th:value="${residents}" required class="radio-button"/>
+                       th:value="${residents}" class="radio-button" required/>
                 <label th:for="${'residents-' + residents}"
                        class="radio-label" th:text="${residents.name}"></label>
             </div>
+            <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.residents')}" th:errors="*{populationDTO.residents}"></p>
         </section>
 
         <!-- Children -->
@@ -216,10 +205,11 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'children-' + children}"
                        th:name="populationDTO.children"
-                       th:value="${children}" required  class="radio-button"/>
+                       th:value="${children}" class="radio-button" required/>
                 <label th:for="${'children-' + children}"
                        class="radio-label" th:text="${children.name}"></label>
             </div>
+            <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.children')}" th:errors="*{populationDTO.children}"></p>
         </section>
 
         <!-- Foreigners -->
@@ -232,10 +222,11 @@
                  class="radio-wrapper">
                 <input type="radio" th:id="${'foreigners-' + foreigners}"
                        th:name="populationDTO.foreigners"
-                       th:value="${foreigners}" required class="radio-button"/>
+                       th:value="${foreigners}" class="radio-button" required/>
                 <label th:for="${'foreigners-' + foreigners}"
                        class="radio-label" th:text="${foreigners.name}"></label>
             </div>
+            <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.foreigners')}" th:errors="*{populationDTO.foreigners}"></p>
         </section>
 
 
@@ -251,12 +242,13 @@
                 <label th:for="${'ethnicity-' + ethnicity.id}"
                        class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
             </div>
+            <p class="text-danger" th:if="${#fields.hasErrors('ethnicityDTOIds')}" th:errors="*{ethnicityDTOIds}"></p>
         </section>
 
         <section>
             <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
                 <label th:for="${'question-' + questionIndex}" class="question-label fw-bold" th:text="${question.question}"></label><br>
-                <textarea th:id="${'question-' + questionIndex}" th:name="questionResponses" rows="4" class="form-control"></textarea>
+                <textarea th:id="${'question-' + questionIndex}" th:field="*{questionResponses[__${questionIndex.index}__]}" rows="4" class="form-control"></textarea>
             </div>
         </section>
 
