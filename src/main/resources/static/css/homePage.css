@@ -34,15 +34,6 @@
         z-index: 1;
     }
 
-    @keyframes fade {
-      0% {
-        opacity: 0.4;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
     .video-overlay {
         position: absolute;
         top: 50%;
@@ -325,7 +316,7 @@
         opacity: 1;
     }
     @media (max-width: 575px) {
-        .mySlides::after {
-            height: 675px;
+        .mySlides img {
+          width: 105%;
         }
     }
