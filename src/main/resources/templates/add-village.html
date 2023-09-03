@@ -95,7 +95,7 @@
             </section>
         </div>
 
-        <section>
+        <section id="groundCategory">
             <p class="fw-bold">
                 Към коя/и категория/и предимно спада земята в и около селото?
                 <span class="text-danger">*</span>
@@ -108,6 +108,7 @@
                        class="checkbox-label" th:text="${groundCategory.groundCategoryName}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('groundCategoryIds')}" th:errors="*{groundCategoryIds}"></p>
+            <p class="text-danger" id="ground-category-checkbox-error" style="display: none;">Моля, изберете поне един отговор.</p>
         </section>
 
         <section>
@@ -230,7 +231,7 @@
         </section>
 
 
-        <section>
+        <section id="ethnicity">
             <p class="fw-bold">
                 Какви малцинствени групи има в района на селото?
                 <span class="text-danger">*</span>
@@ -243,6 +244,7 @@
                        class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('ethnicityDTOIds')}" th:errors="*{ethnicityDTOIds}"></p>
+            <p class="text-danger" id="ethnicity-checkbox-error" style="display: none;">Моля, изберете поне един отговор.</p>
         </section>
 
         <section>
@@ -314,7 +316,7 @@
         </section>
 
         <section class="text-center">
-            <button type="submit" class="btn btn-primary">Изпрати</button>
+            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity()" class="btn btn-primary">Изпрати</button>
         </section>
 
     </form>
@@ -323,5 +325,7 @@
 <script src="/js/validateImageFormat.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/consentScript.js"></script>
+<script src="/js/validateGroundCategory.js"></script>
+<script src="/js/validateEthnicity.js"></script>
 </body>
 </html>
