@@ -143,12 +143,28 @@
     <p th:text="${errorMessage}"></p>
 </div>
 
+
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo" style="width: 25px;">
+            <strong class="me-auto">Village Life</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" th:text="${addVillageSuccessMessage}" style="margin: 5px; font-weight: 500; font-size: 16px;"></div>
+    </div>
+</div>
+
+
+
 <div th:replace="fragments :: footer"></div>
 
 <script src="/js/addEventListener.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/showModal.js"></script>
 <script src="/js/fetch-modal-script.js"></script>
+<script src="/js/showToast.js"></script>
 <script src="/js/showSlides.js"></script>
 
 </body>

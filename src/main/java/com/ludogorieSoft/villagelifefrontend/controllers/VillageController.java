@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.advanced.AddVillageFormValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
@@ -39,15 +40,19 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
-    private  InquiryClient inquiryClient;
+    private final InquiryClient inquiryClient;
+    private final SubscriptionClient subscriptionClient;
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
-    private final SubscriptionClient subscriptionClient;
+    private final AddVillageFormValidator addVillageFormValidator;
+    private final UserValidator userValidator;
+    private static boolean saveSuccessful = false;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+
 
 
     @GetMapping
@@ -81,7 +86,10 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
             model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
         }
-
+        if (saveSuccessful) {
+            model.addAttribute("addVillageSuccessMessage", "Формата беше изпратена успешно");
+        }
+        saveSuccessful = false;
         return "HomePage";
     }
 
@@ -154,35 +162,44 @@ public class VillageController {
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
-        addAllListsWithOptions(model);
-        model.addAttribute("addVillageFormResult", addVillageFormResult);
-        return "add-village";
+        return getAddVillagePage(addVillageFormResult, model);
     }
-UserValidator userValidator;
-    @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
-                                    @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {
 
+    @PostMapping("/save")
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {
+        addVillageFormValidator.validate(addVillageFormResult, bindingResult);
+        if (bindingResult.hasErrors()){
+            return getAddVillagePage(addVillageFormResult, model);
+        }
         List<byte[]> imageBytes = new ArrayList<>();
         if (images.get(0).getSize() > 0) {
             userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
             if(bindingResult.hasErrors()){
-                addAllListsWithOptions(model);
-                model.addAttribute("addVillageFormResult", addVillageFormResult);
-                return "add-village";
+                return getAddVillagePage(addVillageFormResult, model);
             }
-            for (MultipartFile image : images) {
-                try {
-                    byte[] imageData = image.getBytes();
-                    imageBytes.add(imageData);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            convertImagesToBytes(images, imageBytes);
         }
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
+        saveSuccessful = true;
         return "redirect:/villages/home-page";
+    }
+    private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
+        addAllListsWithOptions(model);
+        model.addAttribute("addVillageFormResult", addVillageFormResult);
+        return "add-village";
+    }
+
+    private List<byte[]> convertImagesToBytes(List<MultipartFile> images, List<byte[]> imageBytes) {
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return imageBytes;
     }
 
     @GetMapping("/partners")

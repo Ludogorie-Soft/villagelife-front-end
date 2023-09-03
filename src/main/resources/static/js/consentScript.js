@@ -10,11 +10,17 @@ formFileMultiple.addEventListener('change', function() {
         fullNameInput.setAttribute('required', 'required');
         emailInput.setAttribute('required', 'required');
         consentCheckbox.setAttribute('required', 'required');
+
+        fullNameInput.setAttribute('minlength', '7');
+        emailInput.setAttribute('minlength', '10');
     } else {
         consentAndInfoContainer.style.display = 'none';
         fullNameInput.removeAttribute('required');
         emailInput.removeAttribute('required');
         consentCheckbox.removeAttribute('required');
+
+        fullNameInput.removeAttribute('minlength');
+        emailInput.removeAttribute('minlength');
     }
 });
 ;
