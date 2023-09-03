@@ -18,25 +18,15 @@
             accent-color: #96c930;
         }
 
-        .consents-icon{
-            display: none;
+        .legend {
+           display: none;
         }
-
-        @media (max-width: 575px) {
-            .consents{
-                display: none;
-            }
-            .consents-icon{
+        @media (max-width: 676px) {
+            .legend {
                 display: block;
-                width: 25px;
-                float: right;
+                font-style: italic;
+                font-weight: 400;
+                color: #96c930;
             }
-            .consents-icon img {
-                width: 25px;
-                padding: 1px;
-            }
-            .consents-icon th {
-                padding: 1px;
-            }
-
         }
+
