@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import feign.FeignException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -39,17 +40,19 @@ public class VillageController {
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
-    private  InquiryClient inquiryClient;
-    private static final String VILLAGES_ATTRIBUTE = "villages";
+    private final InquiryClient inquiryClient;
+    private final SubscriptionClient subscriptionClient;
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
     private final UserValidator userValidator;
+    private static boolean saveSuccessful = false;
+    private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
-    private final SubscriptionClient subscriptionClient;
-    private static boolean saveSuccessful = false;
+    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+
 
 
     @GetMapping
@@ -64,7 +67,7 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         try {
             ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
@@ -98,8 +101,15 @@ public class VillageController {
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
-    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, BindingResult bindingResult, HttpServletRequest request) {
-        subscriptionClient.createSubscription(subscriptionDTO);
+    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+        if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Имате съществъващ валиден текущ абонамент!");
+        } else {
+            subscriptionClient.createSubscription(subscriptionDTO);
+            redirectAttributes.addFlashAttribute("successMessage", "Благодарим Ви, че се абонирахте!");
+        }
+
         String referer = request.getHeader("referer");
         return "redirect:" + referer;
     }
@@ -128,7 +138,7 @@ public class VillageController {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
@@ -194,14 +204,14 @@ public class VillageController {
 
     @GetMapping("/partners")
     public String showPartnersPage(Model model) {
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "partners";
     }
 
     @GetMapping("/contacts")
     public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
         return CONTACTS_VIEW;
     }
@@ -218,13 +228,13 @@ public class VillageController {
             messageClient.createMessage(messageDTO);
             model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return CONTACTS_VIEW;
     }
 
     @GetMapping("/about-us")
     public String showAboutUsPage(Model model) {
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "about-us";
     }
 
@@ -265,7 +275,7 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
         }
 
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }

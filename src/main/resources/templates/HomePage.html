@@ -14,23 +14,37 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap">
 
-
     <title>Начало - VillageLife</title>
 
     <link rel="stylesheet" href="/css/homePage.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
     <link rel="stylesheet" href="/css/filter-button.css">
 
-    <script src="/js/homePageVideos.js"></script>
-
 <body>
 <div th:replace="fragments :: hamburger-menu"></div>
 <div class="video-container">
 
-    <div th:replace="fragments :: menu"></div>
+    <div id="slideshow-container">
+        <div class="mySlides active">
+            <img th:src="@{/images/autumn-ga95a7e5d3_1920.jpg}" alt="slide">
+        </div>
 
-    <video id="video2" th:src="@{/videos/home-page-video-2.mp4}" alt="video2" class="fullscreen-video" autoplay loop
-           muted></video>
+        <div class="mySlides active">
+            <img th:src="@{/images/cow-g0d8008ced_1920.jpg}" alt="slide">
+        </div>
+
+        <div class="mySlides active">
+            <img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash.jpg}" alt="slide">
+        </div>
+
+        <div class="mySlides active">
+            <img th:src="@{/images/anders-jilden-O85h02qZ24w-unsplash.jpg}" alt="slide">
+        </div>
+
+        <div class="menu-overlay">
+            <div th:replace="fragments :: menu"></div>
+        </div>
+    </div>
 
     <div th:if="${error}" class="error-message text-center"
          style="font-size: larger; color: #96c930; font-weight: bold;">
@@ -71,7 +85,8 @@
             </div>
         </div>
         <div class="mt-4">
-            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;">Village Life е платформа, която предоставя
+            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;">
+                Village Life е платформа, която предоставя
                 информация за условията на живот в
                 българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
                 избор
@@ -150,6 +165,7 @@
 <script src="/js/showModal.js"></script>
 <script src="/js/fetch-modal-script.js"></script>
 <script src="/js/showToast.js"></script>
+<script src="/js/showSlides.js"></script>
 
 </body>
 </html>
