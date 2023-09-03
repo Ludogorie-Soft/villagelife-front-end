@@ -1,0 +1,173 @@
+.ava-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+}
+
+.ava-modal > * {
+  box-sizing: border-box;
+}
+
+.ava-alert {
+  background-color: white;
+  width: 80%;
+  text-align: right;
+  font-weight: 900;
+  animation: 25s 1 ava_alert_animation;
+  -webkit-animation: 0.5s 1 ava_alert_animation;
+  border-radius: 25px;
+}
+
+@media (min-width: 650px) {
+  .ava-alert {
+    width: 300px;
+  }
+}
+
+@keyframes ava_alert_animation {
+  from {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.ava-alert .ava-progress-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.20);
+  border-radius: 5px;
+  animation-name: progressBarAnimation;
+  -webkit-animation-name: progressBarAnimation;
+}
+
+.ava-alert .ava-text-con {
+  position: relative;
+}
+
+@keyframes progressBarAnimation {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.ava-alert__icon {
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  /* box-shadow: inset 0px -5px 7px rgba(0, 0, 0, 0.3); */
+}
+
+.ava-alert__text {
+  padding: 15px;
+  line-height: 1.5em;
+  color: black;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.ava-alert__btn {
+  width: 70px;
+  padding: 7px 0px;
+  display: block;
+  margin: auto;
+  margin-bottom: 13px;
+  border-radius: 5px;
+  border: 0;
+  background-color: #dfdfdf;
+  color: #96c930;
+  cursor: pointer;
+  position: relative;
+}
+
+.svg-box {
+  display: inline-block;
+  position: relative;
+  width: 150px;
+}
+
+.ava-text-con {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.green-stroke {
+  stroke: #ffffff;
+}
+
+.circular circle.path {
+  stroke-dasharray: 330;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  opacity: 0.4;
+  animation: 0.7s draw-circle ease-out;
+}
+
+.checkmark {
+  stroke-width: 6.25;
+  stroke-linecap: round;
+  position: absolute;
+  top: 56px;
+  left: 49px;
+  width: 52px;
+  height: 40px;
+}
+
+.checkmark path {
+  animation: 1s draw-check ease-out;
+}
+
+@keyframes draw-circle {
+  0% {
+    stroke-dasharray: 0, 330;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  80% {
+    stroke-dasharray: 330, 330;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes draw-check {
+  0% {
+    stroke-dasharray: 49, 80;
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+  50% {
+    stroke-dasharray: 49, 80;
+    stroke-dashoffset: 48;
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 130, 80;
+    stroke-dashoffset: 48;
+  }
+}

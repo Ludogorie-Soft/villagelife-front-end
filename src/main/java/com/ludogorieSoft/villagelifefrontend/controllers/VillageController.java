@@ -46,7 +46,6 @@ public class VillageController {
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
     private final UserValidator userValidator;
-    private static boolean saveSuccessful = false;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
@@ -86,10 +85,6 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
             model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
         }
-        if (saveSuccessful) {
-            model.addAttribute("addVillageSuccessMessage", "Формата беше изпратена успешно");
-        }
-        saveSuccessful = false;
         return "HomePage";
     }
 
@@ -102,14 +97,15 @@ public class VillageController {
     }
     @PostMapping("/subscription-save")
     public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-
+        String subscriptionMessage;
         if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Имате съществъващ валиден текущ абонамент!");
+            subscriptionMessage = "Имате съществуващ валиден абонамент!";
         } else {
             subscriptionClient.createSubscription(subscriptionDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Благодарим Ви, че се абонирахте!");
+            subscriptionMessage = "Благодарим Ви, че се абонирахте!";
         }
 
+        redirectAttributes.addFlashAttribute("subscriptionMessage", subscriptionMessage);
         String referer = request.getHeader("referer");
         return "redirect:" + referer;
     }
@@ -166,7 +162,7 @@ public class VillageController {
     }
 
     @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         addVillageFormValidator.validate(addVillageFormResult, bindingResult);
         if (bindingResult.hasErrors()){
             return getAddVillagePage(addVillageFormResult, model);
@@ -181,7 +177,7 @@ public class VillageController {
         }
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        saveSuccessful = true;
+        redirectAttributes.addFlashAttribute("saveSuccessful", true);
         return "redirect:/villages/home-page";
     }
     private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
