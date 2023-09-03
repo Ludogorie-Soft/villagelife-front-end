@@ -115,10 +115,19 @@
             <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
             <table class="table table-hover">
                 <thead>
-                <tr>
+                <tr class="consents">
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                         th:text="${consent.name}"></th>
+
+                </tr>
+                <tr class="consents-icon">
+                    <th></th>
+                    <th><img th:src="@{/images/COMPLETELY_AGREED.png}" alt="Напълно съгласен" src=""></th>
+                    <th><img th:src="@{/images/RATHER_AGREE.png}" alt="По-скоро съгласен" src=""></th>
+                    <th><img th:src="@{/images/CANT_DECIDE.png}" alt="Не мога да преценя" src=""></th>
+                    <th><img th:src="@{/images/RATHER_DISAGREE.png}" alt="По-скоро не съм съгласен" src=""></th>
+                    <th><img th:src="@{/images/DISAGREE.png}" alt="Не съм съгласен" src=""></th>
                 </tr>
                 </thead>
                 <tbody>
