@@ -40,6 +40,7 @@ public class VillageController {
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
     private  InquiryClient inquiryClient;
+    private UserValidator userValidator;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
@@ -150,7 +151,7 @@ public class VillageController {
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
-UserValidator userValidator;
+
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
                                     @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {

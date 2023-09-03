@@ -13,6 +13,9 @@
 <!----------------NAV------------------------------>
 <div th:replace="fragments :: admin-navbar"></div>
 <!----------------NAV------------------------------>
+<div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+</div>
 <section class="h-custom" style="min-height: 100vh;">
     <div style="background-color: #96c930;">
         <div class="container py-5">
@@ -55,7 +58,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="mobile" class="form-label">Mobile</label>
-                                    <input type="text" class="form-control" id="mobile" name="mobile"
+                                    <input type="number" class="form-control" id="mobile" name="mobile"
                                            placeholder="Enter your mobile number" th:required="true" th:field="*{mobile}">
                                     <div th:if="${#fields.hasErrors('mobile')}"><span th:errors="*{mobile}"
                                                                                         class="text-danger"></span>

@@ -3,7 +3,7 @@ package com.ludogorieSoft.villagelifefrontend.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import com.ludogorieSoft.villagelifefrontend.exceptions.CustomErrorDecoder;
+import com.ludogorieSoft.villagelifefrontend.exceptions.decoder.CustomErrorDecoder;
 import feign.Logger;
 import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
