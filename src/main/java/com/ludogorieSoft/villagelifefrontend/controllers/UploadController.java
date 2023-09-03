@@ -194,27 +194,23 @@ public class UploadController {
                                 livingConditionID++;
                             }
                         } else if (i == 26) {
-
                             List<GroundCategoryDTO> groundCategories = groundCategoryClient.getAllGroundCategories();
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueWhile = valueCell.getStringCellValue();
 
                             for (int j = 0; j < groundCategories.size(); j++) {
                                 if (groundCategories.get(j).getGroundCategoryName().equalsIgnoreCase(valueWhile)) {
+
+                                    Long villageId = village.getId();
                                     Long groundCategoryId = groundCategories.get(j).getId();
 
-
-                                    VillageGroundCategoryDTO newVillageGroundCategory = new VillageGroundCategoryDTO();
-                                    newVillageGroundCategory.setVillageId(village.getId());
-                                    newVillageGroundCategory.setGroundCategoryId(groundCategoryId);
-                                    newVillageGroundCategory.setStatus(true);
-
-                                    if (!villageGroundCategoryClient.isVillageExists(village.getId())) {
-                                        villageGroundCategoryClient.createVillageGroundCategories(newVillageGroundCategory);
-                                    } else {
-                                        villageGroundCategoryClient.updateVillageGroundCategory(village.getId(), newVillageGroundCategory);
+                                    if (!villageGroundCategoryClient.checkExistence(villageId, groundCategoryId)) {
+                                        VillageGroundCategoryDTO villageGroundCategory = new VillageGroundCategoryDTO();
+                                        villageGroundCategory.setVillageId(villageId);
+                                        villageGroundCategory.setGroundCategoryId(groundCategoryId);
+                                        villageGroundCategory.setStatus(true);
+                                        villageGroundCategoryClient.createVillageGroundCategories(villageGroundCategory);
                                     }
-
                                     break;
                                 }
                             }

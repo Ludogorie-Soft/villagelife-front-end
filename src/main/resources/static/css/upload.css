@@ -133,3 +133,8 @@
         margin-left: 1200px;
     }
 
+    #backButton {
+        border-radius: 20px;
+        margin-right: 5px;
+    }
+

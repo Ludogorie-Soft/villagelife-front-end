@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.advanced.AddVillageFormValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import feign.FeignException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,22 +34,26 @@ public class VillageController {
     private final AddVillageFormClient addVillageFormClient;
     private final GroundCategoryClient groundCategoryClient;
     private final EthnicityClient ethnicityClient;
-    private final PopulationClient populationClient;
     private final QuestionClient questionClient;
     private ObjectAroundVillageClient objectAroundVillageClient;
     private PopulatedAssertionClient populatedAssertionClient;
     private LivingConditionClient livingConditionClient;
     private VillageImageClient villageImageClient;
     private final MessageClient messageClient;
-    private  InquiryClient inquiryClient;
-    private UserValidator userValidator;
+    private final InquiryClient inquiryClient;
+    private final SubscriptionClient subscriptionClient;
+    private final UserValidator userValidator;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
+    private final AddVillageFormValidator addVillageFormValidator;
+    private final UserValidator userValidator;
+    private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
-    private final SubscriptionClient subscriptionClient;
+    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+
 
 
     @GetMapping
@@ -62,7 +68,7 @@ public class VillageController {
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         try {
             ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
@@ -81,7 +87,6 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
             model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
         }
-
         return "HomePage";
     }
 
@@ -93,8 +98,16 @@ public class VillageController {
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
-    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, BindingResult bindingResult, HttpServletRequest request) {
-        subscriptionClient.createSubscription(subscriptionDTO);
+    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        String subscriptionMessage;
+        if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
+            subscriptionMessage = "Имате съществуващ валиден абонамент!";
+        } else {
+            subscriptionClient.createSubscription(subscriptionDTO);
+            subscriptionMessage = "Благодарим Ви, че се абонирахте!";
+        }
+
+        redirectAttributes.addFlashAttribute("subscriptionMessage", subscriptionMessage);
         String referer = request.getHeader("referer");
         return "redirect:" + referer;
     }
@@ -123,7 +136,7 @@ public class VillageController {
         model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
@@ -147,47 +160,56 @@ public class VillageController {
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
+        return getAddVillagePage(addVillageFormResult, model);
+    }
+
+    @PostMapping("/save")
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        addVillageFormValidator.validate(addVillageFormResult, bindingResult);
+        if (bindingResult.hasErrors()){
+            return getAddVillagePage(addVillageFormResult, model);
+        }
+        List<byte[]> imageBytes = new ArrayList<>();
+        if (images.get(0).getSize() > 0) {
+            userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
+            if(bindingResult.hasErrors()){
+                return getAddVillagePage(addVillageFormResult, model);
+            }
+            convertImagesToBytes(images, imageBytes);
+        }
+        addVillageFormResult.setImageBytes(imageBytes);
+        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
+        redirectAttributes.addFlashAttribute("saveSuccessful", true);
+        return "redirect:/villages/home-page";
+    }
+    private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
         addAllListsWithOptions(model);
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
 
-    @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult,
-                                    @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model) {
-
-        List<byte[]> imageBytes = new ArrayList<>();
-        if (images.get(0).getSize() > 0) {
-            userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
-            if(bindingResult.hasErrors()){
-                addAllListsWithOptions(model);
-                model.addAttribute("addVillageFormResult", addVillageFormResult);
-                return "add-village";
-            }
-            for (MultipartFile image : images) {
-                try {
-                    byte[] imageData = image.getBytes();
-                    imageBytes.add(imageData);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private List<byte[]> convertImagesToBytes(List<MultipartFile> images, List<byte[]> imageBytes) {
+        for (MultipartFile image : images) {
+            try {
+                byte[] imageData = image.getBytes();
+                imageBytes.add(imageData);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        addVillageFormResult.setImageBytes(imageBytes);
-        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-        return "redirect:/villages/home-page";
+        return imageBytes;
     }
 
     @GetMapping("/partners")
     public String showPartnersPage(Model model) {
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "partners";
     }
 
     @GetMapping("/contacts")
     public String showContactsPage(Model model) {
         MessageDTO messageDTO = new MessageDTO();
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
         return CONTACTS_VIEW;
     }
@@ -204,13 +226,13 @@ public class VillageController {
             messageClient.createMessage(messageDTO);
             model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return CONTACTS_VIEW;
     }
 
     @GetMapping("/about-us")
     public String showAboutUsPage(Model model) {
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "about-us";
     }
 
@@ -251,7 +273,7 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
         }
 
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute("pageTitle", "Общи условия");
         return "/general-terms";
     }
