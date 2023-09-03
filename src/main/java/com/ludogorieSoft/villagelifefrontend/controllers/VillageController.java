@@ -93,13 +93,13 @@ public class VillageController {
         return "ShowVillageById";
     }
     @PostMapping("/subscription-save")
-    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
         if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Имате съществъващ валиден текущ абонамент!");
         } else {
             subscriptionClient.createSubscription(subscriptionDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Абонирането е успешно!");
+            redirectAttributes.addFlashAttribute("successMessage", "Благодарим Ви, че се абонирахте!");
         }
 
         String referer = request.getHeader("referer");
