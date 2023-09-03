@@ -47,8 +47,6 @@ public class VillageController {
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
-    private final UserValidator userValidator;
-    private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
