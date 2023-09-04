@@ -260,20 +260,8 @@ public class VillageController {
 
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {
-        //TODO - why do we need getAllApprovedVillageDTOsWithImages when we don't use them in the template?
-//        try {
-//            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
-//
-//            if (response.getStatusCode().is2xxSuccessful()) {
-//                List<VillageDTO> villageDTOS = response.getBody();
-//                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
-//            }
-//        } catch (FeignException.NotFound e) {
-//            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-//        }
-
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute("pageTitle", "Общи условия");
-        return "/general-terms";
+        return "general-terms";
     }
 }
