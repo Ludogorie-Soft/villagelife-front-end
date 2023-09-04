@@ -1,5 +1,6 @@
-package com.ludogorieSoft.villagelifefrontend.exceptions;
+package com.ludogorieSoft.villagelifefrontend.exceptions.decoder;
 
+import com.ludogorieSoft.villagelifefrontend.exceptions.*;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import org.apache.commons.io.IOUtils;
@@ -14,10 +15,13 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         String message = extractErrorMessage(response);
-
         return switch (response.status()) {
             case 417 -> throw new NoConsentException(message);
             case 400 -> throw new ApiRequestException(message);
+            case 403 -> throw new AccessDeniedException(message);
+            case 401 -> throw new AccessDeniedException(message);
+            case 408 -> throw new TokenExpiredException(message);
+            case 409 -> throw new DuplicateEmailException(message);
             default -> errorDecoder.decode(methodKey, response);
         };
     }
@@ -36,6 +40,4 @@ public class CustomErrorDecoder implements ErrorDecoder {
             }
         return "Error extracting message!";
     }
-
-
 }

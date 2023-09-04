@@ -1,6 +1,5 @@
 package com.ludogorieSoft.villagelifefrontend.advanced;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.InquiryDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.UserDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

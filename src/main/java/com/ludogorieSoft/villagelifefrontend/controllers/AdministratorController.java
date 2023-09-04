@@ -72,13 +72,15 @@ public class AdministratorController {
         return "admin_templates/update_admin";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateAdmin(@PathVariable("id") Long adminId,
-                              @Valid @ModelAttribute("admins") AdministratorRequest administratorRequest,
+    @PostMapping("/update/{adminId}")
+    public String updateAdmin(@PathVariable("adminId") Long adminId,
+                              @Valid @ModelAttribute("adminById") AdministratorRequest administratorRequest,
                               BindingResult bindingResult, RedirectAttributes redirectAttributes,
                               HttpSession session, Model model
     ) {
         if (bindingResult.hasErrors()) {
+            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("roles", Role.ADMIN);
             return "admin_templates/update_admin";
         }

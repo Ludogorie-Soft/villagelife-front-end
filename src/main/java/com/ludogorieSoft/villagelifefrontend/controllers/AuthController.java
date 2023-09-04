@@ -44,6 +44,7 @@ public class AuthController {
         }
         if (auth.getStatusCode().is2xxSuccessful()) {
             AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("adminNew", new AdministratorRequest());
             model.addAttribute("roles", Role.ADMIN);
@@ -54,10 +55,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerAdmin(@Valid @ModelAttribute("admins") RegisterRequest request,
+    public String registerAdmin(@Valid @ModelAttribute("adminNew") RegisterRequest request,
                                 BindingResult bindingResult, Model model,
-                                HttpSession session, RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
+            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("roles", Role.values());
             return "admin_templates/register_form";
         }
