@@ -27,7 +27,7 @@
                                 administrator information</h3>
 
 
-                            <form class="mx-1 mx-md-4" th:action="@{/admins/update/{id}(id=${adminById.id})}" th:object="${adminById}" method="post">
+                            <form class="mx-1 mx-md-4" th:action="@{/admins/update/{adminId}(adminId=${adminById.id})}" th:object="${adminById}" method="post">
                                 <input type="hidden" th:field="*{id}">
                                 <div class="mb-3">
                                     <label for="fullName" class="form-label">Full Name</label>

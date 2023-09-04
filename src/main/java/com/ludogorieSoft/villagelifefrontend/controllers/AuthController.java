@@ -1,6 +1,5 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import com.ludogorieSoft.villagelifefrontend.advanced.AdminValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
@@ -30,7 +29,6 @@ import java.util.Objects;
 public class AuthController {
 
     private final AuthClient authClient;
-    private final AdminValidator adminValidator;
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEADER = "Bearer ";
     private static final String ADMINS = "admins";
@@ -46,6 +44,7 @@ public class AuthController {
         }
         if (auth.getStatusCode().is2xxSuccessful()) {
             AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("adminNew", new AdministratorRequest());
             model.addAttribute("roles", Role.ADMIN);
@@ -56,11 +55,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerAdmin(@Valid @ModelAttribute("admins") RegisterRequest request,
+    public String registerAdmin(@Valid @ModelAttribute("adminNew") RegisterRequest request,
                                 BindingResult bindingResult, Model model,
-            RedirectAttributes redirectAttributes, HttpSession session) {
-        adminValidator.validate(request, bindingResult);
+                                RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
+            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("roles", Role.values());
             return "admin_templates/register_form";
         }
