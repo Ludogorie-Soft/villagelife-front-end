@@ -39,7 +39,7 @@
         </p>
     </section>
 
-    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" enctype="multipart/form-data">
+    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" onsubmit="return validateForm()" enctype="multipart/form-data">
         <section>
             <p class="fw-bold">На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
             <table class="table table-hover">
@@ -82,17 +82,30 @@
             </section>
 
             <!-- Region -->
+<!--            <section class="col-md-3 col-9 mb-3">-->
+<!--                <label for="regionName" class="fw-bold">-->
+<!--                    Избери област:-->
+<!--                    <span class="text-danger">*</span>-->
+<!--                </label>-->
+<!--                <select th:field="*{villageDTO.region}" class="form-select" id="regionName">-->
+<!--                    <option th:each="region : ${regions}"-->
+<!--                            th:value="${region.regionName}"-->
+<!--                            th:text="${region.regionName}"></option>-->
+<!--                </select>-->
+<!--            </section>-->
             <section class="col-md-3 col-9 mb-3">
                 <label for="regionName" class="fw-bold">
                     Избери област:
                     <span class="text-danger">*</span>
                 </label>
                 <select th:field="*{villageDTO.region}" class="form-select" id="regionName">
-                    <option th:each="region : ${regions}"
+                    <option value="">Избери област</option>
+                    <option required th:each="region : ${regions}"
                             th:value="${region.regionName}"
                             th:text="${region.regionName}"></option>
                 </select>
             </section>
+
         </div>
 
         <section id="groundCategory">
@@ -112,13 +125,13 @@
         </section>
 
         <section>
-            <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
+            <p class="fw-bold">Доколко сте съгласни със следните твърдения: <span class="legend">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}"></th>
+                        th:text="${consent.name}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -142,13 +155,13 @@
 
 
         <section>
-            <p class="fw-bold">Доколко сте съгласни със следните твърдения:</p>
+            <p class="fw-bold">Доколко сте съгласни със следните твърдения: <span class="legend">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}"></th>
+                        th:text="${consent.name}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -255,13 +268,13 @@
         </section>
 
         <section>
-            <p class="fw-bold">До колко сте съгласни със следните твърдения относно хората в селото:</p>
+            <p class="fw-bold">До колко сте съгласни със следните твърдения относно хората в селото: <span class="legend">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
             <table  class="table table-hover">
                 <thead>
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}"></th>
+                        th:text="${consent.name}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -328,5 +341,48 @@
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
+<script>
+    function validateForm() {
+        var selectedRegion = document.getElementById("regionName").value;
+        if (selectedRegion === "") {
+            alert("Моля, изберете област.");
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+window.addEventListener('resize', updateConsentText);
+
+function updateConsentText() {
+    const screenWidth = window.innerWidth;
+    const consentThElements = document.querySelectorAll('.consent-th');
+
+    consentThElements.forEach((element, index) => {
+        const originalText = element.getAttribute('data-original-text');
+
+        if (screenWidth <= 676) {
+            let newHeaderText;
+            switch(originalText){
+                case "Напълно съгласен": newHeaderText = 5; break;
+                case "По-скоро съгласен": newHeaderText = 4; break;
+                case "Не мога да преценя": newHeaderText = 3; break;
+                case "По-скоро не съм съгласен": newHeaderText = 2; break;
+                case "Не съм съгласен": newHeaderText = 1; break;
+            }
+            element.textContent = newHeaderText;
+        } else {
+            element.textContent = originalText;
+        }
+    });
+}
+
+const consentThElements = document.querySelectorAll('.consent-th');
+consentThElements.forEach((element) => {
+    element.setAttribute('data-original-text', element.textContent.trim());
+});
+
+updateConsentText();
+</script>
 </body>
 </html>
