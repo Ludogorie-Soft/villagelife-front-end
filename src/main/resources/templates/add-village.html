@@ -98,12 +98,11 @@
                     Избери област:
                     <span class="text-danger">*</span>
                 </label>
-                <select th:field="*{villageDTO.region}" class="form-select" id="regionName">
-                    <option value="">Избери област</option>
-                    <option required th:each="region : ${regions}"
-                            th:value="${region.regionName}"
-                            th:text="${region.regionName}"></option>
+                <select th:field="*{villageDTO.region}" class="form-select" id="regionName" required>
+                    <option value="Избери област">Избери област</option>
+                    <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
                 </select>
+                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>
             </section>
 
         </div>
@@ -341,16 +340,16 @@
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
-<script>
-    function validateForm() {
-        var selectedRegion = document.getElementById("regionName").value;
-        if (selectedRegion === "") {
-            alert("Моля, изберете област.");
-            return false;
-        }
-        return true;
-    }
-</script>
+<!--<script>-->
+<!--    function validateForm() {-->
+<!--        var selectedRegion = document.getElementById("regionName").value;-->
+<!--        if (selectedRegion === "") {-->
+<!--            alert("Моля, изберете област.");-->
+<!--            return false;-->
+<!--        }-->
+<!--        return true;-->
+<!--    }-->
+<!--</script>-->
 <script>
 window.addEventListener('resize', updateConsentText);
 

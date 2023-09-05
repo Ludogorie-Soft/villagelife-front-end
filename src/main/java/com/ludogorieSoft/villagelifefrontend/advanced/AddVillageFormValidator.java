@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.advanced;
 
+import com.ludogorieSoft.villagelifefrontend.config.RegionClient;
 import com.ludogorieSoft.villagelifefrontend.config.ValidationUtilsClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AddVillageFormResult;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ public class AddVillageFormValidator implements Validator {
     private static final String FIELD_REQUIRED = "field.required";
 
     private final ValidationUtilsClient validationUtilsClient;
+    private final RegionClient regionClient;
 
 
     @Override
@@ -27,7 +29,11 @@ public class AddVillageFormValidator implements Validator {
         if (addVillageFormResult.getVillageDTO().getName().trim().equals("")) {
             errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Въведете име на селото!");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(addVillageFormResult.getVillageDTO().getName()))) {
-            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Трябва да използвате само букви!");
+            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
+        }
+
+        if(Boolean.FALSE.equals(regionClient.existsRegionByName(addVillageFormResult.getVillageDTO().getRegion()))){
+            errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "Трябва да изберете област!");
         }
 
         if (addVillageFormResult.getEthnicityDTOIds() == null) {

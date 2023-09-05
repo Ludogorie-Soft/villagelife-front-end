@@ -309,6 +309,7 @@
 
                         <div class="form-group">
                             <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>
+                                <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}">Избери тип</option>
                                 <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
                             <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>

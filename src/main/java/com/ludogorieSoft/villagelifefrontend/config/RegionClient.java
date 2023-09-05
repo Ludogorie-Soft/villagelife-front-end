@@ -18,4 +18,7 @@ public interface RegionClient {
 
     @DeleteMapping("/{id}")
     String deleteRegionById(@PathVariable("id") Long id);
+
+    @GetMapping("/name/{name}")
+    Boolean existsRegionByName(@PathVariable("name") String name);
 }

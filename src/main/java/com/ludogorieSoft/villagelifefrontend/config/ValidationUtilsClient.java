@@ -8,5 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ValidationUtilsClient {
 
     @GetMapping("/check-name")
-    Boolean usernameCheck(@RequestParam String name) ;
+    Boolean usernameCheck(@RequestParam String name);
+
+    @GetMapping("/check-number")
+    Boolean numberCheck(@RequestParam String number);
 }
