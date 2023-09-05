@@ -26,20 +26,20 @@
     </div>
     <section class="lower-line-spacing">
         <p>
-        <div>Здравейте,</div>
-        <div>Моля, попълнете настоящия въпросник, за да добавим селото Ви в платформата
-            Village Life (Живот на село). За по-бързо попълване на въпросника,
-            препоръчваме използването на компютър, лаптоп или таблет.
-        </div>
+            <div>Здравейте,</div>
+            <div>Моля, попълнете настоящия въпросник, за да добавим селото Ви в платформата
+                Village Life (Живот на село). За по-бързо попълване на въпросника,
+                препоръчваме използването на компютър, лаптоп или таблет.
+            </div>
         </p>
         <p>Благодарим Ви, че избрахте да си сътрудничите с нас!</p>
         <p>
-        <div>Поздрави,</div>
-        <div>Village Life</div>
+            <div>Поздрави,</div>
+            <div>Village Life</div>
         </p>
     </section>
 
-    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" onsubmit="return validateForm()" enctype="multipart/form-data">
+    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" enctype="multipart/form-data">
         <section>
             <p class="fw-bold">На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
             <table class="table table-hover">
@@ -82,17 +82,6 @@
             </section>
 
             <!-- Region -->
-<!--            <section class="col-md-3 col-9 mb-3">-->
-<!--                <label for="regionName" class="fw-bold">-->
-<!--                    Избери област:-->
-<!--                    <span class="text-danger">*</span>-->
-<!--                </label>-->
-<!--                <select th:field="*{villageDTO.region}" class="form-select" id="regionName">-->
-<!--                    <option th:each="region : ${regions}"-->
-<!--                            th:value="${region.regionName}"-->
-<!--                            th:text="${region.regionName}"></option>-->
-<!--                </select>-->
-<!--            </section>-->
             <section class="col-md-3 col-9 mb-3">
                 <label for="regionName" class="fw-bold">
                     Избери област:
@@ -340,16 +329,6 @@
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
-<!--<script>-->
-<!--    function validateForm() {-->
-<!--        var selectedRegion = document.getElementById("regionName").value;-->
-<!--        if (selectedRegion === "") {-->
-<!--            alert("Моля, изберете област.");-->
-<!--            return false;-->
-<!--        }-->
-<!--        return true;-->
-<!--    }-->
-<!--</script>-->
 <script>
 window.addEventListener('resize', updateConsentText);
 
