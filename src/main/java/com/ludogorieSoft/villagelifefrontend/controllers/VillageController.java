@@ -206,25 +206,23 @@ public class VillageController {
 
     @GetMapping("/contacts")
     public String showContactsPage(Model model) {
-        MessageDTO messageDTO = new MessageDTO();
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
+        model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         return CONTACTS_VIEW;
     }
 
     @PostMapping("/message-save")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         if (bindingResult.hasErrors()) {
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
             model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
-            return CONTACTS_VIEW;
         }else {
             model.addAttribute(IS_SENT_ATTRIBUTE, true);
             messageClient.createMessage(messageDTO);
             model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
-        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return CONTACTS_VIEW;
     }
 
