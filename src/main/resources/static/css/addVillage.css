@@ -17,3 +17,16 @@
         .checkbox{
             accent-color: #96c930;
         }
+
+        .legend {
+           display: none;
+        }
+        @media (max-width: 676px) {
+            .legend {
+                display: block;
+                font-style: italic;
+                font-weight: 400;
+                color: #96c930;
+            }
+        }
+
