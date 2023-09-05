@@ -2,6 +2,10 @@ package com.ludogorieSoft.villagelifefrontend.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.catalina.LifecycleState;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor

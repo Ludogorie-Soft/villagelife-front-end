@@ -5,7 +5,6 @@ import com.ludogorieSoft.villagelifefrontend.dtos.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
@@ -25,16 +24,13 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         UserDTO userDTO = (UserDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.fullName", FIELD_REQUIRED, "Имената са задължителни");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.email", FIELD_REQUIRED, "Имейлът е задължителен");
-
-        if (userDTO.getFullName() != null && userDTO.getFullName().trim().length() < 6) {
+        if (userDTO.getFullName() == null || userDTO.getFullName().trim().length() < 6) {
             errors.rejectValue("userDTO.fullName", "field.minlength", "Попълнете име и фамилия");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(userDTO.getFullName()))) {
-            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Трябва да използвате само букви!");
+            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
         }
 
-        if (userDTO.getEmail() != null && userDTO.getEmail().trim().length() < 9) {
+        if (userDTO.getEmail() == null || userDTO.getEmail().trim().length() < 9) {
             errors.rejectValue("userDTO.email", "field.minlength", "Въведете валиден имейл");
         }
         if(!userDTO.isConsent()){
