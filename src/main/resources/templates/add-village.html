@@ -39,7 +39,7 @@
         </p>
     </section>
 
-    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" enctype="multipart/form-data">
+    <form action="/villages/save" method="post" th:object="${addVillageFormResult}" onsubmit="return validateForm()" enctype="multipart/form-data">
         <section>
             <p class="fw-bold">На какво най-близко разстояние се намират следните обекти спрямо селото: </p>
             <table class="table table-hover">
@@ -82,17 +82,30 @@
             </section>
 
             <!-- Region -->
+<!--            <section class="col-md-3 col-9 mb-3">-->
+<!--                <label for="regionName" class="fw-bold">-->
+<!--                    Избери област:-->
+<!--                    <span class="text-danger">*</span>-->
+<!--                </label>-->
+<!--                <select th:field="*{villageDTO.region}" class="form-select" id="regionName">-->
+<!--                    <option th:each="region : ${regions}"-->
+<!--                            th:value="${region.regionName}"-->
+<!--                            th:text="${region.regionName}"></option>-->
+<!--                </select>-->
+<!--            </section>-->
             <section class="col-md-3 col-9 mb-3">
                 <label for="regionName" class="fw-bold">
                     Избери област:
                     <span class="text-danger">*</span>
                 </label>
                 <select th:field="*{villageDTO.region}" class="form-select" id="regionName">
-                    <option th:each="region : ${regions}"
+                    <option value="">Избери област</option>
+                    <option required th:each="region : ${regions}"
                             th:value="${region.regionName}"
                             th:text="${region.regionName}"></option>
                 </select>
             </section>
+
         </div>
 
         <section id="groundCategory">
@@ -328,6 +341,16 @@
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
+<script>
+    function validateForm() {
+        var selectedRegion = document.getElementById("regionName").value;
+        if (selectedRegion === "") {
+            alert("Моля, изберете област.");
+            return false;
+        }
+        return true;
+    }
+</script>
 <script>
 window.addEventListener('resize', updateConsentText);
 
