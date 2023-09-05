@@ -1,13 +1,20 @@
 package com.ludogorieSoft.villagelifefrontend.advanced;
 
+import com.ludogorieSoft.villagelifefrontend.config.ValidationUtilsClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.UserDTO;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
+@AllArgsConstructor
 public class UserValidator implements Validator {
+
+    private static final String FIELD_REQUIRED = "field.required";
+
+    private final ValidationUtilsClient validationUtilsClient;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -18,18 +25,20 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         UserDTO userDTO = (UserDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.fullName", "field.required", "Имената са задължителни");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.email", "field.required", "Имейлът е задължителен");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.fullName", FIELD_REQUIRED, "Имената са задължителни");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "userDTO.email", FIELD_REQUIRED, "Имейлът е задължителен");
 
-        if (userDTO.getFullName() != null && userDTO.getFullName().length() < 6) {
+        if (userDTO.getFullName() != null && userDTO.getFullName().trim().length() < 6) {
             errors.rejectValue("userDTO.fullName", "field.minlength", "Попълнете име и фамилия");
+        } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(userDTO.getFullName()))) {
+            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Трябва да използвате само букви!");
         }
 
-        if (userDTO.getEmail() != null && userDTO.getEmail().length() < 9) {
+        if (userDTO.getEmail() != null && userDTO.getEmail().trim().length() < 9) {
             errors.rejectValue("userDTO.email", "field.minlength", "Въведете валиден имейл");
         }
         if(!userDTO.isConsent()){
-            errors.rejectValue("userDTO.consent", "field.required","Трябва да се съгласите с условията");
+            errors.rejectValue("userDTO.consent", FIELD_REQUIRED,"Трябва да се съгласите с условията");
         }
     }
 }
