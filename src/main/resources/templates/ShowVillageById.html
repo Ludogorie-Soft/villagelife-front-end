@@ -40,8 +40,8 @@
             <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
                  onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
 
-            <a class="prev" onclick="plusSlides(-1)">❮</a>
-            <a class="next" onclick="plusSlides(1)">❯</a>
+            <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
+            <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
 
