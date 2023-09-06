@@ -28,6 +28,14 @@
     <div class="village-title">
         <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + ${villageInfo.villageDTO.region}"></h1>
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
+        <div class="share-dropdown">
+            <button class="share-button">Share</button>
+            <div class="share-content">
+                <a href="#" id="facebook-share">Facebook</a>
+                <a href="#" id="twitter-share">Twitter</a>
+                <a href="#" id="linkedin-share">LinkedIn</a>
+            </div>
+        </div>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span
             th:text="'село '+${villageInfo.villageDTO.name} + ', България'" class="village-name"></span>
@@ -357,5 +365,31 @@
 <script src="/js/navScript.js"></script>
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
+<script>
+// Function to toggle the visibility of the share menu
+document.querySelector('.share-button').addEventListener('click', function() {
+    var shareContent = document.querySelector('.share-content');
+    shareContent.classList.toggle('active');
+});
+
+// Function to share the current page URL on Facebook
+document.getElementById('facebook-share').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, 'facebook-share-dialog', 'width=626,height=436');
+});
+
+// Function to share the current page URL on Twitter
+document.getElementById('twitter-share').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    var text = encodeURIComponent('Check out this awesome website!');
+    window.open('https://twitter.com/intent/tweet?url=' + url + '&text=' + text, 'twitter-share-dialog', 'width=626,height=436');
+});
+
+// Function to share the current page URL on LinkedIn
+document.getElementById('linkedin-share').addEventListener('click', function() {
+    var url = encodeURIComponent(window.location.href);
+    window.open('https://www.linkedin.com/shareArticle?url=' + url, 'linkedin-share-dialog', 'width=626,height=436');
+});
+</script>
 </body>
 </html>
