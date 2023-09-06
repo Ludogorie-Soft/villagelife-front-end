@@ -113,3 +113,20 @@
         .col {
             margin-right: 15px;
         }
+
+        @media screen and (max-width: 575px) {
+            .col {
+                flex: 0 0 100%;
+                max-width: 100%;
+                padding: 0 15px;
+            }
+
+            .image-container {
+                text-align: center;
+            }
+
+            .image {
+                width: 100%;
+                height: auto;
+            }
+        }
