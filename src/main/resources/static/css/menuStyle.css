@@ -64,6 +64,12 @@
         margin-bottom: 10px;
     }
 
+    @media screen and (max-width: 991px) {
+        .footer-copyright .general-terms {
+            display: block;
+            margin-left: 0;
+        }
+    }
 
     .widget-about-site {
         display: flex;
