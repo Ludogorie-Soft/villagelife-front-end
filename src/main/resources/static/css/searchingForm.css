@@ -122,3 +122,11 @@
         }
 
     }
+
+   #myInput:focus,
+   #regionName:focus {
+       box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.5);
+       outline: none;
+       border: none;
+   }
+

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Добави село</title>
+    <title>Добави село - VillageLife</title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
@@ -248,6 +248,7 @@
             <p class="text-danger" id="ethnicity-checkbox-error" style="display: none;">Моля, изберете поне един отговор.</p>
         </section>
 
+        <!-- Questions -->
         <section>
             <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
                 <label th:for="${'question-' + questionIndex}" class="question-label fw-bold" th:text="${question.question}"></label><br>
@@ -309,11 +310,23 @@
                     </div>
                 </div>
 
-                <div class="mb-3 form-check">
-                    <input th:checked="*{userDTO.consent}" type="checkbox" class="form-check-input" id="consent" name="userDTO.consent">
-                    <label class="form-check-label" for="consent">Съгласен/съгласна с условията</label>
+<!--                <div class="mb-3 form-check">-->
+<!--                    <input th:checked="*{userDTO.consent}" type="checkbox" class="form-check-input" id="consent" name="userDTO.consent">-->
+<!--                    <label class="form-check-label" for="consent">Съгласен/съгласна с условията</label>-->
+<!--                    <p class="text-danger" th:if="${#fields.hasErrors('userDTO.consent')}" th:errors="*{userDTO.consent}"></p>-->
+<!--                </div>-->
+                <div class="checkbox-wrapper-43">
+                    <input th:checked="*{userDTO.consent}" type="checkbox" id="cbx-43" class="form-check-input" name="userDTO.consent">
+                    <label for="cbx-43" class="check">
+                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                            <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
+                            <polyline points="1 9 7 14 15 4"></polyline>
+                        </svg>
+                    </label>
+                    <label class="form-check-label" for="cbx-43">Съгласен/съгласна с условията</label>
                     <p class="text-danger" th:if="${#fields.hasErrors('userDTO.consent')}" th:errors="*{userDTO.consent}"></p>
                 </div>
+
             </div>
         </section>
 

@@ -64,6 +64,12 @@
         margin-bottom: 10px;
     }
 
+    @media screen and (max-width: 991px) {
+        .footer-copyright .general-terms {
+            display: block;
+            margin-left: 0;
+        }
+    }
 
     .widget-about-site {
         display: flex;
@@ -177,6 +183,11 @@
 
     .subscription-container input[type="email"] {
         width: 100%;
+    }
+    #email:focus {
+        box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.5);
+        outline: none;
+        border: none;
     }
 
 

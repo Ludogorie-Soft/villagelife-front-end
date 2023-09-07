@@ -40,8 +40,8 @@
             <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
                  onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
 
-            <a class="prev" onclick="plusSlides(-1)">❮</a>
-            <a class="next" onclick="plusSlides(1)">❯</a>
+            <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
+            <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
                   class="btn-group btn-equal-size text-center">
                 <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
                 <input type="hidden" name="answerDate" th:value="${answerDate}">
-                <button type="submit" class="btn btn-success" onclick="return showConfirmationApprove()">Approve response</button>
+                <button type="submit" class="btn btn-success" onclick="return showConfirmationApprove()">Одобри отговор</button>
             </form>
         </div>
         <div class="col-sm-4">
@@ -59,16 +59,16 @@
                   class="btn-group btn-equal-size text-center">
                 <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
                 <input type="hidden" name="answerDate" th:value="${answerDate}">
-                <button type="submit" class="btn btn-primary" onclick="return showConfirmation()">Reject response</button>
+                <button type="submit" class="btn btn-primary" onclick="return showConfirmation()">Отхвърли отговор</button>
             </form>
-            <p th:if="${status == 'archived'}" class="text-center" style="font-size: 1.2rem; font-weight: bold;">This response already rejected</p>
+            <p th:if="${status == 'archived'}" class="text-center" style="font-size: 1.2rem; font-weight: bold;">Този отговор вече е отхвърлен</p>
         </div>
         <div class="col-sm-4">
             <form th:if="${status != 'archived'}" th:action="@{/admins/village}" method="get" class="btn-group btn-equal-size text-center">
-                <button type="submit" class="btn btn-danger">Back to menu</button>
+                <button type="submit" class="btn btn-danger">Назад към менюто</button>
             </form>
             <form th:if="${status == 'archived'}" th:action="@{/admins/getRejected}" method="get" class="btn-group btn-equal-size text-center">
-                <button type="submit" class="btn btn-danger">Back to archive</button>
+                <button type="submit" class="btn btn-danger">Назад към архивираните села</button>
             </form>
         </div>
     </div>
@@ -298,7 +298,7 @@
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
+                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         </div>
 

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/menuStyle.css">
     <link rel="stylesheet" href="/css/sort.css">
 
-    <title>Търсене</title>
+    <title>Търсене - VillageLife</title>
 
 <body>
 
@@ -29,7 +29,7 @@
 <div class="search-bar-row">
         <form th:action="@{/filter/all}" method="get" class="search-bar-form d-flex align-items-center center-content">
 
-        <select name="region" class="form-select me-2">
+        <select name="region" class="form-select me-2" id="regionName">
             <option value="" selected disabled style="text-align: left;">Избери област</option>
             <option th:each="region : ${regions}" th:value="${region.regionName}"
                     th:text="${region.regionName}"></option>

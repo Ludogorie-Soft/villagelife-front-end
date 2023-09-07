@@ -52,16 +52,6 @@ public class VillageController {
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
-
-
-    @GetMapping
-    String getVillages(Model model) {
-        List<VillageDTO> villages = villageClient.getAllVillages();
-        model.addAttribute(VILLAGES_ATTRIBUTE, villages);
-        return "/test/testAllVillages";
-    }
-
-
     @GetMapping("/home-page")
     public String homePage(Model model) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
