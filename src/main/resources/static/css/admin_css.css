@@ -114,3 +114,15 @@ ul.no-bullets {
         padding: 0 15px;
     }
 
+    @media screen and (max-width: 768px) {
+        .welcome-col {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+    }
+    .navbar-toggler {
+        position: absolute;
+        left: 160px;
+        top: 10px;
+    }
