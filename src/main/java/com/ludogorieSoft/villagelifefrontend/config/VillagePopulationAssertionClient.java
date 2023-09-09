@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-villagePopulationAssertionClient",url = "http://localhost:8088/api/v1/villagePopulationAssertions")
+@FeignClient(name = "villagelife-api-villagePopulationAssertionClient",url = "${backend.url}/villagePopulationAssertions")
 public interface VillagePopulationAssertionClient {
 
     @GetMapping()

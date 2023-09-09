@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@FeignClient(name = "villagelife-api-regions",url = "http://localhost:8088/api/v1/regions")
+@FeignClient(name = "villagelife-api-regions",url = "${backend.url}/regions")
 public interface RegionClient {
     @GetMapping
     List<RegionDTO> getAllRegions();

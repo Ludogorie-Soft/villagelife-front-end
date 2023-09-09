@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-villages",url = "http://localhost:8088/api/v1/villages")
+@FeignClient(name = "villagelife-api-villages",url = "${backend.url}/villages")
 public interface VillageClient {
     @GetMapping
     List<VillageDTO> getAllVillages();
@@ -23,7 +23,7 @@ public interface VillageClient {
 
 
     @PutMapping("/{id}")
-    void updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
+    VillageDTO updateVillage(@PathVariable("id") Long id, VillageDTO villageDTO);
 
     @DeleteMapping("/{id}")
     Void deleteVillage(@PathVariable("id") Long id);
