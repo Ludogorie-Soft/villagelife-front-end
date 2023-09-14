@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <title>Карта - VillageLife</title>
+    <style>
+        .infowindow-text {
+            font-weight: 500;
+            color: #0379AB;
+            transition: color 0.3s ease;
+        }
+        .infowindow-text:hover {
+            color: #96c930;
+        }
+        .infowindow-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <h1>Google Map Example</h1>
@@ -12,6 +25,7 @@
 
 <script th:inline="javascript">
     var villageDTOS = [[${villages}]];
+    var villageLinkBaseUrl = '/villages/show/';
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -20,31 +34,48 @@
         });
 
         var customMarkerImage = {
-            url: '/images/pin.png', // URL to your custom marker image
-            scaledSize: new google.maps.Size(44, 56) // Set the size of the marker image
+            url: '/images/pin.png',
+            scaledSize: new google.maps.Size(44, 56)
         };
 
         for (var i = 0; i < villageDTOS.length; i++) {
-            var village = villageDTOS[i];
-            var villageName = village.name;
-            var villageRegion = village.region;
-
-            // Perform geocoding to fetch latitude and longitude
-            geocodeAddress(villageName, villageRegion, function(lat, lng) {
-                if (lat && lng) {
-
-                    var marker = new google.maps.Marker({
-                        position: { lat: lat, lng: lng },
-                        map: map,
-                        title: villageName, // Set the marker title to the village name
-                        icon: customMarkerImage // Set the custom marker image
-                    });
-                }
-            });
+            createMarker(villageDTOS[i], map, customMarkerImage);
         }
     }
 
-    // Geocode function to fetch latitude and longitude
+    function createMarker(village, map, customMarkerImage) {
+        var villageName = village.name;
+        var villageRegion = village.region;
+        var villageId = village.id;
+
+        geocodeAddress(villageName, villageRegion, function(lat, lng) {
+            if (lat && lng) {
+                var marker = new google.maps.Marker({
+                    position: { lat: lat, lng: lng },
+                    map: map,
+                    title: villageName,
+                    icon: customMarkerImage
+                });
+
+                var contentString =
+                    '<div>' +
+                        '<a class="infowindow-link" href="' + villageLinkBaseUrl + villageId + '" >' +
+                            '<p class="infowindow-text">село ' + villageName + ' област ' + villageRegion + '</p>' +
+                        '</a>' +
+                        '<p>СЕЛО</p>' +
+                    '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+            }
+        });
+    }
+
     function geocodeAddress(address, region, callback) {
         var geocoder = new google.maps.Geocoder();
         var fullAddress = address + ', ' + region;
@@ -60,8 +91,6 @@
         });
     }
 </script>
-
-
 <script th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${apiKey} + '&callback=initMap'}" async defer></script>
 </body>
 </html>
