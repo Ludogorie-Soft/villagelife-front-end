@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <title>Карта - VillageLife</title>
 </head>
@@ -9,35 +10,58 @@
 <h1>Google Map Example</h1>
 <div id="map" style="width: 100%; height: 500px;"></div>
 
-<script>
-        var locations = [
-            { name: "Location 1", lat: 42.7351, lng: 25.4836 },
-            { name: "Location 2", lat: 42.7263, lng: 25.4836 },
-            { name: "Location 3", lat: 42.7239, lng: 25.4781 }
-        ];
+<script th:inline="javascript">
+    var villageDTOS = [[${villages}]];
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 42.7339, lng: 25.4858 },
-                zoom: 7
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 42.7339, lng: 25.4858 },
+            zoom: 7
+        });
+
+        var customMarkerImage = {
+            url: '/images/pin.png', // URL to your custom marker image
+            scaledSize: new google.maps.Size(44, 56) // Set the size of the marker image
+        };
+
+        for (var i = 0; i < villageDTOS.length; i++) {
+            var village = villageDTOS[i];
+            var villageName = village.name;
+            var villageRegion = village.region;
+
+            // Perform geocoding to fetch latitude and longitude
+            geocodeAddress(villageName, villageRegion, function(lat, lng) {
+                if (lat && lng) {
+
+                    var marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map,
+                        title: villageName, // Set the marker title to the village name
+                        icon: customMarkerImage // Set the custom marker image
+                    });
+                }
             });
-
-            var customMarkerImage = {
-                url: '/images/pin.png', // URL to your custom marker image
-                scaledSize: new google.maps.Size(44, 56) // Set the size of the marker image
-            };
-
-            for (var i = 0; i < locations.length; i++) {
-                var location = locations[i];
-                var marker = new google.maps.Marker({
-                    position: { lat: location.lat, lng: location.lng },
-                    map: map,
-                    title: location.name,
-                    icon: customMarkerImage // Set the custom marker image
-                });
-            }
         }
-    </script>
+    }
+
+    // Geocode function to fetch latitude and longitude
+    function geocodeAddress(address, region, callback) {
+        var geocoder = new google.maps.Geocoder();
+        var fullAddress = address + ', ' + region;
+
+        geocoder.geocode({ 'address': fullAddress }, function(results, status) {
+            if (status === 'OK' && results[0]) {
+                var location = results[0].geometry.location;
+                callback(location.lat(), location.lng());
+            } else {
+                console.error('Geocode was not successful for the following reason: ' + status);
+                callback(null, null);
+            }
+        });
+    }
+</script>
+
+
 <script th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${apiKey} + '&callback=initMap'}" async defer></script>
 </body>
 </html>

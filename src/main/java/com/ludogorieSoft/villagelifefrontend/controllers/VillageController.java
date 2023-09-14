@@ -55,6 +55,8 @@ public class VillageController {
 
     @GetMapping("/map")
     public String showMap(Model model, @Value("${google.maps.api.key}") String apiKey) {
+        List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
+        model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
         model.addAttribute("apiKey", apiKey);
         return "map";
     }
