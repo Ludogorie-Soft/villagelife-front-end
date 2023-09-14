@@ -8,6 +8,7 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +52,12 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+
+    @GetMapping("/map")
+    public String showMap(Model model, @Value("${google.maps.api.key}") String apiKey) {
+        model.addAttribute("apiKey", apiKey);
+        return "map";
+    }
 
     @GetMapping("/home-page")
     public String homePage(Model model) {
