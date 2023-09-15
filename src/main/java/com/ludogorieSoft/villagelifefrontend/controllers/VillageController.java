@@ -58,6 +58,7 @@ public class VillageController {
         List<VillageDTO> villageDTOS = villageImageClient.getAllApprovedVillageDTOsWithImages().getBody();
         model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        model.addAttribute("regions", regionClient.getAllRegions());
         model.addAttribute("apiKey", apiKey);
         return "map";
     }

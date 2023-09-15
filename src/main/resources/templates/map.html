@@ -16,20 +16,87 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
 </head>
 <body>
 
-<div th:replace="fragments :: hamburger-menu"></div>
-<div th:replace="fragments :: menu"></div>
+    <div th:replace="fragments :: hamburger-menu"></div>
+    <div th:replace="fragments :: menu"></div>
 
-<div id="map"></div>
+    <div class="search-bar-row">
+        <form th:action="@{/filter/all}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
+            <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
+                <div class="input-group">
+                    <select name="region" class="form-select fixed-width" id="regionName">
+                        <option value="" selected disabled style="text-align: left;">Избери област</option>
+                        <option th:each="region : ${regions}" th:value="${region.regionName}"
+                                th:text="${region.regionName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
+                <div class="input-group">
+                    <label class="input-group-text icon-label" for="search-input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </label>
+                    <input type="text" name="keyword" id="search-input" class="form-control form-control-sm"
+                           placeholder="Търси по име на село">
+                    <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="filter-button-container mt-2" style="z-index: 5;">
+            <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">
+                <i class="fas fa-filter"></i> Филтър за разширено търсене
+            </button>
+        </div>
+    </div>
 
 
+    <div id="map"></div>
 
+    <div class="container">
 
-<div th:replace="fragments :: footer"></div>
+        <div class="village-slider">
+            <button id="prevButton">Prev</button>
+            <button id="nextButton">Next</button>
+
+            <div class="village-grid">
+                <div class="row col-12">
+                    <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
+                        <div class="card">
+
+                            <div class="image-container">
+                                <img th:each="imageSrc, iterStat : ${village.images}"
+                                     th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                            </div>
+
+                            <div class="card-body">
+                                <a th:href="@{/villages/show/{id}(id=${village.id})}">
+                                    <h6 th:text="'село ' + ${village.name} + ', област ' + ${village.region}"></h6>
+                                </a>
+                                <br>
+                                <a th:href="@{/villages/show/{id}(id=${village.id})}" class="btn btn-info">Научи още</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+
+<script src="/js/fetch-modal-script.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
 <script th:inline="javascript">
@@ -109,5 +176,38 @@
     }
 </script>
 <script th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${apiKey} + '&callback=initMap'}" async defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+        const villageGrid = document.querySelector(".village-grid");
+        const villageItems = document.querySelectorAll(".village");
+        const itemWidth = villageItems[0].offsetWidth;
+        const itemCount = villageItems.length;
+        let currentIndex = 0;
+
+        function showVillages(index) {
+            if (index < 0) {
+                index = 0;
+            } else if (index > itemCount - 3) {
+                index = itemCount - 3;
+            }
+            const translateX = -index * (itemWidth) + "px"; // Consider the margin
+            villageGrid.style.transform = `translateX(${translateX})`;
+            currentIndex = index;
+        }
+
+        function showNextVillage() {
+            showVillages(currentIndex + 1);
+        }
+
+        function showPrevVillage() {
+            showVillages(currentIndex - 1);
+        }
+
+        nextButton.addEventListener("click", showNextVillage);
+        prevButton.addEventListener("click", showPrevVillage);
+    });
+</script>
 </body>
 </html>
