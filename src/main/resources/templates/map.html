@@ -59,7 +59,7 @@
         </div>
     </div>
 
-
+<!--    <div id="modalContainer"></div>-->
     <div id="map"></div>
 
     <div class="container">
@@ -71,7 +71,6 @@
                 <div class="row col-12">
                     <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
                         <div class="card">
-
                             <div class="image-container">
                                 <img th:each="imageSrc, iterStat : ${village.images}"
                                      th:src="'data:image/jpeg;base64,' + ${imageSrc}"
@@ -101,9 +100,11 @@
 <script th:inline="javascript">
     var villageDTOS = [[${villages}]];
     var villageLinkBaseUrl = '/villages/show/';
+    var map;
+    var markers = [];
 
     function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 42.7339, lng: 25.4858 },
             zoom: 7
         });
@@ -114,17 +115,31 @@
         };
 
         for (var i = 0; i < villageDTOS.length; i++) {
-            createMarker(villageDTOS[i], map, customMarkerImage);
+            createMarker(villageDTOS[i], customMarkerImage);
         }
+
+        var script = document.createElement('script');
+        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+        script.defer = true;
+
+        script.onload = function () {
+            var markerCluster = new MarkerClusterer(map, markers, {
+                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+                gridSize: 50,
+                maxZoom: 15,
+            });
+        };
+
+        document.head.appendChild(script);
     }
 
-    function createMarker(village, map, customMarkerImage) {
+    function createMarker(village, customMarkerImage) {
         var villageName = village.name;
         var villageRegion = village.region;
         var villageId = village.id;
         var villageImage = village.images[0];
 
-        geocodeAddress(villageName, villageRegion, function(lat, lng) {
+        geocodeAddress(villageName, villageRegion, function (lat, lng) {
             if (lat && lng) {
                 var marker = new google.maps.Marker({
                     position: { lat: lat, lng: lng },
@@ -152,9 +167,11 @@
                     content: contentString
                 });
 
-                marker.addListener('click', function() {
+                marker.addListener('click', function () {
                     infowindow.open(map, marker);
                 });
+
+                markers.push(marker);
             }
         });
     }
@@ -163,7 +180,7 @@
         var geocoder = new google.maps.Geocoder();
         var fullAddress = address + ', ' + region;
 
-        geocoder.geocode({ 'address': fullAddress }, function(results, status) {
+        geocoder.geocode({ 'address': fullAddress }, function (results, status) {
             if (status === 'OK' && results[0]) {
                 var location = results[0].geometry.location;
                 callback(location.lat(), location.lng());
