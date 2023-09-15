@@ -63,11 +63,10 @@
     <div id="map"></div>
 
     <div class="container">
+        <button id="nextButton">Next</button>
+        <button id="prevButton">Prev</button>
 
         <div class="village-slider">
-            <button id="prevButton">Prev</button>
-            <button id="nextButton">Next</button>
-
             <div class="village-grid">
                 <div class="row col-12">
                     <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
@@ -176,38 +175,6 @@
     }
 </script>
 <script th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${apiKey} + '&callback=initMap'}" async defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const prevButton = document.getElementById("prevButton");
-        const nextButton = document.getElementById("nextButton");
-        const villageGrid = document.querySelector(".village-grid");
-        const villageItems = document.querySelectorAll(".village");
-        const itemWidth = villageItems[0].offsetWidth;
-        const itemCount = villageItems.length;
-        let currentIndex = 0;
-
-        function showVillages(index) {
-            if (index < 0) {
-                index = 0;
-            } else if (index > itemCount - 3) {
-                index = itemCount - 3;
-            }
-            const translateX = -index * (itemWidth) + "px"; // Consider the margin
-            villageGrid.style.transform = `translateX(${translateX})`;
-            currentIndex = index;
-        }
-
-        function showNextVillage() {
-            showVillages(currentIndex + 1);
-        }
-
-        function showPrevVillage() {
-            showVillages(currentIndex - 1);
-        }
-
-        nextButton.addEventListener("click", showNextVillage);
-        prevButton.addEventListener("click", showPrevVillage);
-    });
-</script>
+<script src="/js/villageSlider.js"></script>
 </body>
 </html>

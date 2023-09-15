@@ -156,24 +156,23 @@
 
         #prevButton,
         #nextButton {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #96c930;
-            color: white;
+            border-radius: 5px;
+            float: right;
+            background: white;
+            color: #96c930;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             z-index: 1;
+            transition: color 0.3s ease, background 0.3s ease;
         }
 
-        #prevButton {
-            left: 10px;
+        #prevButton:hover ,
+        #nextButton:hover {
+            background: #96c930;
+            color: white;
         }
 
-        #nextButton {
-            right: 10px;
-        }
         .container {
             margin: 50px auto;
         }
