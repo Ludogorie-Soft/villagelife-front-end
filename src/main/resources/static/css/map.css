@@ -53,7 +53,7 @@
             margin: 0;
         }
 
-        .row {
+        .infowindow-row {
             flex-wrap: nowrap;
         }
 
@@ -132,7 +132,7 @@
         }
 
         .village-item {
-            flex-basis: calc(33.33% - 20px);
+            flex-grow: 1;
             margin: 10px;
             text-align: center;
             transition: transform 0.5s ease;
@@ -159,4 +159,24 @@
 
         .container {
             margin: 50px auto;
+        }
+        .search-bar-row {
+            margin: 30px 75px 0 70px;
+        }
+        #regionName {
+            margin-right: 25px;
+        }
+        @media (max-width: 1039.9px) {
+            .search-bar-row {
+                margin: 30px 15px 0 15px;
+            }
+            #regionName {
+                margin-right: 0px;
+            }
+        }
+        #search-input:focus,
+        #regionName:focus {
+            box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.8);
+            outline: none;
+            border: none;
         }

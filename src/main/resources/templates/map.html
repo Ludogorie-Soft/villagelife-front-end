@@ -17,9 +17,6 @@
           crossorigin="anonymous">
 
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
 </head>
@@ -51,15 +48,8 @@
                 </div>
             </div>
         </form>
-        <div class="filter-button-container mt-2" style="z-index: 5;">
-            <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop">
-                <i class="fas fa-filter"></i> Филтър за разширено търсене
-            </button>
-        </div>
     </div>
 
-<!--    <div id="modalContainer"></div>-->
     <div id="map"></div>
 
     <div class="container">
@@ -68,7 +58,7 @@
 
         <div class="village-slider">
             <div class="village-grid">
-                <div class="row col-12">
+                <div class="row infowindow-row col-12">
                     <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
                         <div class="card">
                             <div class="image-container">
@@ -94,7 +84,6 @@
 
     <div th:replace="fragments :: footer"></div>
 
-<script src="/js/fetch-modal-script.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
 <script th:inline="javascript">
@@ -178,14 +167,14 @@
 
     function geocodeAddress(address, region, callback) {
         var geocoder = new google.maps.Geocoder();
-        var fullAddress = address + ', ' + region;
+        var fullAddress = 'село ' + address + ', ' + region;
 
         geocoder.geocode({ 'address': fullAddress }, function (results, status) {
             if (status === 'OK' && results[0]) {
                 var location = results[0].geometry.location;
                 callback(location.lat(), location.lng());
             } else {
-                console.error('Geocode was not successful for the following reason: ' + status);
+                console.error('Geocode was not successful for ' + fullAddress + ' because of the following reason: ' + status);
                 callback(null, null);
             }
         });

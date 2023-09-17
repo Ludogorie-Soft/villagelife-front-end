@@ -6,7 +6,7 @@
         margin-bottom: 10px;
     }
 
-    @media (max-width: 991.98px) {
+    @media (max-width: 1039.9px) {
         .menu-container {
             display: none;
         }
@@ -15,7 +15,7 @@
         }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 1040px) {
         #hamburger-menu {
             display: none;
         }
