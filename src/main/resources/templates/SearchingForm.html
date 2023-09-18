@@ -96,11 +96,8 @@
                 <div th:each="village : ${villages}" class="village-item card col-lg-5 col-md-5 col-sm-12">
                     <div class="row">
                         <div class="image-container col-6">
-                            <img th:if="${village.images != null and not #lists.isEmpty(village.images)}"
-                                 th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
+                            <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
                                  onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
-                            <img th:unless="${village.images != null and not #lists.isEmpty(village.images)}"
-                                 src="/images/pexels-alexander-kovalev-2871478.jpg">
                         </div>
                         <div class="card-body col-6">
                             <a th:href="@{'/villages/show/' + ${village.id}}">

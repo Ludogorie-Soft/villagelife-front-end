@@ -62,8 +62,7 @@
                     <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
                         <div class="card">
                             <div class="image-container">
-                                <img th:each="imageSrc, iterStat : ${village.images}"
-                                     th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                                <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
                                      onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
                             </div>
 
