@@ -310,11 +310,6 @@
                     </div>
                 </div>
 
-<!--                <div class="mb-3 form-check">-->
-<!--                    <input th:checked="*{userDTO.consent}" type="checkbox" class="form-check-input" id="consent" name="userDTO.consent">-->
-<!--                    <label class="form-check-label" for="consent">Съгласен/съгласна с условията</label>-->
-<!--                    <p class="text-danger" th:if="${#fields.hasErrors('userDTO.consent')}" th:errors="*{userDTO.consent}"></p>-->
-<!--                </div>-->
                 <div class="checkbox-wrapper-43">
                     <input th:checked="*{userDTO.consent}" type="checkbox" id="cbx-43" class="form-check-input" name="userDTO.consent">
                     <label for="cbx-43" class="check">
@@ -374,6 +369,22 @@ consentThElements.forEach((element) => {
 });
 
 updateConsentText();
+</script>
+<script>
+function validateImageFormat(input) {
+    var maxTotalSizeInBytes = 10 * 1024 * 1024;
+
+    var totalSize = 0;
+
+    for (var i = 0; i < input.files.length; i++) {
+        totalSize += input.files[i].size;
+    }
+
+    if (totalSize > maxTotalSizeInBytes) {
+        alert("Общият размер на снимките трябва да бъде по-малък от 10 MB.");
+        input.value = "";
+    }
+}
 </script>
 </body>
 </html>

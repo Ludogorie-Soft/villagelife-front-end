@@ -11,9 +11,17 @@ What things you need to install the software:
 
 ## Setup and Running the Project
 
-1. Clone the Repository
+1. Clone the villagelife-front-end repository
 
 ```bash
 git clone <https://github.com/Ludogorie-Soft/villagelife-front-end.git>
 ```
 2. Run the project from VillagelifeFrontEndApplication.java
+
+
+3. Clone the villagelife-api repository
+
+```bash
+git clone <https://github.com/Ludogorie-Soft/villagelife-api.git>
+```
+4. Run the project from VillageApplication.java
