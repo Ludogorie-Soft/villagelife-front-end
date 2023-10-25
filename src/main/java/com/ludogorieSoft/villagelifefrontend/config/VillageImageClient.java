@@ -44,4 +44,7 @@ public interface VillageImageClient {
 
     @PutMapping("/{id}")
     VillageImageDTO updateVillageImage(@PathVariable("id") Long id, @Valid @RequestBody VillageImageDTO villageImageDTO, @RequestHeader("Authorization") String token);
+
+    @GetMapping("/upload-images")
+    String uploadImages();
 }
