@@ -66,6 +66,7 @@ public class UploadController {
     }
     @GetMapping("/uploadImages")
     public String uploadImages(Model model, HttpSession session) {
+        System.out.println("upload images controller frontend");
         villageImageClient.uploadImages();
         return "redirect:/uploadFile";
     }
@@ -73,7 +74,7 @@ public class UploadController {
     @PostMapping()
     @Transactional
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
-
+        System.out.println("uploadFile");
         try {
             if (!file.getOriginalFilename().endsWith(".xlsx")) {
                 model.addAttribute(UPLOAD_SUCCESS, false);
