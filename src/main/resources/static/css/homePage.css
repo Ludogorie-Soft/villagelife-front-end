@@ -161,9 +161,9 @@
         outline: none;
         box-shadow: none;
     }
-    .village {
+    /*.village {
       display: none;
-    }
+    }*/
     .shown-villages-count{
         float: right;
     }

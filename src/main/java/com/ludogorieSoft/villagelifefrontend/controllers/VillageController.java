@@ -52,14 +52,14 @@ public class VillageController {
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
-    @GetMapping("/home-page")
-    public String homePage(Model model) {
+    @GetMapping("/home-page/{page}")
+    public String homePage(Model model, @PathVariable("page") int page) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         try {
-            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages();
+            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(page, 6);
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 List<VillageDTO> villageDTOS = response.getBody();
@@ -168,7 +168,7 @@ public class VillageController {
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
-        return "redirect:/villages/home-page";
+        return "redirect:/villages/home-page/0";
     }
     private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
         addAllListsWithOptions(model);

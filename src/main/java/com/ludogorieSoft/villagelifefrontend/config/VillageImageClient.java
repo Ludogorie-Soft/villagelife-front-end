@@ -21,8 +21,11 @@ public interface VillageImageClient {
 
     @GetMapping("/approved")
     ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages();
+    @GetMapping("/approved/{page}/{elements}")
+    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages(@PathVariable("page") int page, @PathVariable("elements") int elements);
 
-    @PostMapping("/admin-upload")
+
+        @PostMapping("/admin-upload")
     List<byte[]> adminUploadImages(@RequestParam("villageId") Long villageId, @RequestBody List<byte[]> imageBytesList, @RequestHeader("Authorization") String token);
 
     @GetMapping("/with-base64/village/{villageId}")
