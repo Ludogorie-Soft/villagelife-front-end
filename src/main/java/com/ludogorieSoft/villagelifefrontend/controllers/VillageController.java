@@ -52,7 +52,7 @@ public class VillageController {
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
-    @GetMapping("/home-page/{page}")
+    /*@GetMapping("/home-page/{page}")
     public String homePage(Model model, @PathVariable("page") int page) {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
@@ -72,6 +72,33 @@ public class VillageController {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
             model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
         } catch (FeignException e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+            model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
+        }
+        return "HomePage";
+    }*/
+    @GetMapping(value = { "/home-page/{page}", "/home-page" })
+    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
+        int currentPage = (page != null) ? page : 0;
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagesPageCount(currentPage, 6));
+        try {
+            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(currentPage, 6);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                List<VillageDTO> villageDTOS = response.getBody();
+                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
+            } else {
+                model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+                model.addAttribute("noVillagesMessage", "Списъкът с одобрени села е празен!");
+            }
+        } catch (FeignException.NotFound e) {
+            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
+            model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
+        } catch (FeignException e) {
+            e.printStackTrace();
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
             model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
         }
@@ -168,7 +195,7 @@ public class VillageController {
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
-        return "redirect:/villages/home-page/0";
+        return "redirect:/villages/home-page";
     }
     private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
         addAllListsWithOptions(model);

@@ -328,3 +328,18 @@
         border: none;
     }
 
+    .pagination a{
+        text-decoration: none;
+        padding: 5px;
+    }
+    .pagination button,
+    .pagination button:hover{
+        color: #96c930;
+        font-weight: 500;
+    }
+
+    .pagination{
+        margin-top: 20px;
+        float: right;
+    }
+
