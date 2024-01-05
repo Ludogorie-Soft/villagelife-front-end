@@ -190,10 +190,11 @@
 function updatePageValue(event) {
     if (event.key === 'Enter') {
         var currentPageInput = document.getElementById('currentPage');
-        if(currentPageInput.value >= 0 && currentPageInput.value < [[${pagesCount}]]){
+        if (currentPageInput.value >= 0 && currentPageInput.value < [[${pagesCount}]]) {
             var newPageValue = currentPageInput.value - 1;
-            if(newPageValue >= 0){
-                var newURL = 'http://localhost:8087/villages/home-page/' + newPageValue;
+            if (newPageValue >= 0) {
+                var currentURL = window.location.href;
+                var newURL = currentURL.replace(/\/\d+$/, '/' + newPageValue);
                 window.location.href = newURL;
             }
         }
