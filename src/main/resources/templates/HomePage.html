@@ -194,8 +194,13 @@ function updatePageValue(event) {
             var newPageValue = currentPageInput.value - 1;
             if (newPageValue >= 0) {
                 var currentURL = window.location.href;
-                var newURL = currentURL.replace(/\/\d+$/, '/' + newPageValue);
-                window.location.href = newURL;
+                if (currentURL.includes('/home-page/')) {
+                    var newURL = currentURL.replace(/\/home-page\/\d+/, '/home-page/' + newPageValue);
+                    window.location.href = newURL;
+                } else {
+                    var newURL = currentURL + '/' + newPageValue;
+                    window.location.href = newURL;
+                }
             }
         }
     }

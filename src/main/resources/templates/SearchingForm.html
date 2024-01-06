@@ -139,7 +139,6 @@
     <div>
         <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
                onkeyup="updatePageValue(event)" style="width: 50px;">
-
         от
         <span th:text="${(villageCount + 6 - 1) / 6}"></span>
     </div>
@@ -166,10 +165,12 @@
 function updatePageValue(event) {
     if (event.key === 'Enter') {
         var currentPageInput = document.getElementById('currentPage');
-        if(currentPageInput.value >= 0 && currentPageInput.value < [[${villageCount}]]){
+        if (currentPageInput.value >= 0 && currentPageInput.value < [[${villageCount}]]) {
             var newPageValue = currentPageInput.value - 1;
-            if(newPageValue >= 0){
-                var newURL = 'http://localhost:8087/filter/change/' + newPageValue + '/' + [[${villageCount}]];
+            if (newPageValue >= 0) {
+                var baseURL = window.location.origin;
+                var newPath = '/filter/change/' + newPageValue + '/' + [[${villageCount}]];
+                var newURL = baseURL + newPath;
                 window.location.href = newURL;
             }
         }
