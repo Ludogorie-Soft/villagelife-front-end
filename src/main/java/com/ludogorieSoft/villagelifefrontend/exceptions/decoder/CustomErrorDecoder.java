@@ -18,7 +18,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
         return switch (response.status()) {
             case 417 -> throw new NoConsentException(message);
             case 400 -> throw new ApiRequestException(message);
-            case 403 -> throw new AccessDeniedException(message);
+            case 403 -> throw new AccessDeniedException("Token expired or invalid");
             case 401 -> throw new AccessDeniedException(message);
             case 408 -> throw new TokenExpiredException(message);
             case 409 -> throw new DuplicateEmailException(message);

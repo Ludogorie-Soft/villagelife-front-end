@@ -6,6 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ludogorieSoft.villagelifefrontend.exceptions.decoder.CustomErrorDecoder;
 import feign.Logger;
 import feign.codec.ErrorDecoder;
+import io.minio.MinioClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,12 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class AppConfig {
+    @Value("${space.bucket.origin.url}")
+    private String spaceBucketOriginUrl;
+    @Value("${digital.ocean.access.key}")
+    private String digitalOceanAccessKey;
+    @Value("${digital.ocean.secret.key}")
+    private String digitalOceanSecretKey;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -56,4 +64,11 @@ public class AppConfig {
                         .serializationInclusion(JsonInclude.Include.NON_NULL);
         return new MappingJackson2HttpMessageConverter(builder.build());
     }
+    @Bean
+    public MinioClient minioClient (){
+        return MinioClient.builder().endpoint(spaceBucketOriginUrl)
+                .region("fra1")
+                .credentials(digitalOceanAccessKey ,digitalOceanSecretKey).build();
+    }
+
 }

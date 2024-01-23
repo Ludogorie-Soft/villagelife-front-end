@@ -7,6 +7,7 @@ import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
+import com.ludogorieSoft.villagelifefrontend.service.VillageImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
+import static java.util.UUID.randomUUID;
 
 
 @Controller
@@ -51,6 +55,7 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+    private final VillageImageService villageImageService;
 
     /*@GetMapping("/home-page/{page}")
     public String homePage(Model model, @PathVariable("page") int page) {
@@ -77,7 +82,7 @@ public class VillageController {
         }
         return "HomePage";
     }*/
-    @GetMapping(value = { "/home-page/{page}", "/home-page" })
+    @GetMapping(value = {"/home-page/{page}", "/home-page"})
     public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
         int currentPage = (page != null) ? page : 0;
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
@@ -88,7 +93,9 @@ public class VillageController {
             ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(currentPage, 6);
 
             if (response.getStatusCode().is2xxSuccessful()) {
-                List<VillageDTO> villageDTOS = response.getBody();
+                List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(Objects.requireNonNull(response.getBody()));
+
+                System.out.println("controller images stream2 " + villageDTOS);
                 model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
             } else {
                 model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
@@ -109,9 +116,10 @@ public class VillageController {
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
+        getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
         return "ShowVillageById";
     }
+
     @PostMapping("/subscription-save")
     public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String subscriptionMessage;
@@ -133,14 +141,14 @@ public class VillageController {
         VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
 
         if (bindingResult.hasErrors()) {
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
 
-        }else {
+        } else {
             inquiryClient.createInquiry(inquiryDTO);
             inquiryDTO = new InquiryDTO();
 
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null,null);
+            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
             model.addAttribute(IS_SENT_ATTRIBUTE, true);
 
         }
@@ -172,6 +180,7 @@ public class VillageController {
         model.addAttribute("status", keyWord);
 
     }
+
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
@@ -180,39 +189,47 @@ public class VillageController {
 
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        addVillageFormValidator.validate(addVillageFormResult, bindingResult);
-        if (bindingResult.hasErrors()){
+        //addVillageFormValidator.validate(addVillageFormResult, bindingResult);
+        if (bindingResult.hasErrors()) {
             return getAddVillagePage(addVillageFormResult, model);
         }
         List<byte[]> imageBytes = new ArrayList<>();
+        List<String> imageUUID = new ArrayList<>();
         if (images.get(0).getSize() > 0) {
-            userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
-            if(bindingResult.hasErrors()){
+            // userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
+            if (bindingResult.hasErrors()) {
                 return getAddVillagePage(addVillageFormResult, model);
             }
-            convertImagesToBytes(images, imageBytes);
+            convertImagesToBytes(images, imageUUID);
         }
-        addVillageFormResult.setImageBytes(imageBytes);
+        //addVillageFormResult.setImageBytes(imageBytes);
+        addVillageFormResult.setImagesUUID(imageUUID);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
         return "redirect:/villages/home-page";
     }
+
     private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
         addAllListsWithOptions(model);
         model.addAttribute("addVillageFormResult", addVillageFormResult);
         return "add-village";
     }
 
-    private List<byte[]> convertImagesToBytes(List<MultipartFile> images, List<byte[]> imageBytes) {
+    private List<String> convertImagesToBytes(List<MultipartFile> images, List<String> imageUUID) { //List<byte[]>  //List<byte[]> imageBytes
+
         for (MultipartFile image : images) {
             try {
-                byte[] imageData = image.getBytes();
-                imageBytes.add(imageData);
+                String  randomUUID = villageImageService.uploadImage(image, randomUUID().toString());
+                if (randomUUID != null) {
+                    byte[] imageData = image.getBytes();
+                    //imageBytes.add(imageData);
+                    imageUUID.add(randomUUID);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return imageBytes;
+        return imageUUID;//imageBytes;
     }
 
     @GetMapping("/partners")
@@ -235,7 +252,7 @@ public class VillageController {
         if (bindingResult.hasErrors()) {
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
             model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
-        }else {
+        } else {
             model.addAttribute(IS_SENT_ATTRIBUTE, true);
             messageClient.createMessage(messageDTO);
             model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());

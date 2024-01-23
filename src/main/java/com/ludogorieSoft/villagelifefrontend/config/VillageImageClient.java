@@ -20,8 +20,6 @@ public interface VillageImageClient {
     @GetMapping("/all")
     ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();
 
-    @GetMapping("/approved")
-    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages();
     @GetMapping("/approved/{page}/{elements}")
     ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages(@PathVariable("page") int page, @PathVariable("elements") int elements);
     @GetMapping("/approved/pagesCount/{page}/{elements}")
