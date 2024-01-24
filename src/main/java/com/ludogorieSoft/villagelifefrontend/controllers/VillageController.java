@@ -164,7 +164,11 @@ public class VillageController {
         inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
 
-        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
+        List<String> imagesResponse = Objects.requireNonNull(villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody()).stream().map(imageName -> {
+            imageName = villageImageService.getImageFromSpace(imageName);
+            return imageName;
+        }).toList();
+
         model.addAttribute("imageSrcList", imagesResponse);
 
         List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
@@ -219,7 +223,7 @@ public class VillageController {
 
         for (MultipartFile image : images) {
             try {
-                String  randomUUID = villageImageService.uploadImage(image, randomUUID().toString());
+                String randomUUID = villageImageService.uploadImage(image, randomUUID().toString());
                 if (randomUUID != null) {
                     byte[] imageData = image.getBytes();
                     //imageBytes.add(imageData);

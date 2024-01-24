@@ -3,7 +3,6 @@ package com.ludogorieSoft.villagelifefrontend.config;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,23 +11,23 @@ import java.util.List;
 public interface FilterClient {
 
     @GetMapping("/{page}")
-    List<VillageDTO> getAllApprovedVillages(@PathVariable("page") int page);
+    List<VillageDTO> getAllApprovedVillages(@PathVariable("page") int page, @RequestParam(required = false) String sort);
     @GetMapping("/{page}/elementsCount")
     Long getAllApprovedVillagesElementsCount(@PathVariable("page") int page);
 
     @GetMapping("/byName/{page}")
-    List<VillageDTO> getVillageByName(@PathVariable("page") int page, @RequestParam("name") String name);
+    List<VillageDTO> getVillageByName(@PathVariable("page") int page, @RequestParam("name") String name, @RequestParam(required = false) String sort);
     @GetMapping("/byName/{page}/elementsCount")
     Long getVillageByNameElementsCount(@PathVariable("page") int page, @RequestParam("name") String name);
 
     @GetMapping("/byRegion/{page}")
-    List<VillageDTO> getVillageByRegion(@PathVariable("page") int page, @RequestParam("region") String region);
+    List<VillageDTO> getVillageByRegion(@PathVariable("page") int page, @RequestParam("region") String region, @RequestParam(required = false) String sort);
     @GetMapping("/byRegion/{page}/elementsCount")
     Long getVillageByRegionElementsCount(@PathVariable("page") int page, @RequestParam("region") String region);
     @GetMapping("/searchAll/{page}")
     List<VillageDTO> getVillageByNameAndRegion(@PathVariable("page") int page, @RequestParam String region, @RequestParam String keyword, @RequestParam(required = false) String sort);
     @GetMapping("/searchAll/{page}/elementsCount")
-    Long getVillageByNameAndRegionElementsCount(@PathVariable("page") int page, @RequestParam String region, @RequestParam String keyword, @RequestParam(required = false) String sort);
+    Long getVillageByNameAndRegionElementsCount(@PathVariable("page") int page, @RequestParam String region, @RequestParam String keyword);
 
     @GetMapping("/searchVillages/{page}")
     List<VillageDTO> searchVillagesByCriteria(
@@ -42,15 +41,15 @@ public interface FilterClient {
             @PathVariable("page") int page,
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS,
-            @RequestParam("children") String children,
-            @RequestParam(required = false) String sort
+            @RequestParam("children") String children
     );
 
     @GetMapping("/searchVillagesByObjectAndChildren/{page}")
     List<VillageDTO> searchVillagesByObjectAndChildren(
             @PathVariable("page") int page,
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
-            @RequestParam("children") String children);
+            @RequestParam("children") String children,
+            @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByObjectAndChildren/{page}/elementsCount")
     Long searchVillagesByObjectAndChildrenElementsCount(
             @PathVariable("page") int page,
@@ -62,7 +61,8 @@ public interface FilterClient {
     List<VillageDTO> searchVillagesByLivingConditionAndChildren(
             @PathVariable("page") int page,
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS,
-            @RequestParam("children") String children);
+            @RequestParam("children") String children,
+            @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByLivingConditionAndChildren/{page}/elementsCount")
     Long searchVillagesByLivingConditionAndChildrenElementsCount(
             @PathVariable("page") int page,
@@ -74,7 +74,8 @@ public interface FilterClient {
     List<VillageDTO> searchVillagesByObjectAndLivingCondition(
             @PathVariable("page") int page,
             @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
-            @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
+            @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS,
+            @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByObjectAndLivingCondition/{page}/elementsCount")
     Long searchVillagesByObjectAndLivingConditionElementsCount(
             @PathVariable("page") int page,
@@ -82,17 +83,17 @@ public interface FilterClient {
             @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
 
     @GetMapping("/searchVillagesByChildrenCount/{page}")
-    List<VillageDTO> searchVillagesByChildrenCount(@PathVariable("page") int page, @RequestParam("children") String children);
+    List<VillageDTO> searchVillagesByChildrenCount(@PathVariable("page") int page, @RequestParam("children") String children, @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByChildrenCount/{page}/elementsCount")
     Long searchVillagesByChildrenCountElementsCount(@PathVariable("page") int page, @RequestParam("children") String children);
     @GetMapping("/searchVillagesByObject/{page}")
-    List<VillageDTO> searchVillagesByObject(@PathVariable("page") int page, @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
+    List<VillageDTO> searchVillagesByObject(@PathVariable("page") int page, @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS, @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByObject/{page}/elementsCount")
     Long searchVillagesByObjectElementsCount(
             @PathVariable("page") int page, @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS);
 
     @GetMapping("/searchVillagesByLivingCondition/{page}")
-    List<VillageDTO> searchVillagesByLivingCondition(@PathVariable("page") int page, @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
+    List<VillageDTO> searchVillagesByLivingCondition(@PathVariable("page") int page, @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS, @RequestParam(required = false) String sort);
     @GetMapping("/searchVillagesByLivingCondition/{page}/elementsCount")
     Long searchVillagesByLivingConditionElementsCount(@PathVariable("page") int page, @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS);
 }

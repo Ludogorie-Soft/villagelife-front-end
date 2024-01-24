@@ -28,7 +28,7 @@ public class VillageImageService {
             // Upload the file to DigitalOcean Spaces
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(digitalOceanBucketName)
-                    .object(randomUuid )
+                    .object(randomUuid)
                     .contentType(file.getContentType())
                     .stream(file.getInputStream(), file.getSize(), -1)
                     .build());
@@ -49,43 +49,30 @@ public class VillageImageService {
 
     public String getImageFromSpace(String objectKey) {
         try {
-            // Fetch the image bytes from DigitalOcean Spaces
-            GetObjectResponse objectResponse = minioClient.getObject(GetObjectArgs.builder()
+            try (InputStream inputStream = minioClient.getObject(GetObjectArgs.builder()
                     .bucket(digitalOceanBucketName)
                     .object(objectKey)
-                    .build());
-
-            // Get the input stream from the object response
-            try (InputStream inputStream = objectResponse) {
-                // Read the image bytes
+                    .build())) {
                 byte[] imageBytes = IOUtils.toByteArray(inputStream);
-
-                // Encode the image bytes as a Base64 string
-                String base64Image = Base64.encodeBase64String(imageBytes);
-
-                return base64Image;
+                return Base64.encodeBase64String(imageBytes);
             }
         } catch (MinioException e) {
-            // Handle Minio-specific exceptions
             log.warn("Minio error: " + e.getMessage());
         } catch (Exception e) {
-            // Handle other exceptions
             log.warn("An unexpected error occurred: " + e.getMessage());
         }
         return null;
     }
 
-    public List<VillageDTO> getVillagesWithImages(List<VillageDTO> villages){
-     return villages.stream()
+    public List<VillageDTO> getVillagesWithImages(List<VillageDTO> villages) {
+        System.out.println("1111111" + villages.get(villages.size() - 1).getImages());
+        return villages.stream()
                 .map(villageDTO -> {
-                    System.out.println("service images stream1 " + villageDTO.toString());
-                    System.out.println("service images stream2 " + villageDTO.getImages());
                     villageDTO.setImages(villageDTO.getImages().stream()
                             .map(this::getImageFromSpace)
                             .toList());
-
-                    System.out.println("controller images stream3 " + villageDTO.getImages());
-
+                    System.out.println("2222222" + villages.get(villages.size() - 1).getImages());
+                    System.out.println("33333" + villageDTO.getImages());
                     return villageDTO;
                 }).toList();
     }

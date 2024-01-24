@@ -6,6 +6,7 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
+import com.ludogorieSoft.villagelifefrontend.service.VillageImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -29,7 +31,7 @@ public class FilterController {
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static Long resultCount = 0L;
-
+    private final VillageImageService villageImageService;
     @GetMapping("/all/{page}")
     public String findAll(
             @PathVariable("page") int page,
@@ -43,8 +45,7 @@ public class FilterController {
         List<VillageDTO> villages;
 
         villages = fetchVillageDTOsWithImages(region, keyword, sort, page);
-
-        sortVillages(sort, villages);
+        /*sortVillages(sort, villages);*/
 
         model.addAttribute("villageCount", resultCount);
         model.addAttribute("villages", villages);
@@ -55,7 +56,7 @@ public class FilterController {
     }
 
 
-    private void sortVillages(String sort, List<VillageDTO> villages) {
+    /*private void sortVillages(String sort, List<VillageDTO> villages) {
         if ("nameAsc".equals(sort)) {
             villages.sort(Comparator.comparing(VillageDTO::getName));
         } else if ("nameDesc".equals(sort)) {
@@ -65,7 +66,7 @@ public class FilterController {
         } else if ("regionDesc".equals(sort)) {
             villages.sort(Comparator.comparing(VillageDTO::getRegion).reversed().thenComparing(VillageDTO::getName));
         }
-    }
+    }*/
 
 
     private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword, String sort, int page) {
@@ -73,25 +74,30 @@ public class FilterController {
         if (region != null && !region.isEmpty()) {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByNameAndRegion(page, region, keyword, sort);
-                resultCount = filterClient.getVillageByNameAndRegionElementsCount(page, region, keyword, sort);
+                System.out.println("!!!!!!!!!!!!!!!!!" + villages.get(villages.size() - 1).getImages());
+                resultCount = filterClient.getVillageByNameAndRegionElementsCount(page, region, keyword);
             } else {
-                villages = filterClient.getVillageByRegion(page, region);
+                villages = filterClient.getVillageByRegion(page, region, sort);
+                System.out.println("!!!!!!!!!!!!!!!!!" + villages.get(villages.size() - 1).getImages());
                 resultCount = filterClient.getVillageByRegionElementsCount(page, region);
             }
         } else {
             if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByName(page, keyword);
+                villages = filterClient.getVillageByName(page, keyword, sort);
                 resultCount = filterClient.getVillageByNameElementsCount(page, keyword);
             } else {
-                villages = filterClient.getAllApprovedVillages(page);
+                villages = filterClient.getAllApprovedVillages(page, sort);
                 resultCount = filterClient.getAllApprovedVillagesElementsCount(page);
             }
         }
-        boolean status = true;
-        String date = null;
-        getImagesForVillages(villages,status,date);
+        /*boolean status = true;
+        String date = null;*/
+        List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(villages);
+        System.out.println("????????????????" + villages.get(villages.size() - 1).getImages());
+        return villageDTOS;
+        /*getImagesForVillages(villages,status,date);*/
 
-        return villages;
+        /*return villages;*/
     }
 
 
@@ -160,7 +166,7 @@ public class FilterController {
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
 
         List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
-        sortVillages(sort, villageDTOs);
+        /*sortVillages(sort, villageDTOs);*/
 
         model.addAttribute("villages", villageDTOs);
         model.addAttribute("subscription", new SubscriptionDTO());
@@ -189,49 +195,49 @@ public class FilterController {
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
             villageDTOs = filterClient.searchVillagesByCriteria(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
-            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
         } else {
             if (selectedObjects == null) {
                 if (selectedChildrenEnum == null) {
-                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions);
+                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions, sort);
                     resultCount = filterClient.searchVillagesByLivingConditionElementsCount(page, selectedLivingConditions);
                 } else {
                     if (selectedLivingConditions == null) {
-                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name());
+                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name(), sort);
                         resultCount = filterClient.searchVillagesByChildrenCountElementsCount(page, selectedChildrenEnum.name());
                     } else {
-                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name());
+                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name(), sort);
                         resultCount = filterClient.searchVillagesByLivingConditionAndChildrenElementsCount(page, selectedLivingConditions, selectedChildrenEnum.name());
                     }
                 }
             } else if (selectedChildrenEnum == null) {
                 if (selectedLivingConditions == null) {
-                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects);
+                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects, sort);
                     resultCount = filterClient.searchVillagesByObjectElementsCount(page, selectedObjects);
                 } else {
-                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions);
+                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions, sort);
                     resultCount = filterClient.searchVillagesByObjectAndLivingConditionElementsCount(page, selectedObjects, selectedLivingConditions);
                 }
             } else {
-                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name());
+                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name(), sort);
                 resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
             }
         }
-        boolean status = true;
+        /*boolean status = true;
         String date = null;
-        getImagesForVillages(villageDTOs,status,date);
-        return villageDTOs;
+        getImagesForVillages(villageDTOs,status,date);*/
+        return villageImageService.getVillagesWithImages(villageDTOs);
     }
 
 
-    private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
+    /*private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
         if (villages != null) {
             for (VillageDTO village : villages) {
                 List<String> images = villageImageClient.getAllImagesForVillage(village.getId(), status, date).getBody();
                 village.setImages(images);
             }
         }
-    }
+    }*/
 
 
     @GetMapping("/change/{page}/{totalElements}")

@@ -17,8 +17,8 @@ public interface VillageImageClient {
     @GetMapping("/village/{villageId}/images")
     ResponseEntity<List<String>> getAllImagesForVillage(@PathVariable Long villageId, @RequestParam boolean status, @RequestParam String date);
 
-    @GetMapping("/all")
-    ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();
+    /*@GetMapping("/all")
+    ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();*/
 
     @GetMapping("/approved/{page}/{elements}")
     ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages(@PathVariable("page") int page, @PathVariable("elements") int elements);
