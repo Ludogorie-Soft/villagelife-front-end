@@ -25,6 +25,7 @@ public class VillageImageService {
 
     public String uploadImage(final MultipartFile file, String randomUuid) {
         try {
+            System.out.println("image service " + file.getContentType());
             // Upload the file to DigitalOcean Spaces
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(digitalOceanBucketName)
