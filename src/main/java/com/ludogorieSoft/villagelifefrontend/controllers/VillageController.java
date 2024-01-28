@@ -7,7 +7,6 @@ import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
-import com.ludogorieSoft.villagelifefrontend.service.VillageImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -55,7 +54,7 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
-    private final VillageImageService villageImageService;
+   // private final VillageImageService villageImageService;
 
     /*@GetMapping("/home-page/{page}")
     public String homePage(Model model, @PathVariable("page") int page) {

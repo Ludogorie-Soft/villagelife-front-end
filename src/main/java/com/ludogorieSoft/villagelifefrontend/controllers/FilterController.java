@@ -6,7 +6,6 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
-import com.ludogorieSoft.villagelifefrontend.service.VillageImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -31,7 +28,8 @@ public class FilterController {
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static Long resultCount = 0L;
-    private final VillageImageService villageImageService;
+    //private final VillageImageService villageImageService;
+
     @GetMapping("/all/{page}")
     public String findAll(
             @PathVariable("page") int page,
@@ -90,14 +88,14 @@ public class FilterController {
                 resultCount = filterClient.getAllApprovedVillagesElementsCount(page);
             }
         }
-        /*boolean status = true;
-        String date = null;*/
-        List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(villages);
+        boolean status = true;
+        String date = null;
+        //List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(villages);
         System.out.println("????????????????" + villages.get(villages.size() - 1).getImages());
-        return villageDTOS;
-        /*getImagesForVillages(villages,status,date);*/
+        // return villageDTOS;
+        getImagesForVillages(villages, status, date);
 
-        /*return villages;*/
+        return villages;
     }
 
 
@@ -223,22 +221,22 @@ public class FilterController {
                 resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
             }
         }
-        /*boolean status = true;
+        boolean status = true;
         String date = null;
-        getImagesForVillages(villageDTOs,status,date);*/
-        return villageImageService.getVillagesWithImages(villageDTOs);
+        getImagesForVillages(villageDTOs,status,date);
+        //return //villageImageService.getVillagesWithImages(villageDTOs);
+        return villageDTOs;
     }
 
 
-    /*private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
+    private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
         if (villages != null) {
             for (VillageDTO village : villages) {
                 List<String> images = villageImageClient.getAllImagesForVillage(village.getId(), status, date).getBody();
                 village.setImages(images);
             }
         }
-    }*/
-
+    }
 
     @GetMapping("/change/{page}/{totalElements}")
     public String changePage(@PathVariable("page") int page, @PathVariable("totalElements") int totalElements, HttpServletRequest request) {
