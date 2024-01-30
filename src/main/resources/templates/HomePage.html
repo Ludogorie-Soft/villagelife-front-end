@@ -190,7 +190,7 @@
 function updatePageValue(event) {
     if (event.key === 'Enter') {
         var currentPageInput = document.getElementById('currentPage');
-        if (currentPageInput.value >= 0 && currentPageInput.value < [[${pagesCount}]]) {
+        if (currentPageInput.value >= 0 && currentPageInput.value <= [[${pagesCount}]]) {
             var newPageValue = currentPageInput.value - 1;
             if (newPageValue >= 0) {
                 var currentURL = window.location.href;
