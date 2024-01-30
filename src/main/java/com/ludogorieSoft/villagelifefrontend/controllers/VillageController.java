@@ -7,6 +7,7 @@ import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
+import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.UUID.randomUUID;
 
 
 @Controller
@@ -54,6 +52,7 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
+    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
    // private final VillageImageService villageImageService;
 
     /*@GetMapping("/home-page/{page}")
@@ -242,9 +241,9 @@ public class VillageController {
         return getAddVillagePage(addVillageFormResult, model);
     }
     @PostMapping("/save")
-    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws ImageMaxUploadSizeExceededException {
         //addVillageFormValidator.validate(addVillageFormResult, bindingResult);
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return getAddVillagePage(addVillageFormResult, model);
         }
         List<byte[]> imageBytes = new ArrayList<>();
@@ -253,6 +252,7 @@ public class VillageController {
             if(bindingResult.hasErrors()){
                 return getAddVillagePage(addVillageFormResult, model);
             }
+            hasExceededFileSize(images);
             convertImagesToBytes(images, imageBytes);
         }
         addVillageFormResult.setImageBytes(imageBytes);
@@ -260,6 +260,15 @@ public class VillageController {
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
         return "redirect:/villages/home-page";
     }
+    private void hasExceededFileSize(List<MultipartFile> images) throws ImageMaxUploadSizeExceededException {
+        long totalSize = images.stream()
+                .mapToLong(MultipartFile::getSize)
+                .sum();
+        if( totalSize > VillageController.MAX_FILE_SIZE){
+            throw new ImageMaxUploadSizeExceededException("File size should not exceed 10 MB");
+        }
+    }
+
     private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
         addAllListsWithOptions(model);
         model.addAttribute("addVillageFormResult", addVillageFormResult);

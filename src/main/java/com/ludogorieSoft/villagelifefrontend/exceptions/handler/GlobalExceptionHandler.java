@@ -1,6 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.exceptions.handler;
 
 import com.ludogorieSoft.villagelifefrontend.exceptions.*;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +36,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", ex.getMessage());
         return new ModelAndView("redirect:/auth/register");
+    }
+    @ExceptionHandler(ImageMaxUploadSizeExceededException.class)
+    public ModelAndView handleImageMaxUploadSizeExceededException(ImageMaxUploadSizeExceededException ex, Model model) {
+        model.addAttribute("errorMessage", "File size should not exceed 10 MB.");
+        return new ModelAndView("/admin_templates/error");
     }
 }
 
