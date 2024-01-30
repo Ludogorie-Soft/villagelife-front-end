@@ -242,13 +242,13 @@ public class VillageController {
     }
     @PostMapping("/save")
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws ImageMaxUploadSizeExceededException {
-        //addVillageFormValidator.validate(addVillageFormResult, bindingResult);
+        addVillageFormValidator.validate(addVillageFormResult, bindingResult);
         if (bindingResult.hasErrors()) {
             return getAddVillagePage(addVillageFormResult, model);
         }
         List<byte[]> imageBytes = new ArrayList<>();
         if (images.get(0).getSize() > 0) {
-            //userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
+            userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
             if(bindingResult.hasErrors()){
                 return getAddVillagePage(addVillageFormResult, model);
             }
