@@ -28,7 +28,6 @@ public class FilterController {
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static Long resultCount = 0L;
-    //private final VillageImageService villageImageService;
 
     @GetMapping("/all/{page}")
     public String findAll(
@@ -72,11 +71,9 @@ public class FilterController {
         if (region != null && !region.isEmpty()) {
             if (keyword != null && !keyword.isEmpty()) {
                 villages = filterClient.getVillageByNameAndRegion(page, region, keyword, sort);
-                System.out.println("!!!!!!!!!!!!!!!!!" + villages.get(villages.size() - 1).getImages());
                 resultCount = filterClient.getVillageByNameAndRegionElementsCount(page, region, keyword);
             } else {
                 villages = filterClient.getVillageByRegion(page, region, sort);
-                System.out.println("!!!!!!!!!!!!!!!!!" + villages.get(villages.size() - 1).getImages());
                 resultCount = filterClient.getVillageByRegionElementsCount(page, region);
             }
         } else {
@@ -90,9 +87,7 @@ public class FilterController {
         }
         boolean status = true;
         String date = null;
-        //List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(villages);
-        System.out.println("????????????????" + villages.get(villages.size() - 1).getImages());
-        // return villageDTOS;
+
         getImagesForVillages(villages, status, date);
 
         return villages;
@@ -224,7 +219,6 @@ public class FilterController {
         boolean status = true;
         String date = null;
         getImagesForVillages(villageDTOs,status,date);
-        //return //villageImageService.getVillagesWithImages(villageDTOs);
         return villageDTOs;
     }
 
@@ -243,7 +237,6 @@ public class FilterController {
         int totalPages = (totalElements + 6 - 1) / 6;
         String referer = request.getHeader("referer");
         if (page < totalPages && page >= 0) {
-            System.out.println("1111111111");
             int lastSlashIndex = referer.lastIndexOf('/');
             int lastQuestionMarkIndex = referer.lastIndexOf('?');
             String baseRedirectUrl = referer.substring(0, lastSlashIndex + 1);
@@ -252,7 +245,6 @@ public class FilterController {
             String newRedirectUrl = baseRedirectUrl + page + queryString;
             return "redirect:" + newRedirectUrl;
         }
-        System.out.println("222222222");
         return "redirect:" + referer;
     }
 }
