@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.SocketTimeoutException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -40,6 +42,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ImageMaxUploadSizeExceededException.class)
     public ModelAndView handleImageMaxUploadSizeExceededException(ImageMaxUploadSizeExceededException ex, Model model) {
         model.addAttribute("errorMessage", "File size should not exceed 10 MB.");
+        return new ModelAndView("/admin_templates/error");
+    }
+    @ExceptionHandler(SocketTimeoutException.class)
+    public ModelAndView handleSocketTimeoutException(Model model) {
+        model.addAttribute("errorMessage", "Files are still uploading.");
         return new ModelAndView("/admin_templates/error");
     }
 }
