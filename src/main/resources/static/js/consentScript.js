@@ -23,4 +23,3 @@ formFileMultiple.addEventListener('change', function() {
         emailInput.removeAttribute('minlength');
     }
 });
-;
