@@ -1,6 +1,9 @@
 package com.ludogorieSoft.villagelifefrontend.exceptions.handler;
 
 import com.ludogorieSoft.villagelifefrontend.exceptions.*;
+import com.ludogorieSoft.villagelifefrontend.slack.SlackMessage;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,7 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.net.SocketTimeoutException;
 
 @RestControllerAdvice
+@AllArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    private SlackMessage slackMessage;
+
+    @ExceptionHandler(Exception.class)
+    public void alertSlackChannelWhenUnhandledExceptionOccurs(Exception ex) {
+        slackMessage.publishMessage("villagelife-notifications",
+                "Error occured from the frontend application ->" + ex.getMessage());
+    }
 
     @ExceptionHandler(NoConsentException.class)
     public ModelAndView handleNoConsentException(NoConsentException ex, RedirectAttributes redirectAttributes) {
