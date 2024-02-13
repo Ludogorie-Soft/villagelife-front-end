@@ -4,9 +4,12 @@ import com.ludogorieSoft.villagelifefrontend.exceptions.*;
 import com.ludogorieSoft.villagelifefrontend.slack.SlackMessage;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -65,6 +68,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ModelAndView handleSocketTimeoutException(Model model) {
         model.addAttribute("errorMessage", "Files are still uploading.");
         return new ModelAndView("/admin_templates/error");
+    }
+    @ExceptionHandler(UsernamePasswordException.class)
+    public ModelAndView handleUsernamePasswordException(UsernamePasswordException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("message", ex.getMessage());
+        return new ModelAndView("redirect:/auth/login");
     }
 }
 
