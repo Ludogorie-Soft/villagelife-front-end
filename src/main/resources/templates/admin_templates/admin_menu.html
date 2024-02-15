@@ -40,6 +40,7 @@
                 <th>Област</th>
                 <th>Дата на добавяне</th>
                 <th>Одобрено</th>
+                <th>Брой снимки</th>
                 <th>Име на администратор</th>
                 <th>Дата на обобрение</th>
                 <th>Дата на подадени отговори</th>
@@ -55,6 +56,7 @@
                 <td th:text="${village.region.regionName}"></td>
                 <td th:text="${village.dateUpload != null ? #temporals.format(village.dateUpload, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
                 <td th:text="${village.status ? 'Да' : 'Не'}"></td>
+                <td th:text="${village.imagesCount}"></td>
                 <td th:if="${village.admin != null}" th:text="${village.admin.fullName}"></td>
                 <td th:if="${village.admin == null}">******</td>
                 <td th:text="${village.dateApproved != null ? #temporals.format(village.dateApproved, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
