@@ -33,6 +33,25 @@
         <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
 
     </div>
+    <span th:text="#{lang.change}"></span>
+    <select id="locales">
+        <option value=""></option>
+        <option value="en" th:text="#{lang.eng}"></option>
+        <option value="de" th:text="#{lang.de}"></option>
+        <option value="bg" th:text="#{lang.bg}"></option>
+    </select>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $("#locales").change(function () {
+        var selectedOption = $('#locales').val();
+        if (selectedOption != ''){
+            window.location.replace('about-us?lang=' + selectedOption);
+        }
+    });
+});
+</script>
 </div>
 
 <div th:fragment="footer">
