@@ -54,14 +54,14 @@
     </div>
 
     <div class="video-overlay">
-        <h1>Открий най-подходящото село!</h1>
+        <h1 th:text="#{find.village}"></h1>
 
         <div class="search-bar-row">
             <form th:action="@{/filter/all/0}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
                 <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
                         <select name="region" class="form-select fixed-width" id="regionName">
-                            <option value="" selected disabled style="text-align: left;">Избери област</option>
+                            <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
                             <option th:each="region : ${regions}" th:value="${region.regionName}"
                                     th:text="${region.regionName}"></option>
                         </select>
@@ -73,8 +73,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </label>
                         <input type="text" name="keyword" id="search-input" class="form-control form-control-sm"
-                               placeholder="Търси по име на село">
-                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене
+                               th:placeholder="#{placeholder.search}">
+                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;" th:text="#{searching}">
                         </button>
                     </div>
                 </div>
@@ -82,27 +82,17 @@
             <div class="filter-button-container mt-2">
                 <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
-                    <i class="fas fa-filter"></i> Филтър за разширено търсене
+                    <i class="fas fa-filter"></i><span  th:text="#{filter.search}"></span>
                 </button>
             </div>
         </div>
         <div class="mt-4">
-            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;">
-                Village Life е платформа, която предоставя
-                информация за условията на живот в
-                българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
-                избор
-                на
-                село за заселване.</p>
+            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;" th:text="#{platform}"></p>
         </div>
     </div>
 </div>
 <div id="village-life-text-container">
-    <p id="village-life-text"> Village Life е платформа, която предоставя информация за условията на живот в
-        българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
-        избор
-        на
-        село за заселване.</p>
+    <p id="village-life-text"></p>
 </div>
 
 <div id="modalContainer"></div>
@@ -143,7 +133,7 @@
             <div>
                 <a th:href="@{/villages/home-page/{page}(page=${page >= 1 ? page - 1 : 0})}">
                     <button id="prev" class="btn">
-                        <i class="fas fa-chevron-left"></i> Предишна
+                        <i class="fas fa-chevron-left"></i><span  th:text="#{previous.page}"></span>
                     </button>
                 </a>
             </div>
@@ -159,7 +149,7 @@
             <div>
                 <a th:href="@{/villages/home-page/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
                     <button id="next" class="btn">
-                        Следваща <i class="fas fa-chevron-right"></i>
+                     <span  th:text="#{next.page}"></span>  <i class="fas fa-chevron-right"></i>
                     </button>
                 </a>
             </div>

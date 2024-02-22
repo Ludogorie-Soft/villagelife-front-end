@@ -30,19 +30,8 @@
     <div>
 <!--        <h5>За нас</h5>-->
         <h5 th:text="#{aboutUs.title}"></h5>
-        <p class="card-text text-secondary" >Мисията нa Village Life е да спомогне за възраждането на българското
-            село
-            чрез
-            предоставяне на информация за условията на живот в селата и различни услуги
-            в/около тях, като по този начин улесни хората живеещи или възнамеряващи да
-            живеят на село.</p>
-        <p class="card-text text-secondary">Зад проекта седят ентусиасти, за които българското село, корени и
-            традиции
-            имат
-            своето място в модерния начин на живот. Радостни сме от факта, че все повече хора
-            обмислят да се върнат в селата, което ни вдъхнови да създадем Village Life. Екипът
-            е отворен към всякакви предложения за развитие на платформата, така че да стане
-            по-полезна за посетителите й.</p><br><br>
+        <p class="card-text text-secondary" th:text="#{mission}"></p>
+        <p class="card-text text-secondary" th:text="#{еnthusiast}"></p><br><br>
 
         <div class="row">
 
@@ -51,12 +40,10 @@
                     <img th:src="@{/images/ivo.jpg}" alt="Ivo" src="" class="image">
                     <div class="overlay">
                         <div class="new-text">
-                            <h5>Ивайло Вътовски</h5>
-                            <div>Инициатор и Основател</div>
+                            <h5 th:text="#{ivailo.name}"></h5>
+                            <div th:text="#{ivailo.initiator}"></div>
                             <br>
-                            <div>Професионално се занимава с маркетинг и иновации. В свободното си време обича да
-                                спортува,
-                                чете и размишлява върху различно социални въпроси.
+                            <div th:text="#{ivailo.hobby}">
                             </div>
                             <br>
                             <a href="https://www.facebook.com/ivaylo.vatovski" target="_blank">
@@ -69,8 +56,8 @@
                         </div>
                     </div>
                     <span class="image-text">
-                        <h5>Ивайло Вътовски</h5>
-                        <div>Инициатор и Основател</div>
+                        <h5 th:text="#{ivailo.name}"></h5>
+                        <div th:text="#{ivailo.initiator}"></div>
                     </span>
                 </div>
             </div>
@@ -81,15 +68,10 @@
                     <div class="overlay">
                         <div class="new-text">
                             <a href="https://www.paveltashev.com/" target="_blank">
-                                <h5>Павел Ташев</h5>
-                                <div>Технически ръководител</div>
+                                <h5 th:text="#{pavel.name}"></h5>
+                                <div th:text="#{pavel.tech}"></div>
                                 <br>
-                                <div>Специалист в разработването на уеб приложения. Опит в стартирането на стартъп-и
-                                    -
-                                    Schoodle, QRL, Peoplegogo i
-                                    EasyМail. Основател на софтуерна компания DeepSource. В свободното си време -
-                                    диша
-                                    живее.
+                                <div th:text="#{pavel.hobby}">
                                 </div>
                                 <a href="https://www.linkedin.com/in/paveltashev" target="_blank">
                                     <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
@@ -98,8 +80,8 @@
                         </div>
                     </div>
                     <span class="image-text">
-                        <h5>Павел Ташев</h5>
-                        <div>Технически ръководител</div>
+                        <h5 th:text="#{pavel.name}"></h5>
+                        <div th:text="#{pavel.tech}"></div>
                     </span>
                 </div>
             </div>
@@ -110,17 +92,16 @@
                     <div class="overlay">
                         <div class="new-text">
                             <a href="/villages/contacts">
-                                <h5>Искаш да помогнеш?</h5><br>
-                                <div>Ти си специалист, който с уменията си има желание да помогне за развитието нa
-                                    VillageLife?
+                                <h5 ></h5><br>
+                                <div th:text="#{specialist}">
                                 </div>
                                 <br>
-                                <p class="green-text">Пишете ни!</p>
+                                <p class="green-text" th:text="#{text.as}"></p>
                             </a>
                         </div>
                     </div>
                     <span class="image-text">
-                        <div>Искаш да помогнеш?</div>
+                        <div th:text="#{help}"></div>
                     </span>
                 </div>
             </div>
