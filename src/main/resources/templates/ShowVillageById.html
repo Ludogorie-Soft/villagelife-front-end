@@ -75,19 +75,20 @@
 
     <div class="row">
 
-        <p style="color: #B5B5B5; margin-top: 20px">
-            Предоставената информация е ориентировъчна и с относителна достоверност<span th:text="${admin == null ? ', на базата на ' + villageInfo.villageDTO.approvedResponsesCount + ' отговор' + (villageInfo.villageDTO.approvedResponsesCount == 1 ? '' : 'а') : ''}"></span>.
+        <p style="color: #B5B5B5; margin-top: 20px" ><span th:text="#{info.count}"></span>
+            <span th:text="${admin == null ? ', на базата на ' + villageInfo.villageDTO.approvedResponsesCount + ' отговор' + (villageInfo.villageDTO.approvedResponsesCount == 1 ? '' : 'а') : ''}"></span>.
         </p>
+
 
 
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">
-            <h3 class="section-title">Обща информация</h3>
+            <h3 class="section-title" th:text="#{general.info}"></h3>
             <div class="row">
                 <hr>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div th:text="${villageInfo.populationDTO.populationCount}" class="village-info"></div>
-                    <div class="info-title">Население</div>
+                    <div class="info-title" th:text="#{population.count}"></div>
                 </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-6" th:each="condition : ${villageInfo.livingConditionResponses}"
@@ -107,7 +108,7 @@
         <section class="population">
             <h3 class="section-title">
                 <img th:src="@{/images/crowd.png}" alt="distance" class="object-icon">
-                <span>Население</span>
+                <span th:text="#{population.count}"></span>
             </h3>
             <div class="row">
                 <hr>
@@ -115,7 +116,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title col">Население: </span>
+                                <span class="info-title col" th:text="#{population.colon}"></span>
                                 <span th:text="${villageInfo.populationDTO.populationCount}" class="village-info col"></span>
                                 <hr>
                             </div>
@@ -126,7 +127,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title col">Деца: </span>
+                                <span class="info-title col" th:text="#{children.colon}"></span>
                                 <span th:text="${villageInfo.populationDTO.children.name}" class="village-info col"></span>
                                 <hr>
                             </div>
@@ -140,7 +141,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title col">Под 50г.: </span>
+                                <span class="info-title col" th:text="#{under.fifty}"></span>
                                 <span th:text="${villageInfo.populationDTO.residents.name}" class="village-info col"></span>
                                 <hr>
                             </div>
@@ -151,7 +152,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title col">Чужденци: </span>
+                                <span class="info-title col" th:text="#{foreigners}"></span>
                                 <span th:text="${villageInfo.populationDTO.foreigners.name}" class="village-info col"></span>
                                 <hr>
                             </div>
@@ -166,7 +167,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="row">
-                                <span class="info-title col">Етнически състав: </span>
+                                <span class="info-title col" th:text="#{village.ethnicities}"></span>
                                 <span th:text="${villageInfo.ethnicities}" class="ethnicities village-info col"></span>
                                 <hr>
                             </div>
@@ -177,7 +178,7 @@
         </section>
 
         <section class="population-assertions" th:if="${not #lists.isEmpty(villageInfo.populationAssertionResponses)}">
-            <h3 class="section-title">Характеристики на населението</h3>
+            <h3 class="section-title" th:text="#{population.characteristics}"></h3>
             <div class="row">
                 <hr>
                 <div class="col-lg-6 col-md-6 col-sm-12" th:each="assertion : ${villageInfo.populationAssertionResponses}">
@@ -195,14 +196,14 @@
         </section>
 
         <section class="living-conditions">
-            <h3 class="section-title">Условия на живот</h3>
+            <h3 class="section-title" th:text="#{living.conditions}"></h3>
             <hr>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="row">
-                                <span class="info-title col">Категория/и на замята: </span>
+                                <span class="info-title col" th:text="#{ground.category}"></span>
                                 <span th:text="${villageInfo.groundCategories}" class="groundCategory village-info col"></span>
                                 <hr>
                             </div>
@@ -228,7 +229,7 @@
         <section class="question-answers"  th:if="${not #lists.isEmpty(villageInfo.answersQuestionResponses)}">
             <h3 class="section-title">
                 <img th:src="@{/images/answer.png}" alt="distance" class="object-icon">
-                <span> Повече информация</span>
+                <span th:text="#{more.info}"></span>
             </h3>
 
             <div class="accordion-container" th:each="answersQuestionResponse : ${villageInfo.answersQuestionResponses}">
@@ -243,7 +244,7 @@
         </section>
 
         <section class="objects" th:if="${not #lists.isEmpty(villageInfo.objectVillageResponses)}">
-            <h3 class="section-title">Обекти</h3>
+            <h3 class="section-title" th:text="#{objects}"></h3>
             <hr>
             <table  class="table">
                 <tbody>
@@ -288,17 +289,17 @@
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="name" value type="text" placeholder="Име" th:field="*{userName}" minlength="2" required>
+                            <input class="form-control-sm" name="name" value type="text" th:placeholder="#{contacts.nameLabel}" th:field="*{userName}" minlength="2" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="mobile" value type="text" placeholder="Телефон" th:field="*{mobile}" minlength="10" required>
+                            <input class="form-control-sm" name="mobile" value type="text" th:placeholder="#{phone}" th:field="*{mobile}" minlength="10" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></p>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email" placeholder="Имейл" th:field="*{email}" required>
+                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email" th:placeholder="#{contacts.emailPlaceholder}" th:field="*{email}" required>
                             <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         </div>
 
@@ -309,7 +310,7 @@
 
                         <div class="form-group">
                             <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>
-                                <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}">Избери тип</option>
+                                <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}" th:text="#{choose.type}"></option>
                                 <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
                             <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
@@ -318,10 +319,8 @@
                         <div class="form-group">
                             <label class="control-checkbox" for="privacy_policy_checkbox">
                                 <span class="custom-checkbox"></span>
-                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required>
-                                Изпращайки това съобщение аз се съгласявам с
-                                <a target="_blank" th:href="@{/villages/general-terms}">
-                                    Общите условия
+                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required th:text="#{send.message}">
+                                <a target="_blank" th:href="@{/villages/general-terms}" th:text="#{terms}">
                                 </a>
                             </label>
                         </div>
@@ -330,12 +329,10 @@
                         <div class="form_messages"></div>
 
                         <div class="button-container">
-                            <button type="submit" class="btn btn-secondary btn-half-width">
-                                Изпрати
+                            <button type="submit" class="btn btn-secondary btn-half-width" th:text="#{send.village}">
                             </button>
 
-                            <a href="tel:+359888393339" id="callBtn" class="btn btn-secondary-outlined btn-half-width">
-                                Обади се
+                            <a href="tel:+359888393339" id="callBtn" class="btn btn-secondary-outlined btn-half-width" th:text="#{call}">
                             </a>
                         </div>
                     </form>
