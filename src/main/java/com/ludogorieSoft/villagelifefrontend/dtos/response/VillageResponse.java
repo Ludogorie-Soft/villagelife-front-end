@@ -48,6 +48,7 @@ public class VillageResponse {
     private LocalDateTime dateApproved;
 
     Map<Long, List<String> > groupedAnswers;
+    private int imagesCount;
 
 
 

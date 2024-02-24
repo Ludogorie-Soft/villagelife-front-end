@@ -33,6 +33,29 @@
         <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
 
     </div>
+    <span th:text="#{lang.change}"></span>
+    <select id="locales">
+        <option value=""></option>
+        <option value="en" th:text="#{lang.eng}"></option>
+        <option value="de" th:text="#{lang.de}"></option>
+        <option value="bg" th:text="#{lang.bg}"></option>
+    </select>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $("#locales").change(function () {
+        var selectedOption = $('#locales').val();
+        if (selectedOption != ''){
+          var currentUrl = window.location.href;
+                currentUrl = currentUrl.replace(/(\?|\&)lang=[^&]+/, '');
+                currentUrl += (currentUrl.includes('?') ? '&' : '?') + 'lang=' + selectedOption;
+                window.location.replace(currentUrl);
+        }
+    });
+});
+
+    </script>
 </div>
 
 <div th:fragment="footer">
@@ -146,7 +169,8 @@
                                      style="width: 200px; height: auto;"></a></span>
 
 
-                            <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;" class="general-terms"> | Общи условия |</a>
+                            <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;"
+                               class="general-terms"> | Общи условия |</a>
                         </div>
                     </div>
                 </div>
@@ -158,11 +182,13 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
         <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo" style="width: 25px;">
+                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                     style="width: 25px;">
                 <strong class="me-auto">Village Life</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-subscription-body" th:text="${subscriptionMessage}" style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
+            <div class="toast-subscription-body" th:text="${subscriptionMessage}"
+                 style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
         </div>
     </div>
 

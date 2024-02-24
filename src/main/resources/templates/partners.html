@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Партньори - VillageLife</title>
+    <title th:text="#{partners.title}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
@@ -26,8 +26,8 @@
 <div class="container">
     <section class="text-center">
         <p>
-        <h1>Партньори</h1>
-        <div>Защо да подкрепите проекта?</div>
+        <h1 th:text="#{partners.heading}"></h1>
+        <div th:text="#{partners.subheading}"></div>
         </p>
     </section>
     <div class="row text-center">
@@ -35,8 +35,8 @@
             <div class="card text-center">
                 <p class="text-center"><img th:src="@{/images/people-arrows-svgrepo-com.png}" alt="Социална отговорност" class="icon"></p>
                 <div class="card-body">
-                    <h5 class="card-title">Социална отговорност</h5>
-                    <p class="card-text text-secondary">Подкрепяте хората да следват мечтите си в търсене на по-добри условия за живот на село.</p>
+                    <h5 class="card-title" th:text="#{partners.socialResponsibilityTitle}"></h5>
+                    <p class="card-text text-secondary" th:text="#{partners.socialResponsibilityText}"></p>
                 </div>
             </div>
         </section>
@@ -44,8 +44,8 @@
         <div class="card">
             <p class="text-center"><img th:src="@{/images/chat.png}" alt="Комуникация" class="icon"></p>
             <div class="card-body text-center">
-                <h5 class="card-title">Комуникация</h5>
-                <p class="card-text text-secondary">Възможност да позиционирате компанията ви по 7 различни начина през Village Life.</p>
+                <h5 class="card-title" th:text="#{partners.communicationTitle}"></h5>
+                <p class="card-text text-secondary" th:text="#{partners.communicationText}"></p>
             </div>
         </div>
         </section>
@@ -53,8 +53,8 @@
         <div class="card">
             <p class="text-center"><img th:src="@{/images/user-clock.png}" alt="Комуникация" class="icon-larger"></p>
             <div class="card-body text-center">
-                <h5 class="card-title">Клиенти</h5>
-                <p class="card-text text-secondary">Новодомците са едни от най-активните потребители на пазара.</p>
+                <h5 class="card-title" th:text="#{partners.customersTitle}"></h5>
+                <p class="card-text text-secondary" th:text="#{partners.customersText}"></p>
             </div>
         </div>
         </section>
@@ -62,13 +62,13 @@
         <div class="card">
             <p class="text-center"><img th:src="@{/images/present.png}" alt="Комуникация" class="icon"></p>
             <div class="card-body text-center">
-                <h5 class="card-title">Социална придобивка</h5>
-                <p class="card-text text-secondary">Вероятно и хора от вашия екип търсят имот на село. Те ще имат по-бърз и задълбочен достъп до информацията.</p>
+                <h5 class="card-title" th:text="#{partners.socialBenefitTitle}"></h5>
+                <p class="card-text text-secondary" th:text="#{partners.socialBenefitText}"></p>
             </div>
         </div>
         </section>
 
-    <p class="text-center"><a href="/villages/contacts" class="btn btn-success">Пишете ни!</a></p>
+    <p class="text-center"><a href="/villages/contacts" class="btn btn-success" th:text="#{partners.messageUs}"></a></p>
     </div>
 </div>
 
