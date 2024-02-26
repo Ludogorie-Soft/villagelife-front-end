@@ -30,26 +30,26 @@
         <form th:action="@{/filter/all/0}" method="get" class="search-bar-form d-flex align-items-center center-content">
 
         <select name="region" class="form-select me-2" id="regionName">
-            <option value="" selected disabled style="text-align: left;">Избери област</option>
+            <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
             <option th:each="region : ${regions}" th:value="${region.regionName}"
                     th:text="${region.regionName}"></option>
         </select>
         <div class="search-input-container">
             <div class="input-group">
                 <span class="input-group-text search-icon"><i class="fas fa-search"></i></span>
-                <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" placeholder="Търси по име на село"
+                <input type="text" id="myInput" name="keyword" onkeyup="myFunction()" th:placeholder="#{placeholder.search}"
                        class="search-field form-control"/>
             </div>
         </div>
         <div class="search-buttons">
-            <input class="btn btn-outline-secondary me-2" type="submit" value="Търси" id="searchButton"/>
-            <input class="btn btn-outline-secondary" type="button" value="Изчисти" onclick="clearFilter()"
+            <input class="btn btn-outline-secondary me-2" type="submit" th:value="#{search}" id="searchButton"/>
+            <input class="btn btn-outline-secondary" type="button" th:value="#{clear}" onclick="clearFilter()"
                    id="clearButton"/>
         </div>
     </form>
     <div class="filter-button-container mt-3 mt-sm-0">
         <button type="button" class="btn btn-light" style="margin-top: 10px;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="fas fa-filter"></i> Филтър за разширено търсене
+            <i class="fas fa-filter"></i><span th:text="#{filter.search}"></span>
         </button>
     </div>
 </div>
@@ -59,13 +59,13 @@
     <form th:action="@{/filter/all/0}" method="get">
         <input type="hidden" name="region" th:value="${region}"/>
         <input type="hidden" name="keyword" th:value="${keyword}"/>
-        <label for="sort" class="sort-label">Сортиране:</label>
+        <label for="sort" class="sort-label" th:text="#{sorting}"></label>
         <select id="sort" name="sort" onchange="handleSortChange()" class="sort-select">
-            <option value="default" th:selected="${sort == 'default'}">По подразбиране</option>
-            <option value="nameAsc" th:selected="${sort == 'nameAsc'}">Име (възходящо)</option>
-            <option value="nameDesc" th:selected="${sort == 'nameDesc'}">Име (низходящо)</option>
-            <option value="regionAsc" th:selected="${sort == 'regionAsc'}">Област (възходящо)</option>
-            <option value="regionDesc" th:selected="${sort == 'regionDesc'}">Област (низходящо)</option>
+            <option value="default" th:selected="${sort == 'default'}" th:text="#{byDefault}"></option>
+            <option value="nameAsc" th:selected="${sort == 'nameAsc'}" th:text="#{name.asc}"></option>
+            <option value="nameDesc" th:selected="${sort == 'nameDesc'}" th:text="#{name.desc}"></option>
+            <option value="regionAsc" th:selected="${sort == 'regionAsc'}" th:text="#{region.asc}"></option>
+            <option value="regionDesc" th:selected="${sort == 'regionDesc'}" th:text="#{region.desc}"></option>
         </select>
     </form>
 </div>
@@ -75,7 +75,7 @@
 
 
 <div class="search-results">
-    <h3>Резултати от търсенето</h3>
+    <h3 th:text="#{search.results}"></h3>
 
     <div th:if="${error}" class="error-message text-center">
         <p th:text="${#strings.toUpperCase(error)}"></p>
@@ -107,7 +107,7 @@
                                 <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
                                 <h6 th:text="'село '+ ${village.name} + ', област ' + ${village.region}"></h6>
                                 <br>
-                                <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info">Още</a>
+                                <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info" th:text="#{more}"></a>
                             </a>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
     <div>
         <a th:href="@{'/filter/change/'+ ${page - 1} +'/' + ${villageCount}}">
             <button id="prev" class="btn">
-                <i class="fas fa-chevron-left"></i> Предишна
+                <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}"></span>
             </button>
         </a>
     </div>
@@ -146,7 +146,7 @@
     <div>
         <a th:href="@{'/filter/change/'+ ${page + 1} +'/' + ${villageCount}}">
             <button id="next" class="btn">
-                Следваща <i class="fas fa-chevron-right"></i>
+               <span th:text="#{next.page}"></span>  <i class="fas fa-chevron-right"></i>
             </button>
         </a>
     </div>
