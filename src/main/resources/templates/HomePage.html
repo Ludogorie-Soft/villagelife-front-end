@@ -142,7 +142,7 @@
                 <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
                        onkeyup="updatePageValue(event)" style="width: 50px;">
 
-                от
+                <span th:text="#{from.page}"></span>
                 <span th:text="${pagesCount}"></span>
             </div>
 

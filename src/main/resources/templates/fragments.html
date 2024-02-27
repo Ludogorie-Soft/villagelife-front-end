@@ -69,8 +69,7 @@ $(document).ready(function() {
                             <div class="footer-widget widget widget-wrap widget-about-site">
                                 <div class="widget-body">
                                     <div class="widget-content">
-                                        <p style="color: #96c930;">Платформа за модерния човек, търсещ по-естествен и
-                                            природосъобразен начин на живот.</p>
+                                        <p style="color: #96c930;" th:text="#{platform}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +83,7 @@ $(document).ready(function() {
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
                                 <div class="widget-header">
-                                    <h2 class="widget-title">Свържи се с нас</h2>
+                                    <h2 class="widget-title" th:text="#{connect.as}"></h2>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-content">
@@ -92,8 +91,7 @@ $(document).ready(function() {
                                         <ul class="list-unstyled contact-list">
                                             <li><i class="fa-solid fa-map-location-dot"></i> <a
                                                     href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank"
-                                                    style="color: #96c930;">гр. София, бул. &bdquo;Гоце Делчев&rdquo;
-                                                100</a></li>
+                                                    style="color: #96c930;" th:text="#{contacts.address}"></a></li>
                                             <li><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
                                                                                      style="color: #96c930;">+359 (0)
                                                 888 393 339</a></li>
@@ -125,26 +123,25 @@ $(document).ready(function() {
                         </div>
                         <div class="col-lg-5 col-md-12 col-sm-6">
                             <div class="footer-widget widget widget-wrap widget-contact-us">
-                                <p style="color: #96c930; font-weight: 400;">Получавай известия за новите села в
-                                    платформата и новости за живота на село.</p>
+                                <p style="color: #96c930; font-weight: 400;" th:text="#{receive.messages}"></p>
                                 <div class="widget-body">
                                     <div class="widget-content">
                                         <p>
                                         <form action="/villages/subscription-save" method="post" id="subscription-form"
                                               th:object="${subscription}">
                                             <label for="email"
-                                                   style="display: block; text-align: left; color: black; font-weight: 500;">
-                                                Имейл
+                                                   style="display: block; text-align: left; color: black; font-weight: 500;" th:text="#{text.email}">
+
                                                 <span class="text-danger">*</span>
                                             </label>
 
                                             <div class="subscription-container">
                                                 <input type="email" id="email" name="email" th:field="*{email}"
                                                        class="form-control"
-                                                       placeholder="Въведете електронната си поща" required
+                                                       th:placeholder="#{enter.email}" required
                                                        style="text-align: left;">
-                                                <button type="submit" id="subscribe-btn" class="btn btn-subscribe">
-                                                    Абонирай ме!
+                                                <button type="submit" id="subscribe-btn" class="btn btn-subscribe" >
+                                                <span th:text="#{subscribe}"></span>
                                                 </button>
                                             </div>
                                         </form>
@@ -160,8 +157,9 @@ $(document).ready(function() {
             <div class="footer-bottom-wrap footer-bottom-wrap-v1">
                 <div class="container">
                     <div class="d-flex justify-content-center">
-                        <div class="footer-copyright">
-                            &copy; VillageLife - Всички права запазени. Разработка -
+                        <div class="footer-copyright" >&copy;
+                            <span th:text="#{all.rights}"></span>
+
 
                             <span><a href="https://ludogoriesoft.com/" target="_blank"
                                      style="color: #96c930; text-decoration: none;">
@@ -170,7 +168,7 @@ $(document).ready(function() {
 
 
                             <a th:href="@{/villages/general-terms}" style="text-decoration: none; color: black;"
-                               class="general-terms"> | Общи условия |</a>
+                               class="general-terms"><span th:text="#{general.terms.button}"></span></a>
                         </div>
                     </div>
                 </div>
