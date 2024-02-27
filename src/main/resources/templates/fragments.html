@@ -25,12 +25,11 @@
     </a>
 
     <div id="menu">
-        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
-        <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
-        <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
-        <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
-        <!--        <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>-->
-        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
+        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> <span th:text="#{header.homePage}"></span></a>
+        <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span th:text="#{header.partners}"></span></a>
+        <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span th:text="#{header.aboutUs}"></span></a>
+        <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> <span th:text="#{header.contacts}"></span></a>
+        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span th:text="#{header.addVillage}"></span></a>
 
     </div>
     <span th:text="#{lang.change}"></span>
@@ -205,16 +204,15 @@ $(document).ready(function() {
             <img th:src="@{/images/x-button.png}" alt="x">
         </a>
         <div class="nav-overlay-content">
-            <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> НАЧАЛО</a>
+            <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> <span th:text="#{header.homePage}"></span></a>
             <hr>
-            <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> ПАРТНЬОРИ</a>
+            <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span th:text="#{header.partners}"></span></a>
             <hr>
-            <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> ЗА НАС</a>
+            <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span th:text="#{header.aboutUs}"></span></a>
             <hr>
-            <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> КОНТАКТИ</a>
+            <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> <span th:text="#{header.contacts}"></span></a>
             <hr>
-            <!--            <a th:href="@{/villages/create}"> <i class="fa-solid fa-plus"></i> ДОБАВИ СЕЛО!</a>-->
-            <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> ДОБАВИ СЕЛО!</a>
+            <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span th:text="#{header.addVillage}"></span></a>
         </div>
     </div>
     <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>
