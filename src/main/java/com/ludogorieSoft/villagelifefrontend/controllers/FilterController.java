@@ -7,6 +7,9 @@ import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -138,7 +141,7 @@ public class FilterController {
     @GetMapping("/search/{page}")
     public String search(@ModelAttribute AdvancedSearchForm formResult,
                          @PathVariable("page") int page,
-                         @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
+                         @RequestParam(name = "sort", required = false, defaultValue = "name") String sort,
                          BindingResult bindingResult, Model model) {
 
         AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
@@ -155,8 +158,13 @@ public class FilterController {
 
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
         List<String> selectedLivingConditions = formResult.getLivingConditionDTOS();
-        String selectedChildrenCountResult = formResult.getChildren();
-        Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
+        String selectedChildrenEnum;
+        if (formResult.getChildren() != null) {
+            String selectedChildrenCountResult = formResult.getChildren();
+            selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult).toString();
+        } else {
+            selectedChildrenEnum = null;
+        }
 
         List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
         /*sortVillages(sort, villageDTOs);*/
@@ -164,7 +172,7 @@ public class FilterController {
         model.addAttribute("villages", villageDTOs);
         model.addAttribute("subscription", new SubscriptionDTO());
         displayAdvancedSearchResultMessage(model);
-
+        System.out.println(villageDTOs.size());
         return SEARCHING_FORM_VIEW;
     }
 
@@ -178,49 +186,69 @@ public class FilterController {
         }
     }
 
-
     private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
-                                            Children selectedChildrenEnum, String sort, int page) {
+                                            String selectedChildrenEnum, String sort, int page) {
         List<VillageDTO> villageDTOs;
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
 
-        if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
-            villageDTOs = filterClient.searchVillagesByCriteria(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
-            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
-        } else {
-            if (selectedObjects == null) {
-                if (selectedChildrenEnum == null) {
-                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions, sort);
-                    resultCount = filterClient.searchVillagesByLivingConditionElementsCount(page, selectedLivingConditions);
-                } else {
-                    if (selectedLivingConditions == null) {
-                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name(), sort);
-                        resultCount = filterClient.searchVillagesByChildrenCountElementsCount(page, selectedChildrenEnum.name());
-                    } else {
-                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name(), sort);
-                        resultCount = filterClient.searchVillagesByLivingConditionAndChildrenElementsCount(page, selectedLivingConditions, selectedChildrenEnum.name());
-                    }
-                }
-            } else if (selectedChildrenEnum == null) {
-                if (selectedLivingConditions == null) {
-                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects, sort);
-                    resultCount = filterClient.searchVillagesByObjectElementsCount(page, selectedObjects);
-                } else {
-                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions, sort);
-                    resultCount = filterClient.searchVillagesByObjectAndLivingConditionElementsCount(page, selectedObjects, selectedLivingConditions);
-                }
-            } else {
-                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name(), sort);
-                resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
-            }
-        }
+        String[] sortParams = sort.split(",");
+        String sortBy = sortParams[0];
+        String sortDir = sortParams.length > 1 ? sortParams[1] : "asc";
+        Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
+
+
+        villageDTOs = filterClient.searchVillagesByCriteria("", "", selectedObjects, selectedLivingConditions, selectedChildrenEnum, pageable);
         boolean status = true;
         String date = null;
-        getImagesForVillages(villageDTOs,status,date);
+        getImagesForVillages(villageDTOs, status, date);
         return villageDTOs;
     }
+
+
+//    private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
+//                                            Children selectedChildrenEnum, String sort, int page) {
+//        List<VillageDTO> villageDTOs;
+//        model.addAttribute("selectedObjects", selectedObjects);
+//        model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
+//        model.addAttribute("selectedLivingConditions", selectedLivingConditions);
+//
+//        if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
+//            villageDTOs = filterClient.searchVillagesByCriteria(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+//            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
+//        } else {
+//            if (selectedObjects == null) {
+//                if (selectedChildrenEnum == null) {
+//                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions, sort);
+//                    resultCount = filterClient.searchVillagesByLivingConditionElementsCount(page, selectedLivingConditions);
+//                } else {
+//                    if (selectedLivingConditions == null) {
+//                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name(), sort);
+//                        resultCount = filterClient.searchVillagesByChildrenCountElementsCount(page, selectedChildrenEnum.name());
+//                    } else {
+//                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+//                        resultCount = filterClient.searchVillagesByLivingConditionAndChildrenElementsCount(page, selectedLivingConditions, selectedChildrenEnum.name());
+//                    }
+//                }
+//            } else if (selectedChildrenEnum == null) {
+//                if (selectedLivingConditions == null) {
+//                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects, sort);
+//                    resultCount = filterClient.searchVillagesByObjectElementsCount(page, selectedObjects);
+//                } else {
+//                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions, sort);
+//                    resultCount = filterClient.searchVillagesByObjectAndLivingConditionElementsCount(page, selectedObjects, selectedLivingConditions);
+//                }
+//            } else {
+//                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name(), sort);
+//                resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
+//            }
+//        }
+//        boolean status = true;
+//        String date = null;
+//        getImagesForVillages(villageDTOs,status,date);
+//        return villageDTOs;
+//    }
 
 
     private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {

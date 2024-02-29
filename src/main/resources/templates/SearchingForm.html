@@ -61,11 +61,13 @@
         <input type="hidden" name="keyword" th:value="${keyword}"/>
         <label for="sort" class="sort-label" th:text="#{sorting}"></label>
         <select id="sort" name="sort" onchange="handleSortChange()" class="sort-select">
+<!--
             <option value="default" th:selected="${sort == 'default'}" th:text="#{byDefault}"></option>
-            <option value="nameAsc" th:selected="${sort == 'nameAsc'}" th:text="#{name.asc}"></option>
-            <option value="nameDesc" th:selected="${sort == 'nameDesc'}" th:text="#{name.desc}"></option>
-            <option value="regionAsc" th:selected="${sort == 'regionAsc'}" th:text="#{region.asc}"></option>
-            <option value="regionDesc" th:selected="${sort == 'regionDesc'}" th:text="#{region.desc}"></option>
+-->
+            <option value="name,asc" th:selected="${sort == 'name,asc'}" th:text="#{name.asc}"></option>
+            <option value="name,desc" th:selected="${sort == 'name,desc'}" th:text="#{name.desc}"></option>
+            <option value="region,asc" th:selected="${sort == 'region,asc'}" th:text="#{region.asc}"></option>
+            <option value="region,desc" th:selected="${sort == 'region,desc'}" th:text="#{region.desc}"></option>
         </select>
     </form>
 </div>
