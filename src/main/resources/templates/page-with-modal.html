@@ -19,7 +19,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Разширено търсене</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel" th:text="#{advanced.search}"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -27,7 +27,7 @@
 
 
                     <section>
-                        <p class="fw-bold">Избери обект/и в селото:</p>
+                        <p class="fw-bold" th:text="#{choose.objects}"></p>
                         <table class="table table-hover">
                             <tbody>
                             <tr th:each="object : ${objectsAroundVillage}">
@@ -46,10 +46,10 @@
 
 
                         <section>
-                            <label for="children" class="fw-bold">Избери брой на деца (до 14г.) в селото:</label>
+                            <label for="children" class="fw-bold" th:text="#{choose.children}"></label>
                             <div class="d-flex">
                                 <select id="children" name="children" class="form-select flex-grow-1">
-                                    <option value="" disabled selected>Избери опция</option>
+                                    <option value="" disabled selected th:text="#{choose.option}"></option>
                                     <option th:each="child : ${childrenValues}" th:value="${child['valueAsNumber']}"
                                             th:text="${child['name']}"></option>
                                 </select>
@@ -60,7 +60,7 @@
                         &nbsp;
 
                     <section>
-                        <p class="fw-bold">Избери условие/я на живот:</p>
+                        <p class="fw-bold" th:text="#{choose.living.conditions}"></p>
                         <div class="form-check" th:each="livingCondition : ${livingConditions}">
                             <input class="form-check-input" type="checkbox"
                                    th:id="'livingCondition-' + ${livingCondition.id}"
@@ -72,8 +72,8 @@
 
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
-                        <button type="submit" class="btn btn-primary" onclick="submitSearchForm()">Търси</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{shut}"></button>
+                        <button type="submit" class="btn btn-primary" onclick="submitSearchForm()" th:text="#{search}"></button>
                     </div>
 
 
