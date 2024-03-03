@@ -1,10 +1,10 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
+import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,17 +36,9 @@ public interface FilterClient {
     @GetMapping("/searchAll/{page}/elementsCount")
     Long getVillageByNameAndRegionElementsCount(@PathVariable("page") int page, @RequestParam String region, @RequestParam String keyword);
 
-    //    @GetMapping("/searchVillages/{page}")
-//    List<VillageDTO> searchVillagesByCriteria(
-//            @PathVariable("page") int page,
-//            @RequestParam("objectAroundVillageDTOS") List<String> objectAroundVillageDTOS,
-//            @RequestParam("livingConditionDTOS") List<String> livingConditionDTOS,
-//            @RequestParam("children") String children,
-//            @RequestParam(required = false) String sort);
-
 
     @GetMapping("/searchVillages/{page}")
-    List<VillageDTO> searchVillagesByCriteria(
+    PageableResponse<VillageDTO> searchVillagesByCriteria(
             @RequestParam(value = "region", required = false) String region,
             @RequestParam(value = "name", required = false) String villageName,
             @RequestParam(value = "objectAroundVillageDTOS", required = false) List<String> objectAroundVillageDTOS,

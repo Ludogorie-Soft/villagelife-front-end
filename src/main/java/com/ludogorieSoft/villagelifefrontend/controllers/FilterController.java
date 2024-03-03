@@ -1,12 +1,12 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchForm;
-import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchFormValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,93 +30,6 @@ public class FilterController {
     private final VillageImageClient villageImageClient;
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
-    private static Long resultCount = 0L;
-
-    @GetMapping("/all/{page}")
-    public String findAll(
-            @PathVariable("page") int page,
-            @RequestParam(name = "region", required = false) String region,
-            @RequestParam(name = "keyword", required = false) String keyword,
-            @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
-            Model model) {
-        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-        model.addAttribute("regions", regionDTOS);
-
-        List<VillageDTO> villages;
-
-        villages = fetchVillageDTOsWithImages(region, keyword, sort, page);
-        /*sortVillages(sort, villages);*/
-
-        model.addAttribute("villageCount", resultCount);
-        model.addAttribute("villages", villages);
-        model.addAttribute("sort", sort);
-        model.addAttribute("subscription", new SubscriptionDTO());
-        displaySearchResultsMessage(region, keyword, model, resultCount);
-        return SEARCHING_FORM_VIEW;
-    }
-
-
-    /*private void sortVillages(String sort, List<VillageDTO> villages) {
-        if ("nameAsc".equals(sort)) {
-            villages.sort(Comparator.comparing(VillageDTO::getName));
-        } else if ("nameDesc".equals(sort)) {
-            villages.sort(Comparator.comparing(VillageDTO::getName).reversed());
-        } else if ("regionAsc".equals(sort)) {
-            villages.sort(Comparator.comparing(VillageDTO::getRegion).thenComparing(VillageDTO::getName));
-        } else if ("regionDesc".equals(sort)) {
-            villages.sort(Comparator.comparing(VillageDTO::getRegion).reversed().thenComparing(VillageDTO::getName));
-        }
-    }*/
-
-
-    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword, String sort, int page) {
-        List<VillageDTO> villages;
-        if (region != null && !region.isEmpty()) {
-            if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByNameAndRegion(page, region, keyword, sort);
-                resultCount = filterClient.getVillageByNameAndRegionElementsCount(page, region, keyword);
-            } else {
-                villages = filterClient.getVillageByRegion(page, region, sort);
-                resultCount = filterClient.getVillageByRegionElementsCount(page, region);
-            }
-        } else {
-            if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByName(page, keyword, sort);
-                resultCount = filterClient.getVillageByNameElementsCount(page, keyword);
-            } else {
-                villages = filterClient.getAllApprovedVillages(page, sort);
-                resultCount = filterClient.getAllApprovedVillagesElementsCount(page);
-            }
-        }
-        boolean status = true;
-        String date = null;
-
-        getImagesForVillages(villages, status, date);
-
-        return villages;
-    }
-
-
-    private static void displaySearchResultsMessage(String region, String keyword, Model model, Long resultCount) {
-        if (resultCount > 0) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати: " + resultCount);
-        } else {
-            if (region != null && !region.isEmpty()) {
-                if (keyword != null && !keyword.isEmpty()) {
-                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати за избраната област: " + region + " и село: " + keyword);
-                } else {
-                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати за избраната област: " + region);
-                }
-            } else {
-                if (keyword != null && !keyword.isEmpty()) {
-                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от вашето търсене за село: " + keyword);
-                } else {
-                    model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от търсенето.");
-                }
-            }
-        }
-    }
-
 
     @GetMapping("/advancedSearchModalForm")
     public String getPageWithModal(Model model) {
@@ -141,20 +54,20 @@ public class FilterController {
     @GetMapping("/search/{page}")
     public String search(@ModelAttribute AdvancedSearchForm formResult,
                          @PathVariable("page") int page,
+                         @RequestParam(name = "region", required = false) String region,
+                         @RequestParam(name = "keyword", required = false) String villageName,
                          @RequestParam(name = "sort", required = false, defaultValue = "name") String sort,
                          BindingResult bindingResult, Model model) {
+//        AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
+//        validator.validate(formResult, bindingResult);
 
-        AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
-        validator.validate(formResult, bindingResult);
-
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
             model.addAttribute("subscription", new SubscriptionDTO());
             return SEARCHING_FORM_VIEW;
         }
-
-        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-        model.addAttribute("regions", regionDTOS);
 
         List<String> selectedObjects = formResult.getObjectAroundVillageDTOS();
         List<String> selectedLivingConditions = formResult.getLivingConditionDTOS();
@@ -166,29 +79,30 @@ public class FilterController {
             selectedChildrenEnum = null;
         }
 
-        List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
-        /*sortVillages(sort, villageDTOs);*/
-
+        Page<VillageDTO> villageDTOs = getVillageDTOs(model,region, villageName, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
+        System.out.println("filter page size " + villageDTOs.getTotalPages());
+        System.out.println("filter total elements " + villageDTOs.getTotalElements());
+        model.addAttribute("sort", sort);
         model.addAttribute("villages", villageDTOs);
         model.addAttribute("subscription", new SubscriptionDTO());
-        displayAdvancedSearchResultMessage(model);
-        System.out.println(villageDTOs.size());
+        displayAdvancedSearchResultMessage(model, villageDTOs.getTotalElements(),villageDTOs.getTotalPages());
         return SEARCHING_FORM_VIEW;
     }
 
-    private static void displayAdvancedSearchResultMessage(Model model) {
+    private static void displayAdvancedSearchResultMessage(Model model, long resultCount, long pageSize) {
         model.addAttribute("villageCount", resultCount);
 
         if (resultCount > 0) {
             model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати от разширеното търсене: " + resultCount);
+            model.addAttribute("pageSize", pageSize);
         } else {
             model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от разширеното търсене!!!");
         }
     }
 
-    private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
+    private Page<VillageDTO> getVillageDTOs(Model model, String region, String villageName, List<String> selectedObjects, List<String> selectedLivingConditions,
                                             String selectedChildrenEnum, String sort, int page) {
-        List<VillageDTO> villageDTOs;
+        Page<VillageDTO> villageDTOs;
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
@@ -199,57 +113,12 @@ public class FilterController {
         Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
 
 
-        villageDTOs = filterClient.searchVillagesByCriteria("", "", selectedObjects, selectedLivingConditions, selectedChildrenEnum, pageable);
+        villageDTOs = filterClient.searchVillagesByCriteria(region, villageName, selectedObjects, selectedLivingConditions, selectedChildrenEnum, pageable);
         boolean status = true;
         String date = null;
-        getImagesForVillages(villageDTOs, status, date);
+        getImagesForVillages(villageDTOs.toList(), status, date);
         return villageDTOs;
     }
-
-
-//    private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
-//                                            Children selectedChildrenEnum, String sort, int page) {
-//        List<VillageDTO> villageDTOs;
-//        model.addAttribute("selectedObjects", selectedObjects);
-//        model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
-//        model.addAttribute("selectedLivingConditions", selectedLivingConditions);
-//
-//        if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
-//            villageDTOs = filterClient.searchVillagesByCriteria(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
-//            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
-//        } else {
-//            if (selectedObjects == null) {
-//                if (selectedChildrenEnum == null) {
-//                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions, sort);
-//                    resultCount = filterClient.searchVillagesByLivingConditionElementsCount(page, selectedLivingConditions);
-//                } else {
-//                    if (selectedLivingConditions == null) {
-//                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name(), sort);
-//                        resultCount = filterClient.searchVillagesByChildrenCountElementsCount(page, selectedChildrenEnum.name());
-//                    } else {
-//                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name(), sort);
-//                        resultCount = filterClient.searchVillagesByLivingConditionAndChildrenElementsCount(page, selectedLivingConditions, selectedChildrenEnum.name());
-//                    }
-//                }
-//            } else if (selectedChildrenEnum == null) {
-//                if (selectedLivingConditions == null) {
-//                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects, sort);
-//                    resultCount = filterClient.searchVillagesByObjectElementsCount(page, selectedObjects);
-//                } else {
-//                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions, sort);
-//                    resultCount = filterClient.searchVillagesByObjectAndLivingConditionElementsCount(page, selectedObjects, selectedLivingConditions);
-//                }
-//            } else {
-//                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name(), sort);
-//                resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
-//            }
-//        }
-//        boolean status = true;
-//        String date = null;
-//        getImagesForVillages(villageDTOs,status,date);
-//        return villageDTOs;
-//    }
-
 
     private void getImagesForVillages(List<VillageDTO> villages, boolean status, String date) {
         if (villages != null) {
