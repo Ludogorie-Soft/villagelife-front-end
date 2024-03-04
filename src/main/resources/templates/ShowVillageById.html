@@ -75,11 +75,9 @@
 
     <div class="row">
 
-        <p style="color: #B5B5B5; margin-top: 20px" ><span th:text="#{info.count}"></span>
-            <span th:text="${admin == null ? ', на базата на ' + villageInfo.villageDTO.approvedResponsesCount + ' отговор' + (villageInfo.villageDTO.approvedResponsesCount == 1 ? '' : 'а') : ''}"></span>.
+        <p style="color: #B5B5B5; margin-top: 20px">
+            <span th:text="#{info.count1}"></span><span th:if="${admin == null}" style="padding: 0px; margin: 0px;"><span th:text="#{info.count2}" style="padding: 0px; margin: 0px;"></span> <span th:text="${villageInfo.villageDTO.approvedResponsesCount}" style="padding: 0px; margin: 0px;"></span> <span th:text="#{info.count3}" style="padding: 0px; margin: 0px;"></span><span th:if="${villageInfo.villageDTO.approvedResponsesCount != 1}" style="padding: 0px; margin: 0px;"><span th:text="#{info.count4}" style="padding: 0px; margin: 0px;"></span></span>.</span>
         </p>
-
-
 
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">

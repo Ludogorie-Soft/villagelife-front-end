@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap">
 
-    <title>Начало - VillageLife</title>
+    <title th:text="#{homePage.title}"></title>
 
     <link rel="stylesheet" href="/css/homePage.css">
     <link rel="stylesheet" href="/css/menuStyle.css">
@@ -120,7 +120,6 @@
         </div>
     </div>
     <div class="card-actions">
-        <!--<span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span><br>-->
         <div class="text-center pagination">
             <div>
                 <a th:href="@{/villages/home-page}">
@@ -142,7 +141,7 @@
                 <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
                        onkeyup="updatePageValue(event)" style="width: 50px;">
 
-                от
+                <span th:text="#{from.page}"></span>
                 <span th:text="${pagesCount}"></span>
             </div>
 

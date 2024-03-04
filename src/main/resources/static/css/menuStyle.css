@@ -325,3 +325,43 @@
             align-self: flex-start;
         }
     }
+
+    .selected-option{
+        padding: 5px;
+    }
+
+    .custom-select {
+      position: relative;
+      user-select: none;
+      width: auto;
+      padding: 5px;
+      border: 1px solid #96c930;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 6px;
+    }
+
+    .options-container {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: white;
+      border: 1px solid #ccc;
+    }
+
+    .option {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background-color: #f2f2f2;
+    }
+
+    .flag_image {
+      width: 25px;
+      height: auto;
+      margin-right: 10px;
+    }
+

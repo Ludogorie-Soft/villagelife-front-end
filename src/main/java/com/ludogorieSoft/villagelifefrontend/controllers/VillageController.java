@@ -52,63 +52,7 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
-    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
-   // private final VillageImageService villageImageService;
-
-    /*@GetMapping("/home-page/{page}")
-    public String homePage(Model model, @PathVariable("page") int page) {
-        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-        model.addAttribute("regions", regionDTOS);
-        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-
-        try {
-            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(page, 6);
-
-            if (response.getStatusCode().is2xxSuccessful()) {
-                List<VillageDTO> villageDTOS = response.getBody();
-                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
-            } else {
-                model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-                model.addAttribute("noVillagesMessage", "Списъкът с одобрени села е празен!");
-            }
-        } catch (FeignException.NotFound e) {
-            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-            model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
-        } catch (FeignException e) {
-            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-            model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
-        }
-        return "HomePage";
-    }*/
-//    @GetMapping(value = {"/home-page/{page}", "/home-page"})
-//    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
-//        int currentPage = (page != null) ? page : 0;
-//        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
-//        model.addAttribute("regions", regionDTOS);
-//        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-//        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagesPageCount(currentPage, 6));
-//        try {
-//            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(currentPage, 6);
-//
-//            if (response.getStatusCode().is2xxSuccessful()) {
-//                List<VillageDTO> villageDTOS = villageImageService.getVillagesWithImages(Objects.requireNonNull(response.getBody()));
-//
-//                System.out.println("controller images stream2 " + villageDTOS);
-//                model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
-//            } else {
-//                model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-//                model.addAttribute("noVillagesMessage", "Списъкът с одобрени села е празен!");
-//            }
-//        } catch (FeignException.NotFound e) {
-//            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-//            model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
-//        } catch (FeignException e) {
-//            e.printStackTrace();
-//            model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-//            model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
-//        }
-//        return "HomePage";
-//    }
+    private static final long MAX_FILE_SIZE = (long) 10 * 1024 * 1024;
 
     @GetMapping(value = { "/home-page/{page}", "/home-page" })
     public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
@@ -205,36 +149,6 @@ public class VillageController {
 
     }
 
-//    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
-//        model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
-//        model.addAttribute("villageInfo", villageInfo);
-//
-//        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-//
-//        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
-//        model.addAttribute("inquiry", inquiryDTO);
-//
-//        List<String> imagesResponse = Objects.requireNonNull(villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody()).stream().map(imageName -> {
-//            imageName = villageImageService.getImageFromSpace(imageName);
-//            return imageName;
-//        }).toList();
-//
-//        model.addAttribute("imageSrcList", imagesResponse);
-//
-//        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
-//        model.addAttribute("ethnicities", ethnicityDTOS);
-//
-//        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
-//        model.addAttribute("questions", questionDTOS);
-//
-//        model.addAttribute("answerDate", answerDate);
-//
-//        model.addAttribute("admin", administratorDTO);
-//
-//        model.addAttribute("status", keyWord);
-//
-//    }
-
     @GetMapping("/create")
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
@@ -286,51 +200,6 @@ public class VillageController {
         }
         return imageBytes;
     }
-
-//    @PostMapping("/save")
-//    public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-//        //addVillageFormValidator.validate(addVillageFormResult, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            return getAddVillagePage(addVillageFormResult, model);
-//        }
-//        List<byte[]> imageBytes = new ArrayList<>();
-//        List<String> imageUUID = new ArrayList<>();
-//        if (images.get(0).getSize() > 0) {
-//            // userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
-//            if (bindingResult.hasErrors()) {
-//                return getAddVillagePage(addVillageFormResult, model);
-//            }
-//            convertImagesToBytes(images, imageUUID);
-//        }
-//        //addVillageFormResult.setImageBytes(imageBytes);
-//        addVillageFormResult.setImagesUUID(imageUUID);
-//        addVillageFormClient.createAddVillageForResult(addVillageFormResult);
-//        redirectAttributes.addFlashAttribute("saveSuccessful", true);
-//        return "redirect:/villages/home-page";
-//    }
-//
-//    private String getAddVillagePage(AddVillageFormResult addVillageFormResult, Model model) {
-//        addAllListsWithOptions(model);
-//        model.addAttribute("addVillageFormResult", addVillageFormResult);
-//        return "add-village";
-//    }
-//
-//    private List<String> convertImagesToBytes(List<MultipartFile> images, List<String> imageUUID) { //List<byte[]>  //List<byte[]> imageBytes
-//
-//        for (MultipartFile image : images) {
-//            try {
-//                String randomUUID = villageImageService.uploadImage(image, randomUUID().toString());
-//                if (randomUUID != null) {
-//                    byte[] imageData = image.getBytes();
-//                    //imageBytes.add(imageData);
-//                    imageUUID.add(randomUUID);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return imageUUID;//imageBytes;
-//    }
 
     @GetMapping("/partners")
     public String showPartnersPage(Model model) {
@@ -393,7 +262,6 @@ public class VillageController {
     @GetMapping("/general-terms")
     String showGeneralTerms(Model model) {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        model.addAttribute("pageTitle", "Общи условия");
         return "general-terms";
     }
 }
