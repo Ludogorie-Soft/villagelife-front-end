@@ -133,8 +133,12 @@
         margin-left: 1200px;
     }
 
-    #backButton {
+    #backButton,
+    #importImagesButton{
         border-radius: 20px;
         margin-right: 5px;
+    }
+    #importImagesButton{
+        width: 280px;
     }
 

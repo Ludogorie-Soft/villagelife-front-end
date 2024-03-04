@@ -54,14 +54,14 @@
     </div>
 
     <div class="video-overlay">
-        <h1>Открий най-подходящото село!</h1>
+        <h1 th:text="#{find.village}"></h1>
 
         <div class="search-bar-row">
-            <form th:action="@{/filter/all}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
+            <form th:action="@{/filter/all/0}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
                 <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0">
                     <div class="input-group">
                         <select name="region" class="form-select fixed-width" id="regionName">
-                            <option value="" selected disabled style="text-align: left;">Избери област</option>
+                            <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
                             <option th:each="region : ${regions}" th:value="${region.regionName}"
                                     th:text="${region.regionName}"></option>
                         </select>
@@ -73,8 +73,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </label>
                         <input type="text" name="keyword" id="search-input" class="form-control form-control-sm"
-                               placeholder="Търси по име на село">
-                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;">Търсене
+                               th:placeholder="#{placeholder.search}">
+                        <button class="btn btn-secondary btn-sm" type="submit" style="font-weight: bold;" th:text="#{searching}">
                         </button>
                     </div>
                 </div>
@@ -82,27 +82,17 @@
             <div class="filter-button-container mt-2">
                 <button type="button" class="btn btn-light custom-filter-button" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
-                    <i class="fas fa-filter"></i> Филтър за разширено търсене
+                    <i class="fas fa-filter"></i><span  th:text="#{filter.search}"></span>
                 </button>
             </div>
         </div>
         <div class="mt-4">
-            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;">
-                Village Life е платформа, която предоставя
-                информация за условията на живот в
-                българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
-                избор
-                на
-                село за заселване.</p>
+            <p style="font-size: 22px; line-height: 1.5; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 0;  font-weight: 200;" th:text="#{platform}"></p>
         </div>
     </div>
 </div>
 <div id="village-life-text-container">
-    <p id="village-life-text"> Village Life е платформа, която предоставя информация за условията на живот в
-        българските села. Платформата ще помогне да се ориентираш по-добре и да вземеш по-осведомено решение при
-        избор
-        на
-        село за заселване.</p>
+    <p id="village-life-text"></p>
 </div>
 
 <div id="modalContainer"></div>
@@ -130,9 +120,47 @@
         </div>
     </div>
     <div class="card-actions">
-        <span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span><br>
-        <div class="text-center">
-            <button id="load-more" class="btn btn-outline-success">Покажи още</button>
+        <!--<span class="shown-villages-count">Показани <span id="card-count"></span> от <span id="card-total"></span> села</span><br>-->
+        <div class="text-center pagination">
+            <div>
+                <a th:href="@{/villages/home-page}">
+                    <button id="first" class="btn">
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                </a>
+            </div>
+
+            <div>
+                <a th:href="@{/villages/home-page/{page}(page=${page >= 1 ? page - 1 : 0})}">
+                    <button id="prev" class="btn">
+                        <i class="fas fa-chevron-left"></i><span  th:text="#{previous.page}"></span>
+                    </button>
+                </a>
+            </div>
+
+            <div>
+                <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
+                       onkeyup="updatePageValue(event)" style="width: 50px;">
+
+                от
+                <span th:text="${pagesCount}"></span>
+            </div>
+
+            <div>
+                <a th:href="@{/villages/home-page/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
+                    <button id="next" class="btn">
+                     <span  th:text="#{next.page}"></span>  <i class="fas fa-chevron-right"></i>
+                    </button>
+                </a>
+            </div>
+            <div>
+                <a th:href="@{/villages/home-page/{page}(page=${pagesCount - 1})}">
+                    <button id="last" class="btn">
+                        <i class="fas fa-angle-double-right"></i>
+                    </button>
+                </a>
+            </div>
+
         </div>
     </div>
 </div>
@@ -148,7 +176,26 @@
 
 <div th:replace="fragments :: footer"></div>
 
-<script src="/js/addEventListener.js"></script>
+<script>
+function updatePageValue(event) {
+    if (event.key === 'Enter') {
+        var currentPageInput = document.getElementById('currentPage');
+        if (currentPageInput.value >= 0 && currentPageInput.value <= [[${pagesCount}]]) {
+            var newPageValue = currentPageInput.value - 1;
+            if (newPageValue >= 0) {
+                var currentURL = window.location.href;
+                if (currentURL.includes('/home-page/')) {
+                    var newURL = currentURL.replace(/\/home-page\/\d+/, '/home-page/' + newPageValue);
+                    window.location.href = newURL;
+                } else {
+                    var newURL = currentURL + '/' + newPageValue;
+                    window.location.href = newURL;
+                }
+            }
+        }
+    }
+}
+</script>
 <script src="/js/navScript.js"></script>
 <script src="/js/showModal.js"></script>
 <script src="/js/fetch-modal-script.js"></script>
@@ -158,6 +205,5 @@
     let saveSuccessful = [[${saveSuccessful}]];
 </script>
 <script src="/js/success-alert.js"></script>
-
 </body>
 </html>

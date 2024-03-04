@@ -161,9 +161,9 @@
         outline: none;
         box-shadow: none;
     }
-    .village {
+    /*.village {
       display: none;
-    }
+    }*/
     .shown-villages-count{
         float: right;
     }
@@ -326,5 +326,20 @@
         box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.8);
         outline: none;
         border: none;
+    }
+
+    .pagination a{
+        text-decoration: none;
+        padding: 5px;
+    }
+    .pagination button,
+    .pagination button:hover{
+        color: #96c930;
+        font-weight: 500;
+    }
+
+    .pagination{
+        margin-top: 20px;
+        float: right;
     }
 

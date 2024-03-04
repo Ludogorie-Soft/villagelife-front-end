@@ -1,3 +1,3 @@
     function clearFilter() {
-      window.location = '/filter/all';
+      window.location = '/filter/all/0';
     }

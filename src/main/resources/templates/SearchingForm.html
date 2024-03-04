@@ -27,7 +27,7 @@
 
 
 <div class="search-bar-row">
-        <form th:action="@{/filter/all}" method="get" class="search-bar-form d-flex align-items-center center-content">
+        <form th:action="@{/filter/all/0}" method="get" class="search-bar-form d-flex align-items-center center-content">
 
         <select name="region" class="form-select me-2" id="regionName">
             <option value="" selected disabled style="text-align: left;">Избери област</option>
@@ -56,7 +56,7 @@
 
 
 <div class="sort-container">
-    <form th:action="@{/filter/all}" method="get">
+    <form th:action="@{/filter/all/0}" method="get">
         <input type="hidden" name="region" th:value="${region}"/>
         <input type="hidden" name="keyword" th:value="${keyword}"/>
         <label for="sort" class="sort-label">Сортиране:</label>
@@ -117,8 +117,66 @@
     </div>
 </div>
 
-<div th:replace="fragments :: footer"></div>
 
+<div class="pagination-container">
+<div class="pagination">
+    <div>
+        <a th:href="@{'/filter/change/0/' + ${villageCount}}">
+            <button id="first" class="btn">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+        </a>
+    </div>
+
+    <div>
+        <a th:href="@{'/filter/change/'+ ${page - 1} +'/' + ${villageCount}}">
+            <button id="prev" class="btn">
+                <i class="fas fa-chevron-left"></i> Предишна
+            </button>
+        </a>
+    </div>
+
+    <div>
+        <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
+               onkeyup="updatePageValue(event)" style="width: 50px;">
+        от
+        <span th:text="${(villageCount + 6 - 1) / 6}"></span>
+    </div>
+
+    <div>
+        <a th:href="@{'/filter/change/'+ ${page + 1} +'/' + ${villageCount}}">
+            <button id="next" class="btn">
+                Следваща <i class="fas fa-chevron-right"></i>
+            </button>
+        </a>
+    </div>
+    <div>
+        <a th:href="@{'/filter/change/'+ ${(villageCount + 6 - 1) / 6 - 1} +'/' + ${villageCount}}">
+            <button id="last" class="btn">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+        </a>
+    </div>
+</div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<script>
+function updatePageValue(event) {
+    if (event.key === 'Enter') {
+        var currentPageInput = document.getElementById('currentPage');
+        if (currentPageInput.value >= 0 && currentPageInput.value < [[${villageCount}]]) {
+            var newPageValue = currentPageInput.value - 1;
+            if (newPageValue >= 0) {
+                var baseURL = window.location.origin;
+                var newPath = '/filter/change/' + newPageValue + '/' + [[${villageCount}]];
+                var newURL = baseURL + newPath;
+                window.location.href = newURL;
+            }
+        }
+    }
+}
+</script>
 <script src="/js/search-script.js"></script>
 <script src="/js/clear-button-script.js"></script>
 <script src="/js/search-button-script.js"></script>

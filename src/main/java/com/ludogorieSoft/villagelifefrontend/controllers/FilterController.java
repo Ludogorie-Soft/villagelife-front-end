@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,10 +27,11 @@ public class FilterController {
     private final VillageImageClient villageImageClient;
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
+    private static Long resultCount = 0L;
 
-
-    @GetMapping("/all")
+    @GetMapping("/all/{page}")
     public String findAll(
+            @PathVariable("page") int page,
             @RequestParam(name = "region", required = false) String region,
             @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
@@ -40,11 +41,10 @@ public class FilterController {
 
         List<VillageDTO> villages;
 
-        villages = fetchVillageDTOsWithImages(region, keyword, sort);
+        villages = fetchVillageDTOsWithImages(region, keyword, sort, page);
+        /*sortVillages(sort, villages);*/
 
-        sortVillages(sort, villages);
-
-        int resultCount = (villages != null) ? villages.size() : 0;
+        model.addAttribute("villageCount", resultCount);
         model.addAttribute("villages", villages);
         model.addAttribute("sort", sort);
         model.addAttribute("subscription", new SubscriptionDTO());
@@ -53,7 +53,7 @@ public class FilterController {
     }
 
 
-    private void sortVillages(String sort, List<VillageDTO> villages) {
+    /*private void sortVillages(String sort, List<VillageDTO> villages) {
         if ("nameAsc".equals(sort)) {
             villages.sort(Comparator.comparing(VillageDTO::getName));
         } else if ("nameDesc".equals(sort)) {
@@ -63,33 +63,38 @@ public class FilterController {
         } else if ("regionDesc".equals(sort)) {
             villages.sort(Comparator.comparing(VillageDTO::getRegion).reversed().thenComparing(VillageDTO::getName));
         }
-    }
+    }*/
 
 
-    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword, String sort) {
+    private List<VillageDTO> fetchVillageDTOsWithImages(String region, String keyword, String sort, int page) {
         List<VillageDTO> villages;
         if (region != null && !region.isEmpty()) {
             if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByNameAndRegion(region, keyword, sort);
+                villages = filterClient.getVillageByNameAndRegion(page, region, keyword, sort);
+                resultCount = filterClient.getVillageByNameAndRegionElementsCount(page, region, keyword);
             } else {
-                villages = filterClient.getVillageByRegion(region);
+                villages = filterClient.getVillageByRegion(page, region, sort);
+                resultCount = filterClient.getVillageByRegionElementsCount(page, region);
             }
         } else {
             if (keyword != null && !keyword.isEmpty()) {
-                villages = filterClient.getVillageByName(keyword);
+                villages = filterClient.getVillageByName(page, keyword, sort);
+                resultCount = filterClient.getVillageByNameElementsCount(page, keyword);
             } else {
-                villages = filterClient.getAllApprovedVillages();
+                villages = filterClient.getAllApprovedVillages(page, sort);
+                resultCount = filterClient.getAllApprovedVillagesElementsCount(page);
             }
         }
         boolean status = true;
         String date = null;
-        getImagesForVillages(villages,status,date);
+
+        getImagesForVillages(villages, status, date);
 
         return villages;
     }
 
 
-    private static void displaySearchResultsMessage(String region, String keyword, Model model, int resultCount) {
+    private static void displaySearchResultsMessage(String region, String keyword, Model model, Long resultCount) {
         if (resultCount > 0) {
             model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати: " + resultCount);
         } else {
@@ -130,8 +135,9 @@ public class FilterController {
     }
 
 
-    @GetMapping("/search")
+    @GetMapping("/search/{page}")
     public String search(@ModelAttribute AdvancedSearchForm formResult,
+                         @PathVariable("page") int page,
                          @RequestParam(name = "sort", required = false, defaultValue = "default") String sort,
                          BindingResult bindingResult, Model model) {
 
@@ -152,22 +158,21 @@ public class FilterController {
         String selectedChildrenCountResult = formResult.getChildren();
         Children selectedChildrenEnum = Children.getByValueAsString(selectedChildrenCountResult);
 
-        List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort);
-        sortVillages(sort, villageDTOs);
+        List<VillageDTO> villageDTOs = getVillageDTOs(model, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
+        /*sortVillages(sort, villageDTOs);*/
 
         model.addAttribute("villages", villageDTOs);
         model.addAttribute("subscription", new SubscriptionDTO());
-        displayAdvancedSearchResultMessage(model, villageDTOs);
+        displayAdvancedSearchResultMessage(model);
 
         return SEARCHING_FORM_VIEW;
     }
 
-    private static void displayAdvancedSearchResultMessage(Model model, List<VillageDTO> villageDTOs) {
-        int villageCount = villageDTOs.size();
-        model.addAttribute("villageCount", villageCount);
+    private static void displayAdvancedSearchResultMessage(Model model) {
+        model.addAttribute("villageCount", resultCount);
 
-        if (villageCount > 0) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати от разширеното търсене: " + villageCount);
+        if (resultCount > 0) {
+            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати от разширеното търсене: " + resultCount);
         } else {
             model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от разширеното търсене!!!");
         }
@@ -175,39 +180,45 @@ public class FilterController {
 
 
     private List<VillageDTO> getVillageDTOs(Model model, List<String> selectedObjects, List<String> selectedLivingConditions,
-                                            Children selectedChildrenEnum, String sort) {
+                                            Children selectedChildrenEnum, String sort, int page) {
         List<VillageDTO> villageDTOs;
         model.addAttribute("selectedObjects", selectedObjects);
         model.addAttribute("selectedChildrenCountResult", selectedChildrenEnum);
         model.addAttribute("selectedLivingConditions", selectedLivingConditions);
 
         if (selectedObjects != null && selectedChildrenEnum != null && selectedLivingConditions != null) {
-            villageDTOs = filterClient.searchVillagesByCriteria(selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+            villageDTOs = filterClient.searchVillagesByCriteria(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+            resultCount = filterClient.searchVillagesByCriteriaElementsCount(page, selectedObjects, selectedLivingConditions, selectedChildrenEnum.name());
         } else {
             if (selectedObjects == null) {
                 if (selectedChildrenEnum == null) {
-                    villageDTOs = filterClient.searchVillagesByLivingCondition(selectedLivingConditions);
+                    villageDTOs = filterClient.searchVillagesByLivingCondition(page, selectedLivingConditions, sort);
+                    resultCount = filterClient.searchVillagesByLivingConditionElementsCount(page, selectedLivingConditions);
                 } else {
                     if (selectedLivingConditions == null) {
-                        villageDTOs = filterClient.searchVillagesByChildrenCount(selectedChildrenEnum.name());
+                        villageDTOs = filterClient.searchVillagesByChildrenCount(page, selectedChildrenEnum.name(), sort);
+                        resultCount = filterClient.searchVillagesByChildrenCountElementsCount(page, selectedChildrenEnum.name());
                     } else {
-                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(selectedLivingConditions, selectedChildrenEnum.name());
+                        villageDTOs = filterClient.searchVillagesByLivingConditionAndChildren(page, selectedLivingConditions, selectedChildrenEnum.name(), sort);
+                        resultCount = filterClient.searchVillagesByLivingConditionAndChildrenElementsCount(page, selectedLivingConditions, selectedChildrenEnum.name());
                     }
                 }
             } else if (selectedChildrenEnum == null) {
                 if (selectedLivingConditions == null) {
-                    villageDTOs = filterClient.searchVillagesByObject(selectedObjects);
+                    villageDTOs = filterClient.searchVillagesByObject(page, selectedObjects, sort);
+                    resultCount = filterClient.searchVillagesByObjectElementsCount(page, selectedObjects);
                 } else {
-                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(selectedObjects, selectedLivingConditions);
+                    villageDTOs = filterClient.searchVillagesByObjectAndLivingCondition(page, selectedObjects, selectedLivingConditions, sort);
+                    resultCount = filterClient.searchVillagesByObjectAndLivingConditionElementsCount(page, selectedObjects, selectedLivingConditions);
                 }
             } else {
-                villageDTOs = filterClient.searchVillagesByObjectAndChildren(selectedObjects, selectedChildrenEnum.name());
+                villageDTOs = filterClient.searchVillagesByObjectAndChildren(page, selectedObjects, selectedChildrenEnum.name(), sort);
+                resultCount = filterClient.searchVillagesByObjectAndChildrenElementsCount(page, selectedObjects, selectedChildrenEnum.name());
             }
         }
         boolean status = true;
         String date = null;
         getImagesForVillages(villageDTOs,status,date);
-
         return villageDTOs;
     }
 
@@ -221,5 +232,19 @@ public class FilterController {
         }
     }
 
+    @GetMapping("/change/{page}/{totalElements}")
+    public String changePage(@PathVariable("page") int page, @PathVariable("totalElements") int totalElements, HttpServletRequest request) {
+        int totalPages = (totalElements + 6 - 1) / 6;
+        String referer = request.getHeader("referer");
+        if (page < totalPages && page >= 0) {
+            int lastSlashIndex = referer.lastIndexOf('/');
+            int lastQuestionMarkIndex = referer.lastIndexOf('?');
+            String baseRedirectUrl = referer.substring(0, lastSlashIndex + 1);
+            String queryString = lastQuestionMarkIndex != -1 ? referer.substring(lastQuestionMarkIndex) : "";
 
+            String newRedirectUrl = baseRedirectUrl + page + queryString;
+            return "redirect:" + newRedirectUrl;
+        }
+        return "redirect:" + referer;
+    }
 }

@@ -35,14 +35,14 @@ public class AppConfig {
         return new CustomErrorDecoder();
     }
     @Bean
-    Logger.Level feignLoggerLevel(){
+    Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(10485760);
+        multipartResolver.setMaxUploadSize(52428800);
         return multipartResolver;
     }
 

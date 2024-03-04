@@ -46,6 +46,7 @@ public class UploadController {
     private final PopulatedAssertionClient populatedAssertionClient;
     private final VillagePopulationAssertionClient villagePopulationAssertionClient;
     private final AuthClient authClient;
+    private final VillageImageClient villageImageClient;
 
     private static final String UPLOAD_VIEW = "upload";
     private static final String UPLOAD_SUCCESS = "uploadSuccess";
@@ -63,11 +64,17 @@ public class UploadController {
         model.addAttribute("subscription", new SubscriptionDTO());
         return UPLOAD_VIEW;
     }
+    @GetMapping("/uploadImages")
+    public String uploadImages(Model model, HttpSession session) {
+        System.out.println("upload images controller frontend");
+        villageImageClient.uploadImages();
+        return "redirect:/uploadFile";
+    }
 
     @PostMapping()
     @Transactional
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model) {
-
+        System.out.println("uploadFile");
         try {
             if (!file.getOriginalFilename().endsWith(".xlsx")) {
                 model.addAttribute(UPLOAD_SUCCESS, false);
