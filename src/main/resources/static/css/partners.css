@@ -19,9 +19,16 @@
             height: 50px;
         }
         .btn {
-            border-radius: 0;
+            border-radius: 3px;
             margin: 0px 5px 0px 5px;
             box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+            background-color: #96c930;
+            border-color: #96c930;
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Add this line */
+        }
+        .btn:hover {
+            background-color: #A8D847;
+            border-color: #A8D847;
         }
         .question-wrapper {
             margin-top: 50px;
