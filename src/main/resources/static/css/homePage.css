@@ -104,12 +104,19 @@
       outline: none;
     }
 
-    .btn-secondary {
-      height: 40px;
-      font-size: 16px;
-      border-radius: 5px;
+/*<------------------------------------------->*/
+.custom-btn {
+        height: 40px;
+        font-size: 16px;
+        border-radius: 5px;
+        background-color: #96c930 !important;
+        color: white;
     }
 
+    .custom-btn:hover {
+        background-color: #aed75b !important;
+    }
+/*<------------------------------------------->*/
 
     .village-grid {
     display: flex;
