@@ -33,22 +33,22 @@
        margin-left: 70px;
        margin-bottom: 20px;
     }
-/*<------------------------------------------->*/
-   #menu a {
-    margin-right: 10px;
-        color: white;
+    #menu a {
+        margin-right: 10px;
         text-decoration: none;
+        color: #96c930;
     }
+/*<------------------------------------------->*/
 
     #menu a#add-village {
+    color: white;
         background-color: #96c930;
         padding: 5px 10px;
         border-radius: 5px;
     }
-
-    #menu a#add-village:hover {
-        background-color: #aed75b;
-    }
+     #menu a#add-village:hover {
+            background-color: #aed75b;
+        }
 /*<------------------------------------------->*/
     i {
         color: #96c930;

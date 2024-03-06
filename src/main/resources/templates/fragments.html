@@ -23,14 +23,20 @@
         <img th:src="@{/images/village-life-logo.png}" alt="village life logo"
              style="width: 175px; height: 60px; margin-top:10px;">
     </a>
-
     <div id="menu">
-        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> <span th:text="#{header.homePage}"></span></a>
-        <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span th:text="#{header.partners}"></span></a>
-        <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span th:text="#{header.aboutUs}"></span></a>
-        <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> <span th:text="#{header.contacts}"></span></a>
-        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span th:text="#{header.addVillage}"></span></a>
+        <a th:href="@{/villages/home-page}"><span th:text="#{header.homePage}"></span></a>
+        <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>
+        <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>
+        <a th:href="@{/villages/contacts}"><span th:text="#{header.contacts}"></span></a>
+        <a th:href="@{/villages/create}" id="add-village"><span th:text="#{header.addVillage}"></span></a>
     </div>
+<!--    <div id="menu">-->
+<!--        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> <span th:text="#{header.homePage}"></span></a>-->
+<!--        <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span th:text="#{header.partners}"></span></a>-->
+<!--        <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span th:text="#{header.aboutUs}"></span></a>-->
+<!--        <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> <span th:text="#{header.contacts}"></span></a>-->
+<!--        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span th:text="#{header.addVillage}"></span></a>-->
+<!--    </div>-->
 </div>
 
 <div th:fragment="footer">
