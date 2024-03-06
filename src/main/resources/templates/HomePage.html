@@ -91,13 +91,15 @@
         </div>
     </div>
 </div>
-<div id="village-life-text-container">
-    <p id="village-life-text" th:text="#{platform}"></p>
-</div>
+
 
 <div id="modalContainer"></div>
 
 <div class="custom-container" th:if="${villages != null and !villages.empty}">
+
+    <div id="village-life-text-container">
+        <p id="village-life-text" th:text="#{platform}"></p>
+    </div>
 
     <div class="row col-12">
         <div th:each="village : ${villages}" class="col-lg-4 col-md-6 col-sm-12 village">
