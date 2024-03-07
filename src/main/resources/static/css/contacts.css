@@ -1,3 +1,17 @@
+            .row{
+                padding: 30px 100px;
+            }
+            iframe{
+                padding: 50px;
+            }
+            @media (max-width: 900px) {
+                .row{
+                    padding: 40px 20px;
+                }
+                iframe{
+                    padding: 30px;
+                }
+            }
             .custom-container{
                 margin-top: 20px;
             }
@@ -79,6 +93,4 @@
         display: block;
         margin-bottom: 5px;
     }
-}
-
 }

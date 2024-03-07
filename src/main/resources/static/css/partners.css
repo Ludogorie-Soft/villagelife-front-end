@@ -1,4 +1,8 @@
+        .container {
+            padding: 0 50px;
+        }
         .card {
+          padding: 20px 0;
           border: none;
           transition: box-shadow 0.3s ease;
           margin: 1px;
