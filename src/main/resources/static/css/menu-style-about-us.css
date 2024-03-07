@@ -231,9 +231,8 @@
         /* margin: 20px 0; */
     }
     li {
-        margin: 25px 0;
+        margin: 15px 0;/*25*/
     }
-
 
     .nav-overlay {
       height: 100%;
