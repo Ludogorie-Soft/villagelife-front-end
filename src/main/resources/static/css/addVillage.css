@@ -51,6 +51,7 @@
             display: inline-block;
             vertical-align: middle;
             margin-right: 10px;
+
         }
 
         .checkbox-wrapper-43 .check {
@@ -121,6 +122,13 @@
         }
         .form-check-label{
             margin-top: 10px;
+        }
+        label{
+            font-weight: 300;
+        }
+        .checkbox,
+        .checkbox-label{
+            display: inline;
         }
 
 

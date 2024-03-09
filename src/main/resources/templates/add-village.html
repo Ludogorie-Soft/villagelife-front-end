@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
@@ -112,9 +112,9 @@
             <div th:each="groundCategory : ${groundCategories}" class="checkbox-wrapper">
                 <input type="checkbox" th:id="${'groundCategory-' + groundCategory.id}"
                        th:name="groundCategoryIds"
-                       th:value="${groundCategory.id}" class="checkbox" />
+                       th:value="${groundCategory.id}" class="checkbox col"/>
                 <label th:for="${'groundCategory-' + groundCategory.id}"
-                       class="checkbox-label" th:text="${groundCategory.groundCategoryName}"></label>
+                       class="checkbox-label col" th:text="${groundCategory.groundCategoryName}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('groundCategoryIds')}" th:errors="*{groundCategoryIds}"></p>
             <p class="text-danger" id="ground-category-checkbox-error" style="display: none;" th:text="#{please.choose}"></p>
