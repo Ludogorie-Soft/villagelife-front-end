@@ -281,10 +281,6 @@
         margin-top: 10px;
     }
 
-    .btn {
-        flex-basis: 45%;
-    }
-
     .form-group label {
         font-size: 14px;
         color: #444;

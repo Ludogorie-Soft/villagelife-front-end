@@ -123,9 +123,7 @@
         .form-check-label{
             margin-top: 10px;
         }
-        label{
-            font-weight: 300;
-        }
+
         .checkbox,
         .checkbox-label{
             display: inline;
