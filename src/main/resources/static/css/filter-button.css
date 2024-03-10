@@ -13,6 +13,7 @@
         padding: 5px;
         transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
         margin-top: 30px;
+        font-size: 15px !important;
     }
 
 
@@ -80,4 +81,13 @@
               margin-top: 10px;
          }
 
+    }
+    .search-bar-row{
+        font-size: 15px !important;
+    }
+
+    #regionName,
+    #search-input {
+        font-size: 15px;
+        height: 35px;
     }

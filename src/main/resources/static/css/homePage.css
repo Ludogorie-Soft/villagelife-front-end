@@ -106,8 +106,8 @@
 
 /*<------------------------------------------->*/
 .custom-btn {
-        height: 40px;
-        font-size: 16px;
+        height: 35px;
+        font-size: 13px !important;
         border-radius: 5px;
         background-color: #96c930 !important;
         color: white;
@@ -155,7 +155,7 @@
     }
     .card-body a{
         color: black;
-        text-decoration: none;
+        text-decoration: none !important;
     }
     .btn-info,
     .btn-info:hover,
@@ -347,5 +347,8 @@
     .pagination{
         margin-top: 20px;
         float: right;
+    }
+    .btn {
+        font-size: 15px !important;
     }
 
