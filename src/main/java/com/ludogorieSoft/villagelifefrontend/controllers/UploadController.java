@@ -122,6 +122,7 @@ public class UploadController {
                 for (int i = 0; i < lastCellNum; i++) {
                     cell = row.getCell(i);
                     if (cell != null) {
+                        System.out.println("sellll " + cell);
                         String value = cell.getStringCellValue();
                         village.setId(village.getId());
                         village.setDateUpload(LocalDateTime.now());
@@ -258,18 +259,33 @@ public class UploadController {
                             population.setStatus(true);
                             boolean populationFound = false;
 
-                            for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
-                                if (numberOfPopulation.getName().equalsIgnoreCase(valueNumberOfPopulation)) {
-                                    population.setNumberOfPopulation(numberOfPopulation);
-                                    String[] populationRange = valueNumberOfPopulation.split(" - ");
-                                    if (populationRange.length >= 2) {
-                                        String numberString = populationRange[1].trim().split(" ")[0];
+//                            for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
+//                                if (numberOfPopulation.getName().equalsIgnoreCase(valueNumberOfPopulation)) {
+//                                    population.setNumberOfPopulation(numberOfPopulation);
+//                                    String[] populationRange = valueNumberOfPopulation.split(" - ");
+//                                    if (populationRange.length >= 2) {
+//                                        String numberString = populationRange[1].trim().split(" ")[0];
 
-                                        populationFound = isPopulationFound(population, populationFound, numberString);
-                                    }
-                                    break;
-                                }
-                            }
+                                    populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);//numberString
+//                                    }
+//                                    break;
+//                                }
+
+
+
+
+////                            for (NumberOfPopulation numberOfPopulation : NumberOfPopulation.values()) {
+////                                if (numberOfPopulation.getName().equalsIgnoreCase(valueNumberOfPopulation)) {
+////                                    population.setNumberOfPopulation(numberOfPopulation);
+//                                    String[] populationRange = valueNumberOfPopulation.split("-");;//valueNumberOfPopulation.split(" - ");
+////                                    if (populationRange.length >= 2) {
+//                                        String numberString = populationRange[1].trim();// populationRange[1].trim().split(" ")[0]
+//                            System.out.println("number   " + numberString);
+//                                        populationFound = isPopulationFound(population, populationFound, numberString);
+////                                    }
+////                                    break;
+////                                }
+////                            }
                             if (!populationFound) {
                                 if (valueNumberOfPopulation.equalsIgnoreCase("над 2000 човека")) {
                                     population.setPopulationCount(2000);

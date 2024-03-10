@@ -23,7 +23,8 @@ public class PopulationDTO {
     private Long id;
     private Long villageId;
     private int populationCount;
-    private NumberOfPopulation numberOfPopulation;
+    //private NumberOfPopulation numberOfPopulation;
+    String numberOfPopulation;
     private Residents residents;
     private Children children;
     private Foreigners foreigners;
