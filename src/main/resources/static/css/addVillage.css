@@ -24,12 +24,16 @@
         .legend {
            display: none;
         }
+        .sm-consents{
+            display: none;
+        }
+
         @media (max-width: 676px) {
-            .legend {
+            .sm-consents {
                 display: block;
-                font-style: italic;
-                font-weight: 400;
-                color: #96c930;
+            }
+            .lg-consents{
+                display: none;
             }
         }
 

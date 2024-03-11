@@ -30,13 +30,13 @@
         <a th:href="@{/villages/create}" id="add-village" class="btn" role="button"><span th:text="#{header.addVillage}"></span></a>
 
         <div class="dropdown ml-2" id="locales">
-            <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem; background-color: #f2f2f2;">
+            <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem; background-color: #f2f2f2; border: none !important;">
                 <span class="flag-icon flag-icon-bg"></span>
             </button>
             <div class="dropdown-menu" aria-labelledby="languageDropdown">
-                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> Bulgarian</a>
-                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> English</a>
-                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> German</a>
+                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
             </div>
         </div>
     </div>
@@ -317,6 +317,10 @@
             <hr>
             <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span
                     th:text="#{header.addVillage}"></span></a>
+            <hr>
+            <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+            <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+            <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
         </div>
     </div>
     <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>

@@ -66,7 +66,7 @@
             <form th:action="@{/filter/search/0}" method="get" class="d-flex flex-column flex-sm-row align-items-center">
                 <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0" style="padding: 0;">
                     <div class="input-group">
-                        <select name="region" class="form-select fixed-width" id="regionName" style="margin: 0 0 5px 0;">
+                        <select name="region" class="form-select fixed-width" id="regionName">
                             <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
                             <option th:each="region : ${regions}" th:value="${region.regionName}"
                                     th:text="${region.regionName}"></option>

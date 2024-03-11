@@ -15,7 +15,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
@@ -27,6 +26,9 @@
 
     <link rel="stylesheet" href="/css/menu-style-about-us.css">
     <link rel="stylesheet" href="/css/addVillage.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap">
 
 <body>
 
@@ -120,8 +122,9 @@
             <p class="text-danger" id="ground-category-checkbox-error" style="display: none;" th:text="#{please.choose}"></p>
         </section>
 
-        <section>
-            <p class="fw-bold" th:text="#{statements}"><span class="legend" th:text="#{enter.choice}">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
+        <!--             Consents          -->
+        <section class="lg-consents">
+            <p class="fw-bold" th:text="#{statements}"></p>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -149,9 +152,33 @@
         </section>
 
 
+        <section class="sm-consents">
+            <p class="fw-bold" th:text="#{statements}"></p>
+            <table class="table table-hover">
+                <tbody>
+                <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
+                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td>
+                        <select th:id="${'consentSelect-' + livingCondition.id}"
+                                th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                class="form-select">
+                            <option th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
+                                    th:value="${consent1}"
+                                    th:text="${consent1.name}">Consent Option</option>
+                        </select>
+                        <input type="hidden"
+                               th:id="${'livingCondition-' + livingCondition.id}"
+                               th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
+                               th:value="${livingCondition.id}" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
 
-        <section>
-            <p class="fw-bold" th:text="#{statements}"><span class="legend" th:text="#{enter.choice}">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
+
+        <section class="lg-consents">
+            <p class="fw-bold" th:text="#{statements}"></p>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -177,6 +204,31 @@
                 </tbody>
             </table>
         </section>
+
+        <section class="sm-consents">
+            <p class="fw-bold" th:text="#{statements}"></p>
+            <table class="table table-hover">
+                <tbody>
+                <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
+                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td class="col">
+                        <select th:id="${'consentSelect-' + livingCondition.id}"
+                                th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
+                                class="form-select">
+                            <option th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
+                                    th:value="${consent1}"
+                                    th:text="${consent1.name}">Consent Option</option>
+                        </select>
+                        <input type="hidden"
+                               th:id="${'livingCondition-' + livingCondition.id}"
+                               th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
+                               th:value="${livingCondition.id}" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
 
         <!-- PopulationCount -->
         <section>
