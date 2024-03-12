@@ -137,7 +137,7 @@
             <div>
                 <a th:href="@{/villages/home-page/{page}(page=${page >= 1 ? page - 1 : 0})}">
                     <button id="prev" class="btn">
-                        <i class="fas fa-chevron-left"></i><span  th:text="#{previous.page}"></span>
+                        <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}" class="pagination-btn-text"></span>
                     </button>
                 </a>
             </div>
@@ -153,7 +153,7 @@
             <div>
                 <a th:href="@{/villages/home-page/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
                     <button id="next" class="btn">
-                     <span  th:text="#{next.page}"></span>  <i class="fas fa-chevron-right"></i>
+                     <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
                     </button>
                 </a>
             </div>

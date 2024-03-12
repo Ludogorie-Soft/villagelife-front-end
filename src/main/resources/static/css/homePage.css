@@ -138,9 +138,6 @@
     color: white;
     }
 
-
-
-
     .custom-container {
         margin: 25px 30px;
         padding-left: 30px;
@@ -324,6 +321,17 @@
     @media (max-width: 575px) {
         .mySlides img {
           width: 105%;
+        }
+        .custom-container {
+            margin: 10px 15px;
+            padding-left: 15px;
+        }
+        .pagination-btn-text{
+            display: none;
+        }
+        #prev,
+        #next{
+            margin: 0 3px;
         }
     }
 
