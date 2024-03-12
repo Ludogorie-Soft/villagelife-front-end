@@ -146,7 +146,7 @@
     <div>
         <a th:href="@{'/filter/change/'+ ${page - 1} +'/' + ${villageCount}}">
             <button id="prev" class="btn">
-                <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}"></span>
+                <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}" class="pagination-btn-text"></span>
             </button>
         </a>
     </div>
@@ -161,7 +161,7 @@
     <div>
         <a th:href="@{'/filter/change/'+ ${page + 1} +'/' + ${villageCount}}">
             <button id="next" class="btn">
-               <span th:text="#{next.page}"></span>  <i class="fas fa-chevron-right"></i>
+               <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
             </button>
         </a>
     </div>
