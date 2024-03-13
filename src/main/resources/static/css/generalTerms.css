@@ -2,12 +2,12 @@
       text-decoration: none;
       color: #96c930;
     }
-    p a {
+    p a,
+    div a,
+    p a:hover,
+    div a:hover{
       color: #96c930;
     }
-
-
-
 
 
 .village-list-wrap {

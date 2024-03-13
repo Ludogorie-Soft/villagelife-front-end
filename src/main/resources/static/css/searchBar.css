@@ -28,15 +28,20 @@
         align-items: flex-start;
     }
 
-    #searchButton,
-    #clearButton {
+    #searchButton{
         background-color: #96c930;
         height: 40px;
         margin-right: 5px;
+        color: white;
+    }
+    #searchButton:hover{
+        color: white;
+        background-color: #578014 !important;
     }
 
-    #clearButton {
-        background-color: #eef5e1;
+    #clearButton:hover {
+        background-color: gray !important;
+        color: white !important;
     }
 
     .filter-button-container {

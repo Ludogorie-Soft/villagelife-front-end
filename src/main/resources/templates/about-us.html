@@ -5,10 +5,9 @@
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <title th:text="#{aboutUs.Title}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -16,9 +15,15 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/aboutUs.css">
-    <link rel="stylesheet" href="/css/menuStyle.css">
+    <link rel="stylesheet" href="/css/menu-style-about-us.css">
 
 </head>
 <body>
@@ -28,7 +33,6 @@
 
 <div class="container">
     <div>
-<!--        <h5>За нас</h5>-->
         <h5 th:text="#{aboutUs.title}"></h5>
         <p class="card-text text-secondary" th:text="#{mission}"></p>
         <p class="card-text text-secondary" th:text="#{еnthusiast}"></p><br><br>
@@ -64,24 +68,16 @@
 
             <div class="col col-lg-3 col-md-5 col-sm-11">
                 <div class="image-container">
-                    <img th:src="@{/images/pavel_tashev.jpg}" alt="Pavel Tashev" src="" class="image">
+                    <img th:src="@{/images/georgi_parvanov.jpg}" alt="Georgi Parvanov" src="" class="image">
                     <div class="overlay">
-                        <div class="new-text">
-                            <a href="https://www.paveltashev.com/" target="_blank">
-                                <h5 th:text="#{pavel.name}"></h5>
-                                <div th:text="#{pavel.tech}"></div>
-                                <br>
-                                <div th:text="#{pavel.hobby}">
-                                </div>
-                                <a href="https://www.linkedin.com/in/paveltashev" target="_blank">
-                                    <img th:src="@{/images/linkedin.png}" alt="facebook-icon" class="icon">
-                                </a>
-                            </a>
+                        <div class="new-text" style="padding-left: 10px;">
+                            <h5 th:text="#{georgi.name}"></h5>
+                            <div th:text="#{georgi.affiliate}"></div>
                         </div>
                     </div>
                     <span class="image-text">
-                        <h5 th:text="#{pavel.name}"></h5>
-                        <div th:text="#{pavel.tech}"></div>
+                        <h5 th:text="#{georgi.name}"></h5>
+                        <div th:text="#{georgi.affiliate}"></div>
                     </span>
                 </div>
             </div>
@@ -108,8 +104,6 @@
 
         </div>
 
-
-
         <br><br>
     </div>
 </div>
@@ -117,5 +111,6 @@
 <div th:replace="fragments :: footer"></div>
 <script src="/js/navScript.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
+<script src="/js/lang.js"></script>
 </body>
 </html>

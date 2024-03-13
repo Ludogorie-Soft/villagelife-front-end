@@ -158,3 +158,13 @@
         display: table;
    }
 
+   @media (max-width: 575px) {
+       .pagination-btn-text{
+           display: none;
+       }
+       #prev,
+       #next{
+           margin: 0 2px;
+       }
+   }
+

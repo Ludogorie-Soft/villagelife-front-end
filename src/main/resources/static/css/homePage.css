@@ -104,12 +104,19 @@
       outline: none;
     }
 
-    .btn-secondary {
-      height: 40px;
-      font-size: 16px;
-      border-radius: 5px;
+/*<------------------------------------------->*/
+.custom-btn {
+        height: 35px;
+        font-size: 13px !important;
+        border-radius: 5px;
+        background-color: #96c930 !important;
+        color: white;
     }
 
+    .custom-btn:hover {
+        background-color: #aed75b !important;
+    }
+/*<------------------------------------------->*/
 
     .village-grid {
     display: flex;
@@ -131,11 +138,8 @@
     color: white;
     }
 
-
-
-
     .custom-container {
-        margin: 25px 10px;
+        margin: 25px 30px;
         padding-left: 30px;
     }
 
@@ -148,7 +152,7 @@
     }
     .card-body a{
         color: black;
-        text-decoration: none;
+        text-decoration: none !important;
     }
     .btn-info,
     .btn-info:hover,
@@ -232,8 +236,7 @@
             color: #968D52;
             font-size: 16px;
             text-align: center;
-            padding: 20px 50px;
-            margin-top: 0;
+            padding-right: 20px;
         }
 
         .video-overlay {
@@ -319,6 +322,17 @@
         .mySlides img {
           width: 105%;
         }
+        .custom-container {
+            margin: 10px 15px;
+            padding-left: 15px;
+        }
+        .pagination-btn-text{
+            display: none;
+        }
+        #prev,
+        #next{
+            margin: 0 1px;
+        }
     }
 
     #search-input:focus,
@@ -341,5 +355,8 @@
     .pagination{
         margin-top: 20px;
         float: right;
+    }
+    .btn {
+        font-size: 15px !important;
     }
 

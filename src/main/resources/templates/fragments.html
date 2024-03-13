@@ -13,8 +13,6 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-
-
 </head>
 <body>
 
@@ -23,15 +21,116 @@
         <img th:src="@{/images/village-life-logo.png}" alt="village life logo"
              style="width: 175px; height: 60px; margin-top:10px;">
     </a>
+    <div id="menu" class="d-flex align-items-center">
+        <a th:href="@{/villages/home-page}"><span th:text="#{header.homePage}"></span></a>
+        <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>
+        <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>
+        <a th:href="@{/villages/contacts}"><span th:text="#{header.contacts}"></span></a>
 
-    <div id="menu">
-        <a th:href="@{/villages/home-page}"> <i class="fa-solid fa-house"></i> <span th:text="#{header.homePage}"></span></a>
-        <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span th:text="#{header.partners}"></span></a>
-        <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span th:text="#{header.aboutUs}"></span></a>
-        <a th:href="@{/villages/contacts}"> <i class="fa-regular fa-address-book"></i> <span th:text="#{header.contacts}"></span></a>
-        <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span th:text="#{header.addVillage}"></span></a>
+        <a th:href="@{/villages/create}" id="add-village" class="btn" role="button"><span th:text="#{header.addVillage}"></span></a>
+
+        <div class="dropdown ml-2" id="locales">
+            <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem; background-color: #f2f2f2; border: none !important;">
+                <span class="flag-icon flag-icon-bg"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
+            </div>
+        </div>
     </div>
 </div>
+
+<!--<script type="text/javascript">-->
+<!--document.addEventListener("DOMContentLoaded", function() {-->
+<!--    var dropdownItems = document.querySelectorAll("#locales .dropdown-item");-->
+
+<!--    dropdownItems.forEach(function(item) {-->
+<!--        item.addEventListener("click", function(event) {-->
+<!--            event.preventDefault();-->
+<!--            var langCode = item.getAttribute("data-lang");-->
+<!--            changeLanguage(langCode);-->
+<!--        });-->
+<!--    });-->
+
+<!--    function changeLanguage(langCode) {-->
+<!--        var currentUrl = window.location.href;-->
+<!--        var newUrl = updateQueryStringParameter(currentUrl, "lang", langCode);-->
+<!--        window.location.replace(newUrl);-->
+<!--    }-->
+
+<!--    function updateQueryStringParameter(uri, key, value) {-->
+<!--        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");-->
+<!--        var separator = uri.indexOf("?") !== -1 ? "&" : "?";-->
+<!--        if (uri.match(re)) {-->
+<!--            return uri.replace(re, "$1" + key + "=" + value + "$2");-->
+<!--        } else {-->
+<!--            return uri + separator + key + "=" + value;-->
+<!--        }-->
+<!--    }-->
+<!--});-->
+<!--</script>-->
+
+
+<!--<div th:fragment="menu" class="menu-container">-->
+<!--    <a th:href="@{/villages/home-page}">-->
+<!--        <img th:src="@{/images/village-life-logo.png}" alt="village life logo"-->
+<!--             style="width: 175px; height: 60px; margin-top:10px;">-->
+<!--    </a>-->
+<!--    <div id="menu" class="d-flex align-items-center">-->
+<!--        <a th:href="@{/villages/home-page}"><span th:text="#{header.homePage}"></span></a>-->
+<!--        <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>-->
+<!--        <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>-->
+<!--        <a th:href="@{/villages/contacts}"><span th:text="#{header.contacts}"></span></a>-->
+
+<!--        &lt;!&ndash; Add Village button &ndash;&gt;-->
+<!--        <a th:href="@{/villages/create}" id="add-village" class="btn" role="button"><span th:text="#{header.addVillage}"></span></a>-->
+
+<!--        &lt;!&ndash; Language dropdown button &ndash;&gt;-->
+<!--        <div class="dropdown ml-2" id="locales">-->
+<!--            <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem;">-->
+<!--                <span class="flag-icon flag-icon-bg"></span>-->
+<!--            </button>-->
+<!--            <div class="dropdown-menu" aria-labelledby="languageDropdown">-->
+<!--                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> Bulgarian</a>-->
+<!--                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> English</a>-->
+<!--                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> German</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script type="text/javascript">-->
+<!--document.addEventListener("DOMContentLoaded", function() {-->
+<!--    var dropdownItems = document.querySelectorAll("#locales .dropdown-item");-->
+
+<!--    dropdownItems.forEach(function(item) {-->
+<!--        item.addEventListener("click", function(event) {-->
+<!--            event.preventDefault();-->
+<!--            var langCode = item.getAttribute("data-lang");-->
+<!--            changeLanguage(langCode);-->
+<!--        });-->
+<!--    });-->
+
+<!--    function changeLanguage(langCode) {-->
+<!--        var currentUrl = window.location.href;-->
+<!--        var newUrl = updateQueryStringParameter(currentUrl, "lang", langCode);-->
+<!--        window.location.replace(newUrl);-->
+<!--    }-->
+
+<!--    function updateQueryStringParameter(uri, key, value) {-->
+<!--        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");-->
+<!--        var separator = uri.indexOf("?") !== -1 ? "&" : "?";-->
+<!--        if (uri.match(re)) {-->
+<!--            return uri.replace(re, "$1" + key + "=" + value + "$2");-->
+<!--        } else {-->
+<!--            return uri + separator + key + "=" + value;-->
+<!--        }-->
+<!--    }-->
+<!--});-->
+<!--</script>-->
+
 
 <div th:fragment="footer">
     <div id="footer">
@@ -44,7 +143,7 @@
                             <div class="footer-widget widget widget-wrap widget-about-site">
                                 <div class="widget-body">
                                     <div class="widget-content">
-                                        <p style="color: #96c930;" th:text="#{platform}"></p>
+                                        <p style="color: #96c930;" th:text="#{footer.platform}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +163,8 @@
                                     <div class="widget-content">
                                         <p></p>
                                         <ul class="list-unstyled contact-list">
-                                            <li><i class="fa-solid fa-map-location-dot"></i> <a
-                                                    href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank"
+                                            <li><i class="fa-solid fa-map-location-dot"></i>
+                                                <a href="https://goo.gl/maps/Z17gzgaXYJSW5FaU7" target="_blank"
                                                     style="color: #96c930;" th:text="#{contacts.address}"></a></li>
                                             <li><i class="fa-solid fa-phone"></i> <a href="tel:+359888393339"
                                                                                      style="color: #96c930;">+359 (0)
@@ -73,8 +172,14 @@
                                             <li><i class="fa-regular fa-envelope"></i> <a
                                                     href="mailto:info@villagelife.bg" style="color: #96c930;">info@villagelife.bg</a>
                                             </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-content">
+                                        <p></p>
+                                        <ul class="list-unstyled contact-list">
                                             <li>
-                                                &nbsp;
                                                 <div class="footer-social">
                                                     <a class="btn-facebook" target="_blank"
                                                        href="https://www.facebook.com/VillageLifeBulgaria/">
@@ -122,24 +227,24 @@
                                         </p>
                                     </div>
 
-                                    <div class="custom-select">
-                                        <div class="selected-option-container"><i class="fa-solid fa-globe" style="padding:5px;"></i><span class="selected-option" th:text="#{lang.change}"></span><i class="fa-solid fa-caret-down" style="float: right; padding: 5px;"></i></div>
-                                        <div class="options-container" style="display:none;" id="locales">
+<!--                                    <div class="custom-select">-->
+<!--                                        <div class="selected-option-container"><i class="fa-solid fa-globe" style="padding:5px;"></i><span class="selected-option" th:text="#{lang.change}"></span><i class="fa-solid fa-caret-down" style="float: right; padding: 5px;"></i></div>-->
+<!--                                        <div class="options-container" style="display:none;" id="locales">-->
 
-                                            <div class="option" data-value="en">
-                                                <img src="/images/uk_flag.png" alt="UK" class="flag_image">
-                                                <span th:text="#{lang.eng}"></span>
-                                            </div>
-                                            <div class="option" data-value="de">
-                                                <img src="/images/de_flag.jpg" alt="Germany" class="flag_image">
-                                                <span th:text="#{lang.de}"></span>
-                                            </div>
-                                            <div class="option" data-value="bg">
-                                                <img src="/images/bg_flag.jpg" alt="Bulgaria" class="flag_image">
-                                                <span th:text="#{lang.bg}"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+<!--                                            <div class="option" data-value="en">-->
+<!--                                                <img src="/images/uk_flag.png" alt="UK" class="flag_image">-->
+<!--                                                <span th:text="#{lang.eng}"></span>-->
+<!--                                            </div>-->
+<!--                                            <div class="option" data-value="de">-->
+<!--                                                <img src="/images/de_flag.jpg" alt="Germany" class="flag_image">-->
+<!--                                                <span th:text="#{lang.de}"></span>-->
+<!--                                            </div>-->
+<!--                                            <div class="option" data-value="bg">-->
+<!--                                                <img src="/images/bg_flag.jpg" alt="Bulgaria" class="flag_image">-->
+<!--                                                <span th:text="#{lang.bg}"></span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
 
                                 </div>
                             </div>
@@ -212,6 +317,10 @@
             <hr>
             <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span
                     th:text="#{header.addVillage}"></span></a>
+            <hr>
+            <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+            <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+            <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
         </div>
     </div>
     <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>

@@ -128,13 +128,17 @@
         .groundCategory {
           margin-right: 35px;
         }
-      }
+    }
     @media screen and (max-width: 575px) {
-            .ethnicities,
-            .groundCategory {
-              margin-right: 0;
-            }
+        .ethnicities,
+        .groundCategory {
+          margin-right: 0;
         }
+        .container{
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    }
     .objects .village-info{
        font-size: 17px;
     }
@@ -275,10 +279,6 @@
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
-    }
-
-    .btn {
-        flex-basis: 45%;
     }
 
     .form-group label {
