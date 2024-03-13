@@ -116,7 +116,7 @@
                        th:name="groundCategoryIds"
                        th:value="${groundCategory.id}" class="checkbox col"/>
                 <label th:for="${'groundCategory-' + groundCategory.id}"
-                       class="checkbox-label col" th:text="${groundCategory.groundCategoryName}"></label>
+                       class="checkbox-label col" th:text="#{${groundCategory.groundCategoryName}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('groundCategoryIds')}" th:errors="*{groundCategoryIds}"></p>
             <p class="text-danger" id="ground-category-checkbox-error" style="display: none;" th:text="#{please.choose}"></p>

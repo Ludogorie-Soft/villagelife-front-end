@@ -257,7 +257,6 @@ public class UploadController {
                             population.setVillageId(village.getId());
                             population.setStatus(true);
                             boolean populationFound = false;
-                            System.out.println("population " + valueNumberOfPopulation);
 
                                     populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);//numberString
                             i++;
