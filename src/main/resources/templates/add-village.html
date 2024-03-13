@@ -100,7 +100,7 @@
                 </label>
                 <select th:field="*{villageDTO.region}" class="form-select" id="regionName" required>
                     <option value="Избери област" th:text="#{choose.region}"></option>
-                    <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="${region.regionName}"></option>
+                    <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="#{${region.regionName}}"></option>
                 </select>
                 <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>
             </section>
