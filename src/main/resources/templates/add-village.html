@@ -135,7 +135,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
-                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td th:text="#{${livingCondition.livingConditionName}}"></td>
                     <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
