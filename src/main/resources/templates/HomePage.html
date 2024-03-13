@@ -69,7 +69,7 @@
                         <select name="region" class="form-select fixed-width" id="regionName">
                             <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
                             <option th:each="region : ${regions}" th:value="${region.regionName}"
-                                    th:text="${region.regionName}"></option>
+                                    th:text="#{region.regionName}"></option>
                         </select>
                     </div>
                 </div>
