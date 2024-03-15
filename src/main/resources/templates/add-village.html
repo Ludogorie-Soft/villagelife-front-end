@@ -130,7 +130,7 @@
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}" class="consent-th"></th>
+                        th:text="#{${consent.name}}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -164,7 +164,7 @@
                                 class="form-select">
                             <option th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                                     th:value="${consent1}"
-                                    th:text="${consent1.name}">Consent Option</option>
+                                    th:text="#{${consent1.name}}">Consent Option</option>
                         </select>
                         <input type="hidden"
                                th:id="${'livingCondition-' + livingCondition.id}"
@@ -184,7 +184,7 @@
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}" class="consent-th"></th>
+                        th:text="#{${consent.name}}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -217,7 +217,7 @@
                                 class="form-select">
                             <option th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
                                     th:value="${consent1}"
-                                    th:text="${consent1.name}">Consent Option</option>
+                                    th:text="#{${consent1.name}}">Consent Option</option>
                         </select>
                         <input type="hidden"
                                th:id="${'livingCondition-' + livingCondition.id}"
@@ -267,7 +267,7 @@
                        th:name="populationDTO.children"
                        th:value="${children}" class="radio-button" required/>
                 <label th:for="${'children-' + children}"
-                       class="radio-label" th:text="${children.name}"></label>
+                       class="radio-label" th:text="#{${children.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.children')}" th:errors="*{populationDTO.children}"></p>
         </section>
@@ -283,7 +283,7 @@
                        th:name="populationDTO.foreigners"
                        th:value="${foreigners}" class="radio-button" required/>
                 <label th:for="${'foreigners-' + foreigners}"
-                       class="radio-label" th:text="${foreigners.name}"></label>
+                       class="radio-label" th:text="#{${foreigners.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.foreigners')}" th:errors="*{populationDTO.foreigners}"></p>
         </section>
@@ -298,7 +298,7 @@
                        th:name="ethnicityDTOIds"
                        th:value="${ethnicity.id}" class="checkbox" />
                 <label th:for="${'ethnicity-' + ethnicity.id}"
-                       class="checkbox-label" th:text="${ethnicity.ethnicityName}"></label>
+                       class="checkbox-label" th:text="#{${ethnicity.ethnicityName}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('ethnicityDTOIds')}" th:errors="*{ethnicityDTOIds}"></p>
             <p class="text-danger" id="ethnicity-checkbox-error" style="display: none;" th:text="#{please.choose}"></p>
@@ -319,12 +319,12 @@
                 <tr>
                     <th></th>
                     <th th:each="consent : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
-                        th:text="${consent.name}" class="consent-th"></th>
+                        th:text="#{${consent.name}}" class="consent-th"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="populatedAssertion : ${populatedAssertions}">
-                    <td th:text="${populatedAssertion.populatedAssertionName}"></td>
+                    <td th:text="#{${populatedAssertion.populatedAssertionName}}"></td>
                     <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
