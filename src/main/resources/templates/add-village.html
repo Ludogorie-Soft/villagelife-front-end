@@ -60,12 +60,12 @@
                 <tr>
                     <th></th>
                     <th th:each="distance : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}"
-                        th:text="${distance.name}"></th>
+                        th:text="#{${distance.name}}"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="object : ${objectsAroundVillage}">
-                    <td th:text="${object.type}"></td>
+                    <td th:text="#{${object.type}}"></td>
                     <td th:each="distance1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Distance).values()}">
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'distance-' + object.id}"
@@ -157,7 +157,7 @@
             <table class="table table-hover">
                 <tbody>
                 <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id < 9}">
-                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td th:text="#{${livingCondition.livingConditionName}}"></td>
                     <td>
                         <select th:id="${'consentSelect-' + livingCondition.id}"
                                 th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
@@ -189,7 +189,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
-                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td th:text="#{${livingCondition.livingConditionName}}"></td>
                     <td th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}">
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
@@ -210,7 +210,7 @@
             <table class="table table-hover">
                 <tbody>
                 <tr th:each="livingCondition : ${livingConditions}" th:if="${livingCondition.id > 8}">
-                    <td th:text="${livingCondition.livingConditionName}"></td>
+                    <td th:text="#{${livingCondition.livingConditionName}}"></td>
                     <td class="col">
                         <select th:id="${'consentSelect-' + livingCondition.id}"
                                 th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
@@ -307,7 +307,7 @@
         <!-- Questions -->
         <section>
             <div th:each="question, questionIndex : ${questions}" class="question-wrapper">
-                <label th:for="${'question-' + questionIndex}" class="question-label fw-bold" th:text="${question.question}"></label><br>
+                <label th:for="${'question-' + questionIndex}" class="question-label fw-bold" th:text="#{${question.question}}"></label><br>
                 <textarea th:id="${'question-' + questionIndex}" th:field="*{questionResponses[__${questionIndex.index}__]}" rows="4" class="form-control"></textarea>
             </div>
         </section>
