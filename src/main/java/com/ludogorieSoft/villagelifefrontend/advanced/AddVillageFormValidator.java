@@ -27,7 +27,7 @@ public class AddVillageFormValidator implements Validator {
         AddVillageFormResult addVillageFormResult = (AddVillageFormResult) target;
 
         if (addVillageFormResult.getVillageDTO().getName().trim().equals("")) {
-            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Въведете име на селото!");
+            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "add.village.validations.enter.name");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(addVillageFormResult.getVillageDTO().getName()))) {
             errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
         }

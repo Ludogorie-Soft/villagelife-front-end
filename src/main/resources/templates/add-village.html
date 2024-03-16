@@ -89,8 +89,8 @@
                 <label for="villageName" class="fw-bold" th:text="#{village.name.how}">
                     <span class="text-danger">*</span>
                 </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required >
-                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.name')}" th:errors="*{villageDTO.name}"></p>
+                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control">
+                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.name')}" th:errors="*{villageDTO.name}" th:text="#{error.villageDTO.name}"></p>
             </section>
 
             <!-- Region -->
