@@ -35,7 +35,7 @@
 
 <div class="container">
     <div class="village-title">
-        <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + ${villageInfo.villageDTO.region}"></h1>
+        <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + #{${villageInfo.villageDTO.region}}"></h1>
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span
@@ -318,7 +318,7 @@
                         <div class="form-group">
                             <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>
                                 <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}" th:text="#{choose.type}"></option>
-                                <option th:value="${inquiryType}" th:text="${inquiryType.name}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
+                                <option th:value="${inquiryType}" th:text="#{${inquiryType.name}}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
                             <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
                         </div>
