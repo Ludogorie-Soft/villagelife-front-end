@@ -250,7 +250,7 @@
                        th:name="populationDTO.residents"
                        th:value="${residents}" class="radio-button" required/>
                 <label th:for="${'residents-' + residents}"
-                       class="radio-label" th:text="${residents.name}"></label>
+                       class="radio-label" th:text="#{${residents.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.residents')}" th:errors="*{populationDTO.residents}"></p>
         </section>

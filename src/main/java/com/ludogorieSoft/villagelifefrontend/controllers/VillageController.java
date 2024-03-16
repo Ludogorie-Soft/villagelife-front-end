@@ -52,7 +52,7 @@ public class VillageController {
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
-    private static final long MAX_FILE_SIZE = (long) 10 * 1024 * 1024;
+    private static final long MAX_FILE_SIZE = (long) 5 * 1024 * 1024;
 
     @GetMapping(value = { "/home-page/{page}", "/home-page" })
     public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
@@ -69,15 +69,15 @@ public class VillageController {
                 model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
             } else {
                 model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-                model.addAttribute("noVillagesMessage", "Списъкът с одобрени села е празен!");
+                model.addAttribute("noVillagesMessage", "error.empty_list");
             }
         } catch (FeignException.NotFound e) {
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-            model.addAttribute("noVillagesMessage", "В момента няма одобрени от администратор села!!!");
+            model.addAttribute("noVillagesMessage", "error.not_approved_villages");
         } catch (FeignException e) {
             e.printStackTrace();
             model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
-            model.addAttribute("errorMessage", "Грешка при получаване на одобрените села!");
+            model.addAttribute("errorMessage", "error.take_villages");
         }
         return "HomePage";
     }
@@ -93,10 +93,10 @@ public class VillageController {
     public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String subscriptionMessage;
         if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
-            subscriptionMessage = "Имате съществуващ валиден абонамент!";
+            subscriptionMessage = "subscription.message.exist";
         } else {
             subscriptionClient.createSubscription(subscriptionDTO);
-            subscriptionMessage = "Благодарим Ви, че се абонирахте!";
+            subscriptionMessage = "subscription.message.thank_you";
         }
 
         redirectAttributes.addFlashAttribute("subscriptionMessage", subscriptionMessage);
@@ -179,7 +179,7 @@ public class VillageController {
                 .mapToLong(MultipartFile::getSize)
                 .sum();
         if( totalSize > VillageController.MAX_FILE_SIZE){
-            throw new ImageMaxUploadSizeExceededException("File size should not exceed 10 MB");
+            throw new ImageMaxUploadSizeExceededException("File size should not exceed 5 MB");
         }
     }
 

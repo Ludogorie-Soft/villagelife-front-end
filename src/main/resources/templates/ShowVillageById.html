@@ -35,11 +35,11 @@
 
 <div class="container">
     <div class="village-title">
-        <h1 th:text="'село '+${villageInfo.villageDTO.name} + ', oбласт ' + #{${villageInfo.villageDTO.region}}"></h1>
+        <h1 th:text="#{village} + ' ' + ${villageInfo.villageDTO.name} + ', ' + #{region} + ' ' + #{${villageInfo.villageDTO.region}}"></h1>
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span
-            th:text="'село '+${villageInfo.villageDTO.name} + ', България'" class="village-name"></span>
+            th:text="#{village} + ' '+${villageInfo.villageDTO.name} + ', България'" class="village-name"></span>
     </div>
 
     <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
@@ -257,7 +257,7 @@
                 <tbody>
                 <tr th:each="objectVillageResponse : ${villageInfo.objectVillageResponses}">
                     <td class="col-3 info-title">
-                        <span th:text="${objectVillageResponse.distance.name}"></span>
+                        <span th:text="#{${objectVillageResponse.distance.name}}"></span>
                     </td>
                     <td class="col-10">
                         <img th:src="@{/images/building.png}" alt="distance" class="object-icon">
