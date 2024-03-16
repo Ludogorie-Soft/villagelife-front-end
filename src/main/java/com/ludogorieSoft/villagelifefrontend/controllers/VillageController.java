@@ -124,7 +124,6 @@ public class VillageController {
         return "ShowVillageById";
     }
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
-        model.addAttribute("title", "село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion());
         model.addAttribute("villageInfo", villageInfo);
 
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
