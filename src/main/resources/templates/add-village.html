@@ -312,8 +312,8 @@
             </div>
         </section>
 
-        <section>
-            <p class="fw-bold" th:text="#{statements.population}"><span class="legend">(5 -> Напълно съгласен; 4 -> По-скоро съгласен; 3 -> Не мога да преценя; 2 -> По-скоро не съм съгласен; 1 -> Не съм съгласен)</span></p>
+        <section class="lg-consents">
+            <p class="fw-bold" th:text="#{statements.population}"></p>
             <table  class="table table-hover">
                 <thead>
                 <tr>
@@ -339,6 +339,31 @@
                 </tbody>
             </table>
         </section>
+
+        <section class="sm-consents">
+            <p class="fw-bold" th:text="#{statements.population}"></p>
+            <table class="table table-hover">
+                <tbody>
+                <tr th:each="populatedAssertion : ${populatedAssertions}">
+                    <td th:text="#{${populatedAssertion.populatedAssertionName}}"></td>
+                    <td>
+                        <select th:id="${'consentSelect-' + populatedAssertion.id}"
+                                th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
+                                class="form-select">
+                            <option th:each="consent1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.Consents).values()}"
+                                    th:value="${consent1}"
+                                    th:text="#{${consent1.name}}">Consent Option</option>
+                        </select>
+                        <input type="hidden"
+                               th:id="${'populatedAssertion-' + populatedAssertion.id}"
+                               th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
+                               th:value="${populatedAssertion.id}" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
 
         <!--input field for uploading images-->
         <section>
