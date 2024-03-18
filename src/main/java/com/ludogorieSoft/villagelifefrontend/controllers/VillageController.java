@@ -128,8 +128,8 @@ public class VillageController {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
         model.addAttribute("inquiry", inquiryDTO);
-        model.addAttribute("village", villageInfo.getVillageDTO().getName());
-        model.addAttribute("regions", villageInfo.getVillageDTO().getRegion());
+        model.addAttribute("villageName", villageInfo.getVillageDTO().getName());
+        model.addAttribute("regionName", villageInfo.getVillageDTO().getRegion());
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
