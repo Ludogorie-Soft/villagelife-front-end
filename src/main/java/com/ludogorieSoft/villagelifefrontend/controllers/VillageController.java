@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/villages")
@@ -128,8 +127,9 @@ public class VillageController {
 
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
-        inquiryDTO.setUserMessage("Здравейте, желая повече информация за [село " + villageInfo.getVillageDTO().getName() + ", област " + villageInfo.getVillageDTO().getRegion() + "]");
         model.addAttribute("inquiry", inquiryDTO);
+        model.addAttribute("village", villageInfo.getVillageDTO().getName());
+        model.addAttribute("regions", villageInfo.getVillageDTO().getRegion());
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
         model.addAttribute("imageSrcList", imagesResponse);
