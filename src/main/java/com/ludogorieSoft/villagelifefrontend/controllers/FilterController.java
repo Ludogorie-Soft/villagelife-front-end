@@ -80,8 +80,6 @@ public class FilterController {
         }
 
         Page<VillageDTO> villageDTOs = getVillageDTOs(model,region, villageName, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
-        System.out.println("filter page size " + villageDTOs.getTotalPages());
-        System.out.println("filter total elements " + villageDTOs.getTotalElements());
         model.addAttribute("sort", sort);
         model.addAttribute("villages", villageDTOs);
         model.addAttribute("subscription", new SubscriptionDTO());

@@ -67,7 +67,7 @@ public class UploadController {
     @GetMapping("/uploadImages")
     public String uploadImages(Model model, HttpSession session) {
         System.out.println("upload images controller frontend");
-        villageImageClient.uploadImages();
+        //villageImageClient.uploadImages();
         return "redirect:/uploadFile";
     }
 
@@ -257,9 +257,8 @@ public class UploadController {
                             population.setVillageId(village.getId());
                             population.setStatus(true);
                             boolean populationFound = false;
-                            System.out.println("population " + valueNumberOfPopulation);
 
-                                    populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);//numberString
+                                    populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);
                             i++;
                             String valueResident = sheet.getRow(rowIndex).getCell(i).getStringCellValue();
                             for (Residents residents : Residents.values()) {
@@ -330,6 +329,7 @@ public class UploadController {
                             for (Consents consents : Consents.values()) {
                                 if (consents.getName().equalsIgnoreCase(valueWhile)) {
                                     villagePopulationAssertion.setAnswer(consents);
+                                    villagePopulationAssertion.setStatus(true);
                                     villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
                                 }
                             }
@@ -343,6 +343,7 @@ public class UploadController {
                             for (Consents consents : Consents.values()) {
                                 if (consents.getName().equalsIgnoreCase(valueWhile)) {
                                     villagePopulationAssertion.setAnswer(consents);
+                                    villagePopulationAssertion.setStatus(true);
                                     villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
                                 }
                             }
@@ -354,11 +355,29 @@ public class UploadController {
                             villagePopulationAssertion.setVillageId(village.getId());
                             for (Consents consents : Consents.values()) {
                                 if (consents.getName().equalsIgnoreCase(valueWhile)) {
-
                                     villagePopulationAssertion.setAnswer(consents);
+                                    villagePopulationAssertion.setStatus(true);
                                     villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
                                 }
                             }
+                        }else if (i == 46) {
+                            villageAnswerQuestion.setVillageId(village.getId());
+                            Cell valueCell = sheet.getRow(rowIndex).getCell(i);
+                            String valueWhile = valueCell.getStringCellValue();
+                            villageAnswerQuestion.setAnswer(valueWhile);
+                            villageAnswerQuestion.setQuestionId(questionClient.getQuestionById(6L).getId());
+                            villageAnswerQuestion.setStatus(true);
+                            villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
+
+                        }else if (i == 47) {
+                            villageAnswerQuestion.setVillageId(village.getId());
+                            Cell valueCell = sheet.getRow(rowIndex).getCell(i);
+                            String valueWhile = valueCell.getStringCellValue();
+                            villageAnswerQuestion.setAnswer(valueWhile);
+                            villageAnswerQuestion.setQuestionId(questionClient.getQuestionById(7L).getId());
+                            villageAnswerQuestion.setStatus(true);
+                            villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
+
                         }
                     }
                 }
