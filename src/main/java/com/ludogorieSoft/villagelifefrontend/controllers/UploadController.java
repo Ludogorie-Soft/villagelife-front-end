@@ -64,6 +64,7 @@ public class UploadController {
         model.addAttribute("subscription", new SubscriptionDTO());
         return UPLOAD_VIEW;
     }
+
     @GetMapping("/uploadImages")
     public String uploadImages(Model model, HttpSession session) {
         System.out.println("upload images controller frontend");
@@ -96,7 +97,7 @@ public class UploadController {
                 Row row = sheet.getRow(rowIndex);
                 Cell cell = row.getCell(2);
 
-                String key = getExistingVillageKey(cell);
+                String key = getExistingVillageKey(cell);//this return name + regionName
                 if (key == null) continue;
 
                 if (villageOccurrencesMap.containsKey(key)) {
@@ -258,7 +259,7 @@ public class UploadController {
                             population.setStatus(true);
                             boolean populationFound = false;
 
-                                    populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);
+                            populationFound = isPopulationFound(population, populationFound, valueNumberOfPopulation);
                             i++;
                             String valueResident = sheet.getRow(rowIndex).getCell(i).getStringCellValue();
                             for (Residents residents : Residents.values()) {
@@ -360,7 +361,7 @@ public class UploadController {
                                     villagePopulationAssertionClient.createVillagePopulationAssertion(villagePopulationAssertion);
                                 }
                             }
-                        }else if (i == 46) {
+                        } else if (i == 46) {
                             villageAnswerQuestion.setVillageId(village.getId());
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueWhile = valueCell.getStringCellValue();
@@ -369,7 +370,7 @@ public class UploadController {
                             villageAnswerQuestion.setStatus(true);
                             villageAnswerQuestionClient.createVillageAnswerQuestion(villageAnswerQuestion);
 
-                        }else if (i == 47) {
+                        } else if (i == 47) {
                             villageAnswerQuestion.setVillageId(village.getId());
                             Cell valueCell = sheet.getRow(rowIndex).getCell(i);
                             String valueWhile = valueCell.getStringCellValue();
@@ -419,7 +420,10 @@ public class UploadController {
 
 
     private void setVillageIdBasedOnKeyOrCreateNewVillage(Map<String, VillageDTO> existingVillagesMap, String key, VillageDTO village) {
-        if (existingVillagesMap.containsKey(key)) {
+        VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(key);
+        if (villageDTO != null) {
+            village.setId(villageDTO.getId());
+        } else if (existingVillagesMap.containsKey(key)) {
             VillageDTO existingVillage = existingVillagesMap.get(key);
             Long existingVillageId = existingVillage.getId();
             village.setId(existingVillageId);
