@@ -10,8 +10,7 @@ import java.util.List;
 
 @FeignClient(name = "villagelife-api-villages",url = "${backend.url}/villages")
 public interface VillageClient {
-    @GetMapping
-    List<VillageDTO> getAllVillages();
+
     @GetMapping("/{id}")
     VillageDTO getVillageById(@PathVariable("id") Long id);
 
@@ -35,4 +34,6 @@ public interface VillageClient {
 
     @PutMapping("/{id}/increase-approved-responses-count")
     public void increaseApprovedResponsesCount(@PathVariable Long id);
+    @GetMapping("/name/{key}")
+    VillageDTO findVillageByNameAndRegion(@PathVariable String key);
 }

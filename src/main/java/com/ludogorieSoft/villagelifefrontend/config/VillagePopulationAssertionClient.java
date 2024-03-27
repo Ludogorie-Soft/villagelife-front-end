@@ -16,10 +16,10 @@ public interface VillagePopulationAssertionClient {
     List<VillagePopulationAssertionDTO> getAllVillagePopulationAssertions();
 
     @GetMapping("village/{id}")
-    public List<VillagePopulationAssertionDTO> getVillagePopulationAssertionByVillageId(@PathVariable("id") Long id) ;
+    List<VillagePopulationAssertionDTO> getVillagePopulationAssertionByVillageId(@PathVariable("id") Long id) ;
 
     @PostMapping
-    void createVillagePopulationAssertion( @RequestBody VillagePopulationAssertionDTO villageLandscapeDTO) ;
+    void createVillagePopulationAssertion( @RequestBody VillagePopulationAssertionDTO villagePopulationAssertionDTO) ;
 
 
     }
