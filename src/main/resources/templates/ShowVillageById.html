@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{village} + ${villageInfo.villageDTO.name} + ', ' + #{region} + #{${villageInfo.villageDTO.region}}">Информация</title>
+    <title th:text="#{village} + ' ' + ${villageInfo.villageDTO.name} + ', ' + #{region} + ' ' + #{${villageInfo.villageDTO.region}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -100,14 +100,14 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-6" th:each="condition : ${villageInfo.livingConditionResponses}"
-                     th:if="${condition.livingCondition == 'Битови условия' or condition.livingCondition == 'Престъпност' or condition.livingCondition == 'Екосъобразност'}">
-                    <div th:if="${condition.percentage == 0 and condition.livingCondition != 'Престъпност'}">
+                     th:if="${condition.livingCondition == 'living.conditions.label' or condition.livingCondition == 'crime' or condition.livingCondition == 'environmental.friendliness'}">
+                    <div th:if="${condition.percentage == 0 and condition.livingCondition != 'crime'}">
                         <div class="village-info">-</div>
                     </div>
-                    <div th:unless="${condition.percentage == 0 and condition.livingCondition != 'Престъпност'}">
+                    <div th:unless="${condition.percentage == 0 and condition.livingCondition != 'crime'}">
                         <div class="village-info" th:text="${condition.percentage + '%'}"></div>
                     </div>
-                    <div class="info-title" th:text="${condition.livingCondition}"></div>
+                    <div class="info-title" th:text="#{${condition.livingCondition}}"></div>
                 </div>
 
             </div>
@@ -176,7 +176,10 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="row">
                                 <span class="info-title col" th:text="#{village.ethnicities}"></span>
-                                <span th:text="${villageInfo.ethnicities}" class="ethnicities village-info col"></span>
+                                <!--<span th:text="${villageInfo.ethnicities}" class="ethnicities village-info col"></span>-->
+                                <span th:each="ethnicity : ${villageInfo.ethnicities}" class="ethnicities village-info col">
+                                    <span th:text="#{${ethnicity}}"></span>
+                                </span>
                                 <hr>
                             </div>
                         </div>
@@ -220,12 +223,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'Битови условия' and condition.livingCondition != 'Престъпност' and condition.livingCondition != 'Екосъобразност'}">
+                <div class="col-lg-6 col-md-6 col-sm-12" th:each="condition : ${villageInfo.livingConditionResponses}" th:if="${condition.livingCondition != 'living.conditions.label' and condition.livingCondition != 'crime' and condition.livingCondition != 'environmental.friendliness'}">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
-                                <span class="info-title col" th:text="${condition.livingCondition}"></span>
-                                <span th:text="${condition.livingCondition == 'Достъпност' and condition.percentage == 0} ? '-' : (${condition.percentage} + '%')" class="village-info col"></span>
+                                <span class="info-title col" th:text="#{${condition.livingCondition}}"></span>
+                                <span th:text="${condition.livingCondition == 'accessibility' and condition.percentage == 0} ? '-' : (${condition.percentage} + '%')" class="village-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -262,7 +265,9 @@
                     </td>
                     <td class="col-10">
                         <img th:src="@{/images/building.png}" alt="distance" class="object-icon">
-                        <span th:text="${objectVillageResponse.objects}"></span>
+                        <span th:each="object : ${objectVillageResponse.objects}">
+                            <span th:text="#{${object.type}}"></span>,
+                        </span>
                     </td>
                 </tr>
                 </tbody>
