@@ -22,26 +22,26 @@ public class InquiryValidator implements Validator {
     public void validate(Object target, Errors errors) {
         InquiryDTO inquiryDTO = (InquiryDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inquiryType", FIELD_REQUIRED, "Изберете тип на запитването");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inquiryType", FIELD_REQUIRED, "Select a inquiry type");
 
         if (inquiryDTO.getUserMessage() == null || inquiryDTO.getUserMessage().trim().equals("")) {
-            errors.rejectValue("userMessage", FIELD_REQUIRED, "Съобщението е задължително");
+            errors.rejectValue("userMessage", FIELD_REQUIRED, "Message is required");
         }
 
         if (inquiryDTO.getEmail() == null || inquiryDTO.getEmail().trim().equals("")) {
-            errors.rejectValue("email", FIELD_REQUIRED, "Имейлът е задължителен");
+            errors.rejectValue("email", FIELD_REQUIRED, "Email is required");
         }
 
         if (inquiryDTO.getUserName() == null || inquiryDTO.getUserName().trim().length() < 2) {
-            errors.rejectValue("userName", "field.minlength", "Името трябва да бъде поне 2 символа");
+            errors.rejectValue("userName", "field.minlength", "The name must be at least 2 characters");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(inquiryDTO.getUserName()))) {
-            errors.rejectValue("userName", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
+            errors.rejectValue("userName", FIELD_REQUIRED, "Must use letters only");
         }
 
         if (inquiryDTO.getMobile() == null || inquiryDTO.getMobile().trim().length() < 10) {
-            errors.rejectValue("mobile", "field.minlength", "Телефонният номер трябва да бъде поне 10 символа");
+            errors.rejectValue("mobile", "field.minlength", "The phone number must be at least 10 characters");
         } else if (Boolean.FALSE.equals(validationUtilsClient.numberCheck(inquiryDTO.getMobile()))) {
-            errors.rejectValue("mobile", FIELD_REQUIRED, "Трябва да използвате само числа!");
+            errors.rejectValue("mobile", FIELD_REQUIRED, "You only need to use numbers");
         }
         if(!inquiryDTO.isHasAgreed()){
             errors.rejectValue("hasAgreed", FIELD_REQUIRED);
