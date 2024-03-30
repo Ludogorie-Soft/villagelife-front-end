@@ -36,7 +36,7 @@ public class FilterController {
         AdvancedSearchForm advancedSearchForm = new AdvancedSearchForm();
 
         List<ObjectAroundVillageDTO> objectAroundVillageDTOS = objectAroundVillageClient.getAllObjectsAroundVillage();
-        objectAroundVillageDTOS.removeIf(dto -> "областен град".equals(dto.getType()));
+        objectAroundVillageDTOS.removeIf(dto -> "objects.fourteenth".equals(dto.getType()));
         model.addAttribute("objectsAroundVillage", objectAroundVillageDTOS);
 
         List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();

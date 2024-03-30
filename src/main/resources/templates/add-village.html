@@ -71,7 +71,7 @@
                             <input type="radio" th:id="${'distance-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].distance"
                                    th:value="${distance1}"
-                                   th:disabled="${object.type == 'областен град' && distance1 == T(com.ludogorieSoft.villagelifefrontend.enums.Distance).IN_THE_VILLAGE}"  class="radio-button"/>
+                                   th:disabled="${object.type == 'objects.fourteenth' && distance1 == T(com.ludogorieSoft.villagelifefrontend.enums.Distance).IN_THE_VILLAGE}"  class="radio-button"/>
                             <input type="hidden" th:id="${'object-' + object.id}"
                                    th:name="objectVillageDTOS[__${object.id}__].objectAroundVillageId"
                                    th:value="${object.id}"/>
