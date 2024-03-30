@@ -97,7 +97,7 @@
     </div>
 
     <div class="custom-div">
-        <p th:if="${message}" th:text="${message}"></p>
+        <p th:if="${message}" th:text="#{${message}} + ' ' + (${villageCount} == 0 ? '' : ${villageCount})"></p>
     </div>
 
     <div class="village-grid">
