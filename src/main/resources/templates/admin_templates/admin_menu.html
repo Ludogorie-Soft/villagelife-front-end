@@ -53,7 +53,7 @@
             <tr th:each="village : ${villages}">
                 <td th:text="${village.id}"></td>
                 <td th:text="${village.name}"></td>
-                <td th:text="${village.region.regionName}"></td>
+                <td th:text="#{${village.region.regionName}}"></td>
                 <td th:text="${village.dateUpload != null ? #temporals.format(village.dateUpload, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
                 <td th:text="${village.status ? 'Да' : 'Не'}"></td>
                 <td th:text="${village.imagesCount}"></td>
