@@ -33,7 +33,7 @@
                             <tr th:each="object : ${objectsAroundVillage}">
                                 <td>
                                     <div class="form-check">
-                                        <label class="form-check-label" th:text="${object.type}"></label>
+                                        <label class="form-check-label" th:text="#{${object.type}}"></label>
                                         <input class="form-check-input" type="checkbox"
                                                th:id="'object-' + ${object.id}"
                                                th:name="objectAroundVillageDTOS" th:value="${object.type}"/>
@@ -51,7 +51,7 @@
                                 <select id="children" name="children" class="form-select flex-grow-1">
                                     <option value="" disabled selected th:text="#{choose.option}"></option>
                                     <option th:each="child : ${childrenValues}" th:value="${child['valueAsNumber']}"
-                                            th:text="${child['name']}"></option>
+                                            th:text="#{${child['name']}}"></option>
                                 </select>
                             </div>
                         </section>
@@ -66,7 +66,7 @@
                                    th:id="'livingCondition-' + ${livingCondition.id}"
                                    th:name="livingConditionDTOS" th:value="${livingCondition.livingConditionName}"/>
                             <label class="form-check-label" th:for="'livingCondition-' + ${livingCondition.id}"
-                                   th:text="${livingCondition.livingConditionName}"></label>
+                                   th:text="#{${livingCondition.livingConditionName}}"></label>
                         </div>
                     </section>
 
