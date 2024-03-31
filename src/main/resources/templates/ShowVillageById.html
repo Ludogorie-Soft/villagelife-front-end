@@ -36,11 +36,20 @@
 <div class="container">
     <div class="village-title">
         <h1>
-            <span th:text="#{village}"></span> <span th:text="${villageInfo.villageDTO.name}"></span>, <span th:text="#{region}"></span> <span th:text="#{${villageInfo.villageDTO.region}}"></span>
+            <span th:text="#{village}"></span>
+            <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
+            <span th:if="${#locale.language == 'en'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
+            <span th:if="${#locale.language == 'de'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
+            <span th:text="#{region}"></span>
+            <span th:text="#{${villageInfo.villageDTO.region}}"></span>
         </h1>
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
-        <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span> <span th:text="${villageInfo.villageDTO.name}"></span>, <span th:text="#{bulgaria}"></span>
+        <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
+        <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
+        <span th:if="${#locale.language == 'en'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
+        <span th:if="${#locale.language == 'de'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
+        <span th:text="#{bulgaria}"></span>
     </div>
 
     <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
@@ -317,9 +326,15 @@
                         </div>
 
                         <div class="form-group form-group-textarea">
-                            <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение" th:text="#{inquiry.userMessage(#{village},${villageName},#{region},#{${regionName}})}" required></textarea>
-                            <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
+                            <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
+                                (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
+                                <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение"
+                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" required>
+                                </textarea>
+                            </span>
                         </div>
+
+
 
                         <div class="form-group">
                             <select name="user_type" class="selectpicker form-control-sm bs-select-hidden" title="Избери" th:field="*{inquiryType}" required>

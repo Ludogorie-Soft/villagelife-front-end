@@ -116,7 +116,13 @@
 
                 <div class="card-body">
                     <a th:href="@{/villages/show/{id}(id=${village.id})}">
-                        <h6 style="font-size: 15px;"><span th:text="#{village}"></span> <span th:text="${village.name}"></span>, <span th:text="#{region}"></span> <span th:text="#{${village.region}}"></span></h6>
+                        <h6 style="font-size: 15px;"><span th:text="#{village}"></span>
+                            <span th:if="${#locale.language == 'bg'}" th:text="${village.name} + ', '"></span>
+                            <span th:if="${#locale.language == 'en'}" th:text="${village.latinName} + ', '"></span>
+                            <span th:if="${#locale.language == 'de'}" th:text="${village.latinName} + ', '"></span>
+                            <span th:text="#{region}"></span>
+                            <span th:text="#{${village.region}}"></span>
+                        </h6>
                     </a>
                     <br>
                     <a th:href="@{/villages/show/{id}(id=${village.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{learn.more}"></span></a>

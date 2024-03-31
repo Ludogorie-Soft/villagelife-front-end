@@ -120,7 +120,13 @@
                         <div class="card-body col-6">
                             <a th:href="@{'/villages/show/' + ${village.id}}">
                                 <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
-                                <h6 th:text="'село '+ ${village.name} + ', област ' + #{${village.region}}"></h6>
+                                <h6 style="font-size: 15px;"><span th:text="#{village}"></span>
+                                    <span th:if="${#locale.language == 'bg'}" th:text="${village.name} + ', '"></span>
+                                    <span th:if="${#locale.language == 'en'}" th:text="${village.latinName} + ', '"></span>
+                                    <span th:if="${#locale.language == 'de'}" th:text="${village.latinName} + ', '"></span>
+                                    <span th:text="#{region}"></span>
+                                    <span th:text="#{${village.region}}"></span>
+                                </h6>
                                 <br>
                                 <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info" th:text="#{more}"></a>
                             </a>

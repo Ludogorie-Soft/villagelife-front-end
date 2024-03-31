@@ -129,6 +129,7 @@ public class VillageController {
 
         model.addAttribute("inquiry", inquiryDTO);
         model.addAttribute("villageName", villageInfo.getVillageDTO().getName());
+        model.addAttribute("villageLatinName", villageInfo.getVillageDTO().getLatinName());
         model.addAttribute("regionName", villageInfo.getVillageDTO().getRegion());
 
         List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
