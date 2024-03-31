@@ -169,16 +169,14 @@
                 </div>
             </div>
 
-
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row ethnicities-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 ethnicities-col">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="row">
+                            <div>
                                 <span class="info-title col" th:text="#{village.ethnicities}"></span>
-                                <!--<span th:text="${villageInfo.ethnicities}" class="ethnicities village-info col"></span>-->
-                                <span th:each="ethnicity : ${villageInfo.ethnicities}" class="ethnicities village-info col">
-                                    <span th:text="#{${ethnicity}}"></span>
+                                <span th:each="ethnicity : ${villageInfo.ethnicities}" class="ethnicities village-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                    <span th:text="#{${ethnicity}}"></span>,
                                 </span>
                                 <hr>
                             </div>
@@ -209,13 +207,15 @@
         <section class="living-conditions">
             <h3 class="section-title" th:text="#{living.conditions}"></h3>
             <hr>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row groundCategory-row">
+                <div class="col-lg-12 col-md-12 col-sm-12 groundCategory-col">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="row">
+                            <div>
                                 <span class="info-title col" th:text="#{ground.category}"></span>
-                                <span th:text="#{${villageInfo.groundCategories}}" class="groundCategory village-info col"></span>
+                                <span th:each="category : ${villageInfo.groundCategories}" class="village-info col"  style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                <span th:text="#{${category}}"></span>,
+                                </span>
                                 <hr>
                             </div>
                         </div>

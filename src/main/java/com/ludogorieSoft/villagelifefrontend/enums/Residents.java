@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Residents {
-
     UP_TO_2_PERCENT ("residents.up_to_2_percent", 1),
     FROM_2_TO_5_PERCENT ("residents.from_2_to_5_percent", 2),
     FROM_6_TO_10_PERCENT ("residents.from_6_to_10_percent", 3),
@@ -16,6 +15,4 @@ public enum Residents {
 
     private final String name;
     private final int valueAsNumber;
-
-
 }
