@@ -119,20 +119,25 @@
         font-weight: 500;
     }
 
-    .ethnicities,
-    .groundCategory {
-      margin-right: 25px;
+    .ethnicities-row,
+    .groundCategory-row {
+      margin-right: 15px;
     }
     @media screen and (max-width: 768px) {
-        .ethnicities,
-        .groundCategory {
+        .ethnicities-row,
+        .groundCategory-row {
           margin-right: 35px;
         }
     }
     @media screen and (max-width: 575px) {
-        .ethnicities,
-        .groundCategory {
-          margin-right: 0;
+        .ethnicities-row,
+        .groundCategory-row {
+             margin-right: 0;
+        }
+        .groundCategory-col,
+        .ethnicities-col
+        {
+            padding-right: 0;
         }
         .container{
             padding-left: 25px;
