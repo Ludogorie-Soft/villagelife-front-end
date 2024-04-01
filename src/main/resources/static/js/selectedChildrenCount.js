@@ -3,10 +3,10 @@
 
     var selectedChildrenCount = selectElement.value;
     var selectedChildrenCountResult = document.getElementById("selectedChildrenCountResult");
-    selectedChildrenCountResult.textContent = "Избор: " + selectedChildrenCount;
+    selectedChildrenCountResult.textContent = "Choice: " + selectedChildrenCount;
 
     var selectedOption = selectElement.options[selectElement.selectedIndex];
-    selectedChildrenCountResult.textContent = "Избрана опция: " + selectedOption.text;
+    selectedChildrenCountResult.textContent = "Selected option: " + selectedOption.text;
 
     console.log("Function finished");
     }

@@ -65,8 +65,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ModelAndView("/admin_templates/error");
     }
     @ExceptionHandler(SocketTimeoutException.class)
-    public ModelAndView handleSocketTimeoutException(Model model) {
-        model.addAttribute("errorMessage", "Files are still uploading.");
+    public ModelAndView handleSocketTimeoutException(SocketTimeoutException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
         return new ModelAndView("/admin_templates/error");
     }
     @ExceptionHandler(UsernamePasswordException.class)

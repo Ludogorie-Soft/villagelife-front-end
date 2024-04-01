@@ -42,96 +42,6 @@
     </div>
 </div>
 
-<!--<script type="text/javascript">-->
-<!--document.addEventListener("DOMContentLoaded", function() {-->
-<!--    var dropdownItems = document.querySelectorAll("#locales .dropdown-item");-->
-
-<!--    dropdownItems.forEach(function(item) {-->
-<!--        item.addEventListener("click", function(event) {-->
-<!--            event.preventDefault();-->
-<!--            var langCode = item.getAttribute("data-lang");-->
-<!--            changeLanguage(langCode);-->
-<!--        });-->
-<!--    });-->
-
-<!--    function changeLanguage(langCode) {-->
-<!--        var currentUrl = window.location.href;-->
-<!--        var newUrl = updateQueryStringParameter(currentUrl, "lang", langCode);-->
-<!--        window.location.replace(newUrl);-->
-<!--    }-->
-
-<!--    function updateQueryStringParameter(uri, key, value) {-->
-<!--        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");-->
-<!--        var separator = uri.indexOf("?") !== -1 ? "&" : "?";-->
-<!--        if (uri.match(re)) {-->
-<!--            return uri.replace(re, "$1" + key + "=" + value + "$2");-->
-<!--        } else {-->
-<!--            return uri + separator + key + "=" + value;-->
-<!--        }-->
-<!--    }-->
-<!--});-->
-<!--</script>-->
-
-
-<!--<div th:fragment="menu" class="menu-container">-->
-<!--    <a th:href="@{/villages/home-page}">-->
-<!--        <img th:src="@{/images/village-life-logo.png}" alt="village life logo"-->
-<!--             style="width: 175px; height: 60px; margin-top:10px;">-->
-<!--    </a>-->
-<!--    <div id="menu" class="d-flex align-items-center">-->
-<!--        <a th:href="@{/villages/home-page}"><span th:text="#{header.homePage}"></span></a>-->
-<!--        <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>-->
-<!--        <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>-->
-<!--        <a th:href="@{/villages/contacts}"><span th:text="#{header.contacts}"></span></a>-->
-
-<!--        &lt;!&ndash; Add Village button &ndash;&gt;-->
-<!--        <a th:href="@{/villages/create}" id="add-village" class="btn" role="button"><span th:text="#{header.addVillage}"></span></a>-->
-
-<!--        &lt;!&ndash; Language dropdown button &ndash;&gt;-->
-<!--        <div class="dropdown ml-2" id="locales">-->
-<!--            <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem;">-->
-<!--                <span class="flag-icon flag-icon-bg"></span>-->
-<!--            </button>-->
-<!--            <div class="dropdown-menu" aria-labelledby="languageDropdown">-->
-<!--                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> Bulgarian</a>-->
-<!--                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> English</a>-->
-<!--                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> German</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script type="text/javascript">-->
-<!--document.addEventListener("DOMContentLoaded", function() {-->
-<!--    var dropdownItems = document.querySelectorAll("#locales .dropdown-item");-->
-
-<!--    dropdownItems.forEach(function(item) {-->
-<!--        item.addEventListener("click", function(event) {-->
-<!--            event.preventDefault();-->
-<!--            var langCode = item.getAttribute("data-lang");-->
-<!--            changeLanguage(langCode);-->
-<!--        });-->
-<!--    });-->
-
-<!--    function changeLanguage(langCode) {-->
-<!--        var currentUrl = window.location.href;-->
-<!--        var newUrl = updateQueryStringParameter(currentUrl, "lang", langCode);-->
-<!--        window.location.replace(newUrl);-->
-<!--    }-->
-
-<!--    function updateQueryStringParameter(uri, key, value) {-->
-<!--        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");-->
-<!--        var separator = uri.indexOf("?") !== -1 ? "&" : "?";-->
-<!--        if (uri.match(re)) {-->
-<!--            return uri.replace(re, "$1" + key + "=" + value + "$2");-->
-<!--        } else {-->
-<!--            return uri + separator + key + "=" + value;-->
-<!--        }-->
-<!--    }-->
-<!--});-->
-<!--</script>-->
-
-
 <div th:fragment="footer">
     <div id="footer">
         <hr>
@@ -226,26 +136,6 @@
                                         </form>
                                         </p>
                                     </div>
-
-<!--                                    <div class="custom-select">-->
-<!--                                        <div class="selected-option-container"><i class="fa-solid fa-globe" style="padding:5px;"></i><span class="selected-option" th:text="#{lang.change}"></span><i class="fa-solid fa-caret-down" style="float: right; padding: 5px;"></i></div>-->
-<!--                                        <div class="options-container" style="display:none;" id="locales">-->
-
-<!--                                            <div class="option" data-value="en">-->
-<!--                                                <img src="/images/uk_flag.png" alt="UK" class="flag_image">-->
-<!--                                                <span th:text="#{lang.eng}"></span>-->
-<!--                                            </div>-->
-<!--                                            <div class="option" data-value="de">-->
-<!--                                                <img src="/images/de_flag.jpg" alt="Germany" class="flag_image">-->
-<!--                                                <span th:text="#{lang.de}"></span>-->
-<!--                                            </div>-->
-<!--                                            <div class="option" data-value="bg">-->
-<!--                                                <img src="/images/bg_flag.jpg" alt="Bulgaria" class="flag_image">-->
-<!--                                                <span th:text="#{lang.bg}"></span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
                                 </div>
                             </div>
                         </div>
@@ -276,16 +166,18 @@
     </div>
 
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
-        <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
-                     style="width: 25px;">
-                <strong class="me-auto">Village Life</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div th:if="${subscriptionMessage != null}">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+            <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                         style="width: 25px;">
+                    <strong class="me-auto">Village Life</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-subscription-body" th:text="#{${subscriptionMessage}}"
+                     style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
             </div>
-            <div class="toast-subscription-body" th:text="${subscriptionMessage}"
-                 style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
         </div>
     </div>
     <script th:src="@{/js/lang.js}"></script>
@@ -358,8 +250,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/admins/subscriptions">Subscriptions</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/uploadFile">Upload File</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownSettings" href="#" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" th:href="@{/uploadFile}">Upload File</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admins/villages/latin-names}">Translate names to latin</a></li>
+                </ul>
             </li>
         </ul>
     </div>

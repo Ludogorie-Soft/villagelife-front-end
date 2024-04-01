@@ -5,5 +5,5 @@
       document.getElementById('modalContainer').innerHTML = html;
     })
     .catch(error => {
-      console.error('Грешка при зареждане на страницата с модалния прозорец:', error);
+      console.error('Error loading page with modal window:', error);
     });

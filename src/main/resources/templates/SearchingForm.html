@@ -47,7 +47,7 @@
         <select name="region" class="form-select me-2" id="regionName">
             <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
             <option th:each="region : ${regions}" th:value="${region.regionName}"
-                    th:text="${region.regionName}"></option>
+                    th:text="#{${region.regionName}}"></option>
         </select>
         <div class="search-input-container">
             <div class="input-group">
@@ -97,7 +97,7 @@
     </div>
 
     <div class="custom-div">
-        <p th:if="${message}" th:text="${message}"></p>
+        <p th:if="${message}" th:text="#{${message}} + ' ' + (${villageCount} == 0 ? '' : ${villageCount})"></p>
     </div>
 
     <div class="village-grid">
@@ -120,7 +120,13 @@
                         <div class="card-body col-6">
                             <a th:href="@{'/villages/show/' + ${village.id}}">
                                 <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
-                                <h6 th:text="'село '+ ${village.name} + ', област ' + ${village.region}"></h6>
+                                <h6 style="font-size: 15px;"><span th:text="#{village}"></span>
+                                    <span th:if="${#locale.language == 'bg'}" th:text="${village.name} + ', '"></span>
+                                    <span th:if="${#locale.language == 'en'}" th:text="${village.latinName} + ', '"></span>
+                                    <span th:if="${#locale.language == 'de'}" th:text="${village.latinName} + ', '"></span>
+                                    <span th:text="#{region}"></span>
+                                    <span th:text="#{${village.region}}"></span>
+                                </h6>
                                 <br>
                                 <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info" th:text="#{more}"></a>
                             </a>
