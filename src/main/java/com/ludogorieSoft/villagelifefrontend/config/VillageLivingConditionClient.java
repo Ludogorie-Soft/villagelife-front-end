@@ -11,23 +11,6 @@ import java.util.List;
 
 @FeignClient(name = "villagelife-api-villageLivingConditions",url = "${backend.url}/villageLivingConditions")
 public interface VillageLivingConditionClient {
-    @GetMapping
-    List<VillageLivingConditionDTO> getAllVillageLivingConditions();
-
-
-    @GetMapping("/{id}")
-    VillageLivingConditionDTO getVillageLivingConditionsById(@PathVariable("id") Long id);
-
-    @GetMapping("/village/{id}")
-    public List<VillageLivingConditionDTO> getVillageLivingConditionsByVillageId(@PathVariable("id") Long id);
-
-    @GetMapping("/village/value/{id}")
-    double getVillageLivingConditionsByVillageIdValue(@PathVariable("id") Long id);
-
-    @GetMapping("/village/delinquencyValue/{id}")
-    Double getVillagePopulationAssertionByVillageIdDelinquencyValue(@PathVariable("id") Long id);
-    @GetMapping("/village/ecoValue/{id}")
-     Double getVillagePopulationAssertionByVillageIdEcoValue(@PathVariable("id") Long id);
     @PostMapping
      void createVillageLivingConditions(@RequestBody VillageLivingConditionDTO villageLivingConditionsDTO);
 
