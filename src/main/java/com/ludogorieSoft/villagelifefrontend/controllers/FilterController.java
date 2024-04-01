@@ -36,7 +36,7 @@ public class FilterController {
         AdvancedSearchForm advancedSearchForm = new AdvancedSearchForm();
 
         List<ObjectAroundVillageDTO> objectAroundVillageDTOS = objectAroundVillageClient.getAllObjectsAroundVillage();
-        objectAroundVillageDTOS.removeIf(dto -> "областен град".equals(dto.getType()));
+        objectAroundVillageDTOS.removeIf(dto -> "objects.fourteenth".equals(dto.getType()));
         model.addAttribute("objectsAroundVillage", objectAroundVillageDTOS);
 
         List<LivingConditionDTO> livingConditionDTOS = livingConditionClient.getAllLivingConditions();
@@ -91,10 +91,10 @@ public class FilterController {
         model.addAttribute("villageCount", resultCount);
 
         if (resultCount > 0) {
-            model.addAttribute(MESSAGE_ATTRIBUTE, "Намерени резултати от разширеното търсене: " + resultCount);
+            model.addAttribute(MESSAGE_ATTRIBUTE, "filter.controller.search_results_found");
             model.addAttribute("pageSize", pageSize);
         } else {
-            model.addAttribute(MESSAGE_ATTRIBUTE, "Не бяха открити резултати от разширеното търсене!!!");
+            model.addAttribute(MESSAGE_ATTRIBUTE, "filter.controller.search_results_notFound");
         }
     }
 

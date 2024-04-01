@@ -17,7 +17,4 @@ public class AdvancedSearchForm {
 
     private String children;
 
-
-
-
 }

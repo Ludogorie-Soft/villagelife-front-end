@@ -25,16 +25,16 @@ public class UserValidator implements Validator {
         UserDTO userDTO = (UserDTO) target;
 
         if (userDTO.getFullName() == null || userDTO.getFullName().trim().length() < 6) {
-            errors.rejectValue("userDTO.fullName", "field.minlength", "Попълнете име и фамилия");
+            errors.rejectValue("userDTO.fullName", "field.minlength", "Enter first and last name!");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(userDTO.getFullName()))) {
-            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
+            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Must use letters only!");
         }
 
         if (userDTO.getEmail() == null || userDTO.getEmail().trim().length() < 9) {
-            errors.rejectValue("userDTO.email", "field.minlength", "Въведете валиден имейл");
+            errors.rejectValue("userDTO.email", "field.minlength", "Enter a valid email!");
         }
         if(!userDTO.isConsent()){
-            errors.rejectValue("userDTO.consent", FIELD_REQUIRED,"Трябва да се съгласите с условията");
+            errors.rejectValue("userDTO.consent", FIELD_REQUIRED,"You must agree to the terms!");
         }
     }
 }

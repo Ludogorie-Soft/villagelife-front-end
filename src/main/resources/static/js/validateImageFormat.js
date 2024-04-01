@@ -3,7 +3,7 @@
         var allowedFormats = ["image/jpeg", "image/png"];
 
         if (!allowedFormats.includes(file.type)) {
-            alert("Невалиден формат. Разрешени са само JPG и PNG.");
+            alert("Invalid format. Only JPG and PNG are allowed.");
             input.value = '';
         }
     }

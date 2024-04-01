@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.localization;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -17,11 +18,12 @@ import java.util.Locale;
 @Component
 public class MyLocaleResolver implements WebMvcConfigurer {
 
-
+    @Value("${app.default.locale}")
+    private String defaultLocale;
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.forLanguageTag("bg"));
+        slr.setDefaultLocale(Locale.forLanguageTag(defaultLocale));
         return slr;
     }
 

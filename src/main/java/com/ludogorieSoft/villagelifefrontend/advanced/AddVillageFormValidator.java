@@ -27,32 +27,32 @@ public class AddVillageFormValidator implements Validator {
         AddVillageFormResult addVillageFormResult = (AddVillageFormResult) target;
 
         if (addVillageFormResult.getVillageDTO().getName().trim().equals("")) {
-            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Въведете име на селото!");
+            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Enter village name!");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(addVillageFormResult.getVillageDTO().getName()))) {
-            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Трябва да използвате само букви(кирилица)!");
+            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Must use letters only!");
         }
 
         if(Boolean.FALSE.equals(regionClient.existsRegionByName(addVillageFormResult.getVillageDTO().getRegion()))){
-            errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "Трябва да изберете област!");
+            errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "You must choose a region!");
         }
 
         if (addVillageFormResult.getEthnicityDTOIds() == null) {
-            errors.rejectValue("ethnicityDTOIds", FIELD_REQUIRED, "Изберете поне една малцинствена група!");
+            errors.rejectValue("ethnicityDTOIds", FIELD_REQUIRED, "Choose at least one ethnicity group!");
         }
         if (addVillageFormResult.getGroundCategoryIds() == null) {
-            errors.rejectValue("groundCategoryIds", FIELD_REQUIRED, "Изберете поне една категория на замята!");
+            errors.rejectValue("groundCategoryIds", FIELD_REQUIRED, "Choose at least one ground category");
         }
         if (addVillageFormResult.getPopulationDTO().getPopulationCount() < 1) {
-            errors.rejectValue("populationDTO.populationCount", "field.minlength", "Броят на населението трябва да е по-голямо или равно на 1!");
+            errors.rejectValue("populationDTO.populationCount", "field.minlength", "The population count must be greater than or equal to 1!");
         }
         if (addVillageFormResult.getPopulationDTO().getResidents() == null) {
-            errors.rejectValue("populationDTO.residents", FIELD_REQUIRED, "Изберете каква част от жителите на селото са хора до 50 години!");
+            errors.rejectValue("populationDTO.residents", FIELD_REQUIRED, "Select what percentage of the village residents are people under 50 years old!");
         }
         if (addVillageFormResult.getPopulationDTO().getChildren() == null) {
-            errors.rejectValue("populationDTO.children", FIELD_REQUIRED, "Изберете какъв е броят на децата (до 14г.)!");
+            errors.rejectValue("populationDTO.children", FIELD_REQUIRED, "Select the number of children (up to 14 years old)!");
         }
         if (addVillageFormResult.getPopulationDTO().getForeigners() == null) {
-            errors.rejectValue("populationDTO.foreigners", FIELD_REQUIRED, "Отговорете дали в селото живеят ли чужденци!");
+            errors.rejectValue("populationDTO.foreigners", FIELD_REQUIRED, "Answer whether there are foreigners living in the village!");
         }
     }
 }

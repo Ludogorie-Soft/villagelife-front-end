@@ -130,6 +130,7 @@ public class AdministratorController {
         villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO, archived);
         return "ShowVillageById";
     }
+
     @GetMapping("/manage-images/{villageId}")
     public String manageImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
@@ -141,8 +142,9 @@ public class AdministratorController {
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/admin_images";
     }
+
     @GetMapping("/image-reject/{villageImageId}")
-    public String rejectImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session){
+    public String rejectImage(@PathVariable("villageImageId") Long villageImageId, HttpSession session) {
         VillageImageDTO villageImageDTO = villageImageClient.getVillageImageById(villageImageId);
         String token2 = (String) session.getAttribute(SESSION_NAME);
         villageImageClient.rejectVillageImage(villageImageId, AUTH_HEADER + token2);
@@ -151,7 +153,7 @@ public class AdministratorController {
 
     @PostMapping("/save-images")
     public String saveImages(@RequestParam("newImages") List<MultipartFile> images,
-                              @RequestParam("villageId") Long villageId, HttpSession session) {
+                             @RequestParam("villageId") Long villageId, HttpSession session) {
         List<byte[]> imageBytes = new ArrayList<>();
         for (MultipartFile image : images) {
             try {
@@ -207,6 +209,7 @@ public class AdministratorController {
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " rejected successfully!!!");
         return new ModelAndView("redirect:/admins/village");
     }
+
     @GetMapping("/deleted-images/{villageId}")
     public String getDeletedImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
@@ -229,7 +232,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/getRejected")
-    public String getVillagesWithRejectedResponses(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String getVillagesWithRejectedResponses(Model model, HttpSession session) {
         String token = (String) session.getAttribute(SESSION_NAME);
 
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
@@ -271,12 +274,20 @@ public class AdministratorController {
     }
 
     @GetMapping("/subscriptions")
-    public String showSubscriptions(HttpSession session, Model model){
+    public String showSubscriptions(HttpSession session, Model model) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<SubscriptionDTO> subscriptionDTOS = subscriptionClient.getAllSubscriptions(AUTH_HEADER + token2);
         model.addAttribute("subscriptions", subscriptionDTOS);
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/all_subscriptions";
+    }
+
+    @GetMapping("/villages/latin-names")
+    public String translateVillagesNamesToLatin(HttpSession session, RedirectAttributes redirectAttributes) {
+        String token = (String) session.getAttribute(SESSION_NAME);
+        String result = adminFunctionClient.translateVillagesNamesToLatin(AUTH_HEADER + token).getBody();
+        redirectAttributes.addFlashAttribute(MESSAGE, result);
+        return "redirect:/admins/village";
     }
 }
