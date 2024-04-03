@@ -22,11 +22,11 @@ import java.net.SocketTimeoutException;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private SlackMessage slackMessage;
 
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public void alertSlackChannelWhenUnhandledExceptionOccurs(Exception ex) {
         slackMessage.publishMessage("villagelife-notifications",
                 "Error occured from the frontend application ->" + ex.getMessage());
-    }*/
+    }
 
     @ExceptionHandler(NoConsentException.class)
     public ModelAndView handleNoConsentException(NoConsentException ex, RedirectAttributes redirectAttributes) {
