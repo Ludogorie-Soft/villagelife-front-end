@@ -59,9 +59,9 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagesPageCount(currentPage, 6));
+        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagePageCount(currentPage, 6));
         try {
-            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImages(currentPage, 6);
+            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 List<VillageDTO> villageDTOS = response.getBody();
