@@ -21,9 +21,9 @@ public interface VillageImageClient {
     ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();*/
 
     @GetMapping("/approved/{page}/{elements}")
-    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImages(@PathVariable("page") int page, @PathVariable("elements") int elements);
+    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImage(@PathVariable("page") int page, @PathVariable("elements") int elements);
     @GetMapping("/approved/pagesCount/{page}/{elements}")
-    Integer getAllApprovedVillageDTOsWithImagesPageCount(@PathVariable("page") int page, @PathVariable("elements") int elements);
+    Integer getAllApprovedVillageDTOsWithImagePageCount(@PathVariable("page") int page, @PathVariable("elements") int elements);
     @PostMapping("/admin-upload")
     List<byte[]> adminUploadImages(@RequestParam("villageId") Long villageId, @RequestBody List<byte[]> imageBytesList, @RequestHeader("Authorization") String token);
 

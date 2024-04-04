@@ -186,13 +186,13 @@
     .image-container {
         position: relative;
         overflow: hidden;
-        max-height: 200px;
+        height: 200px;
     }
 
     .image-container img {
         width: 100%;
-        height: auto;
-        object-fit: cover;
+        height: 100%;
+        object-fit: fill;
     }
     h6 {
         color: black;

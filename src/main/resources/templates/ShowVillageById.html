@@ -347,7 +347,7 @@
                         <div class="form-group">
                             <label class="control-checkbox" for="privacy_policy_checkbox">
                                 <span class="custom-checkbox"></span>
-                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required th:text="#{send.message}">
+                                <input type="checkbox" id="privacy_policy_checkbox" name="hasAgreed" th:field="*{hasAgreed}" required ><span th:text="#{send.message}" style="padding-left: 5px;"></span>
                                 <a target="_blank" th:href="@{/villages/general-terms}" th:text="#{terms}">
                                 </a>
                             </label>
