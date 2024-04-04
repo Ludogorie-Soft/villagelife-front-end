@@ -26,23 +26,23 @@
                     <form id="searchForm" action="/filter/search/0" method="get" th:object="${advancedSearchForm}">
 
 
-                    <section>
-                        <p class="fw-bold" th:text="#{choose.objects}"></p>
-                        <table class="table table-hover">
-                            <tbody>
-                            <tr th:each="object : ${objectsAroundVillage}">
-                                <td>
-                                    <div class="form-check">
-                                        <label class="form-check-label" th:text="#{${object.type}}"></label>
-                                        <input class="form-check-input" type="checkbox"
-                                               th:id="'object-' + ${object.id}"
-                                               th:name="objectAroundVillageDTOS" th:value="${object.type}"/>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </section>
+                        <section>
+                            <p class="fw-bold" th:text="#{choose.objects}"></p>
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr th:each="object : ${objectsAroundVillage}">
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   th:id="'object-' + ${object.id}"
+                                                   th:name="objectAroundVillageDTOS" th:value="${object.type}"/>
+                                            <label class="form-check-label" th:for="'object-' + ${object.id}" th:text="#{${object.type}}"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </section>
 
 
                         <section>
