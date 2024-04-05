@@ -8,6 +8,7 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
+import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -59,12 +61,12 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagePageCount(currentPage, 6));
         try {
-            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
+            ResponseEntity<PageableResponse<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 
             if (response.getStatusCode().is2xxSuccessful()) {
-                List<VillageDTO> villageDTOS = response.getBody();
+                List<VillageDTO> villageDTOS = Objects.requireNonNull(response.getBody()).stream().toList();
+                model.addAttribute("pagesCount", response.getBody().getTotalPages());
                 model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
             } else {
                 model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
