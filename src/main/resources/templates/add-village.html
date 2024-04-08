@@ -125,7 +125,7 @@
         </section>
 
         <!--             Consents          -->
-        <section class="lg-consents">
+        <section id="section1" class="lg-consents">
             <p class="fw-bold">
                 <span th:text="#{statements}"></span>
                 <span class="text-danger">*</span>
@@ -145,7 +145,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}"  class="radio-button" required/>
+                                   th:value="${consent1}" class="radio-button" required/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -154,7 +154,9 @@
                 </tr>
                 </tbody>
             </table>
+            <p id="section1-error" class="text-danger" style="display: none;">Please select consent.</p>
         </section>
+
 
 
         <section class="sm-consents">
@@ -185,7 +187,7 @@
         </section>
 
 
-        <section class="lg-consents">
+        <section id="section2" class="lg-consents">
             <p class="fw-bold">
                 <span th:text="#{statements}"></span>
                 <span class="text-danger">*</span>
@@ -205,7 +207,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}"  class="radio-button" required/>
+                                   th:value="${consent1}" class="radio-button" required/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -214,7 +216,9 @@
                 </tr>
                 </tbody>
             </table>
+            <p id="section2-error" class="text-danger" style="display: none;">Please select consent.</p>
         </section>
+
 
         <section class="sm-consents">
             <p class="fw-bold">
@@ -330,7 +334,7 @@
             </div>
         </section>
 
-        <section class="lg-consents">
+        <section id="section3" class="lg-consents">
             <p class="fw-bold">
                 <span th:text="#{statements.population}"></span>
                 <span class="text-danger">*</span>
@@ -359,7 +363,9 @@
                 </tr>
                 </tbody>
             </table>
+            <p id="section3-error" class="text-danger" style="display: none;">Please select consent.</p>
         </section>
+
 
         <section class="sm-consents">
             <p class="fw-bold" th:text="#{statements.population}"></p>
@@ -386,7 +392,6 @@
         </section>
 
 
-        <!--input field for uploading images-->
         <section>
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label fw-bold" th:text="#{photos}"></label>
@@ -401,12 +406,14 @@
                         <label for="fullName" class="form-label fw-bold" th:text="#{user.name.lasName}"></label>
                         <input th:field="*{userDTO.fullName}" type="text" class="form-control" id="fullName" name="userDTO.fullName">
                         <p class="text-danger" th:if="${#fields.hasErrors('userDTO.fullName')}" th:errors="*{userDTO.fullName}"></p>
+                        <p id="name-error" class="text-danger" style="display: none;">Please enter your full name.</p> <!-- Move the error message here -->
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label fw-bold" th:text="#{user.email}"></label>
                         <input th:filed="*{userDTO.email}" type="email" class="form-control" id="email" name="userDTO.email">
                         <p class="text-danger" th:if="${#fields.hasErrors('userDTO.email')}" th:errors="*{userDTO.email}"></p>
+                        <p id="email-error" class="text-danger" style="display: none;">Please enter a valid email address.</p> <!-- Move the error message here -->
                     </div>
                 </div>
 
@@ -423,10 +430,12 @@
                 </div>
 
             </div>
+            <p id="consent-error" class="text-danger" style="display: none;">Please select consent.</p>
         </section>
 
+
         <section class="text-center">
-            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity()" class="btn btn-primary" th:text="#{send.village}"></button>
+            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity() && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
         </section>
 
     </form>
@@ -437,6 +446,7 @@
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
+<script src="/js/validate_radio.js"></script>
 <script>
 window.addEventListener('resize', updateConsentText);
 
