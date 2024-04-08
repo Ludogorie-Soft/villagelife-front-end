@@ -325,15 +325,16 @@
                             <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         </div>
 
+
                         <div class="form-group form-group-textarea">
                             <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
                                 (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
-                                <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение"
-                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" required>
+                                <textarea class="form-control-sm form-message" name="userMessage" rows="4" placeholder="Съобщение"
+                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" >
                                 </textarea>
+                                <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
                             </span>
                         </div>
-
 
 
                         <div class="form-group">
