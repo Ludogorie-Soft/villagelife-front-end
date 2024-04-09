@@ -158,7 +158,6 @@
         </section>
 
 
-
         <section class="sm-consents">
             <p class="fw-bold">
                 <span th:text="#{statements}"></span>
@@ -435,7 +434,7 @@
 
 
         <section class="text-center">
-            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity() && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
+            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity() && validateConsents(['section1', 'section2', 'section3']) && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
         </section>
 
     </form>

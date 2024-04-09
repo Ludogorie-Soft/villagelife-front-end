@@ -22,10 +22,10 @@ function validateConsents(sectionIds) {
 
             if (!consentChecked) {
                 consentError.style.display = 'block';
-                // Returning focus to the first field that requires consent
+
                 var firstUncheckedRadio = document.querySelector('#' + sectionId + ' input[type="radio"].radio-button[required]:not(:checked)');
                 firstUncheckedRadio.focus();
-                isValid = false; // Mark validation as failed
+                isValid = false;
             } else {
                 consentError.style.display = 'none';
             }
