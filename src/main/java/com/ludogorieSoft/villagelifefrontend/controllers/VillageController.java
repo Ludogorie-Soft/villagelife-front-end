@@ -106,23 +106,21 @@ public class VillageController {
     }
 
     @PostMapping("/inquiry-save")
-    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
+    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
         VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
 
         if (bindingResult.hasErrors()) {
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
-
-        } else {
-            inquiryClient.createInquiry(inquiryDTO);
-            inquiryDTO = new InquiryDTO();
-
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
-            model.addAttribute(IS_SENT_ATTRIBUTE, true);
-
+            return "ShowVillageById";
         }
-        return "ShowVillageById";
+
+        inquiryClient.createInquiry(inquiryDTO);
+        inquiryDTO = new InquiryDTO();
+        redirectInfoForShowingVillage(villageInfo, inquiryDTO, true, null, redirectAttributes, null, null);
+        redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
+        return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId();
     }
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
@@ -149,6 +147,23 @@ public class VillageController {
 
         model.addAttribute("status", keyWord);
 
+    }
+    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
+        redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
+        redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        redirectAttributes.addFlashAttribute("inquiry", inquiryDTO);
+        redirectAttributes.addFlashAttribute("villageName", villageInfo.getVillageDTO().getName());
+        redirectAttributes.addFlashAttribute("villageLatinName", villageInfo.getVillageDTO().getLatinName());
+        redirectAttributes.addFlashAttribute("regionName", villageInfo.getVillageDTO().getRegion());
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
+        redirectAttributes.addFlashAttribute("imageSrcList", imagesResponse);
+        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+        redirectAttributes.addFlashAttribute("ethnicities", ethnicityDTOS);
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        redirectAttributes.addFlashAttribute("questions", questionDTOS);
+        redirectAttributes.addFlashAttribute("answerDate", answerDate);
+        redirectAttributes.addFlashAttribute("admin", administratorDTO);
+        redirectAttributes.addFlashAttribute("status", keyWord);
     }
 
     @GetMapping("/create")
@@ -224,12 +239,11 @@ public class VillageController {
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
             model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
             return CONTACTS_VIEW;
-        } else {
-            redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-            redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
-            messageClient.createMessage(messageDTO);
-            redirectAttributes.addFlashAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
+        redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
+        messageClient.createMessage(messageDTO);
+        redirectAttributes.addFlashAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         return "redirect:/villages/contacts";
     }
 
