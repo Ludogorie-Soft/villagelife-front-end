@@ -63,9 +63,9 @@
                 </section>
             </form>
 
-            <div class="message-container">
+            <!--<div class="message-container">
                 <div class="message col-12 text-center" id="message"></div>
-            </div>
+            </div>-->
 
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
@@ -90,16 +90,33 @@
 
 </div>
 
+<div th:if="${isSent != null}">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+        <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                     style="width: 25px;">
+                <strong class="me-auto">Village Life</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-subscription-body" style="margin: 15px; font-size: 16px;">
+                <span th:if="${isSent}" th:text="#{send.successful}" style="color: green;"></span>
+                <span th:if="${!isSent}" th:text="#{send.fail}" style="color: red;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="fragments :: footer"></div>
-<script>
+<!--<script>
   const isSent = [[${isSent}]];
-</script>
+</script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="/js/isSentMessageScript.js"></script>
+<!--<script src="/js/isSentMessageScript.js"></script>-->
 <script src="/js/navScript.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
 <script src="/js/lang.js"></script>
