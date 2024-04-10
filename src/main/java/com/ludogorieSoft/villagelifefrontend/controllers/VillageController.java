@@ -217,18 +217,20 @@ public class VillageController {
     }
 
     @PostMapping("/message-save")
-    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
+    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
-        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         if (bindingResult.hasErrors()) {
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
             model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
+            return CONTACTS_VIEW;
         } else {
-            model.addAttribute(IS_SENT_ATTRIBUTE, true);
+            redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+            redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
             messageClient.createMessage(messageDTO);
-            model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
+            redirectAttributes.addFlashAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         }
-        return CONTACTS_VIEW;
+        return "redirect:/villages/contacts";
     }
 
     @GetMapping("/about-us")
