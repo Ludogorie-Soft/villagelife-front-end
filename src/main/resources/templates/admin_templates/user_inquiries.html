@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Съобщения - VillageLife</title>
+    <title>Запитвания - VillageLife</title>
 
     <link rel="icon" type="image/x-icon" th:href="@{/images/tree.png}"/>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
@@ -23,30 +23,37 @@
 
 <div id="container" style="padding: 0 55px 100px;">
     <div class="table-container">
-        <h1 class="text-center">Контакти</h1>
-        <table id="messagesTable" class="display" style="border-collapse: collapse;">
+        <h1 class="text-center">Запитвания за села</h1>
+        <table id="inquiriesTable" class="display" style="border-collapse: collapse;">
             <thead>
             <tr>
                 <th>id</th>
                 <th>Потребител</th>
                 <th>Имейл</th>
                 <th>Съобщение</th>
+                <th>Телефонен номер</th>
+                <th>Село</th>
+                <th>Тип запитване</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="message : ${messages}">
-                <td th:text="${message.id}"></td>
-                <td th:text="${message.userName}"></td>
-                <td th:text="${message.email}"></td>
-                <td th:text="${message.userMessage}"></td>
+            <tr th:each="inquiry : ${inquiries}">
+                <td th:text="${inquiry.id}"></td>
+                <td th:text="${inquiry.userName}"></td>
+                <td th:text="${inquiry.email}"></td>
+                <td th:text="${inquiry.userMessage}"></td>
+                <td th:text="${inquiry.mobile}"></td>
+                <td th:text="${inquiry.villageName}"></td>
+                <td th:text="#{${inquiry.inquiryType.name}}"></td>
             </tr>
             </tbody>
         </table>
     </div>
+</div>
 
 <script>
     $(document).ready(function() {
-        $('#messagesTable').DataTable();
+        $('#inquiriesTable').DataTable();
     });
 </script>
 </body>
