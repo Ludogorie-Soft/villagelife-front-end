@@ -250,8 +250,13 @@
                     <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admins/subscriptions">Subscriptions</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownForms" href="#" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Forms</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" th:href="@{/admins/subscriptions}">Subscriptions</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admins/messages}">Messages</a></li>
+                </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownSettings" href="#" role="button"
