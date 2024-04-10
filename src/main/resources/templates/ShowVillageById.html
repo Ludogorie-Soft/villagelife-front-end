@@ -330,7 +330,7 @@
                             <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
                                 (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
                                 <textarea class="form-control-sm form-message" name="userMessage" rows="4" placeholder="Съобщение"
-                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" >
+                                          th:text="${inquiry.userMessage == null} ? #{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})} : ${inquiry.userMessage}" >
                                 </textarea>
                                 <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
                             </span>
