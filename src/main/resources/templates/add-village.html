@@ -89,8 +89,9 @@
                 <label for="villageName" class="fw-bold">
                     <span th:text="#{village.name.how}"></span><span class="text-danger">*</span>
                 </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
+                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required autocomplete="on" onchange="saveVillageNameValue()">
                 <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.name')}" th:errors="*{villageDTO.name}" th:text="#{error.villageDTO.name}"></p>
+                <p id="villageName-error" class="text-danger" style="display: none;" th:text="#{village.name.error}"></p>
             </section>
 
             <!-- Region -->
@@ -101,9 +102,10 @@
                 </label>
                 <select th:field="*{villageDTO.region}" class="form-select" id="regionName" required>
                     <option value="Избери област" th:text="#{choose.region}"></option>
-                    <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="#{${region.regionName}}"></option>
+                    <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="#{${region.regionName}}" ></option>
                 </select>
-                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>
+<!--                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>-->
+                <p id="regionName-error" class="text-danger" style="display: none;" th:text="#{region.error.message}"></p>
             </section>
 
         </div>
@@ -145,7 +147,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" class="radio-button" required/>
+                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section1)"/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -206,7 +208,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" class="radio-button" required/>
+                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section2)"/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -353,7 +355,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
-                                   th:value="${consent1}" class="radio-button" required/>
+                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section3)"/>
                             <input type="hidden" th:id="${'populatedAssertion-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
                                    th:value="${populatedAssertion.id}" />
@@ -434,7 +436,7 @@
 
 
         <section class="text-center">
-            <button type="submit" onclick="return validateGroundCategory() && validateEthnicity() && validateConsents(['section1', 'section2', 'section3']) && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
+            <button type="submit" onclick="return validateForm() && validateGroundCategory() && validateEthnicity() && validateConsents(['section1', 'section2', 'section3']) && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
         </section>
 
     </form>
@@ -446,6 +448,8 @@
 <script src="/js/validateGroundCategory.js"></script>
 <script src="/js/validateEthnicity.js"></script>
 <script src="/js/validate_radio.js"></script>
+<script src="/js/nameAndRegion.js"></script>
+<script src="/js/saveInput.js"></script>
 <script>
 window.addEventListener('resize', updateConsentText);
 
