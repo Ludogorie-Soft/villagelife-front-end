@@ -311,18 +311,27 @@
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="name" value type="text" th:placeholder="#{contacts.nameLabel}" th:field="*{userName}" minlength="2" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                            <input class="form-control-sm" name="name" value type="text"
+                                   th:placeholder="#{contacts.nameLabel}" th:field="*{userName}" minlength="2" required>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('userName')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="mobile" value type="text" th:placeholder="#{phone}" th:field="*{mobile}" minlength="10" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></p>
+                            <input class="form-control-sm" name="mobile" value type="text"
+                                   th:placeholder="#{phone}" th:field="*{mobile}" minlength="10" required>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email" th:placeholder="#{contacts.emailPlaceholder}" th:field="*{email}" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email"
+                                   th:placeholder="#{contacts.emailPlaceholder}" th:field="*{email}" required >
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
 
@@ -330,9 +339,11 @@
                             <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
                                 (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
                                 <textarea class="form-control-sm form-message" name="userMessage" rows="4" placeholder="Съобщение"
-                                          th:text="${inquiry.userMessage == null} ? #{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})} : ${inquiry.userMessage}" >
+                                          th:text="${inquiry.userMessage == null} ? #{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})} : ${inquiry.userMessage}" required >
                                 </textarea>
-                                <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
+                                <ul class="error-list">
+                                    <li th:each="err : ${#fields.errors('userMessage')}" th:text="#{${err}}" class="error text-danger"></li>
+                                </ul>
                             </span>
                         </div>
 
@@ -342,7 +353,9 @@
                                 <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}" th:text="#{choose.type}"></option>
                                 <option th:value="${inquiryType}" th:text="#{${inquiryType.name}}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
-                            <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('inquiryType')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
