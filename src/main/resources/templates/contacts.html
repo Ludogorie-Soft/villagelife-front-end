@@ -38,8 +38,10 @@
                 <section>
                     <label for="name" class="fw-bold"  th:text="#{contacts.nameLabel}"></label>
                     <span class="text-danger fw-bold">*</span>
-                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" th:placeholder="#{contacts.namePlaceholder}"  minlength="2" required>
-                    <span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+                    <input type="text" id="name" name="userName" th:field="*{userName}" class="form-control" th:placeholder="#{contacts.namePlaceholder}" minlength="2" required >
+                    <ul class="error-list">
+                        <li th:each="err : ${#fields.errors('userName')}" th:text="#{${err}}" class="error text-danger"></li>
+                    </ul>
                 </section>
 
                 <section>
@@ -48,14 +50,18 @@
                         <span class="text-danger">*</span>
                     </label>
                     <input type="email" id="email" name="email" th:field="*{email}" class="form-control" th:placeholder="#{contacts.emailPlaceholder}" required>
-                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    <ul class="error-list">
+                        <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}" class="error text-danger"></li>
+                    </ul>
                 </section>
 
                 <section>
                     <label for="userMessage" class="fw-bold" th:text="#{contacts.message}"></label>
                     <span class="text-danger fw-bold">*</span>
                     <textarea id="userMessage" name="userMessage" th:field="*{userMessage}" class="form-control" th:placeholder="#{contacts.requestPlaceholder}" required></textarea>
-                    <span class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></span>
+                    <ul class="error-list">
+                        <li th:each="err : ${#fields.errors('userMessage')}" th:text="#{${err}}" class="error text-danger"></li>
+                    </ul>
                 </section>
 
                 <section>

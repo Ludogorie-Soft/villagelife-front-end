@@ -22,26 +22,26 @@ public class InquiryValidator implements Validator {
     public void validate(Object target, Errors errors) {
         InquiryDTO inquiryDTO = (InquiryDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inquiryType", FIELD_REQUIRED, "Select a inquiry type");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inquiryType", FIELD_REQUIRED, "inquiry.type.select");
 
         if (inquiryDTO.getUserMessage() == null || inquiryDTO.getUserMessage().trim().equals("")) {
-            errors.rejectValue("userMessage", FIELD_REQUIRED, "Message is required");
+            errors.rejectValue("userMessage", FIELD_REQUIRED, "message.required");
         }
 
         if (inquiryDTO.getEmail() == null || inquiryDTO.getEmail().trim().equals("")) {
-            errors.rejectValue("email", FIELD_REQUIRED, "Email is required");
+            errors.rejectValue("email", FIELD_REQUIRED, "email.required");
         }
 
         if (inquiryDTO.getUserName() == null || inquiryDTO.getUserName().trim().length() < 2) {
-            errors.rejectValue("userName", "field.minlength", "The name must be at least 2 characters");
+            errors.rejectValue("userName", "field.minlength", "username.minlength");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(inquiryDTO.getUserName()))) {
-            errors.rejectValue("userName", FIELD_REQUIRED, "Must use letters only");
+            errors.rejectValue("userName", FIELD_REQUIRED, "username.lettersOnly");
         }
 
         if (inquiryDTO.getMobile() == null || inquiryDTO.getMobile().trim().length() < 10) {
-            errors.rejectValue("mobile", "field.minlength", "The phone number must be at least 10 characters");
+            errors.rejectValue("mobile", "field.minlength", "phone.minlength");
         } else if (Boolean.FALSE.equals(validationUtilsClient.numberCheck(inquiryDTO.getMobile()))) {
-            errors.rejectValue("mobile", FIELD_REQUIRED, "You only need to use numbers");
+            errors.rejectValue("mobile", FIELD_REQUIRED, "phone.numbersonly");
         }
         if(!inquiryDTO.isHasAgreed()){
             errors.rejectValue("hasAgreed", FIELD_REQUIRED);
