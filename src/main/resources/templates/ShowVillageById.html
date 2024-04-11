@@ -304,9 +304,9 @@
                             </ul>
                         </div>
 
-                        <div class="message-container">
+                        <!--<div class="message-container">
                             <div class="message col-12 text-center" id="message"></div>
-                        </div>
+                        </div>-->
 
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
@@ -330,7 +330,7 @@
                             <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
                                 (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
                                 <textarea class="form-control-sm form-message" name="userMessage" rows="4" placeholder="Съобщение"
-                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" >
+                                          th:text="${inquiry.userMessage == null} ? #{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})} : ${inquiry.userMessage}" >
                                 </textarea>
                                 <p class="text-danger" th:if="${#fields.hasErrors('userMessage')}" th:errors="*{userMessage}"></p>
                             </span>
@@ -372,14 +372,31 @@
     </div>
 </div>
 
+<div th:if="${isSent != null}">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+        <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                     style="width: 25px;">
+                <strong class="me-auto">Village Life</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-subscription-body" style="margin: 15px; font-size: 16px;">
+                <span th:if="${isSent}" th:text="#{send.successful}" style="color: green;"></span>
+                <span th:if="${!isSent}" th:text="#{send.fail}" style="color: red;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>
 <script src="/js/makeCallScript.js"></script>
-<script>
+<!--<script>
   const isSent = [[${isSent}]];
 </script>
-<script src="/js/isSentMessageScript.js"></script>
+<script src="/js/isSentMessageScript.js"></script>-->
 <script src="/js/navScript.js"></script>
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>

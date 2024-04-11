@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Съобщения - VillageLife</title>
+
+    <link rel="icon" type="image/x-icon" th:href="@{/images/tree.png}"/>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link th:href="@{/css/admin_css.css}" rel="stylesheet"/>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!----------------NAV------------------------------>
+<div th:replace="fragments :: admin-navbar"></div>
+<!----------------NAV------------------------------>
+
+<div id="container" style="padding: 0 55px 100px;">
+    <div class="table-container">
+        <h1 class="text-center">Контакти</h1>
+        <table id="messagesTable" class="display" style="border-collapse: collapse;">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Потребител</th>
+                <th>Имейл</th>
+                <th>Съобщение</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="message : ${messages}">
+                <td th:text="${message.id}"></td>
+                <td th:text="${message.userName}"></td>
+                <td th:text="${message.email}"></td>
+                <td th:text="${message.userMessage}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+<script>
+    $(document).ready(function() {
+        $('#messagesTable').DataTable();
+    });
+</script>
+</body>
+</html>
