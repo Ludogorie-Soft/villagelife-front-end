@@ -52,12 +52,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(ImageMaxUploadSizeExceededException.class)
     public ModelAndView handleImageMaxUploadSizeExceededException(Model model) {
-        model.addAttribute("errorMessage", "File size should not exceed 10 MB.");
+        model.addAttribute("errorMessage", "File size should not exceed 5 MB.");
         return new ModelAndView("/admin_templates/error");
     }
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ModelAndView handleMaxSizeException(Model model) {
-        model.addAttribute("errorMessage", "File size should not exceed 10 MB.");
+        model.addAttribute("errorMessage", "File size should not exceed 5 MB.");
         return new ModelAndView("/admin_templates/error");
     }
     @ExceptionHandler(SocketTimeoutException.class)

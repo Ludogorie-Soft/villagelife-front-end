@@ -109,7 +109,7 @@
             </section>
 
         </div>
-
+        <!--              GroundCategory          -->
         <section id="groundCategory">
             <p class="fw-bold">
                 <span th:text="#{village.category}"></span>
@@ -156,7 +156,7 @@
                 </tr>
                 </tbody>
             </table>
-            <p id="section1-error" class="text-danger" style="display: none;">Please select consent.</p>
+            <p id="section1-error" class="text-danger" style="display: none;" th:text="#{select.consent.error}"></p>
         </section>
 
 
@@ -208,7 +208,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section2)"/>
+                                   th:value="${consent1}" class="radio-button" required/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
@@ -217,7 +217,7 @@
                 </tr>
                 </tbody>
             </table>
-            <p id="section2-error" class="text-danger" style="display: none;">Please select consent.</p>
+            <p id="section2-error" class="text-danger" style="display: none;" th:text="#{select.consent.error}"></p>
         </section>
 
 
@@ -274,6 +274,7 @@
                        class="radio-label" th:text="#{${residents.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.residents')}" th:errors="*{populationDTO.residents}"></p>
+            <p id="residents-error" class="text-danger" style="display: none;" th:text="#{residents.error.message}"></p>
         </section>
 
         <!-- Children -->
@@ -291,6 +292,7 @@
                        class="radio-label" th:text="#{${children.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.children')}" th:errors="*{populationDTO.children}"></p>
+            <p id="children-error" class="text-danger" style="display: none;" th:text="#{children.error.message}">Children section is required.</p>
         </section>
 
         <!-- Foreigners -->
@@ -308,9 +310,10 @@
                        class="radio-label" th:text="#{${foreigners.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.foreigners')}" th:errors="*{populationDTO.foreigners}"></p>
+            <p id="foreigners-error" class="text-danger" style="display: none;" th:text="#{foreigners.error.message}"></p>
         </section>
 
-
+        <!-- Еthnicity -->
         <section id="ethnicity">
             <p class="fw-bold">
                 <span th:text="#{population.minority}"></span>
@@ -355,7 +358,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].answer"
-                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section3)"/>
+                                   th:value="${consent1}" class="radio-button" required/>
                             <input type="hidden" th:id="${'populatedAssertion-' + populatedAssertion.id}"
                                    th:name="villagePopulationAssertionDTOS[__${populatedAssertion.id}__].populatedAssertionId"
                                    th:value="${populatedAssertion.id}" />
@@ -364,7 +367,7 @@
                 </tr>
                 </tbody>
             </table>
-            <p id="section3-error" class="text-danger" style="display: none;">Please select consent.</p>
+            <p id="section3-error" class="text-danger" style="display: none;" th:text="#{select.consent.error}"></p>
         </section>
 
 
@@ -407,14 +410,14 @@
                         <label for="fullName" class="form-label fw-bold" th:text="#{user.name.lasName}"></label>
                         <input th:field="*{userDTO.fullName}" type="text" class="form-control" id="fullName" name="userDTO.fullName">
                         <p class="text-danger" th:if="${#fields.hasErrors('userDTO.fullName')}" th:errors="*{userDTO.fullName}"></p>
-                        <p id="name-error" class="text-danger" style="display: none;">Please enter your full name.</p> <!-- Move the error message here -->
+                        <p id="name-error" class="text-danger" style="display: none;" th:text="#{consent.user.full.name}"></p>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="email" class="form-label fw-bold" th:text="#{user.email}"></label>
                         <input th:filed="*{userDTO.email}" type="email" class="form-control" id="email" name="userDTO.email">
                         <p class="text-danger" th:if="${#fields.hasErrors('userDTO.email')}" th:errors="*{userDTO.email}"></p>
-                        <p id="email-error" class="text-danger" style="display: none;">Please enter a valid email address.</p> <!-- Move the error message here -->
+                        <p id="email-error" class="text-danger" style="display: none;" th:text="#{user.consent.valid.email}"></p>
                     </div>
                 </div>
 
@@ -431,12 +434,12 @@
                 </div>
 
             </div>
-            <p id="consent-error" class="text-danger" style="display: none;">Please select consent.</p>
+            <p id="consent-error" class="text-danger" style="display: none;" th:text="#{checkbox.consent.error}"></p>
         </section>
 
 
         <section class="text-center">
-            <button type="submit" onclick="return validateForm() && validateGroundCategory() && validateEthnicity() && validateConsents(['section1', 'section2', 'section3']) && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
+            <button type="submit" onclick="return validateForm() && validateGroundCategory() && validateEthnicity() && validatePopulationForm() && validateConsents(['section1', 'section2', 'section3']) && validateConsentForm()" class="btn btn-primary" th:text="#{send.village}"></button>
         </section>
 
     </form>
@@ -449,7 +452,6 @@
 <script src="/js/validateEthnicity.js"></script>
 <script src="/js/validate_radio.js"></script>
 <script src="/js/nameAndRegion.js"></script>
-<script src="/js/saveInput.js"></script>
 <script src="/js/updateRequiredConsents.js"></script>
 </body>
 </html>
