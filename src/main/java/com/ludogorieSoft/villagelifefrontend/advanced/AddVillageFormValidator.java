@@ -28,9 +28,9 @@ public class AddVillageFormValidator implements Validator {
 
         if (addVillageFormResult.getVillageDTO().getName().trim().equals("")) {
             errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Enter village name!");
-        } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(addVillageFormResult.getVillageDTO().getName()))) {
+        }/* else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(addVillageFormResult.getVillageDTO().getName()))) { //method already check for cyrillic and latin names
             errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "Must use letters only!");
-        }
+        }*/
 
         if(Boolean.FALSE.equals(regionClient.existsRegionByName(addVillageFormResult.getVillageDTO().getRegion()))){
             errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "You must choose a region!");

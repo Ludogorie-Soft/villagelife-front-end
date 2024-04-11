@@ -89,7 +89,7 @@
                 <label for="villageName" class="fw-bold">
                     <span th:text="#{village.name.how}"></span><span class="text-danger">*</span>
                 </label>
-                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required autocomplete="on" onchange="saveVillageNameValue()">
+                <input type="text" id="villageName" th:field="*{villageDTO.name}" class="form-control" required>
                 <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.name')}" th:errors="*{villageDTO.name}" th:text="#{error.villageDTO.name}"></p>
                 <p id="villageName-error" class="text-danger" style="display: none;" th:text="#{village.name.error}"></p>
             </section>
@@ -104,7 +104,7 @@
                     <option value="Избери област" th:text="#{choose.region}"></option>
                     <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="#{${region.regionName}}" ></option>
                 </select>
-<!--                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>-->
+                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>
                 <p id="regionName-error" class="text-danger" style="display: none;" th:text="#{region.error.message}"></p>
             </section>
 
@@ -147,7 +147,7 @@
                         <div class="radio-wrapper">
                             <input type="radio" th:id="${'consent-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].consents"
-                                   th:value="${consent1}" class="radio-button" required onchange="saveRadioValues(section1)"/>
+                                   th:value="${consent1}" class="radio-button" required/>
                             <input type="hidden" th:id="${'livingCondition-' + livingCondition.id}"
                                    th:name="villageLivingConditionDTOS[__${livingCondition.id}__].livingConditionId"
                                    th:value="${livingCondition.id}" />
