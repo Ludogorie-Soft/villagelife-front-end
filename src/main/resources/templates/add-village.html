@@ -450,38 +450,6 @@
 <script src="/js/validate_radio.js"></script>
 <script src="/js/nameAndRegion.js"></script>
 <script src="/js/saveInput.js"></script>
-<script>
-window.addEventListener('resize', updateConsentText);
-
-function updateConsentText() {
-    const screenWidth = window.innerWidth;
-    const consentThElements = document.querySelectorAll('.consent-th');
-
-    consentThElements.forEach((element, index) => {
-        const originalText = element.getAttribute('data-original-text');
-
-        if (screenWidth <= 676) {
-            let newHeaderText;
-            switch(originalText){
-                case "Напълно съгласен": newHeaderText = 5; break;
-                case "По-скоро съгласен": newHeaderText = 4; break;
-                case "Не мога да преценя": newHeaderText = 3; break;
-                case "По-скоро не съм съгласен": newHeaderText = 2; break;
-                case "Не съм съгласен": newHeaderText = 1; break;
-            }
-            element.textContent = newHeaderText;
-        } else {
-            element.textContent = originalText;
-        }
-    });
-}
-
-const consentThElements = document.querySelectorAll('.consent-th');
-consentThElements.forEach((element) => {
-    element.setAttribute('data-original-text', element.textContent.trim());
-});
-
-updateConsentText();
-</script>
+<script src="/js/updateRequiredConsents.js"></script>
 </body>
 </html>
