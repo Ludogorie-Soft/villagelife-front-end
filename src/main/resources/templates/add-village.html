@@ -292,7 +292,7 @@
                        class="radio-label" th:text="#{${children.name}}"></label>
             </div>
             <p class="text-danger" th:if="${#fields.hasErrors('populationDTO.children')}" th:errors="*{populationDTO.children}"></p>
-            <p id="children-error" class="text-danger" style="display: none;" th:text="#{children.error.message}">Children section is required.</p>
+            <p id="children-error" class="text-danger" style="display: none;" th:text="#{children.error.message}"></p>
         </section>
 
         <!-- Foreigners -->

@@ -34,7 +34,7 @@
                 <p th:text="#{contacts.writeToUsText}"></p>
             </div>
 
-            <form action="/villages/message-save" method="post" id="contact-form" th:object="${message}">
+            <form action="/villages/contacts" method="post" id="contact-form" th:object="${message}" data-lang-form="true">
                 <section>
                     <label for="name" class="fw-bold"  th:text="#{contacts.nameLabel}"></label>
                     <span class="text-danger fw-bold">*</span>
