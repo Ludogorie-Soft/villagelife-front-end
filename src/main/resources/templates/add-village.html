@@ -466,8 +466,23 @@
 
     </form>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var invalidFormatMessage = /*[[#{error.invalid.format}]]*/ 'Invalid format. Only JPG and PNG are allowed.';
+
+    function validateImageFormat(input) {
+        var file = input.files[0];
+        var allowedFormats = ["image/jpeg", "image/png"];
+        if (!allowedFormats.includes(file.type)) {
+            alert(invalidFormatMessage);
+            input.value = '';
+        }
+    }
+
+    window.validateImageFormat = validateImageFormat;
+    /*]]>*/
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/validateImageFormat.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/consentScript.js"></script>
 <script src="/js/validateGroundCategory.js"></script>
