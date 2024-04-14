@@ -253,13 +253,15 @@
             </h3>
 
             <div class="accordion-container" th:each="answersQuestionResponse : ${villageInfo.answersQuestionResponses}">
-                <button class="accordion" th:text="#{${answersQuestionResponse.question}}"></button>
-                <div class="panel">
-                    <div class="answer-container" th:each="answer : ${answersQuestionResponse.answers}">
-                        <p th:text="${answer}" class="answer"></p>
-                        <hr>
+                <span th:if="${admin} == null and ${answersQuestionResponse.question} != inform_message.eighth or ${admin} != null">
+                    <button class="accordion" th:text="#{${answersQuestionResponse.question}}" ></button>
+                    <div class="panel">
+                        <div class="answer-container" th:each="answer : ${answersQuestionResponse.answers}">
+                            <p th:text="${answer}" class="answer"></p>
+                            <hr>
+                        </div>
                     </div>
-                </div>
+                </span>
             </div>
         </section>
 
