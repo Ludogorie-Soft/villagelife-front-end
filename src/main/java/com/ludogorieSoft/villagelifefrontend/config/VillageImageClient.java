@@ -2,9 +2,9 @@ package com.ludogorieSoft.villagelifefrontend.config;
 
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.VillageImageDTO;
+import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,8 @@ import java.util.List;
 public interface VillageImageClient {
     @GetMapping("/village/{villageId}/images")
     ResponseEntity<List<String>> getAllImagesForVillage(@PathVariable Long villageId, @RequestParam boolean status, @RequestParam String date);
-
-    /*@GetMapping("/all")
-    ResponseEntity<List<VillageDTO>> getAllVillageDTOsWithImages();*/
-
     @GetMapping("/approved/{page}/{elements}")
-    ResponseEntity<List<VillageDTO>> getAllApprovedVillageDTOsWithImage(@PathVariable("page") int page, @PathVariable("elements") int elements);
-    @GetMapping("/approved/pagesCount/{page}/{elements}")
-    Integer getAllApprovedVillageDTOsWithImagePageCount(@PathVariable("page") int page, @PathVariable("elements") int elements);
+    ResponseEntity<PageableResponse<VillageDTO>> getAllApprovedVillageDTOsWithImage(@PathVariable("page") int page, @PathVariable("elements") int elements);
     @PostMapping("/admin-upload")
     List<byte[]> adminUploadImages(@RequestParam("villageId") Long villageId, @RequestBody List<byte[]> imageBytesList, @RequestHeader("Authorization") String token);
 

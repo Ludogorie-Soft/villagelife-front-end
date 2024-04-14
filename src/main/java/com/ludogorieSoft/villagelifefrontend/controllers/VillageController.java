@@ -8,6 +8,7 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
+import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -59,12 +61,12 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        model.addAttribute("pagesCount", villageImageClient.getAllApprovedVillageDTOsWithImagePageCount(currentPage, 6));
         try {
-            ResponseEntity<List<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
+            ResponseEntity<PageableResponse<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 
             if (response.getStatusCode().is2xxSuccessful()) {
-                List<VillageDTO> villageDTOS = response.getBody();
+                List<VillageDTO> villageDTOS = Objects.requireNonNull(response.getBody()).stream().toList();
+                model.addAttribute("pagesCount", response.getBody().getTotalPages());
                 model.addAttribute(VILLAGES_ATTRIBUTE, villageDTOS);
             } else {
                 model.addAttribute(VILLAGES_ATTRIBUTE, Collections.emptyList());
@@ -103,24 +105,22 @@ public class VillageController {
         return "redirect:" + referer;
     }
 
-    @PostMapping("/inquiry-save")
-    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model) {
+    @PostMapping("/show/{id}")
+    public String saveInquiry(@PathVariable("id")long id, @ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
-        VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
 
         if (bindingResult.hasErrors()) {
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
-
-        } else {
-            inquiryClient.createInquiry(inquiryDTO);
-            inquiryDTO = new InquiryDTO();
-
-            getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
-            model.addAttribute(IS_SENT_ATTRIBUTE, true);
-
+            return "ShowVillageById";
         }
-        return "ShowVillageById";
+
+        inquiryClient.createInquiry(inquiryDTO);
+        inquiryDTO = new InquiryDTO();
+        redirectInfoForShowingVillage(villageInfo, inquiryDTO, true, null, redirectAttributes, null, null);
+        redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
+        return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId();
     }
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
@@ -147,6 +147,23 @@ public class VillageController {
 
         model.addAttribute("status", keyWord);
 
+    }
+    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
+        redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
+        redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        redirectAttributes.addFlashAttribute("inquiry", inquiryDTO);
+        redirectAttributes.addFlashAttribute("villageName", villageInfo.getVillageDTO().getName());
+        redirectAttributes.addFlashAttribute("villageLatinName", villageInfo.getVillageDTO().getLatinName());
+        redirectAttributes.addFlashAttribute("regionName", villageInfo.getVillageDTO().getRegion());
+        List<String> imagesResponse = villageImageClient.getAllImagesForVillage(villageInfo.getVillageDTO().getId(), status, answerDate).getBody();
+        redirectAttributes.addFlashAttribute("imageSrcList", imagesResponse);
+        List<EthnicityDTO> ethnicityDTOS = ethnicityClient.getAllEthnicities();
+        redirectAttributes.addFlashAttribute("ethnicities", ethnicityDTOS);
+        List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
+        redirectAttributes.addFlashAttribute("questions", questionDTOS);
+        redirectAttributes.addFlashAttribute("answerDate", answerDate);
+        redirectAttributes.addFlashAttribute("admin", administratorDTO);
+        redirectAttributes.addFlashAttribute("status", keyWord);
     }
 
     @GetMapping("/create")
@@ -214,19 +231,20 @@ public class VillageController {
         return CONTACTS_VIEW;
     }
 
-    @PostMapping("/message-save")
-    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, Model model) {
+    @PostMapping("/contacts")
+    public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
-        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         if (bindingResult.hasErrors()) {
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
             model.addAttribute(IS_SENT_ATTRIBUTE, false);
             model.addAttribute(MESSAGE_ATTRIBUTE, messageDTO);
-        } else {
-            model.addAttribute(IS_SENT_ATTRIBUTE, true);
-            messageClient.createMessage(messageDTO);
-            model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
+            return CONTACTS_VIEW;
         }
-        return CONTACTS_VIEW;
+        redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
+        messageClient.createMessage(messageDTO);
+        redirectAttributes.addFlashAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
+        return "redirect:/villages/contacts";
     }
 
     @GetMapping("/about-us")

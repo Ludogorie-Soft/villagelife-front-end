@@ -346,3 +346,8 @@
     .btn-equal-size {
         width: 100%;
     }
+
+    .error-list {
+        list-style-type: none;
+        padding: 0;
+    }

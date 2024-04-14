@@ -22,6 +22,7 @@
              style="width: 175px; height: 60px; margin-top:10px;">
     </a>
     <div id="menu" class="d-flex align-items-center">
+
         <a th:href="@{/villages/home-page}"><span th:text="#{header.homePage}"></span></a>
         <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>
         <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>
@@ -31,7 +32,9 @@
 
         <div class="dropdown ml-2" id="locales">
             <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem; background-color: #f2f2f2; border: none !important;">
-                <span class="flag-icon flag-icon-bg"></span>
+                <span class="flag-icon flag-icon-bg" th:if="#{lang} == '??lang_bg??'"></span>
+                <span class="flag-icon flag-icon-gb" th:if="#{lang} == '??lang_en??'"></span>
+                <span class="flag-icon flag-icon-de" th:if="#{lang} == '??lang_de??'"></span>
             </button>
             <div class="dropdown-menu" aria-labelledby="languageDropdown">
                 <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
@@ -247,8 +250,14 @@
                     <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admins/subscriptions">Subscriptions</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownForms" href="#" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Forms</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" th:href="@{/admins/subscriptions}">Subscriptions</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admins/messages}">Messages</a></li>
+                    <li><a class="dropdown-item" th:href="@{/admins/inquiries}">Inquiries</a></li>
+                </ul>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownSettings" href="#" role="button"

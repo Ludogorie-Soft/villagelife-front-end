@@ -211,8 +211,12 @@ function updatePageValue(event) {
 <script src="/js/fetch-modal-script.js"></script>
 <script src="/js/showSlides.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
-<script>
+<script th:inline="javascript">
+/*<![CDATA[*/
     let saveSuccessful = [[${saveSuccessful}]];
+    var successMessage = /*[[#{success.form.sent}]]*/ 'Form sent successfully!';
+    var closeButtonText = /*[[#{button.close}]]*/ 'Close';
+/*]]>*/
 </script>
 <script src="/js/success-alert.js"></script>
 </body>
