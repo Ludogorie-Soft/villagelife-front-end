@@ -105,10 +105,10 @@ public class VillageController {
         return "redirect:" + referer;
     }
 
-    @PostMapping("/inquiry-save")
-    public String saveInquiry(@ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    @PostMapping("/show/{id}")
+    public String saveInquiry(@PathVariable("id")long id, @ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
-        VillageInfo villageInfo = villageClient.getVillageInfoById(inquiryDTO.getVillageId());
+        VillageInfo villageInfo = villageClient.getVillageInfoById(id);
 
         if (bindingResult.hasErrors()) {
             getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
@@ -231,7 +231,7 @@ public class VillageController {
         return CONTACTS_VIEW;
     }
 
-    @PostMapping("/message-save")
+    @PostMapping("/contacts")
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
         if (bindingResult.hasErrors()) {

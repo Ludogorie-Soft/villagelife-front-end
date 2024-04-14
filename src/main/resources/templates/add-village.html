@@ -106,9 +106,7 @@
                     <option value="Избери област" th:text="#{choose.region}"></option>
                     <option th:each="region : ${regions}" th:value="${region.regionName}" th:text="#{${region.regionName}}" ></option>
                 </select>
-                <ul class="error-list">
-                    <li th:each="err : ${#fields.errors('villageDTO.region')}" th:text="#{${err}}" class="error text-danger"></li>
-                </ul>
+                <p class="text-danger" th:if="${#fields.hasErrors('villageDTO.region')}" th:errors="*{villageDTO.region}"></p>
                 <p id="regionName-error" class="text-danger" style="display: none;" th:text="#{region.error.message}"></p>
             </section>
 

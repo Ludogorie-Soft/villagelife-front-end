@@ -288,7 +288,7 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
-                    <form method="post" action="/villages/inquiry-save" class="details" th:object="${inquiry}">
+                    <form method="post" action="/villages/show/{id}" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-life-logo-circle.png"
