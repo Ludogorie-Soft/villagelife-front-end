@@ -103,13 +103,15 @@ const ava = ({ icon = 'success', toast = false, progressBar = true, text = null,
         })
     };
 
+
     if (saveSuccessful) {
         ava({
             icon: 'success',
-            text: 'Form sent successfully!',
-            btnText: 'Close',
+            text: successMessage,
+            btnText: closeButtonText,
             progressBar: true,
             toast: false,
         });
     }
+
 
