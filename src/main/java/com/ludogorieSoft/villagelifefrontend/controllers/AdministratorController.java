@@ -44,6 +44,8 @@ public class AdministratorController {
     private final VillageClient villageClient;
     private final VillageImageClient villageImageClient;
     private final SubscriptionClient subscriptionClient;
+    private final MessageClient messageClient;
+    private final InquiryClient inquiryClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -289,5 +291,24 @@ public class AdministratorController {
         String result = adminFunctionClient.translateVillagesNamesToLatin(AUTH_HEADER + token).getBody();
         redirectAttributes.addFlashAttribute(MESSAGE, result);
         return "redirect:/admins/village";
+    }
+    @GetMapping("/messages")
+    public String showUserMessages(HttpSession session, Model model) {
+        String token = (String) session.getAttribute(SESSION_NAME);
+        List<MessageDTO> messages = messageClient.getAllMessages(AUTH_HEADER + token);
+        model.addAttribute("messages", messages);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/user_messages";
+    }
+    @GetMapping("/inquiries")
+    public String showUserInquiries(HttpSession session, Model model) {
+        String token = (String) session.getAttribute(SESSION_NAME);
+        List<InquiryDTO> inquiries = inquiryClient.getAllInquiries(AUTH_HEADER + token);
+        inquiries.forEach(inquiryDTO -> inquiryDTO.setVillageName(villageClient.getVillageById(inquiryDTO.getVillageId()).getName()));
+        model.addAttribute("inquiries", inquiries);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/user_inquiries";
     }
 }

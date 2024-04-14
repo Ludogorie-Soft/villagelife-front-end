@@ -253,13 +253,15 @@
             </h3>
 
             <div class="accordion-container" th:each="answersQuestionResponse : ${villageInfo.answersQuestionResponses}">
-                <button class="accordion" th:text="#{${answersQuestionResponse.question}}"></button>
-                <div class="panel">
-                    <div class="answer-container" th:each="answer : ${answersQuestionResponse.answers}">
-                        <p th:text="${answer}" class="answer"></p>
-                        <hr>
+                <span th:if="${admin} == null and ${answersQuestionResponse.question} != inform_message.eighth or ${admin} != null">
+                    <button class="accordion" th:text="#{${answersQuestionResponse.question}}" ></button>
+                    <div class="panel">
+                        <div class="answer-container" th:each="answer : ${answersQuestionResponse.answers}">
+                            <p th:text="${answer}" class="answer"></p>
+                            <hr>
+                        </div>
                     </div>
-                </div>
+                </span>
             </div>
         </section>
 
@@ -288,7 +290,7 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
-                    <form method="post" action="/villages/inquiry-save" class="details" th:object="${inquiry}">
+                    <form method="post" action="/villages/show/{id}" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-life-logo-circle.png"
@@ -304,36 +306,45 @@
                             </ul>
                         </div>
 
-                        <div class="message-container">
-                            <div class="message col-12 text-center" id="message"></div>
-                        </div>
 
                         <input type="hidden" name="villageId" th:value="${villageInfo.villageDTO.id}">
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="name" value type="text" th:placeholder="#{contacts.nameLabel}" th:field="*{userName}" minlength="2" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+                            <input class="form-control-sm" name="name" value type="text"
+                                   th:placeholder="#{contacts.nameLabel}" th:field="*{userName}" minlength="2" required>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('userName')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" name="mobile" value type="text" th:placeholder="#{phone}" th:field="*{mobile}" minlength="10" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}"></p>
+                            <input class="form-control-sm" name="mobile" value type="text"
+                                   th:placeholder="#{phone}" th:field="*{mobile}" minlength="10" required>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email" th:placeholder="#{contacts.emailPlaceholder}" th:field="*{email}" required>
-                            <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <input class="form-control-sm" id="inquiry-email" name="email" value type="email"
+                                   th:placeholder="#{contacts.emailPlaceholder}" th:field="*{email}" required >
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
+
 
                         <div class="form-group form-group-textarea">
                             <span th:with="localizedVillageName=${#locale.language == 'bg' ? villageName :
                                 (#locale.language == 'en' || #locale.language == 'de' ? villageLatinName : '')}">
-                                <textarea class="form-control-sm form-message" name="message" rows="4" placeholder="Съобщение"
-                                          th:text="#{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})}" required>
+                                <textarea class="form-control-sm form-message" name="userMessage" rows="4" placeholder="Съобщение"
+                                          th:text="${inquiry.userMessage == null} ? #{inquiry.userMessage(#{village},${localizedVillageName},#{region},#{${regionName}})} : ${inquiry.userMessage}" required >
                                 </textarea>
+                                <ul class="error-list">
+                                    <li th:each="err : ${#fields.errors('userMessage')}" th:text="#{${err}}" class="error text-danger"></li>
+                                </ul>
                             </span>
                         </div>
-
 
 
                         <div class="form-group">
@@ -341,7 +352,9 @@
                                 <option th:value="${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).OTHER}" th:text="#{choose.type}"></option>
                                 <option th:value="${inquiryType}" th:text="#{${inquiryType.name}}"  th:each="inquiryType : ${T(com.ludogorieSoft.villagelifefrontend.enums.InquiryType).values()}"></option>
                             </select>
-                            <p class="text-danger" th:if="${#fields.hasErrors('inquiryType')}" th:errors="*{inquiryType}"></p>
+                            <ul class="error-list">
+                                <li th:each="err : ${#fields.errors('inquiryType')}" th:text="#{${err}}" class="error text-danger"></li>
+                            </ul>
                         </div>
 
                         <div class="form-group">
@@ -371,14 +384,27 @@
     </div>
 </div>
 
+<div th:if="${isSent != null}">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+        <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                     style="width: 25px;">
+                <strong class="me-auto">Village Life</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-subscription-body" style="margin: 15px; font-size: 16px;">
+                <span th:if="${isSent}" th:text="#{send.successful}" style="color: green;"></span>
+                <span th:if="${!isSent}" th:text="#{send.fail}" style="color: red;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="fragments :: footer"></div>
 <script src="/js/imageSlider.js"></script>
 <script src="/js/accordion-script.js"></script>
 <script src="/js/makeCallScript.js"></script>
-<script>
-  const isSent = [[${isSent}]];
-</script>
-<script src="/js/isSentMessageScript.js"></script>
 <script src="/js/navScript.js"></script>
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>

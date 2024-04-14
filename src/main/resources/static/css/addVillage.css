@@ -133,4 +133,7 @@
             display: inline;
         }
 
-
+    .error-list {
+        list-style-type: none;
+        padding: 0;
+    }

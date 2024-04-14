@@ -22,15 +22,15 @@ public class MessageValidator implements Validator {
         MessageDTO messageDTO = (MessageDTO) target;
 
         if (messageDTO.getEmail() != null && messageDTO.getEmail().trim().equals("")) {
-            errors.rejectValue("email", FIELD_REQUIRED, "Email is required");
+            errors.rejectValue("email", FIELD_REQUIRED, "email.required");
         }
         if (messageDTO.getUserMessage() != null && messageDTO.getUserMessage().trim().equals("")) {
-            errors.rejectValue("userMessage", FIELD_REQUIRED, "Message is required");
+            errors.rejectValue("userMessage", FIELD_REQUIRED, "message.required");
         }
         if (messageDTO.getUserName() != null && messageDTO.getUserName().trim().length() < 2) {
-            errors.rejectValue("userName", "field.minlength", "The name must be at least 2 characters");
+            errors.rejectValue("userName", "field.minlength", "username.minlength");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(messageDTO.getUserName()))) {
-            errors.rejectValue("userName", FIELD_REQUIRED, "Must use letters only");
+            errors.rejectValue("userName", FIELD_REQUIRED, "username.lettersOnly");
         }
     }
 }

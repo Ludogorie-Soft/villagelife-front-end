@@ -25,16 +25,16 @@ public class UserValidator implements Validator {
         UserDTO userDTO = (UserDTO) target;
 
         if (userDTO.getFullName() == null || userDTO.getFullName().trim().length() < 6) {
-            errors.rejectValue("userDTO.fullName", "field.minlength", "Enter first and last name!");
+            errors.rejectValue("userDTO.fullName", "field.minlength", "names.required");
         } else if (Boolean.FALSE.equals(validationUtilsClient.usernameCheck(userDTO.getFullName()))) {
-            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "Must use letters only!");
+            errors.rejectValue("userDTO.fullName", FIELD_REQUIRED, "username.lettersOnly");
         }
 
         if (userDTO.getEmail() == null || userDTO.getEmail().trim().length() < 9) {
-            errors.rejectValue("userDTO.email", "field.minlength", "Enter a valid email!");
+            errors.rejectValue("userDTO.email", "field.minlength", "email.required");
         }
         if(!userDTO.isConsent()){
-            errors.rejectValue("userDTO.consent", FIELD_REQUIRED,"You must agree to the terms!");
+            errors.rejectValue("userDTO.consent", FIELD_REQUIRED,"consent.required");
         }
     }
 }

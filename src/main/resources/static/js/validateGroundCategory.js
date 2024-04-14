@@ -8,8 +8,11 @@ function validateGroundCategory() {
         }
     });
 
+    const errorElement = document.getElementById('ground-category-checkbox-error');
     if (checkedCount === 0) {
-        document.getElementById('ground-category-checkbox-error').style.display = 'block';
+        if (errorElement) {
+            errorElement.style.display = 'block';
+        }
 
         const section = document.getElementById('groundCategory');
         if (section) {
@@ -17,6 +20,10 @@ function validateGroundCategory() {
         }
 
         return false;
+    } else {
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
     }
 
     return true;
