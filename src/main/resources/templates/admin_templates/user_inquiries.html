@@ -34,6 +34,7 @@
                 <th>Телефонен номер</th>
                 <th>Село</th>
                 <th>Тип запитване</th>
+                <th>Дата</th>
             </tr>
             </thead>
             <tbody>
@@ -45,6 +46,7 @@
                 <td th:text="${inquiry.mobile}"></td>
                 <td th:text="${inquiry.villageName}"></td>
                 <td th:text="#{${inquiry.inquiryType.name}}"></td>
+                <td th:text="${inquiry.dateSent != null ? #temporals.format(inquiry.dateSent, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
             </tr>
             </tbody>
         </table>
