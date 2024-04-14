@@ -31,6 +31,7 @@
                 <th>Потребител</th>
                 <th>Имейл</th>
                 <th>Съобщение</th>
+                <th>Дата</th>
             </tr>
             </thead>
             <tbody>
@@ -39,6 +40,7 @@
                 <td th:text="${message.userName}"></td>
                 <td th:text="${message.email}"></td>
                 <td th:text="${message.userMessage}"></td>
+                <td th:text="${message.dateSent != null ? #temporals.format(message.dateSent, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
             </tr>
             </tbody>
         </table>
