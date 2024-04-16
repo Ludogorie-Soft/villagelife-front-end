@@ -44,7 +44,7 @@ class AdministratorControllerTest {
 
         doNothing().when(adminClient).deleteAdministratorById(anyLong(), anyString());
 
-        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient, subscriptionClient, null, null);
+        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient, subscriptionClient, null, null, null);
 
         ModelAndView modelAndView = controller.deleteAdmin(1L, redirectAttributes, session);
 
