@@ -33,7 +33,7 @@ function validateVillageName() {
     var villageNameInput = document.getElementById('villageName');
     var villageName = villageNameInput.value.trim();
 
-    var cyrillicRegex = /^[а-яА-ЯЁё]+$/;
+    var cyrillicRegex = /^[а-яА-ЯЁё\s]+$/;
 
     if (!cyrillicRegex.test(villageName)) {
         document.getElementById('villageName-error').style.display = 'block';
@@ -43,5 +43,4 @@ function validateVillageName() {
         return true;
     }
 }
-
 

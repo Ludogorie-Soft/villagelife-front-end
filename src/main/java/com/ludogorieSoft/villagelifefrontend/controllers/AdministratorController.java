@@ -46,6 +46,7 @@ public class AdministratorController {
     private final SubscriptionClient subscriptionClient;
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
+    private final VillageAnswerQuestionClient villageAnswerQuestionClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -310,5 +311,14 @@ public class AdministratorController {
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_inquiries";
+    }
+    @GetMapping("/contacts")
+    public String showUserContacts(HttpSession session, Model model) {
+        String token = (String) session.getAttribute(SESSION_NAME);
+        List<Object[]> answersWithVillageName = villageAnswerQuestionClient.findVillageNameAndAnswerByQuestionName("question_name.eighth", AUTH_HEADER + token);
+        model.addAttribute("contacts", answersWithVillageName);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/user_contacts";
     }
 }

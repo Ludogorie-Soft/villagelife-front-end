@@ -65,7 +65,6 @@ public class UploadController {
 
     @GetMapping("/uploadImages")
     public String uploadImages(Model model, HttpSession session) {
-        System.out.println("upload images controller frontend");
         //villageImageClient.uploadImages();
         return "redirect:/uploadFile";
     }
