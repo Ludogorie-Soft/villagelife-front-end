@@ -29,7 +29,7 @@ import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/villages")
+//@RequestMapping("/villages")
 public class VillageController {
     private final RegionClient regionClient;
     private final VillageClient villageClient;
@@ -45,17 +45,25 @@ public class VillageController {
     private final InquiryClient inquiryClient;
     private final SubscriptionClient subscriptionClient;
     private final UserValidator userValidator;
-    private static final String VILLAGES_ATTRIBUTE = "villages";
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
+    private static final String VILLAGES_ATTRIBUTE = "villages";
+    private static final String VILLAGE_BY_Id = "/" + VILLAGES_ATTRIBUTE + "/show/{id}";
+    private static final String VILLAGE_SUBSCRIPTION = "/" + VILLAGES_ATTRIBUTE + "/subscription-save";
+    private static final String VILLAGE_CREATE = "/" + VILLAGES_ATTRIBUTE + "/create";
+    private static final String VILLAGE_SAVE = "/" + VILLAGES_ATTRIBUTE + "/save";
+    private static final String VILLAGE_PARTNERS = "/" + VILLAGES_ATTRIBUTE + "/partners";
+    private static final String VILLAGE_CONTACTS = "/" + VILLAGES_ATTRIBUTE + "/contacts";
+    private static final String VILLAGE_ABOUT_US = "/" + VILLAGES_ATTRIBUTE + "/about-us";
+    private static final String VILLAGE_GENERAL_TERMS = "/" + VILLAGES_ATTRIBUTE + "/general-terms";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String IS_SENT_ATTRIBUTE = "isSent";
     private static final String CONTACTS_VIEW = "contacts";
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
     private static final long MAX_FILE_SIZE = (long) 5 * 1024 * 1024;
 
-    @GetMapping(value = { "/home-page/{page}", "/home-page" })
+    @GetMapping(value = { "/{page}", "" })
     public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
         int currentPage = (page != null) ? page : 0;
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
@@ -82,7 +90,7 @@ public class VillageController {
         }
         return "HomePage";
     }
-    @GetMapping("/show/{id}")
+    @GetMapping(VILLAGE_BY_Id)
     public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
@@ -90,7 +98,7 @@ public class VillageController {
         return "ShowVillageById";
     }
 
-    @PostMapping("/subscription-save")
+    @PostMapping(VILLAGE_SUBSCRIPTION)
     public String saveSubscription(@ModelAttribute("subscription") SubscriptionDTO subscriptionDTO, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String subscriptionMessage;
         if (subscriptionClient.emailExists(subscriptionDTO.getEmail())) {
@@ -105,7 +113,7 @@ public class VillageController {
         return "redirect:" + referer;
     }
 
-    @PostMapping("/show/{id}")
+    @PostMapping(VILLAGE_BY_Id)
     public String saveInquiry(@PathVariable("id")long id, @ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
@@ -166,12 +174,12 @@ public class VillageController {
         redirectAttributes.addFlashAttribute("status", keyWord);
     }
 
-    @GetMapping("/create")
+    @GetMapping(VILLAGE_CREATE)
     public String showCreateVillageForm(Model model) {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
         return getAddVillagePage(addVillageFormResult, model);
     }
-    @PostMapping("/save")
+    @PostMapping(VILLAGE_SAVE)
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws ImageMaxUploadSizeExceededException {
         addVillageFormValidator.validate(addVillageFormResult, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -189,7 +197,7 @@ public class VillageController {
         addVillageFormResult.setImageBytes(imageBytes);
         addVillageFormClient.createAddVillageForResult(addVillageFormResult);
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
-        return "redirect:/villages/home-page";
+        return "redirect:/";
     }
     private void hasExceededFileSize(List<MultipartFile> images) throws ImageMaxUploadSizeExceededException {
         long totalSize = images.stream()
@@ -218,20 +226,20 @@ public class VillageController {
         return imageBytes;
     }
 
-    @GetMapping("/partners")
+    @GetMapping(VILLAGE_PARTNERS)
     public String showPartnersPage(Model model) {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "partners";
     }
 
-    @GetMapping("/contacts")
+    @GetMapping(VILLAGE_CONTACTS)
     public String showContactsPage(Model model) {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         return CONTACTS_VIEW;
     }
 
-    @PostMapping("/contacts")
+    @PostMapping(VILLAGE_CONTACTS)
     public String saveMessage(@ModelAttribute("message") MessageDTO messageDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         messageValidator.validate(messageDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -247,7 +255,7 @@ public class VillageController {
         return "redirect:/villages/contacts";
     }
 
-    @GetMapping("/about-us")
+    @GetMapping(VILLAGE_ABOUT_US)
     public String showAboutUsPage(Model model) {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "about-us";
@@ -277,7 +285,7 @@ public class VillageController {
     }
 
 
-    @GetMapping("/general-terms")
+    @GetMapping(VILLAGE_GENERAL_TERMS)
     String showGeneralTerms(Model model) {
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "general-terms";

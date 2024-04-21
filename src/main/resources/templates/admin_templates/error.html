@@ -22,13 +22,13 @@
 <body>
 
     <div class="error-container col-lg-5 col-md-7 col-sm-10 text-center">
-        <a th:href="@{/villages/home-page}"><img th:src="@{/images/tree.png}" alt="Village life Image"></a>
+        <a th:href="@{/}"><img th:src="@{/images/tree.png}" alt="Village life Image"></a>
         <h1>Oops!</h1>
         <h2>Something went wrong.</h2>
         <hr>
         <br>
         <p th:text="${errorMessage}" class="error-message"></p>
-        <a th:href="@{/villages/home-page}" class="btn">Home</a>
+        <a th:href="@{/}" class="btn">Home</a>
     </div>
 
 </body>
