@@ -31,16 +31,7 @@
 <div class="video-container">
 
     <div id="slideshow-container">
-        <div class="mySlides active">
-            <img th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide">
-        </div>
-
-        <div class="mySlides active">
-            <img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide">
-        </div>
-
-        <div class="mySlides active">
-            <img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide">
+        <div class="mySlides active"><img th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide"></div><div class="mySlides active"><img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide"></div><div class="mySlides active"><img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide">
         </div>
 
         <div class="mySlides active">
@@ -133,7 +124,7 @@
     <div class="card-actions" style="font-size: 15px;">
         <div class="text-center pagination">
             <div>
-                <a th:href="@{/villages/home-page}">
+                <a th:href="@{/}">
                     <button id="first" class="btn">
                         <i class="fas fa-angle-double-left"></i>
                     </button>
@@ -141,7 +132,7 @@
             </div>
 
             <div>
-                <a th:href="@{/villages/home-page/{page}(page=${page >= 1 ? page - 1 : 0})}">
+                <a th:href="@{/{page}(page=${page >= 1 ? page - 1 : 0})}">
                     <button id="prev" class="btn">
                         <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}" class="pagination-btn-text"></span>
                     </button>
@@ -157,20 +148,19 @@
             </div>
 
             <div>
-                <a th:href="@{/villages/home-page/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
+                <a th:href="@{/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
                     <button id="next" class="btn">
-                     <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
+                        <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
                     </button>
                 </a>
             </div>
             <div>
-                <a th:href="@{/villages/home-page/{page}(page=${pagesCount - 1})}">
+                <a th:href="@{/{page}(page=${pagesCount - 1})}">
                     <button id="last" class="btn">
                         <i class="fas fa-angle-double-right"></i>
                     </button>
                 </a>
             </div>
-
         </div>
     </div>
 </div>
@@ -191,18 +181,20 @@ function updatePageValue(event) {
     if (event.key === 'Enter') {
         var currentPageInput = document.getElementById('currentPage');
         if (currentPageInput.value >= 0 && currentPageInput.value <= [[${pagesCount}]]) {
-            var newPageValue = currentPageInput.value - 1;
-            if (newPageValue >= 0) {
-                var currentURL = window.location.href;
-                if (currentURL.includes('/home-page/')) {
-                    var newURL = currentURL.replace(/\/home-page\/\d+/, '/home-page/' + newPageValue);
-                    window.location.href = newURL;
+          var newPageValue = currentPageInput.value - 1;
+          if (newPageValue >= 0) {
+            var currentURL = window.location.href;
+            var newURL;
+            if (currentURL.includes('/')) {
+                if (currentURL.endsWith('/')) {
+                    newURL = currentURL.slice(0, currentURL.lastIndexOf('/') + 1) + newPageValue;
                 } else {
-                    var newURL = currentURL + '/' + newPageValue;
-                    window.location.href = newURL;
+                    newURL = currentURL.replace(/\/\d+$/, '/' + newPageValue);
                 }
+                window.location.href = newURL;
             }
         }
+      }
     }
 }
 </script>
