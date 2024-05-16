@@ -48,6 +48,7 @@ public class VillageController {
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
+    private final VillageVideoClient villageVideoClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String VILLAGE_BY_Id = "/" + VILLAGES_ATTRIBUTE + "/show/{id}";
     private static final String VILLAGE_SUBSCRIPTION = "/" + VILLAGES_ATTRIBUTE + "/subscription-save";
@@ -155,6 +156,8 @@ public class VillageController {
 
         model.addAttribute("status", keyWord);
 
+        List<VillageVideoDTO> videoDTOS = villageVideoClient.getAllApprovedVideosByVillageId(villageInfo.getVillageDTO().getId());
+        model.addAttribute("video", videoDTOS.get(0));
     }
     protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);

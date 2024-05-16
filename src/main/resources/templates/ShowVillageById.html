@@ -71,6 +71,13 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
+
+    <div th:if="${video.url}">
+        <iframe width="560" height="315" th:src="${'https://www.youtube.com/embed/' + video.url.split('v=')[1] + '?autoplay=1&mute=1'}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+
+
     <div class="village-title">
         <h1>
             <span th:text="#{village}"></span>
