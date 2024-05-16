@@ -47,6 +47,7 @@ public class AdministratorController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
+    private final VillageVideoClient villageVideoClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -320,5 +321,34 @@ public class AdministratorController {
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_contacts";
+    }
+    @GetMapping("/manage-videos/{villageId}")
+    public String manageVideos(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageVideoDTO> villageVideoDTOList = villageVideoClient.getAllVideosByVillageId(villageId);//, AUTH_HEADER + token2
+        System.out.println("video list " + villageVideoDTOList);
+        model.addAttribute("villageVideoDTOs", villageVideoDTOList);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/admin_videos";
+    }
+
+    @PostMapping("/videos/villageId")
+    public String saveAllVideos(@RequestParam("villageId") Long villageId, @RequestParam("videos") List<String> videosUrls, HttpSession session){
+        List<VillageVideoDTO> villageVideoDTOList = videosUrls.stream()
+                .map(videoUrl -> {
+                    VillageVideoDTO videoDTO = new VillageVideoDTO();
+                    videoDTO.setVillageId(villageId);
+                    videoDTO.setUrl(videoUrl);
+                    videoDTO.setStatus(true);
+                    videoDTO.setDateUpload(now());
+                    return videoDTO;
+                })
+                .toList();
+        villageVideoClient.saveVideos(villageVideoDTOList);
+        return "admin_templates/admin_videos";
+
     }
 }

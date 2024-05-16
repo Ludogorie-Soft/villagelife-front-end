@@ -22,12 +22,12 @@
 <div th:replace="fragments :: admin-navbar"></div>
 <!----------------NAV------------------------------>
 
-<div class="container mt-4" id="form-container">&nbsp;&nbsp;&nbsp;
+<div class="container-fluid" id="form-container" style="margin:0">&nbsp;&nbsp;&nbsp;
     <div th:if="${message}" class="alert alert-success text-center">
         [[${message}]]
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive-md">
         <h1 id="table-heading" align="center">
             <span th:if="${status == 'toApproved'}" style="color: #68CA40">Списък със села</span>
             <span th:if="${status == 'archived'}" style="color: #990000;">Списък с архивирани села</span>
@@ -47,6 +47,7 @@
                 <th>Отговор</th>
                 <th th:if="${status != 'archived'}">Премахване</th>
                 <th>Снимки</th>
+                <th>Видео</th>
             </tr>
             </thead>
             <tbody>
@@ -106,6 +107,12 @@
                 </td>
                 <td>
                     <form th:action="@{/admins/manage-images/{villageId}(villageId=${village.id})}" method="get">
+                        <input type="hidden" name="villageId" th:value="${village.id}">
+                        <input type="submit" value="Управление" class="btn btn-secondary">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/admins/manage-videos/{villageId}(villageId=${village.id})}" method="get">
                         <input type="hidden" name="villageId" th:value="${village.id}">
                         <input type="submit" value="Управление" class="btn btn-secondary">
                     </form>
