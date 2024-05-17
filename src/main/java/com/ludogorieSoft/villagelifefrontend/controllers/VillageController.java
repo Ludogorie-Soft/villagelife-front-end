@@ -157,7 +157,7 @@ public class VillageController {
         model.addAttribute("status", keyWord);
 
         List<VillageVideoDTO> videoDTOS = villageVideoClient.getAllApprovedVideosByVillageId(villageInfo.getVillageDTO().getId());
-        model.addAttribute("video", videoDTOS.get(0));
+        model.addAttribute("videos", videoDTOS);
     }
     protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
