@@ -9,6 +9,7 @@ import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -323,32 +324,35 @@ public class AdministratorController {
         return "admin_templates/user_contacts";
     }
     @GetMapping("/manage-videos/{villageId}")
-    public String manageVideos(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
+    public String manageVideos(@PathVariable Long villageId, Model model, HttpSession session) {
+        System.out.println("get controller " + villageId);
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        System.out.println("get controller2 " + villageDTO.getId());
+
         model.addAttribute("village", villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        List<VillageVideoDTO> villageVideoDTOList = villageVideoClient.getAllVideosByVillageId(villageId);//, AUTH_HEADER + token2
-        System.out.println("video list " + villageVideoDTOList);
+        List<VillageVideoDTO> villageVideoDTOList = adminFunctionClient.getAllVideos(villageId , AUTH_HEADER + token2);//, AUTH_HEADER + token2
+
+        System.out.println("video list getMapping  " + villageVideoDTOList);
         model.addAttribute("villageVideoDTOs", villageVideoDTOList);
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/admin_videos";
     }
+    @PostMapping(value = "/save-video",  consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })//,  consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }
+    public String saveAllVideos(@RequestParam("villageId") Long villageId,
+                                @RequestParam("videoUrl") List<String> videoUrls, HttpSession session, Model model){
+        System.out.println("video list " + videoUrls);
 
-    @PostMapping("/videos/villageId")
-    public String saveAllVideos(@RequestParam("villageId") Long villageId, @RequestParam("videos") List<String> videosUrls, HttpSession session){
-        List<VillageVideoDTO> villageVideoDTOList = videosUrls.stream()
-                .map(videoUrl -> {
-                    VillageVideoDTO videoDTO = new VillageVideoDTO();
-                    videoDTO.setVillageId(villageId);
-                    videoDTO.setUrl(videoUrl);
-                    videoDTO.setStatus(true);
-                    videoDTO.setDateUpload(now());
-                    return videoDTO;
-                })
-                .toList();
-        villageVideoClient.saveVideos(villageVideoDTOList);
-        return "admin_templates/admin_videos";
+        System.out.println("video list 2 " + videoUrls);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminFunctionClient.saveVideos(villageId,videoUrls, AUTH_HEADER + token2);
+        System.out.println("video list 3  " + videoUrls);
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        System.out.println("get controller2 " + villageDTO.getId());
+
+        model.addAttribute("village", villageDTO);
+        return "redirect:/admins/manage-videos/" + villageId;
 
     }
 }

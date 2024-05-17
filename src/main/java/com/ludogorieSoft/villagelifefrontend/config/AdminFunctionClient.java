@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
+import com.ludogorieSoft.villagelifefrontend.dtos.VillageVideoDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -33,4 +34,9 @@ public interface AdminFunctionClient {
     ResponseEntity<List<VillageResponse>> getVillagesWithRejectedResponses(@RequestHeader("Authorization") String token);
     @GetMapping("/toLatin")
     public ResponseEntity<String> translateVillagesNamesToLatin(@RequestHeader("Authorization") String token);
+    @GetMapping("/videos/{villageId}")
+    public List<VillageVideoDTO> getAllVideos(@PathVariable(value = "villageId")Long villageId, @RequestHeader("Authorization") String token);
+    @PostMapping("/video")
+//    void saveVideos(@RequestBody List<VillageVideoDTO> villageVideoDTOS);
+    void saveVideos(@RequestParam("villageId")Long villageId, @RequestParam("videoUrl") List<String> villageVideoDTOS, @RequestHeader("Authorization") String token);
 }

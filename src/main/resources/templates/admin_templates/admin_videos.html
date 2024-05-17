@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="/css/admin_images.css">
     <link th:href="@{/css/admin_css.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin_embed.css}" rel="stylesheet"/>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -33,32 +34,58 @@
         <p class="village-title" th:text="'село ' + ${village.name} + ', област ' + #{${village.region}}"></p>
         <div class="row">
             <h2>
-                <span>СНИМКИ</span>
+                <span>ВИДЕО</span>
                 <img th:src="@{/images/add-new.png}" alt="Add new image" id="openModalImage" data-bs-toggle="modal" data-bs-target="#new">
             </h2>
             <div>
                 <a th:href="@{/admins/deleted-images/{villageId}(villageId=${village.id})}" class="deleted-images-link">
                     <img th:src="@{/images/delete-button.png}" alt="Deleted images" class="delete-button">
-                    <span>Премахнати снимки</span>
+                    <span>Премахнато видео</span>
                 </a>
             </div>
 
+<!--                            &lt;!&ndash;&#45;&#45;&#45;&#45; Modal -&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--            <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newLabel" aria-hidden="true">-->
+<!--                <div class="modal-dialog">-->
+<!--                    <div class="modal-content">-->
+<!--                        <div class="modal-header">-->
+<!--                            <h1 class="modal-title fs-5" id="newLabel">Добавяне на видео</h1>-->
+<!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>-->
+<!--                        </div>-->
+<!--                        <div class="modal-body">-->
+<!--                            <form action="/admins/save-video" method="post">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="videoUrl" class="form-label fw-bold" style="float: left">Моля, въведете URL на YouTube видео:</label>-->
+<!--                                    <input class="form-control" id="videoUrl" name="videoUrl" type="url" placeholder="Пример: https://www.youtube.com/watch?v=VIDEO_ID">-->
+<!--                                    <input type="hidden" name="villageId" th:value="${village.id}">-->
+<!--                                </div>-->
+<!--                                <div style="float: right">-->
+<!--                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>-->
+<!--                                    <button type="submit" class="btn btn-primary">Добавяне</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <!-- Modal -->
             <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="newLabel">Добавяне на снимки</h1>
+                            <h1 class="modal-title fs-5" id="newLabel">Добавяне на видео</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/admins/save-images" method="post" enctype="multipart/form-data">
-                                <div class="mb-3">
-                                    <label for="formFileMultiple" class="form-label fw-bold" style="float: left">Моля, прикачете снимки от селото:</label>
-                                    <input class="form-control" id="formFileMultiple" name="newImages" type="file" multiple accept="image/*" onchange="validateImageFormat(this)">
-                                    <input type="hidden" name="villageId" th:value="${village.id}">
+                            <form id="videoForm" action="/admins/save-video" method="post">
+                                <div id="videoFields">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold" style="float: left">Моля, въведете URL на YouTube видео:</label>
+                                        <input class="form-control" name="videoUrl" type="text" placeholder="Пример: https://www.youtube.com/watch?v=VIDEO_ID">
+                                    </div>
                                 </div>
+                                <button type="button" class="btn btn-secondary mb-3" onclick="addVideoField()">Добави още видео</button>
+                                <input type="hidden" name="villageId" th:value="${village.id}">
                                 <div style="float: right">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
                                     <button type="submit" class="btn btn-primary">Добавяне</button>
@@ -68,53 +95,91 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!--          Video          -->
+<script>
+    function addVideoField() {
+        var videoFields = document.getElementById("videoFields");
+        var div = document.createElement("div");
+        div.classList.add("mb-3");
+        div.innerHTML = '<label for="videoUrl" class="form-label fw-bold" style="float: left">Моля, въведете URL на YouTube видео:</label>' +
+            '<input class="form-control" name="videoUrl" type="text" placeholder="Пример: https://www.youtube.com/watch?v=VIDEO_ID">';
+        videoFields.appendChild(div);
+    }
+</script>
+
+
+            <!--            <div class="modal fade" id="new" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newLabel" aria-hidden="true">-->
+<!--                <div class="modal-dialog">-->
+<!--                    <div class="modal-content">-->
+<!--                        <div class="modal-header">-->
+<!--                            <h1 class="modal-title fs-5" id="newLabel">Добавяне на снимки</h1>-->
+<!--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>-->
+<!--                        </div>-->
+<!--                        <div class="modal-body">-->
+<!--                            <form action="/admins/save-images" method="post" enctype="multipart/form-data">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="formFileMultiple" class="form-label fw-bold" style="float: left">Моля, прикачете снимки от селото:</label>-->
+<!--                                    <input class="form-control" id="formFileMultiple" name="newImages" type="file" multiple accept="image/*" onchange="validateImageFormat(this)">-->
+<!--                                    <input type="hidden" name="villageId" th:value="${village.id}">-->
+<!--                                </div>-->
+<!--                                <div style="float: right">-->
+<!--                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>-->
+<!--                                    <button type="submit" class="btn btn-primary">Добавяне</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <!--         NO Video          -->
     <div class="alert alert-warning text-center" role="alert" th:if="${#lists.isEmpty(villageVideoDTOs)}">
         Избраното село няма видео файлове.
     </div>
-
     <div class="row col-12">
         <div th:each="villageVideo : ${villageVideoDTOs}" class="col-lg-4 col-md-6 col-sm-12">
             <div class="card">
-
-<!--                <div class="image-container">-->
-<!--                    <img th:src="'data:image/jpeg;base64,' + ${villageVideo.base64Image}">-->
-<!--                </div>-->
-                <div th:if="${villageVideo.url}">
-                    <iframe width="560" height="315" th:src="${'https://www.youtube.com/embed/' + video.url.split('v=')[1] + '?autoplay=1&mute=1'}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <div th:if="${villageVideo.url}" class="embed-responsive embed-responsive-21by9">
+                    <!-- Embed YouTube video using iframe -->
+                    <iframe th:src="${'https://www.youtube.com/embed/' + (villageVideo.url.contains('v=') ? villageVideo.url.split('v=')[1].split('&')[0] : villageVideo.url)}"
+                            class="embed-responsive-item"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
                 </div>
-                <div id="video-container"></div>
-
                 <div class="card-body">
                     <div th:text="'Дата на добавяне: ' + ${villageVideo.dateUpload}"></div>
-                    <div th:text="'Статус: ' + ${villageVideo.status ? 'одобрена' : 'неодобрена'}"></div>
-
-                    <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#reject-' + ${villageImage.id}">Премахване</button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" th:id="'reject-' + ${villageVideo.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'rejectLabel-' + ${villageVideo.id}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" th:id="'rejectLabel-' + ${villageVideo.id}">Премахване</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="mb-3">Сигурни ли сте, че искате да премахнете това видео?</div>
-                                </div>
-
-<!--                                <div class="modal-footer">-->
-<!--                                    <div style="float: right" class="row">-->
-<!--                                        <button type="button" class="btn btn-secondary col" data-bs-dismiss="modal">Отказ</button>-->
-<!--                                        <form th:action="@{/admins/image-reject/{villageImageId}(villageImageId=${villageImage.id})}" method="get" th:object="${villageImage}" class="col">-->
-<!--                                            <button type="submit" class="btn btn-danger">Премахване</button>-->
-<!--                                        </form>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                    <div th:text="'Статус: ' + (${villageVideo.status} ? 'одобрена' : 'неодобрена')"></div>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#reject-' + ${villageVideo.id}">Премахване</button>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" th:id="'reject-' + ${villageVideo.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'rejectLabel-' + ${villageVideo.id}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" th:id="'rejectLabel-' + ${villageVideo.id}">Премахване</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">Сигурни ли сте, че искате да премахнете това видео?</div>
+                        </div>
+                        <div class="modal-footer">
+                            <div style="float: right" class="row">
+                                <button type="button" class="btn btn-secondary col" data-bs-dismiss="modal">Отказ</button>
+                                <form th:action="@{/admins/video-reject/{villageVideoId}(villageVideoId=${villageVideo.id})}" method="post" class="col">
+                                    <button type="submit" class="btn btn-danger">Премахване</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
                             </div>
 
@@ -124,34 +189,34 @@
 
                     <!--        Approve Image       -->
 
-                    <button type="submit" class="btn btn-outline-success" data-bs-toggle="modal" th:data-bs-target="'#approve-' + ${villageImage.id}"  th:if="${!villageImage.status}">Одобряване</button>
+<!--                    <button type="submit" class="btn btn-outline-success" data-bs-toggle="modal" th:data-bs-target="'#approve-' + ${villageImage.id}"  th:if="${!villageImage.status}">Одобряване</button>-->
 
                     <!-- Modal -->
-                    <div class="modal fade" th:id="'approve-' + ${villageImage.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'approveLabel-' + ${villageImage.id}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" th:id="'approveLabel-' + ${villageImage.id}">Одобряване</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>
-                                </div>
+<!--                    <div class="modal fade" th:id="'approve-' + ${villageImage.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" th:aria-labelledby="'approveLabel-' + ${villageImage.id}" aria-hidden="true">-->
+<!--                        <div class="modal-dialog">-->
+<!--                            <div class="modal-content">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <h1 class="modal-title fs-5" th:id="'approveLabel-' + ${villageImage.id}">Одобряване</h1>-->
+<!--                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Отказ"></button>-->
+<!--                                </div>-->
 
-                                <div class="modal-body">
-                                    <div class="mb-3">Сигурни ли сте, че искате да одобрите тази снимка?</div>
-                                </div>
+<!--                                <div class="modal-body">-->
+<!--                                    <div class="mb-3">Сигурни ли сте, че искате да одобрите тази снимка?</div>-->
+<!--                                </div>-->
 
-                                <div class="modal-footer">
-                                    <div style="float: right" class="row">
-                                        <button type="button" class="btn btn-secondary col" data-bs-dismiss="modal">Отказ</button>
-                                        <form th:action="@{/admins/approve-image/{villageImageId}(villageImageId=${villageImage.id})}" method="get" th:object="${villageImage}" class="col">
-                                            <button type="submit" class="btn btn-success">Одобряване</button>
-                                        </form>
-                                    </div>
-                                </div>
+<!--                                <div class="modal-footer">-->
+<!--                                    <div style="float: right" class="row">-->
+<!--                                        <button type="button" class="btn btn-secondary col" data-bs-dismiss="modal">Отказ</button>-->
+<!--                                        <form th:action="@{/admins/approve-image/{villageImageId}(villageImageId=${villageImage.id})}" method="get" th:object="${villageImage}" class="col">-->
+<!--                                            <button type="submit" class="btn btn-success">Одобряване</button>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
-                            </div>
+<!--                            </div>-->
 
-                        </div>
-                    </div>
+<!--                        </div>-->
+<!--                    </div>-->
 
                 </div>
 
