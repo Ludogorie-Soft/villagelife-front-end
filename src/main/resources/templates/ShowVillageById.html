@@ -63,10 +63,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <!--<script src="/js/playVideos.js"></script>
-    <script th:inline="javascript">
-        var videos = /*[[${videos}]]*/ [];
-    </script>-->
+
 </head>
 <body>
 
@@ -74,52 +71,7 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
-    <script th:inline="javascript">
-        var videos = /*[[${videos}]]*/ [];
-        var currentIndex = 0;
-        var player;
 
-        function loadVideo() {
-            var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
-                return getVideoId(video.url);
-            }).join(',');
-
-            // Create a new iframe element
-            var iframe = document.createElement('iframe');
-            iframe.setAttribute('src', videoUrl);
-            iframe.setAttribute('width', '500');
-            iframe.setAttribute('height', '390');
-            iframe.setAttribute('allowfullscreen', '');
-
-            // Replace the existing iframe with the new one
-            var videoContainer = document.getElementById('video-container');
-            videoContainer.innerHTML = '';
-            videoContainer.appendChild(iframe);
-        }
-
-        function getVideoId(url) {
-            var match = url.match(/v=([^&]+)/);
-            return match ? match[1] : null;
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                currentIndex++;
-                if (currentIndex < videos.length) {
-                    loadVideo();
-                } else {
-                    currentIndex = 0;  // Reset to the first video if the playlist ends
-                    loadVideo();
-                }
-            }
-        }
-    </script>
-
-    <div id="video-container"></div>
-
-    <script th:inline="javascript">
-        loadVideo();
-    </script>
 
 
     <div class="village-title">
@@ -380,6 +332,7 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
+                    <div id="video-container"></div>
                     <form method="post" action="/villages/show/{id}" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
@@ -498,5 +451,12 @@
 <script src="/js/navScript.js"></script>
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
+<script src="/js/playVideos.js"></script>
+<script th:inline="javascript">
+        var videos = /*[[${videos}]]*/ [];
+    </script>
+<script th:inline="javascript">
+        loadVideo();
+</script>
 </body>
 </html>

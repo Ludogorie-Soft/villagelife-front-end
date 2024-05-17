@@ -1,43 +1,37 @@
 var currentIndex = 0;
-var player;
-console.log("videos: " + videos);
-function onYouTubeIframeAPIReady() {
-    loadPlayer();
-}
+        var player;
 
-function loadPlayer() {
-    player = new YT.Player('video-container', {
-        width: '500',
-        height: '390',
-        videoId: getVideoId(videos[currentIndex].url),
-        playerVars: {
-            'autoplay': 1,
-            'controls': 1,
-            'mute': 1,
-            'loop': 0,
-            'playlist': videos.map(function(video) {
+        function loadVideo() {
+            var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
                 return getVideoId(video.url);
-            }).join(',')
-        },
-        events: {
-            'onStateChange': onPlayerStateChange
-        }
-    });
-}
+            }).join(',');
 
-function getVideoId(url) {
-    var match = url.match(/v=([^&]+)/);
-    return match ? match[1] : null;
-}
+            // Create a new iframe element
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', videoUrl);
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '390');
+            iframe.setAttribute('allowfullscreen', '');
 
-function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-        currentIndex++;
-        if (currentIndex < videos.length) {
-            player.loadVideoById(getVideoId(videos[currentIndex].url));
-        } else {
-            currentIndex = 0;  // Reset to the first video if the playlist ends
-            player.loadVideoById(getVideoId(videos[currentIndex].url));
+            // Replace the existing iframe with the new one
+            var videoContainer = document.getElementById('video-container');
+            videoContainer.innerHTML = '';
+            videoContainer.appendChild(iframe);
         }
-    }
-}
+
+        function getVideoId(url) {
+            var match = url.match(/v=([^&]+)/);
+            return match ? match[1] : null;
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                currentIndex++;
+                if (currentIndex < videos.length) {
+                    loadVideo();
+                } else {
+                    currentIndex = 0;  // Reset to the first video if the playlist ends
+                    loadVideo();
+                }
+            }
+        }
