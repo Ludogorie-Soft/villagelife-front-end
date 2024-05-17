@@ -74,43 +74,53 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
-
-    <!--<div id="video-container"></div>-->
-    <!--<script src="/js/playVideos.js"></script>-->
-
-
-    <div>
-        <iframe id="videoPlayer" width="560" height="315" frameborder="0" allowfullscreen></iframe>
-    </div>
-
     <script th:inline="javascript">
-        let currentVideoIndex = 0;
-        const videos = /*[[${videos}]]*/ [];
+        var videos = /*[[${videos}]]*/ [];
+        var currentIndex = 0;
+        var player;
 
-        function playNextVideo() {
-            if (currentVideoIndex < videos.length) {
-                const videoUrl = videos[currentVideoIndex].url;
-                const videoId = videoUrl.split('v=')[1];
-                const player = document.getElementById('videoPlayer');
-                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                currentVideoIndex++;
-            }
+        function loadVideo() {
+            var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
+                return getVideoId(video.url);
+            }).join(',');
+
+            // Create a new iframe element
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', videoUrl);
+            iframe.setAttribute('width', '500');
+            iframe.setAttribute('height', '390');
+            iframe.setAttribute('allowfullscreen', '');
+
+            // Replace the existing iframe with the new one
+            var videoContainer = document.getElementById('video-container');
+            videoContainer.innerHTML = '';
+            videoContainer.appendChild(iframe);
         }
 
-        // Start playing the first video when the page loads
-        playNextVideo();
+        function getVideoId(url) {
+            var match = url.match(/v=([^&]+)/);
+            return match ? match[1] : null;
+        }
 
-        // Event listener for when the video ends
-        document.getElementById('videoPlayer').addEventListener('load', function() {
-            const playerWindow = document.getElementById('videoPlayer').contentWindow;
-            playerWindow.postMessage('{"event":"listening","id":1,"channel":"widget"}', '*');
-            window.addEventListener('message', function(event) {
-                if (event.data && event.data.info && event.data.info.playerState === 0) {
-                    playNextVideo();
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                currentIndex++;
+                if (currentIndex < videos.length) {
+                    loadVideo();
+                } else {
+                    currentIndex = 0;  // Reset to the first video if the playlist ends
+                    loadVideo();
                 }
-            });
-        });
+            }
+        }
     </script>
+
+    <div id="video-container"></div>
+
+    <script th:inline="javascript">
+        loadVideo();
+    </script>
+
 
     <div class="village-title">
         <h1>
