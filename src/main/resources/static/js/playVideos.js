@@ -1,37 +1,35 @@
 var currentIndex = 0;
-        var player;
+var player;
 
-        function loadVideo() {
-            var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
-                return getVideoId(video.url);
-            }).join(',');
+function loadVideo() {
+    var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
+        return getVideoId(video.url);
+    }).join(',');
 
-            // Create a new iframe element
-            var iframe = document.createElement('iframe');
-            iframe.setAttribute('src', videoUrl);
-            iframe.setAttribute('width', '100%');
-            iframe.setAttribute('height', '390');
-            iframe.setAttribute('allowfullscreen', '');
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('src', videoUrl);
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '500');
+    iframe.setAttribute('allowfullscreen', '');
 
-            // Replace the existing iframe with the new one
-            var videoContainer = document.getElementById('video-container');
-            videoContainer.innerHTML = '';
-            videoContainer.appendChild(iframe);
+    var videoContainer = document.getElementById('video-container');
+    videoContainer.innerHTML = '';
+    videoContainer.appendChild(iframe);
+}
+
+function getVideoId(url) {
+    var match = url.match(/v=([^&]+)/);
+    return match ? match[1] : null;
+}
+
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+        currentIndex++;
+        if (currentIndex < videos.length) {
+            loadVideo();
+        } else {
+            currentIndex = 0;
+            loadVideo();
         }
-
-        function getVideoId(url) {
-            var match = url.match(/v=([^&]+)/);
-            return match ? match[1] : null;
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                currentIndex++;
-                if (currentIndex < videos.length) {
-                    loadVideo();
-                } else {
-                    currentIndex = 0;  // Reset to the first video if the playlist ends
-                    loadVideo();
-                }
-            }
-        }
+    }
+}

@@ -71,9 +71,6 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
-
-
-
     <div class="village-title">
         <h1>
             <span th:text="#{village}"></span>
@@ -103,7 +100,8 @@
             <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
-
+    <br>
+    <div id="video-container"></div>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
         <div class="col-sm-4">
@@ -332,7 +330,6 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
-                    <div id="video-container"></div>
                     <form method="post" action="/villages/show/{id}" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
