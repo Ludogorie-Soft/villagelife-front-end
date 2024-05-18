@@ -9,6 +9,7 @@ import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ public class AdministratorController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
+    private final VillageVideoClient villageVideoClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -320,5 +322,37 @@ public class AdministratorController {
         AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_contacts";
+    }
+    @GetMapping("/manage-videos/{villageId}")
+    public String manageVideos(@PathVariable Long villageId, Model model, HttpSession session) {
+        System.out.println("get controller " + villageId);
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        System.out.println("get controller2 " + villageDTO.getId());
+
+        model.addAttribute("village", villageDTO);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageVideoDTO> villageVideoDTOList = adminFunctionClient.getAllVideos(villageId , AUTH_HEADER + token2);//, AUTH_HEADER + token2
+
+        System.out.println("video list getMapping  " + villageVideoDTOList);
+        model.addAttribute("villageVideoDTOs", villageVideoDTOList);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/admin_videos";
+    }
+    @PostMapping(value = "/save-video",  consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })//,  consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE }
+    public String saveAllVideos(@RequestParam("villageId") Long villageId,
+                                @RequestParam("videoUrl") List<String> videoUrls, HttpSession session, Model model){
+        System.out.println("video list " + videoUrls);
+
+        System.out.println("video list 2 " + videoUrls);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminFunctionClient.saveVideos(villageId,videoUrls, AUTH_HEADER + token2);
+        System.out.println("video list 3  " + videoUrls);
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        System.out.println("get controller2 " + villageDTO.getId());
+
+        model.addAttribute("village", villageDTO);
+        return "redirect:/admins/manage-videos/" + villageId;
+
     }
 }

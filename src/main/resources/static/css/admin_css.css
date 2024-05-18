@@ -110,7 +110,7 @@ ul.no-bullets {
 }
   .custom-container {
         max-width: 1300px;
-        margin: left;
+        margin: 0;
         padding: 0 15px;
     }
 
