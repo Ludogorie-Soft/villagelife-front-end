@@ -351,3 +351,15 @@
         list-style-type: none;
         padding: 0;
     }
+    .hidden {
+        display: none;
+    }
+    button {
+        height: 40px;
+        float: right;
+        text-size: 18px;
+        margin-right: 5px;
+        background-color: transparent;
+        border: solid 1px black;
+        border-radius: 6px;
+    }

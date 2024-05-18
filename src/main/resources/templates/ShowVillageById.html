@@ -79,7 +79,13 @@
             <span th:text="#{region}"></span>
             <span th:text="#{${villageInfo.villageDTO.region}}"></span>
         </h1>
+
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
+        <button id="toggleButton">
+            <i class="fa-brands fa-youtube text-danger" id="toggleBtnIcon"></i>
+            <span id="text-video" th:text="#{text.video}"></span>
+            <span id="text-images" class="hidden" th:text="#{text.images}"></span>
+        </button>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
         <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
@@ -88,20 +94,21 @@
         <span th:text="#{bulgaria}"></span>
     </div>
 
-    <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
-        <div class="village-image-container text-center">
-            <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
+    <div id="images">
+        <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
+            <div class="village-image-container text-center">
+                <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" id="img">
 
-            <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
-            <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+                <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
+                <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+            </div>
         </div>
     </div>
 
-    <br>
-    <div id="video-container"></div>
+    <div id="video-container" class="hidden"></div>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
         <div class="col-sm-4">
@@ -454,6 +461,47 @@
     </script>
 <script th:inline="javascript">
         loadVideo();
+</script>
+<script th:inline="javascript">
+document.getElementById('toggleButton').addEventListener('click', function() {
+    var images = document.getElementById('images');
+    var videoContainer = document.getElementById('video-container');
+    var icon = document.getElementById('toggleBtnIcon');
+    var textVideo = document.getElementById('text-video');
+    var textImages = document.getElementById('text-images');
+
+    if (images.classList.contains('hidden')) {
+        images.classList.remove('hidden');
+        videoContainer.classList.add('hidden');
+
+        icon.classList.remove('fa-regular', 'fa-image');
+        icon.classList.add('fa-brands', 'fa-youtube', 'text-danger');
+
+        textVideo.classList.remove('hidden');
+        textImages.classList.add('hidden');
+
+        if (player) {
+            player.pauseVideo();
+        }
+    } else {
+        var imgHeight = document.getElementById('img').clientHeight;
+        images.classList.add('hidden');
+        videoContainer.classList.remove('hidden');
+        videoContainer.style.height = imgHeight + 'px';
+
+        icon.classList.remove('fa-brands', 'fa-youtube', 'text-danger');
+        icon.classList.add('fa-regular', 'fa-image');
+
+        textImages.classList.remove('hidden');
+        textVideo.classList.add('hidden');
+
+        if (player) {
+            player.playVideo();
+        } else {
+            loadVideo();
+        }
+    }
+});
 </script>
 </body>
 </html>
