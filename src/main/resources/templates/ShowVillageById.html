@@ -223,8 +223,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div>
                                 <span class="info-title col" th:text="#{village.ethnicities}"></span>
-                                <span th:each="ethnicity : ${villageInfo.ethnicities}" class="ethnicities village-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
-                                    <span th:text="#{${ethnicity}}"></span>,
+                                <span th:each="ethnicity, iterStat : ${villageInfo.ethnicities}" class="ethnicities village-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                    <span th:text="#{${ethnicity}}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
                                 <hr>
                             </div>
@@ -261,8 +261,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div>
                                 <span class="info-title col" th:text="#{ground.category}"></span>
-                                <span th:each="category : ${villageInfo.groundCategories}" class="village-info col"  style="display: inline; padding-left: 4px; margin: 0; float: right;">
-                                <span th:text="#{${category}}"></span>,
+                                <span th:each="category, iterStat : ${villageInfo.groundCategories}" class="village-info col" style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                    <span th:text="#{${category}}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
                                 <hr>
                             </div>
@@ -314,9 +314,9 @@
                         <span th:text="#{${objectVillageResponse.distance.name}}"></span>
                     </td>
                     <td class="col-10">
-                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon">
-                        <span th:each="object : ${objectVillageResponse.objects}">
-                            <span th:text="#{${object.type}}"></span>,
+                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon" src="">
+                        <span th:each="object, iterStat : ${objectVillageResponse.objects}">
+                            <span th:text="#{${object.type}}"></span><span th:if="${!iterStat.last}">, </span>
                         </span>
                     </td>
                 </tr>
