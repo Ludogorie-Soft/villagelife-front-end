@@ -81,7 +81,7 @@
         </h1>
 
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
-        <button id="toggleButton">
+        <button id="toggleButton" th:if="${videos != null and not #lists.isEmpty(videos)}">
             <i class="fa-brands fa-youtube text-danger" id="toggleBtnIcon"></i>
             <span id="text-video" th:text="#{text.video}"></span>
             <span id="text-images" class="hidden" th:text="#{text.images}"></span>
@@ -462,6 +462,7 @@
 <script th:inline="javascript">
         loadVideo();
 </script>
+
 <script th:inline="javascript">
 document.getElementById('toggleButton').addEventListener('click', function() {
     var images = document.getElementById('images');
