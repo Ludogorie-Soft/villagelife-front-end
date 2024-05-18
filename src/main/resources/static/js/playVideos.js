@@ -2,9 +2,12 @@ var currentIndex = 0;
 var player;
 
 function loadVideo() {
-    var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) + '?autoplay=1&controls=1&mute=1&loop=0&playlist=' + videos.map(function(video) {
+    var videoIds = videos.map(function(video) {
         return getVideoId(video.url);
     }).join(',');
+
+    var videoUrl = 'https://www.youtube.com/embed/' + getVideoId(videos[currentIndex].url) +
+                   '?autoplay=1&controls=1&mute=1&loop=1&playlist=' + videoIds;
 
     var iframe = document.createElement('iframe');
     iframe.setAttribute('src', videoUrl);
