@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-body">
                         <div th:text="'Дата на добавяне: ' + ${villageVideo.dateUpload}"></div>
-                        <div th:text="'Статус: ' + (${villageVideo.status} ? 'одобрена' : 'неодобрена')"></div>
+                        <div th:text="'Статус: ' + (${villageVideo.status} ? 'одобрено' : 'неодобрено')"></div>
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#reject-' + ${villageVideo.id}">Премахване</button>
                     </div>
                 </div>
