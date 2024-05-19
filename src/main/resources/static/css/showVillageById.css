@@ -357,14 +357,26 @@
     #toggleButton {
         height: 40px;
         float: right;
-        text-size: 18px;
+        font-size: 20px;
         margin-right: 5px;
         background-color: transparent;
         border: solid 1px black;
         border-radius: 6px;
-        font-weight: 600;
         transition: all 0.2s ease;
     }
     #toggleButton:hover {
          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    }
+
+    @media screen and (max-width: 575px) {
+        #toggleButton span {
+            display: none;
+        }
+        #toggleBtnIcon {
+            padding-bottom: 3px;
+        }
+        #toggleButton {
+            border: none;
+            font-size: 28px;
+        }
     }
