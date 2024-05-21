@@ -81,10 +81,10 @@
         </h1>
 
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
-        <button id="toggleButton" th:if="${videos != null and not #lists.isEmpty(videos)}">
-            <i class="fa-brands fa-youtube text-danger" id="toggleBtnIcon"></i>
-            <span id="text-video" th:text="#{text.video}"></span>
-            <span id="text-images" class="hidden" th:text="#{text.images}"></span>
+        <button id="toggleButton">
+            <i class="fa-regular fa-image" id="toggleBtnIcon"></i>
+            <span id="text-video" th:text="#{text.video}" class="hidden" ></span>
+            <span id="text-images" th:text="#{text.images}"></span>
         </button>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
@@ -94,7 +94,7 @@
         <span th:text="#{bulgaria}"></span>
     </div>
 
-    <div id="images">
+    <div id="images" class="hidden">
         <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
             <div class="village-image-container text-center">
                 <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <div id="video-container" class="hidden"></div>
+    <div id="video-container"></div>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
         <div class="col-sm-4">
@@ -456,53 +456,24 @@
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
 <script src="/js/playVideos.js"></script>
+<script src="/js/toggleImagesAndVideos.js"></script>
+<script src="/js/displayImages.js"></script>
 <script th:inline="javascript">
         var videos = /*[[${videos}]]*/ [];
-    </script>
+</script>
 <script th:inline="javascript">
         loadVideo();
 </script>
-
 <script th:inline="javascript">
-document.getElementById('toggleButton').addEventListener('click', function() {
-    var images = document.getElementById('images');
-    var videoContainer = document.getElementById('video-container');
-    var icon = document.getElementById('toggleBtnIcon');
-    var textVideo = document.getElementById('text-video');
-    var textImages = document.getElementById('text-images');
+    if(videos.length == 0) {
+        var images = document.getElementById('images');
+        var videoContainer = document.getElementById('video-container');
+        var toggleButton = document.getElementById('toggleButton');
 
-    if (images.classList.contains('hidden')) {
         images.classList.remove('hidden');
         videoContainer.classList.add('hidden');
-
-        icon.classList.remove('fa-regular', 'fa-image');
-        icon.classList.add('fa-brands', 'fa-youtube', 'text-danger');
-
-        textVideo.classList.remove('hidden');
-        textImages.classList.add('hidden');
-
-        if (player) {
-            player.pauseVideo();
-        }
-    } else {
-        var imgHeight = document.getElementById('img').clientHeight;
-        images.classList.add('hidden');
-        videoContainer.classList.remove('hidden');
-        videoContainer.style.height = imgHeight + 'px';
-
-        icon.classList.remove('fa-brands', 'fa-youtube', 'text-danger');
-        icon.classList.add('fa-regular', 'fa-image');
-
-        textImages.classList.remove('hidden');
-        textVideo.classList.add('hidden');
-
-        if (player) {
-            player.playVideo();
-        } else {
-            loadVideo();
-        }
+        toggleButton.classList.add('hidden');
     }
-});
 </script>
 </body>
 </html>

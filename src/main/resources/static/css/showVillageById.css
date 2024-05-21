@@ -380,3 +380,13 @@
             font-size: 28px;
         }
     }
+    #video-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 50%;
+    }
+    #video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
