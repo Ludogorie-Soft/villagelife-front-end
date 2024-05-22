@@ -99,15 +99,15 @@
             <div class="village-image-container text-center">
                 <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-                <img alt="a picture of a village" th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
                      onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" id="img">
 
-            <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
-            <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+                <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
+                <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+            </div>
         </div>
     </div>
 
-    <br>
     <div id="video-container"></div>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
@@ -456,11 +456,23 @@
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
 <script src="/js/playVideos.js"></script>
+<script src="/js/toggleImagesAndVideos.js"></script>
 <script th:inline="javascript">
         var videos = /*[[${videos}]]*/ [];
-    </script>
+</script>
 <script th:inline="javascript">
         loadVideo();
+</script>
+<script th:inline="javascript">
+    if(videos.length == 0) {
+        var images = document.getElementById('images');
+        var videoContainer = document.getElementById('video-container');
+        var toggleButton = document.getElementById('toggleButton');
+
+        images.classList.remove('hidden');
+        videoContainer.classList.add('hidden');
+        toggleButton.classList.add('hidden');
+    }
 </script>
 </body>
 </html>
