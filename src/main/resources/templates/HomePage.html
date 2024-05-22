@@ -68,11 +68,17 @@
 <div class="video-container">
 
     <div id="slideshow-container">
-        <div class="mySlides active"><img th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide"></div><div class="mySlides active"><img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide"></div><div class="mySlides active"><img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide">
-        </div>
-
         <div class="mySlides active">
-            <img th:src="@{/images/anders-jilden-O85h02qZ24w-unsplash_new.webp}" alt="slide">
+            <img rel="preload" th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide" loading="lazy"  width="1240" height="827">
+        </div>
+        <div class="mySlides active">
+            <img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide" loading="lazy" width="1240" height="930">
+        </div>
+        <div class="mySlides active">
+            <img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide" loading="lazy" width="1240" height="827">
+        </div>
+        <div class="mySlides active">
+            <img th:src="@{/images/anders-jilden-O85h02qZ24w-unsplash_new.webp}" alt="slide" loading="lazy" width="1240" height="827">
         </div>
 
         <div class="menu-overlay">
@@ -97,7 +103,7 @@
                         <select name="region" class="form-select fixed-width" id="regionName">
                             <option value="" selected disabled style="text-align: left;" th:text="#{choose.region}"></option>
                             <option th:each="region : ${regions}" th:value="${region.regionName}"
-                                    th:text="#{${region.regionName}}"></option>
+                                    th:text="#{${region.regionName}}" aria-label="regionName"></option>
                         </select>
                     </div>
                 </div>
@@ -137,9 +143,9 @@
             <div class="card">
 
                 <div class="image-container">
-                    <img th:each="imageSrc, iterStat : ${village.images}"
+                    <img alt="pictures of all villages" th:each="imageSrc, iterStat : ${village.images}"
                          th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" loading="lazy">
                 </div>
 
                 <div class="card-body">
@@ -161,7 +167,7 @@
     <div class="card-actions" style="font-size: 15px;">
         <div class="text-center pagination">
             <div>
-                <a th:href="@{/}">
+                <a th:href="@{/}" aria-label="to the first page">
                     <button id="first" class="btn">
                         <i class="fas fa-angle-double-left"></i>
                     </button>
@@ -178,7 +184,7 @@
 
             <div>
                 <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
-                       onkeyup="updatePageValue(event)" style="width: 50px;">
+                       onkeyup="updatePageValue(event)" style="width: 50px;" aria-labelledby="number">
 
                 <span th:text="#{from.page}"></span>
                 <span th:text="${pagesCount}"></span>
@@ -192,7 +198,7 @@
                 </a>
             </div>
             <div>
-                <a th:href="@{/{page}(page=${pagesCount - 1})}">
+                <a th:href="@{/{page}(page=${pagesCount - 1})}" aria-label="to the last page">
                     <button id="last" class="btn">
                         <i class="fas fa-angle-double-right"></i>
                     </button>
