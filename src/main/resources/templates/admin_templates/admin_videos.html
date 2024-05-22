@@ -59,7 +59,7 @@
                                         <input class="form-control" name="videoUrl" type="text" placeholder="Пример: https://www.youtube.com/watch?v=VIDEO_ID">
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-secondary mb-3" onclick="addVideoField()">Добави още видео</button>
+                                <button type="button" class="btn btn-secondary mb-3" onclick="addVideoField()">Добави още видеа</button>
                                 <input type="hidden" name="villageId" th:value="${village.id}">
                                 <div style="float: right">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-body">
                         <div th:text="'Дата на добавяне: ' + ${villageVideo.dateUpload}"></div>
-                        <div th:text="'Статус: ' + (${villageVideo.status} ? 'одобрена' : 'неодобрена')"></div>
+                        <div th:text="'Статус: ' + (${villageVideo.status} ? 'одобрено' : 'неодобрено')"></div>
                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#reject-' + ${villageVideo.id}">Премахване</button>
                     </div>
                 </div>

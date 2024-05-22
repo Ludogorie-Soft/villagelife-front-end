@@ -79,7 +79,13 @@
             <span th:text="#{region}"></span>
             <span th:text="#{${villageInfo.villageDTO.region}}"></span>
         </h1>
+
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
+        <button id="toggleButton">
+            <i class="fa-regular fa-image" id="toggleBtnIcon"></i>
+            <span id="text-video" th:text="#{text.video}" class="hidden" ></span>
+            <span id="text-images" th:text="#{text.images}"></span>
+        </button>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
         <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
@@ -88,12 +94,13 @@
         <span th:text="#{bulgaria}"></span>
     </div>
 
-    <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
-        <div class="village-image-container text-center">
-            <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
+    <div id="images" class="hidden">
+        <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
+            <div class="village-image-container text-center">
+                <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-            <img alt="a picture of a village" th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                <img alt="a picture of a village" th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" id="img">
 
             <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
             <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
@@ -163,7 +170,7 @@
 
         <section class="population">
             <h3 class="section-title">
-                <img th:src="@{/images/crowd.png}" alt="population" class="object-icon">
+                <img th:src="@{/images/crowd.png}" alt="distance" class="object-icon">
                 <span th:text="#{population.count}"></span>
             </h3>
             <div class="row">
@@ -287,7 +294,7 @@
 
         <section class="question-answers"  th:if="${not #lists.isEmpty(villageInfo.answersQuestionResponses)}">
             <h3 class="section-title">
-                <img th:src="@{/images/answer.png}" alt="answer" class="object-icon">
+                <img th:src="@{/images/answer.png}" alt="distance" class="object-icon">
                 <span th:text="#{more.info}"></span>
             </h3>
 
@@ -314,7 +321,7 @@
                         <span th:text="#{${objectVillageResponse.distance.name}}"></span>
                     </td>
                     <td class="col-10">
-                        <img th:src="@{/images/building.png}" alt="buildings" class="object-icon" src="">
+                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon" src="">
                         <span th:each="object, iterStat : ${objectVillageResponse.objects}">
                             <span th:text="#{${object.type}}"></span><span th:if="${!iterStat.last}">, </span>
                         </span>
@@ -334,11 +341,11 @@
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-life-logo-circle.png"
-                                     alt="VillageLife logo" width="70" height="70"
+                                     alt="VillageLife" width="70" height="70"
                                      decoding="async">
                                 <noscript>
                                     <img class="rounded" src="/images/village-life-logo-circle.png"
-                                         alt="VillageLife rounded logo" width="70" height="70">
+                                         alt="VillageLife" width="70" height="70">
                                 </noscript>
                             </div>
                             <ul class="information-wrap list-unstyled">

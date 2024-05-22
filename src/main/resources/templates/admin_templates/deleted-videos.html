@@ -61,7 +61,7 @@
 
                 <div class="card-body">
                     <div th:text="'Дата на добавяне: ' + ${villageVideo.dateUpload}"></div>
-                    <div th:text="'Статус: ' + ${villageVideo.status ? 'одобрена' : 'неодобрена'}"></div>
+                    <div th:text="'Статус: ' + ${villageVideo.status ? 'одобрено' : 'неодобрено'}"></div>
                     <div th:text="'Дата на премахване: ' + ${villageVideo.dateDeleted}"></div>
 
                     <button type="submit" class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#delete-' + ${villageVideo.id}">Премахване</button>

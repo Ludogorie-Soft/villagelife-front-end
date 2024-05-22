@@ -12,7 +12,7 @@ function loadVideo() {
     var iframe = document.createElement('iframe');
     iframe.setAttribute('src', videoUrl);
     iframe.setAttribute('width', '100%');
-    iframe.setAttribute('height', '500');
+    iframe.setAttribute('height', '100%');
     iframe.setAttribute('allowfullscreen', '');
 
     var videoContainer = document.getElementById('video-container');
