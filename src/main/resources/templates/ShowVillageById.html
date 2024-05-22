@@ -58,13 +58,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
-</head>
+    <script src="https://www.youtube.com/iframe_api"></script>
 
-<script src="/js/querySelector.js"></script>
+</head>
 <body>
 
 <div th:replace="fragments :: menu"></div>
@@ -80,7 +79,13 @@
             <span th:text="#{region}"></span>
             <span th:text="#{${villageInfo.villageDTO.region}}"></span>
         </h1>
+
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
+        <button id="toggleButton">
+            <i class="fa-regular fa-image" id="toggleBtnIcon"></i>
+            <span id="text-video" th:text="#{text.video}" class="hidden" ></span>
+            <span id="text-images" th:text="#{text.images}"></span>
+        </button>
 
         <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
         <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
@@ -89,17 +94,21 @@
         <span th:text="#{bulgaria}"></span>
     </div>
 
-    <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
-        <div class="village-image-container text-center">
-            <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
+    <div id="images" class="hidden">
+        <div th:each="imageSrc, i : ${imageSrcList}" class="mySlides">
+            <div class="village-image-container text-center">
+                <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-            <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" id="img">
 
-            <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
-            <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+                <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
+                <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
+            </div>
         </div>
     </div>
+
+    <div id="video-container"></div>
 
     <div th:if="${admin != null}" class="row justify-content-center mt-3">
         <div class="col-sm-4">
@@ -131,9 +140,9 @@
 
     <div class="row">
 
-        <p style="color: #B5B5B5; margin-top: 20px">
+        <!--<p style="color: #B5B5B5; margin-top: 20px">
             <span th:text="#{info.count1}"></span><span th:if="${admin == null}" style="padding: 0px; margin: 0px;"><span th:text="#{info.count2}" style="padding: 0px; margin: 0px;"></span> <span th:text="${villageInfo.villageDTO.approvedResponsesCount}" style="padding: 0px; margin: 0px;"></span> <span th:text="#{info.count3}" style="padding: 0px; margin: 0px;"></span><span th:if="${villageInfo.villageDTO.approvedResponsesCount != 1}" style="padding: 0px; margin: 0px;"><span th:text="#{info.count4}" style="padding: 0px; margin: 0px;"></span></span>.</span>
-        </p>
+        </p>-->
 
     <div class="col-lg-8 col-md-12 col-sm-12">
         <section class="general-information">
@@ -221,8 +230,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div>
                                 <span class="info-title col" th:text="#{village.ethnicities}"></span>
-                                <span th:each="ethnicity : ${villageInfo.ethnicities}" class="ethnicities village-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
-                                    <span th:text="#{${ethnicity}}"></span>,
+                                <span th:each="ethnicity, iterStat : ${villageInfo.ethnicities}" class="ethnicities village-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                    <span th:text="#{${ethnicity}}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
                                 <hr>
                             </div>
@@ -259,8 +268,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div>
                                 <span class="info-title col" th:text="#{ground.category}"></span>
-                                <span th:each="category : ${villageInfo.groundCategories}" class="village-info col"  style="display: inline; padding-left: 4px; margin: 0; float: right;">
-                                <span th:text="#{${category}}"></span>,
+                                <span th:each="category, iterStat : ${villageInfo.groundCategories}" class="village-info col" style="display: inline; padding-left: 4px; margin: 0; float: right;">
+                                    <span th:text="#{${category}}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
                                 <hr>
                             </div>
@@ -312,9 +321,9 @@
                         <span th:text="#{${objectVillageResponse.distance.name}}"></span>
                     </td>
                     <td class="col-10">
-                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon">
-                        <span th:each="object : ${objectVillageResponse.objects}">
-                            <span th:text="#{${object.type}}"></span>,
+                        <img th:src="@{/images/building.png}" alt="distance" class="object-icon" src="">
+                        <span th:each="object, iterStat : ${objectVillageResponse.objects}">
+                            <span th:text="#{${object.type}}"></span><span th:if="${!iterStat.last}">, </span>
                         </span>
                     </td>
                 </tr>
@@ -324,6 +333,7 @@
     </div>
 
     <div class="col-lg-4 col-md-12 col-sm-12 sticky-form">
+
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
@@ -445,5 +455,24 @@
 <script src="/js/navScript.js"></script>
 <script src="/js/handlePrint.js"></script>
 <script src="/js/showSubscriptionToast.js"></script>
+<script src="/js/playVideos.js"></script>
+<script src="/js/toggleImagesAndVideos.js"></script>
+<script th:inline="javascript">
+        var videos = /*[[${videos}]]*/ [];
+</script>
+<script th:inline="javascript">
+        loadVideo();
+</script>
+<script th:inline="javascript">
+    if(videos.length == 0) {
+        var images = document.getElementById('images');
+        var videoContainer = document.getElementById('video-container');
+        var toggleButton = document.getElementById('toggleButton');
+
+        images.classList.remove('hidden');
+        videoContainer.classList.add('hidden');
+        toggleButton.classList.add('hidden');
+    }
+</script>
 </body>
 </html>

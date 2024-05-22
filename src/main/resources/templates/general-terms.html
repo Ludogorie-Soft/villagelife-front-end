@@ -188,7 +188,7 @@
 
                         <div class="card">
                                 <div class="image-container" th:if="${village.images}">
-                                    <img th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
+                                    <img alt="default picture" th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
                                          onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
                                 </div>
                                 <div class="card-body">

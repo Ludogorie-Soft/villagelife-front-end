@@ -9,6 +9,7 @@ import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ public class AdministratorController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
+    private final VillageVideoClient villageVideoClient;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -293,6 +295,7 @@ public class AdministratorController {
         redirectAttributes.addFlashAttribute(MESSAGE, result);
         return "redirect:/admins/village";
     }
+
     @GetMapping("/messages")
     public String showUserMessages(HttpSession session, Model model) {
         String token = (String) session.getAttribute(SESSION_NAME);
@@ -302,6 +305,7 @@ public class AdministratorController {
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_messages";
     }
+
     @GetMapping("/inquiries")
     public String showUserInquiries(HttpSession session, Model model) {
         String token = (String) session.getAttribute(SESSION_NAME);
@@ -312,6 +316,7 @@ public class AdministratorController {
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_inquiries";
     }
+
     @GetMapping("/contacts")
     public String showUserContacts(HttpSession session, Model model) {
         String token = (String) session.getAttribute(SESSION_NAME);
@@ -321,4 +326,60 @@ public class AdministratorController {
         model.addAttribute(ADMINS, administratorDTO.getFullName());
         return "admin_templates/user_contacts";
     }
+
+    @GetMapping("/manage-videos/{villageId}")
+    public String manageVideos(@PathVariable Long villageId, Model model, HttpSession session) {
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageVideoDTO> villageVideoDTOList = adminFunctionClient.getAllVideos(villageId, AUTH_HEADER + token2);//, AUTH_HEADER + token2
+        model.addAttribute("villageVideoDTOs", villageVideoDTOList);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/admin_videos";
+    }
+
+    @PostMapping("/save-video")
+    public String saveAllVideos(@RequestParam("villageId") Long villageId,
+                                @RequestParam("videoUrl") List<String> videoUrls, HttpSession session, Model model) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        adminFunctionClient.saveVideos(villageId, videoUrls, AUTH_HEADER + token2);
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        return "redirect:/admins/manage-videos/" + villageId;
+    }
+
+    @GetMapping("/delete-videos/{villageId}")
+    public String getDeletedVideos(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
+        VillageDTO villageDTO = villageClient.getVillageById(villageId);
+        model.addAttribute("village", villageDTO);
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        List<VillageVideoDTO> villageVideoDTOs = adminFunctionClient.getAllDeletedVideosByVillageId(villageId, AUTH_HEADER + token2);
+        model.addAttribute("villageVideoDTOs", villageVideoDTOs);
+        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        return "admin_templates/deleted-videos";
+    }
+
+    @PostMapping("/reject-video/{villageVideoId}")
+    public String rejectVideo(@PathVariable("villageVideoId") Long villageVideoId, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        String villageId = adminFunctionClient.rejectVideoByVideoId(villageVideoId, AUTH_HEADER + token2);
+        return "redirect:/admins/manage-videos/" + villageId;
+    }
+
+    @PostMapping("/video-delete/{villageVideoId}")
+    public String deleteVideo(@PathVariable("villageVideoId") Long villageVideoId, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        String villageId = adminFunctionClient.deleteVideoByVideoId(villageVideoId, AUTH_HEADER + token2);
+        return "redirect:/admins/delete-videos/" + villageId;
+    }
+
+    @GetMapping("/resume-video/{villageVideoId}")
+    public String resumeVideo(@PathVariable("villageVideoId") Long villageVideoId, HttpSession session) {
+        String token2 = (String) session.getAttribute(SESSION_NAME);
+        String villageId = adminFunctionClient.resumeVideoByVideoId(villageVideoId, AUTH_HEADER + token2);
+        return "redirect:/admins/delete-videos/" + villageId;
+    }
+
 }

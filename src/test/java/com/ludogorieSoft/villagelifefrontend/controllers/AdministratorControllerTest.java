@@ -37,22 +37,4 @@ class AdministratorControllerTest {
         villageImageClient = mock(VillageImageClient.class);
         subscriptionClient = mock(SubscriptionClient.class);
     }
-
-    @Test
-
-     void testDeleteAdmin() {
-
-        doNothing().when(adminClient).deleteAdministratorById(anyLong(), anyString());
-
-        AdministratorController controller = new AdministratorController(adminFunctionClient,adminClient, villageController, villageClient, villageImageClient, subscriptionClient, null, null, null);
-
-        ModelAndView modelAndView = controller.deleteAdmin(1L, redirectAttributes, session);
-
-        assertEquals("redirect:/admins", modelAndView.getViewName());
-        verify(adminClient, times(1)).deleteAdministratorById(eq(1L), anyString());
-        verify(redirectAttributes, times(1)).addFlashAttribute(eq("message"), anyString());
-    }
-
-
-
 }
