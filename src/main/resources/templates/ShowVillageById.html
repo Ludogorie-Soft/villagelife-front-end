@@ -39,6 +39,8 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <meta charset="UTF-8">
+    <meta name="description" th:content="'Научете повече са село ' + ${villageInfo.villageDTO.name} + ' в област ' + #{${villageInfo.villageDTO.region}} + '. Запознайте се с информация за населението, битовите условия, престъпността и обектите около селото.'">
+    <meta name="keywords" th:content="'село, ' + ${villageInfo.villageDTO.name} + ', област ' + #{${villageInfo.villageDTO.region}} + ', България, обща информация, население, престъпност, битови условия, екосъобразност, деца, чужденци, етнически състав, под 50г., характеристики на населението, услужливи, предпазливи, комуникативни, добронамерени, условия на живот, категория/и на замята, инфраструктура, обществен транспорт, електрозахранване, водоснабдяване, мобилен обхват, интернет, ТВ, чистота, достъпност, информация, обекти, съобщение'">
     <title th:text="#{village} + ' ' + ${villageInfo.villageDTO.name} + ', ' + #{region} + ' ' + #{${villageInfo.villageDTO.region}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
