@@ -90,7 +90,7 @@
             <span id="text-images" th:text="#{text.images}"></span>
         </button>
 
-        <img th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
+        <img alt="image pointer" th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
         <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
         <span th:if="${#locale.language == 'en'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
         <span th:if="${#locale.language == 'de'}" th:text="${villageInfo.villageDTO.latinName} + ', '"></span>
@@ -102,8 +102,8 @@
             <div class="village-image-container text-center">
                 <div class="numbertext" th:text="${i.index + 1} + ' / ' + ${imageSrcList.size()}"></div>
 
-                <img th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" id="img">
+                <img alt="images of a village" th:src="'data:image/jpeg;base64,' + ${imageSrc}"
+                     onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" id="img" width="1024" height="683">
 
                 <a class="prev" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(-1)">❮</a>
                 <a class="next" th:if="${imageSrcList.size() > 1}" onclick="plusSlides(1)">❯</a>
@@ -344,11 +344,11 @@
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-life-logo-circle.png"
-                                     alt="VillageLife" width="70" height="70"
+                                     alt="VillageLife circle logo" width="70" height="70"
                                      decoding="async">
                                 <noscript>
                                     <img class="rounded" src="/images/village-life-logo-circle.png"
-                                         alt="VillageLife" width="70" height="70">
+                                         alt="VillageLife circle logo" width="70" height="70">
                                 </noscript>
                             </div>
                             <ul class="information-wrap list-unstyled">

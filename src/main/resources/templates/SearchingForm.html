@@ -154,9 +154,9 @@
                         <div class="image-container col-6">
                             <img alt="photos of found villages" th:if="${village.images != null and not #lists.isEmpty(village.images)}"
                                  th:src="'data:image/jpeg;base64,' + ${village.images[0]}"
-                                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';">
+                                 onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';">
                             <img alt="default picture" th:unless="${village.images != null and not #lists.isEmpty(village.images)}"
-                                 src="/images/pexels-alexander-kovalev-2871478.jpg">
+                                 src="/images/pexels-alexander-kovalev-2871478.webp">
                         </div>
                         <div class="card-body col-6">
                             <a th:href="@{'/villages/show/' + ${village.id}}">

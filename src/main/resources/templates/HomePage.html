@@ -42,7 +42,7 @@
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Открий най-подходящото село! Village Life е платформа, която предоставя информация за условията на живот в българските села.">
-    <meta name="keywords" content="село, български села, живот на село, селски туризъм, селско население, избор на село, Village Life">
+    <meta name="keywords" content="село, къща, села, български села, живот на село, село в българия, селски туризъм, къща на село, търся село, селско население, избор на село, Village Life">
     <meta name="robots" content="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
@@ -72,16 +72,16 @@
 
     <div id="slideshow-container">
         <div class="mySlides active">
-            <img rel="preload" th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide" loading="lazy"  width="1240" height="827">
+            <img rel="preload" th:src="@{/images/autumn-ga95a7e5d3_1920_new.webp}" alt="slide" loading="lazy"  width="1012" height="675">
         </div>
         <div class="mySlides active">
-            <img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide" loading="lazy" width="1240" height="930">
+            <img th:src="@{/images/cow-g0d8008ced_1920_newCow.webp}" alt="slide" loading="lazy" width="968" height="900">
         </div>
         <div class="mySlides active">
-            <img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide" loading="lazy" width="1240" height="827">
+            <img th:src="@{/images/roberto-gramellini-cya7OtPprRs-unsplash_new.webp}" alt="slide" loading="lazy" width="1012" height="675">
         </div>
         <div class="mySlides active">
-            <img th:src="@{/images/anders-jilden-O85h02qZ24w-unsplash_new.webp}" alt="slide" loading="lazy" width="1240" height="827">
+            <img th:src="@{/images/anders-jilden-O85h02qZ24w-unsplash_new.webp}" alt="slide" loading="lazy" width="1012" height="675">
         </div>
 
         <div class="menu-overlay">
@@ -148,7 +148,7 @@
                 <div class="image-container">
                     <img alt="pictures of all villages" th:each="imageSrc, iterStat : ${village.images}"
                          th:src="'data:image/jpeg;base64,' + ${imageSrc}"
-                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.jpg';" loading="lazy">
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" loading="lazy" width="1024" height="683">
                 </div>
 
                 <div class="card-body">
@@ -221,26 +221,31 @@
 
 
 <div th:replace="fragments :: footer"></div>
-
 <script>
 function updatePageValue(event) {
     if (event.key === 'Enter') {
         var currentPageInput = document.getElementById('currentPage');
-        if (currentPageInput.value >= 0 && currentPageInput.value <= [[${pagesCount}]]) {
-          var newPageValue = currentPageInput.value - 1;
-          if (newPageValue >= 0) {
-            var currentURL = window.location.href;
-            var newURL;
-            if (currentURL.includes('/')) {
-                if (currentURL.endsWith('/')) {
-                    newURL = currentURL.slice(0, currentURL.lastIndexOf('/') + 1) + newPageValue;
+        var pageCount = [[${pagesCount}]];
+        var currentPageValue = parseInt(currentPageInput.value);
+
+        if (currentPageValue >= 0 && currentPageValue <= pageCount) {
+            var newPageValue = currentPageValue - 1;
+            if (newPageValue >= 0) {
+                var currentURL = window.location.href;
+                var baseURL = currentURL.split('?')[0];
+                var queryParams = currentURL.split('?')[1];
+
+                var newBaseURL;
+                if (baseURL.endsWith('/')) {
+                    newBaseURL = baseURL.slice(0, baseURL.lastIndexOf('/') + 1) + newPageValue;
                 } else {
-                    newURL = currentURL.replace(/\/\d+$/, '/' + newPageValue);
+                    newBaseURL = baseURL.replace(/\/\d+$/, '/' + newPageValue);
                 }
+
+                var newURL = queryParams ? newBaseURL + '?' + queryParams : newBaseURL;
                 window.location.href = newURL;
             }
         }
-      }
     }
 }
 </script>
