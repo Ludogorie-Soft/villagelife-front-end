@@ -38,12 +38,12 @@
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
-    <meta charset="UTF-8">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <title th:text="#{aboutUs.Title}"></title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Научете повече за мисията на Village Life, която цели възраждането на българското село чрез предоставяне на информация за условията на живот и различни услуги в селата. Запознайте се с нашия екип от ентусиасти и открийте как можете да допринесете за развитието на платформата.">
-    <meta name="keywords" content="За нас, мисия, Village Life, българско село, условия на живот, екип, ентусиасти, платформа, Ивайло Вътовски, Георги Първанов">
+    <meta name="description" th:content="#{meta.description.about.us}">
+    <meta name="keywords" th:content="#{meta.keywords.about.us}">
     <meta name="robots" content="all">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
