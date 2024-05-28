@@ -39,8 +39,8 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <meta charset="UTF-8">
-    <meta name="description" content="Прочетете общите условия на Village Life. Научете повече за правата и задълженията Ви като потребител на нашата платформа. Тук ще намерите информация за поверителността, използването на сайта и други важни правни въпроси.">
-    <meta name="keywords" content="общи условия, правила за ползване, поверителност, правни въпроси, Village Life, условия за ползване, правни условия, политика за поверителност, защита на данните">
+    <meta name="description" th:content="#{meta.description.general.terms}">
+    <meta name="keywords" th:content="#{meta.keywords.general.terms}">
     <meta name="robots" content="all">
     <title th:text="#{general.terms}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
@@ -51,12 +51,11 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="/css/menu-style-about-us.css">
-    <link rel="stylesheet" href="/css/generalTerms.css">
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/generalTerms.min.css">
 
 </head>
 
@@ -219,8 +218,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="/js/navScript.js"></script>
-<script src="/js/showSubscriptionToast.js"></script>
-<script src="/js/lang.js"></script>
+<script src="/js/min/navScript.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/lang.min.js"></script>
 </body>
 </html>

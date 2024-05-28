@@ -42,8 +42,8 @@
     <title th:text="#{contacts.title}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Нека развием концепцията на VillageLife заедно! Свържете се с нас за въпроси, предложения, идеи, обратна връзка и възможности за сътрудничество. Адрес: гр. София, бул. 'Гоце Делчев' 100, Email: info@villagelife.bg, Телефонен номер: +359 (0) 888 393 339">
-    <meta name="keywords" content="контакти, Village Life, въпроси, предложения, идеи, обратна връзка, сътрудничество, София, бул. Гоце Делчев, имейл, телефонен номер">
+    <meta name="description" th:content="#{meta.description.contacts}">
+    <meta name="keywords" th:content="#{meta.keywords.contacts}">
     <meta name="robots" content="all">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -55,9 +55,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="/css/message.css">
-    <link rel="stylesheet" href="/css/menu-style-about-us.css">
-    <link rel="stylesheet" href="/css/contacts.css">
+    <link rel="stylesheet" href="/css/min/message.min.css">
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/contacts.min.css">
 
 </head>
 <body>
@@ -108,10 +108,6 @@
                 </section>
             </form>
 
-            <!--<div class="message-container">
-                <div class="message col-12 text-center" id="message"></div>
-            </div>-->
-
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
             <h5 th:text="#{contacts.inquiriesInfo}"></h5>
@@ -153,16 +149,13 @@
 </div>
 
 <div th:replace="fragments :: footer"></div>
-<!--<script>
-  const isSent = [[${isSent}]];
-</script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="/js/navScript.js"></script>
-<script src="/js/showSubscriptionToast.js"></script>
-<script src="/js/lang.js"></script>
+<script src="/js/min/navScript.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/lang.min.js"></script>
 </body>
 </html>

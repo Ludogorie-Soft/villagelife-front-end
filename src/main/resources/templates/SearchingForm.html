@@ -42,8 +42,8 @@
     <meta name="robots" content="all">
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Открий най-подходящото село! Village Life е платформа, която предоставя информация за условията на живот в българските села. Намерете вашето идеално село, сравнявайте различни населени места и направете информиран избор.">
-    <meta name="keywords" content="село, български села, живот на село, селски туризъм, селско население, избор на село, Village Life, търсене на село, намиране на село, селски живот">
+    <meta name="description" th:content="#{meta.description.searching.form}">
+    <meta name="keywords" th:content="#{meta.keywords.searching.form}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src=https://code.jquery.com/jquery-3.6.0.js></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -62,10 +62,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-    <link rel="stylesheet" href="/css/searchBar.css">
-    <link rel="stylesheet" href="/css/searchingForm.css">
-    <link rel="stylesheet" href="/css/menu-style-about-us.css">
-    <link rel="stylesheet" href="/css/sort.css">
+    <link rel="stylesheet" href="/css/min/searchBar.min.css">
+    <link rel="stylesheet" href="/css/min/searchingForm.min.css">
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/sort.min.css">
 
     <title th:text="#{searchingForm.title}"></title>
 
@@ -241,15 +241,15 @@ function updatePageValue(event) {
     }
 }
 </script>
-<script src="/js/search-script.js"></script>
-<script src="/js/clear-button-script.js"></script>
-<script src="/js/search-button-script.js"></script>
-<script src="/js/toggleVillageView.js"></script>
-<script src="/js/clearFilter.js"></script>
-<script src="/js/showModal.js"></script>
-<script src="/js/fetch-modal-script.js"></script>
-<script src="/js/navScript.js"></script>
-<script src="/js/handleSortChange.js"></script>
-<script src="/js/showSubscriptionToast.js"></script>
+<script src="/js/min/search-script.min.js"></script>
+<script src="/js/min/clear-button-script.min.js"></script>
+<script src="/js/min/search-button-script.min.js"></script>
+<script src="/js/min/toggleVillageView.min.js"></script>
+<script src="/js/min/clearFilter.min.js"></script>
+<script src="/js/min/showModal.min.js"></script>
+<script src="/js/min/fetch-modal-script.min.js"></script>
+<script src="/js/min/navScript.min.js"></script>
+<script src="/js/min/handleSortChange.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
 </body>
 </html>

@@ -40,8 +40,8 @@
     </script>
     <meta charset="UTF-8">
     <meta name="robots" content="all">
-    <meta name="description" th:content="'Научете повече са село ' + ${villageInfo.villageDTO.name} + ' в област ' + #{${villageInfo.villageDTO.region}} + '. Запознайте се с информация за населението, битовите условия, престъпността и обектите около селото.'">
-    <meta name="keywords" th:content="'село, ' + ${villageInfo.villageDTO.name} + ', област ' + #{${villageInfo.villageDTO.region}} + ', България, обща информация, население, престъпност, битови условия, екосъобразност, деца, чужденци, етнически състав, под 50г., характеристики на населението, услужливи, предпазливи, комуникативни, добронамерени, условия на живот, категория/и на замята, инфраструктура, обществен транспорт, електрозахранване, водоснабдяване, мобилен обхват, интернет, ТВ, чистота, достъпност, информация, обекти, съобщение'">
+    <meta name="description" th:content="#{meta.description.single.village((${#locale.language == 'bg'} ? ${villageInfo.villageDTO.name} : ${villageInfo.villageDTO.latinName}), #{${villageInfo.villageDTO.region}})}">
+    <meta name="keywords" th:content="#{meta.keywords.single.village((${#locale.language == 'bg'} ? ${villageInfo.villageDTO.name} : ${villageInfo.villageDTO.latinName}), #{${villageInfo.villageDTO.region}})}">
     <title th:text="#{village} + ' ' + ${villageInfo.villageDTO.name} + ', ' + #{region} + ' ' + #{${villageInfo.villageDTO.region}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,9 +53,9 @@
             integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
             crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/css/message.css">
-    <link rel="stylesheet" href="/css/showVillageById.css">
-    <link rel="stylesheet" href="/css/menu-style-about-us.css">
+    <link rel="stylesheet" href="/css/min/message.min.css">
+    <link rel="stylesheet" href="/css/min/showVillageById.min.css">
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -452,14 +452,14 @@
 </div>
 
 <div th:replace="fragments :: footer"></div>
-<script src="/js/imageSlider.js"></script>
-<script src="/js/accordion-script.js"></script>
-<script src="/js/makeCallScript.js"></script>
-<script src="/js/navScript.js"></script>
-<script src="/js/handlePrint.js"></script>
-<script src="/js/showSubscriptionToast.js"></script>
-<script src="/js/playVideos.js"></script>
-<script src="/js/toggleImagesAndVideos.js"></script>
+<script src="/js/min/imageSlider.min.js"></script>
+<script src="/js/min/accordion-script.min.js"></script>
+<script src="/js/min/makeCallScript.min.js"></script>
+<script src="/js/min/navScript.min.js"></script>
+<script src="/js/min/handlePrint.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/playVideos.min.js"></script>
+<script src="/js/min/toggleImagesAndVideos.min.js"></script>
 <script th:inline="javascript">
         var videos = /*[[${videos}]]*/ [];
 </script>
