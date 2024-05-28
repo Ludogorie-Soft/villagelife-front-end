@@ -249,11 +249,11 @@ function updatePageValue(event) {
     }
 }
 </script>
-<script src="/js/navScript.js"></script>
-<script src="/js/showModal.js"></script>
-<script src="/js/fetch-modal-script.js"></script>
-<script src="/js/showSlides.js"></script>
-<script src="/js/showSubscriptionToast.js"></script>
+<script src="/js/min/navScript.min.js"></script>
+<script src="/js/min/showModal.min.js"></script>
+<script src="/js/min/fetch-modal-script.min.js"></script>
+<script src="/js/min/showSlides.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
 <script th:inline="javascript">
 /*<![CDATA[*/
     let saveSuccessful = [[${saveSuccessful}]];
@@ -261,6 +261,6 @@ function updatePageValue(event) {
     var closeButtonText = /*[[#{button.close}]]*/ 'Close';
 /*]]>*/
 </script>
-<script src="/js/success-alert.js"></script>
+<script src="/js/min/success-alert.min.js"></script>
 </body>
 </html>
