@@ -41,12 +41,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Разширено търсене - VillageLife</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha384-Kyf6Ku5d2y7g+VClWmt3atRoHJoPdJn6dXlf0JmB6V8t4yynTV3CQmZBM+nqW1Ub"
-            crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -61,7 +55,6 @@
             </div>
             <div class="modal-body">
                     <form id="searchForm" action="/filter/search/0" method="get" th:object="${advancedSearchForm}">
-
 
                         <section>
                             <p class="fw-bold" th:text="#{choose.objects}"></p>
@@ -81,7 +74,6 @@
                             </table>
                         </section>
 
-
                         <section>
                             <label for="children" class="fw-bold" th:text="#{choose.children}"></label>
                             <div class="d-flex">
@@ -92,9 +84,6 @@
                                 </select>
                             </div>
                         </section>
-
-
-                        &nbsp;
 
                     <section>
                         <p class="fw-bold" th:text="#{choose.living.conditions}"></p>
