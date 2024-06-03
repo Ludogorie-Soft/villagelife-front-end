@@ -156,7 +156,7 @@
                         </h6>
                     </a>
                     <br>
-                    <a th:href="@{/villages/show/{id}(id=${village.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{learn.more}"></span></a>
+                    <a th:href="@{/villages/show/{id}(id=${village.id}, village=${village.name}, region=#{${village.region}})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{learn.more}"></span></a>
                 </div>
             </div>
         </div>
