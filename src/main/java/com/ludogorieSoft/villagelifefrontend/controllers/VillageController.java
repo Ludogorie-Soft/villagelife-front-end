@@ -22,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -92,7 +94,10 @@ public class VillageController {
         return "HomePage";
     }
     @GetMapping(VILLAGE_BY_Id)
-    public String showVillageByVillageId(@PathVariable(name = "id") Long id, Model model) {
+    public String showVillageByVillageId(@PathVariable(name = "id") Long id,
+                                         @RequestParam(name = "village", required = false) String village,
+                                         @RequestParam(name = "region", required = false) String region,
+                                         Model model) {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
         getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
@@ -115,7 +120,11 @@ public class VillageController {
     }
 
     @PostMapping(VILLAGE_BY_Id)
-    public String saveInquiry(@PathVariable("id")long id, @ModelAttribute("inquiry") InquiryDTO inquiryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String saveInquiry(@PathVariable("id")long id,
+                              @RequestParam(name = "village", required = false) String village,
+                              @RequestParam(name = "region", required = false) String region,
+                              @ModelAttribute("inquiry") InquiryDTO inquiryDTO,
+                              BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         inquiryValidator.validate(inquiryDTO, bindingResult);
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
 
@@ -129,7 +138,7 @@ public class VillageController {
         inquiryDTO = new InquiryDTO();
         redirectInfoForShowingVillage(villageInfo, inquiryDTO, true, null, redirectAttributes, null, null);
         redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
-        return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId();
+        return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId() + "?village=" + URLEncoder.encode(village, StandardCharsets.UTF_8) + "&region=" + URLEncoder.encode(region, StandardCharsets.UTF_8);
     }
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);

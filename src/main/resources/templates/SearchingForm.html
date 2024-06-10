@@ -144,7 +144,7 @@
                                  src="/images/pexels-alexander-kovalev-2871478.webp">
                         </div>
                         <div class="card-body col-6">
-                            <a th:href="@{'/villages/show/' + ${village.id}}">
+                            <a th:href="@{/villages/show/{id}(id=${village.id}, village=${village.name}, region=#{${village.region}})}">
                                 <i class="fas fa-map-marker-alt" style="color: #96c930;"></i>
                                 <h6 style="font-size: 15px;"><span th:text="#{village}"></span>
                                     <span th:if="${#locale.language == 'bg'}" th:text="${village.name} + ', '"></span>
@@ -154,7 +154,7 @@
                                     <span th:text="#{${village.region}}"></span>
                                 </h6>
                                 <br>
-                                <a th:href="@{'/villages/show/' + ${village.id}}" class="btn btn-info" th:text="#{more}"></a>
+                                <a th:href="@{/villages/show/{id}(id=${village.id}, village=${village.name}, region=#{${village.region}})}" class="btn btn-info" th:text="#{more}"></a>
                             </a>
                         </div>
                     </div>
