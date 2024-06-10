@@ -57,6 +57,8 @@
     <link rel="stylesheet" href="/css/min/message.min.css">
     <link rel="stylesheet" href="/css/min/showVillageById.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <!-- Canonical URL address -->
+    <link rel="canonical" th:href="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}">
 </head>
 <body>
 
@@ -331,7 +333,7 @@
         <div class="lightbox-form-wrap">
             <div class="property-form-wrap">
                 <div class="property-form clearfix">
-                    <form method="post" action="/villages/show/{id}" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}" th:object="${inquiry}">
+                    <form method="post" class="details" th:action="@{/villages/show/{id}(id=${villageInfo.villageDTO.id}, village=${villageInfo.villageDTO.name}, region=#{${villageInfo.villageDTO.region}})}" th:object="${inquiry}">
                         <div class="d-flex align-items-center text-center">
                             <div class="image-wrap">
                                 <img class="rounded lazyload" src="/images/village-life-logo-circle.webp"
