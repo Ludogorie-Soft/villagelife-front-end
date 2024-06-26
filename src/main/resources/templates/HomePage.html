@@ -258,5 +258,53 @@ function updatePageValue(event) {
 /*]]>*/
 </script>
 <script src="/js/min/success-alert.min.js"></script>
+
+<!-- Генериране на JSON-LD данни -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            [[
+            {
+                "th:each": "village, iterStat : ${villages}"
+            }]],
+            {
+                "@type": "ListItem",
+                "position": "[[${iterStat.index + 1}]]",
+                "item": {
+                    "@type": "Place",
+                    "name": "[[${village.name}]]",
+                    "image": [
+                        [[
+                        {
+                            "th:each": "imageSrc, imageStat : ${village.images}"
+                        }]],
+                        "data:image/jpeg;base64,[[${imageSrc}]]",[[
+                        { "th:if": "!imageStat.last" }
+                        ]],
+                        [[
+                        { "th:if": "imageStat.last" }
+                        ]]
+                    ],
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "[[${village.region}]]"
+                    },
+                    "url": "[[@{/villages/show/{id}(id=${village.id})}]]"
+                }
+            },[[
+            {
+                "th:if": "!iterStat.last"
+            }]],
+            [[
+            { "th:if": "iterStat.last" }
+            ]]
+        ]
+    }
+</script>
+</body>
+</html>
+
 </body>
 </html>
