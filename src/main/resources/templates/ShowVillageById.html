@@ -58,7 +58,8 @@
     <link rel="stylesheet" href="/css/min/showVillageById.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <!-- Canonical URL address -->
-    <link rel="canonical" th:href="@{/villages/show/{id}(id=${villageInfo.villageDTO.id})}">
+    <link rel="canonical" th:href="@{'https://villagelife.bg/villages/show/' + ${villageInfo.villageDTO.id}}"/>
+
 </head>
 <body>
 
