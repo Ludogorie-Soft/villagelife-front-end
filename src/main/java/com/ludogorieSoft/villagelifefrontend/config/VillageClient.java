@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "villagelife-api-villages",url = "${backend.url}/villages")
+@FeignClient(name = "villagelife-api-villages", url = "${backend.url}/villages")
 public interface VillageClient {
 
     @GetMapping("/{id}")
@@ -29,11 +29,16 @@ public interface VillageClient {
 
     @GetMapping("/info/{id}")
     VillageInfo getVillageInfoById(@PathVariable("id") Long id);
+
     @GetMapping("/update/{villageId}")
     ResponseEntity<VillageDTO> findVillageById(@PathVariable(name = "villageId") Long id);
 
     @PutMapping("/{id}/increase-approved-responses-count")
-    public void increaseApprovedResponsesCount(@PathVariable Long id);
+    void increaseApprovedResponsesCount(@PathVariable Long id);
+
     @GetMapping("/name/{key}")
     VillageDTO findVillageByNameAndRegion(@PathVariable String key);
+
+    @GetMapping("/status/{status}")
+    List<Long> getAllApprovedVillagesByStatus(@PathVariable boolean status);
 }

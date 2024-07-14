@@ -66,7 +66,7 @@ public class VillageController {
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
     private static final long MAX_FILE_SIZE = (long) 5 * 1024 * 1024;
 
-    @GetMapping(value = { "/{page}", "" })
+    @GetMapping(value = {"/{page}", ""})
     public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
         int currentPage = (page != null) ? page : 0;
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
@@ -93,6 +93,7 @@ public class VillageController {
         }
         return "HomePage";
     }
+
     @GetMapping(VILLAGE_BY_Id)
     public String showVillageByVillageId(@PathVariable(name = "id") Long id,
                                          @RequestParam(name = "village", required = false) String village,
@@ -120,7 +121,7 @@ public class VillageController {
     }
 
     @PostMapping(VILLAGE_BY_Id)
-    public String saveInquiry(@PathVariable("id")long id,
+    public String saveInquiry(@PathVariable("id") long id,
                               @RequestParam(name = "village", required = false) String village,
                               @RequestParam(name = "region", required = false) String region,
                               @ModelAttribute("inquiry") InquiryDTO inquiryDTO,
@@ -140,6 +141,7 @@ public class VillageController {
         redirectAttributes.addFlashAttribute(IS_SENT_ATTRIBUTE, true);
         return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId() + "?village=" + URLEncoder.encode(village, StandardCharsets.UTF_8) + "&region=" + URLEncoder.encode(region, StandardCharsets.UTF_8);
     }
+
     protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
 
@@ -168,6 +170,7 @@ public class VillageController {
         List<VillageVideoDTO> videoDTOS = villageVideoClient.getAllApprovedVideosByVillageId(villageInfo.getVillageDTO().getId());
         model.addAttribute("videos", videoDTOS);
     }
+
     protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
         redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -191,6 +194,7 @@ public class VillageController {
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
         return getAddVillagePage(addVillageFormResult, model);
     }
+
     @PostMapping(VILLAGE_SAVE)
     public String saveVillage(@ModelAttribute("addVillageFormResult") AddVillageFormResult addVillageFormResult, @RequestParam("images") List<MultipartFile> images, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) throws ImageMaxUploadSizeExceededException {
         addVillageFormValidator.validate(addVillageFormResult, bindingResult);
@@ -200,7 +204,7 @@ public class VillageController {
         List<byte[]> imageBytes = new ArrayList<>();
         if (images.get(0).getSize() > 0) {
             userValidator.validate(addVillageFormResult.getUserDTO(), bindingResult);
-            if(bindingResult.hasErrors()){
+            if (bindingResult.hasErrors()) {
                 return getAddVillagePage(addVillageFormResult, model);
             }
             hasExceededFileSize(images);
@@ -211,11 +215,12 @@ public class VillageController {
         redirectAttributes.addFlashAttribute("saveSuccessful", true);
         return "redirect:/";
     }
+
     private void hasExceededFileSize(List<MultipartFile> images) throws ImageMaxUploadSizeExceededException {
         long totalSize = images.stream()
                 .mapToLong(MultipartFile::getSize)
                 .sum();
-        if( totalSize > VillageController.MAX_FILE_SIZE){
+        if (totalSize > VillageController.MAX_FILE_SIZE) {
             throw new ImageMaxUploadSizeExceededException("File size should not exceed 5 MB");
         }
     }
@@ -295,7 +300,6 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
     }
-
 
     @GetMapping(VILLAGE_GENERAL_TERMS)
     String showGeneralTerms(Model model) {

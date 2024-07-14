@@ -11,12 +11,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 
 @RestControllerAdvice
 @AllArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private SlackMessage slackMessage;
+    private static final String MESSAGE = "message";
+    private static final String LOGIN_URL = "redirect:/auth/login";
+    private static final String ERROR_URL = "/admin_templates/error";
 
     @ExceptionHandler(Exception.class)
     public void alertSlackChannelWhenUnhandledExceptionOccurs(Exception ex) {
@@ -37,38 +41,43 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(AccessDeniedException.class)
     public ModelAndView handleAccessDeniedException(AccessDeniedException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", ex.getMessage());
-        return new ModelAndView("redirect:/auth/login");
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
+        return new ModelAndView(LOGIN_URL);
     }
     @ExceptionHandler(TokenExpiredException.class)
     public ModelAndView handleTokenExpiredException(TokenExpiredException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", ex.getMessage());
-        return new ModelAndView("redirect:/auth/login");
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
+        return new ModelAndView(LOGIN_URL);
     }
     @ExceptionHandler(DuplicateEmailException.class)
     public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", ex.getMessage());
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
         return new ModelAndView("redirect:/auth/register");
     }
-    @ExceptionHandler(ImageMaxUploadSizeExceededException.class)
+    @ExceptionHandler({ImageMaxUploadSizeExceededException.class,MaxUploadSizeExceededException.class})
     public ModelAndView handleImageMaxUploadSizeExceededException(Model model) {
         model.addAttribute("errorMessage", "File size should not exceed 5 MB.");
-        return new ModelAndView("/admin_templates/error");
-    }
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ModelAndView handleMaxSizeException(Model model) {
-        model.addAttribute("errorMessage", "File size should not exceed 5 MB.");
-        return new ModelAndView("/admin_templates/error");
+        return new ModelAndView(ERROR_URL);
     }
     @ExceptionHandler(SocketTimeoutException.class)
     public ModelAndView handleSocketTimeoutException(SocketTimeoutException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return new ModelAndView("/admin_templates/error");
+        return new ModelAndView(ERROR_URL);
     }
     @ExceptionHandler(UsernamePasswordException.class)
     public ModelAndView handleUsernamePasswordException(UsernamePasswordException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", ex.getMessage());
-        return new ModelAndView("redirect:/auth/login");
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
+        return new ModelAndView(LOGIN_URL);
+    }
+    @ExceptionHandler(SitemapGeneratorException.class)
+    public ModelAndView handleSitemapGeneratorException(SitemapGeneratorException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
+        return new ModelAndView(ERROR_URL);
+    }
+    @ExceptionHandler(MalformedURLException.class)
+    public ModelAndView handleMalformedURLException(MalformedURLException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
+        return new ModelAndView(ERROR_URL);
     }
 }
 
