@@ -7,9 +7,9 @@ import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
+import com.ludogorieSoft.villagelifefrontend.utils.SitemapGenerator;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,13 +43,15 @@ public class AdministratorController {
     private static final String ADMINS = "admins";
     private static final String MESSAGE = "message";
     private static final String VILLAGES_ATTRIBUTE = "villages";
+    private static final String VILLAGE_ATTRIBUTE = "village";
+    private static final String ADMIN_VILLAGE_REDIRECT = "redirect:/admins/village";
     private final VillageClient villageClient;
     private final VillageImageClient villageImageClient;
     private final SubscriptionClient subscriptionClient;
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
-    private final VillageVideoClient villageVideoClient;
+    private final SitemapGenerator sitemapGenerator;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -116,11 +119,12 @@ public class AdministratorController {
 
     @PostMapping("/village-delete/{villageId}")
     public ModelAndView deleteVillage(@PathVariable(name = "villageId") Long villageId,
-                                      RedirectAttributes redirectAttributes, HttpSession session) {
+                                      RedirectAttributes redirectAttributes, HttpSession session) throws MalformedURLException {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.deleteVillageById(villageId, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Village with ID: " + villageId + " successfully deleted !!!");
-        return new ModelAndView("redirect:/admins/village");
+        sitemapGenerator.createSitemap();
+        return new ModelAndView(ADMIN_VILLAGE_REDIRECT);
     }
 
     @GetMapping("/show/{villageId}")
@@ -139,7 +143,7 @@ public class AdministratorController {
     @GetMapping("/manage-images/{villageId}")
     public String manageImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
-        model.addAttribute("village", villageDTO);
+        model.addAttribute(VILLAGE_ATTRIBUTE, villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
@@ -175,11 +179,12 @@ public class AdministratorController {
 
     @PostMapping("/approve/{villageId}")
     public ModelAndView approveVillageResponse(@RequestParam("villageId") Long villageId,
-                                               @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) {
+                                               @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) throws MalformedURLException {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.changeVillageStatus(villageId, answerDate, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " approved successfully!!!");
-        return new ModelAndView("redirect:/admins/village");
+        sitemapGenerator.createSitemap();
+        return new ModelAndView(ADMIN_VILLAGE_REDIRECT);
     }
 
     @GetMapping("/village")
@@ -212,13 +217,13 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.rejectVillageResponse(villageId, answerDate, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " rejected successfully!!!");
-        return new ModelAndView("redirect:/admins/village");
+        return new ModelAndView(ADMIN_VILLAGE_REDIRECT);
     }
 
     @GetMapping("/deleted-images/{villageId}")
     public String getDeletedImages(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
-        model.addAttribute("village", villageDTO);
+        model.addAttribute(VILLAGE_ATTRIBUTE, villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
@@ -293,7 +298,7 @@ public class AdministratorController {
         String token = (String) session.getAttribute(SESSION_NAME);
         String result = adminFunctionClient.translateVillagesNamesToLatin(AUTH_HEADER + token).getBody();
         redirectAttributes.addFlashAttribute(MESSAGE, result);
-        return "redirect:/admins/village";
+        return ADMIN_VILLAGE_REDIRECT;
     }
 
     @GetMapping("/messages")
@@ -330,7 +335,7 @@ public class AdministratorController {
     @GetMapping("/manage-videos/{villageId}")
     public String manageVideos(@PathVariable Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
-        model.addAttribute("village", villageDTO);
+        model.addAttribute(VILLAGE_ATTRIBUTE, villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageVideoDTO> villageVideoDTOList = adminFunctionClient.getAllVideos(villageId, AUTH_HEADER + token2);//, AUTH_HEADER + token2
         model.addAttribute("villageVideoDTOs", villageVideoDTOList);
@@ -345,14 +350,14 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.saveVideos(villageId, videoUrls, AUTH_HEADER + token2);
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
-        model.addAttribute("village", villageDTO);
+        model.addAttribute(VILLAGE_ATTRIBUTE, villageDTO);
         return "redirect:/admins/manage-videos/" + villageId;
     }
 
     @GetMapping("/delete-videos/{villageId}")
     public String getDeletedVideos(@PathVariable("villageId") Long villageId, Model model, HttpSession session) {
         VillageDTO villageDTO = villageClient.getVillageById(villageId);
-        model.addAttribute("village", villageDTO);
+        model.addAttribute(VILLAGE_ATTRIBUTE, villageDTO);
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageVideoDTO> villageVideoDTOs = adminFunctionClient.getAllDeletedVideosByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageVideoDTOs", villageVideoDTOs);
