@@ -61,6 +61,8 @@ public class SitemapGenerator {
                 })
                 .forEach(webSitemapGenerator::addUrl);
 
+        System.out.println("!!!!!!!!!!!!!!!! File path Abs: " + sitemapDir.getAbsolutePath());
+        System.out.println("!!!!!!!!!!!!!!!! File path Canon: " + sitemapDir.getCanonicalPath());
         webSitemapGenerator.write();
     }
 }
