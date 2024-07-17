@@ -7,7 +7,6 @@ import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 
-import com.ludogorieSoft.villagelifefrontend.utils.SitemapGenerator;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +50,6 @@ public class AdministratorController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final VillageAnswerQuestionClient villageAnswerQuestionClient;
-    private final SitemapGenerator sitemapGenerator;
 
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
@@ -119,11 +117,10 @@ public class AdministratorController {
 
     @PostMapping("/village-delete/{villageId}")
     public ModelAndView deleteVillage(@PathVariable(name = "villageId") Long villageId,
-                                      RedirectAttributes redirectAttributes, HttpSession session) throws MalformedURLException {
+                                      RedirectAttributes redirectAttributes, HttpSession session){
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.deleteVillageById(villageId, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Village with ID: " + villageId + " successfully deleted !!!");
-        sitemapGenerator.createSitemap();
         return new ModelAndView(ADMIN_VILLAGE_REDIRECT);
     }
 
@@ -179,11 +176,10 @@ public class AdministratorController {
 
     @PostMapping("/approve/{villageId}")
     public ModelAndView approveVillageResponse(@RequestParam("villageId") Long villageId,
-                                               @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session) throws MalformedURLException {
+                                               @RequestParam("answerDate") String answerDate, RedirectAttributes redirectAttributes, HttpSession session){
         String token2 = (String) session.getAttribute(SESSION_NAME);
         adminFunctionClient.changeVillageStatus(villageId, answerDate, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Response of village with ID: " + villageId + " approved successfully!!!");
-        sitemapGenerator.createSitemap();
         return new ModelAndView(ADMIN_VILLAGE_REDIRECT);
     }
 
