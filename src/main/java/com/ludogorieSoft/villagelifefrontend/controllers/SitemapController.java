@@ -19,11 +19,10 @@ public class SitemapController {
 
     @GetMapping("/sitemap.xml")
     public ResponseEntity<Resource> getSitemap() throws MalformedURLException {
-        Resource resource = new ClassPathResource("target/src/main/resources/static/sitemap.xml");
-
-        System.out.println("Exists: " + resource.exists());
-
         sitemapGenerator.createSitemap();
+
+        Resource resource = new ClassPathResource("target/src/main/resources/static/sitemap.xml");
+        System.out.println("Exists: " + resource.exists());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"sitemap.xml\"")
