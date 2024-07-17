@@ -22,23 +22,13 @@ public class SitemapController {
     private final SitemapGenerator sitemapGenerator;
 
     @GetMapping("/sitemap.xml")
-    public ResponseEntity<FileSystemResource> getSitemap() {
-        try {
-            // Generate the sitemap
-            sitemapGenerator.createSitemap();
-            // Path to the generated sitemap in the target directory
-            File sitemapFile = new File("/src/main/resources/static/sitemap.xml");
-            if (!sitemapFile.exists()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            FileSystemResource resource = new FileSystemResource(sitemapFile);
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"sitemap.xml\"")
-                    .contentType(MediaType.APPLICATION_XML)
-                    .body(resource);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Resource> getSitemap() throws MalformedURLException {
+        Resource resource = new ClassPathResource("static/sitemap.xml");
+        sitemapGenerator.createSitemap();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"sitemap.xml\"")
+                .contentType(MediaType.APPLICATION_XML)
+                .body(resource);
     }
 }
 
