@@ -27,7 +27,7 @@ public class SitemapController {
             // Generate the sitemap
             sitemapGenerator.createSitemap();
             // Path to the generated sitemap in the target directory
-            File sitemapFile = new File("target/src/main/resources/static/sitemap.xml");
+            File sitemapFile = new File("/src/main/resources/static/sitemap.xml");
             if (!sitemapFile.exists()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
