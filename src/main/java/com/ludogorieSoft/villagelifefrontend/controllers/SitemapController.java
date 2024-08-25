@@ -1,24 +1,21 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.ludogorieSoft.villagelifefrontend.utils.SitemapGenerator;
+import com.ludogorieSoft.villagelifefrontend.utils.XmlUrlSet;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@AllArgsConstructor
 public class SitemapController {
+    private final SitemapGenerator sitemapGenerator;
 
-    @GetMapping("/sitemap.xml")
-    public ResponseEntity<Resource> getSitemap() {
-        Resource resource = new ClassPathResource("static/sitemap.xml");
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"sitemap.xml\"")
-                .contentType(MediaType.APPLICATION_XML)
-                .body(resource);
+    @GetMapping(value = "/sitemap.xml", produces = "application/xml")
+    @ResponseBody
+    public XmlUrlSet  getSitemap() {
+        return sitemapGenerator.generateSitemap() ;
     }
 }
 
