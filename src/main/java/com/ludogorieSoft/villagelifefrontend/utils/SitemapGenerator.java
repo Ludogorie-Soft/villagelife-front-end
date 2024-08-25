@@ -1,19 +1,8 @@
 package com.ludogorieSoft.villagelifefrontend.utils;
 
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
-import com.ludogorieSoft.villagelifefrontend.exceptions.SitemapGeneratorException;
-import com.redfin.sitemapgenerator.WebSitemapGenerator;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.text.ParseException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -28,41 +17,24 @@ public class SitemapGenerator {
     private static final String CREATE_URL = BASE_VILLAGE_URL +  VILLAGE_URL + "/create";
     private static final String SHOW_URL = BASE_VILLAGE_URL +  VILLAGE_URL + "/show/";
 
-    @SneakyThrows
-    public void createSitemap() throws MalformedURLException{
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        String date = ZonedDateTime.now(ZoneId.of("UTC")).format(formatter);
-
-        File sitemapDir = new File("src/main/resources/static");
-        if (!sitemapDir.exists()) {
-            sitemapDir.mkdirs();
-        }
-
+    public XmlUrlSet generateSitemap() {
+        XmlUrlSet xmlUrlSet = new XmlUrlSet();
+        create(xmlUrlSet, BASE_VILLAGE_URL, Priority.HIGH);
+        create(xmlUrlSet, PARTNERS_URL, Priority.MEDIUM);
+        create(xmlUrlSet, ABOUT_US_URL, Priority.MEDIUM);
+        create(xmlUrlSet, CONTACTS_URL, Priority.MEDIUM);
+        create(xmlUrlSet, GENERAL_TERMS_URL, Priority.MEDIUM);
+        create(xmlUrlSet, CREATE_URL, Priority.MEDIUM);
         boolean status = true;
-        WebSitemapGenerator webSitemapGenerator = WebSitemapGenerator.builder(BASE_VILLAGE_URL, sitemapDir)
-                .build();
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(BASE_VILLAGE_URL).lastMod(date).priority(1.0).build());
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(PARTNERS_URL).lastMod(date).priority(0.8).build());
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(ABOUT_US_URL).lastMod(date).priority(0.8).build());
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(CONTACTS_URL).lastMod(date).priority(0.8).build());
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(GENERAL_TERMS_URL).lastMod(date).priority(0.6).build());
-        webSitemapGenerator.addUrl(new WebSitemapUrl.Options(CREATE_URL).lastMod(date).priority(0.8).build());
 
         villageClient.getAllApprovedVillagesByStatus(status).stream()
-                .map(villageId -> {
-                    try {
-                        return new WebSitemapUrl.Options(SHOW_URL + villageId)
-                                .lastMod(date)
-                                .priority(1.0)
-                                .build();
-                    } catch (MalformedURLException | ParseException e) {
-                        throw new SitemapGeneratorException(e.getMessage());
-                    }
-                })
-                .forEach(webSitemapGenerator::addUrl);
+                .map(villageId -> new XmlUrl(SHOW_URL + villageId, Priority.HIGH))
+                .forEach(xmlUrlSet::addUrl);
 
-        System.out.println("!!!!!!!!!!!!!!!! File path Abs: " + sitemapDir.getAbsolutePath());
-        System.out.println("!!!!!!!!!!!!!!!! File path Canon: " + sitemapDir.getCanonicalPath());
-        webSitemapGenerator.write();
+        return xmlUrlSet;
+    }
+
+    private void create(XmlUrlSet xmlUrlSet, String link, Priority priority) {
+        xmlUrlSet.addUrl(new XmlUrl(link, priority));
     }
 }
