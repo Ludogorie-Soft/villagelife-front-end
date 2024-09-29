@@ -1,0 +1,64 @@
+    .custom-container {
+        margin: 25px 30px;
+        padding-left: 30px;
+    }
+
+    .card{
+        margin: 10px;
+        transition: box-shadow 0.4s ease;
+    }
+    .card:hover{
+        box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    }
+    .card-body a{
+        color: black;
+        text-decoration: none !important;
+    }
+    .btn-info,
+    .btn-info:hover,
+    .btn-info:focus,
+    .btn-info:active {
+        background-color: #96c930 !important;
+        border: none !important;
+        color: white !important;
+        float: right;
+        outline: none;
+        box-shadow: none;
+    }
+    .shown-villages-count{
+        float: right;
+    }
+    #load-more {
+      color: #96c930;
+      border-color: #96c930;
+    }
+
+    #load-more:hover {
+      background-color: #96c930;
+      color: #fff;
+    }
+    .card-actions{
+        margin: 20px 40px 20px 0;
+    }
+    .image-container {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+    }
+    h5, h6 {
+        color: black;
+        transition: color 0.2s ease;
+    }
+
+    card-body-link:hover {
+        color: #96c930 !important;
+    }
+    .btn {
+        font-size: 15px !important;
+    }
