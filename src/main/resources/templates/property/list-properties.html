@@ -41,7 +41,7 @@
     <meta charset="UTF-8">
 
     <meta name="robots" content="all">
-    <title>Title</title>
+    <title th:text="#{property.title}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
@@ -82,7 +82,7 @@
                         </h6>
                     </a>
                     <br>
-                    <a th:href="@{#}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{learn.more}"></span></a>
+                    <a th:href="@{#}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                 </div>
             </div>
         </div>
