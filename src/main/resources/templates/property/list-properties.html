@@ -53,9 +53,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="/css/list-properties.css">
+    <link rel="stylesheet" href="/css/menu-style-about-us.css">
 </head>
 <body>
-
+<div th:replace="fragments :: property-menu"></div>
+<!--<div th:replace="fragments :: property-hamburger-menu"></div>-->
 <div class="container">
 
 
@@ -133,6 +135,8 @@
 
 </div>
 
+<div th:replace="fragments :: footer"></div>
+
 <script>
 function updatePageValue(event) {
     if (event.key === 'Enter') {
@@ -162,5 +166,7 @@ function updatePageValue(event) {
     }
 }
 </script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/navScript.min.js"></script>
 </body>
 </html>
