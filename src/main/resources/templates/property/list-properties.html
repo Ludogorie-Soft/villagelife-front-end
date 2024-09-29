@@ -57,10 +57,11 @@
 <body>
 
 <div class="container">
+
+
     <div class="row col-12">
         <div th:each="property : ${properties}" class="col-lg-4 col-md-6 col-sm-12 property">
             <div class="card">
-                <!--<div th:text="${property.imageUrl}"></div>-->
                 <div class="image-container">
                     <img alt="pictures of all properties"
                          th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
@@ -85,7 +86,81 @@
         </div>
     </div>
 
+
+    <div class="card-actions" style="font-size: 15px;">
+        <div class="text-center pagination">
+            <div>
+                <a th:href="@{/properties}" aria-label="to the first page">
+                    <button id="first" class="btn">
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                </a>
+            </div>
+
+            <div>
+                <a th:href="@{/properties/{page}(page=${page >= 1 ? page - 1 : 0})}">
+                    <button id="prev" class="btn">
+                        <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}" class="pagination-btn-text"></span>
+                    </button>
+                </a>
+            </div>
+
+            <div>
+                <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
+                       onkeyup="updatePageValue(event)" style="width: 50px;" aria-labelledby="number">
+
+                <span th:text="#{from.page}"></span>
+                <span th:text="${pagesCount}"></span>
+            </div>
+
+            <div>
+                <a th:href="@{/properties/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
+                    <button id="next" class="btn">
+                        <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
+                    </button>
+                </a>
+            </div>
+            <div>
+                <a th:href="@{/properties/{page}(page=${pagesCount - 1})}" aria-label="to the last page">
+                    <button id="last" class="btn">
+                        <i class="fas fa-angle-double-right"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
+<script>
+function updatePageValue(event) {
+    if (event.key === 'Enter') {
+        console.log("1")
+        var currentPageInput = document.getElementById('currentPage');
+        var pageCount = [[${pagesCount}]];
+        var currentPageValue = parseInt(currentPageInput.value);
+
+        if (currentPageValue >= 0 && currentPageValue <= pageCount) {
+            var newPageValue = currentPageValue - 1;
+            if (newPageValue >= 0) {
+                var currentURL = window.location.href;
+                var baseURL = currentURL.split('?')[0];
+                var queryParams = currentURL.split('?')[1];
+
+                var newBaseURL;
+                if (baseURL.endsWith('/')) {
+                    newBaseURL = baseURL.slice(0, baseURL.lastIndexOf('/') + 1) + newPageValue;
+                } else {
+                    newBaseURL = baseURL.replace(/\/\d+$/, '/' + newPageValue);
+                }
+
+                var newURL = queryParams ? newBaseURL + '?' + queryParams : newBaseURL;
+                window.location.href = newURL;
+            }
+        }
+    }
+}
+</script>
 </body>
 </html>

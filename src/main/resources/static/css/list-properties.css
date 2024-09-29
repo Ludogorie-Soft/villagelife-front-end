@@ -56,9 +56,11 @@
         transition: color 0.2s ease;
     }
 
-    card-body-link:hover {
+    .card-body-link:hover h5,
+    .card-body-link:hover h6 {
         color: #96c930 !important;
     }
+
     .btn {
         font-size: 15px !important;
     }
