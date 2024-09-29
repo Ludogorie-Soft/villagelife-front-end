@@ -64,3 +64,28 @@
     .btn {
         font-size: 15px !important;
     }
+
+    .pagination a{
+        text-decoration: none;
+        padding: 5px;
+    }
+    .pagination button,
+    .pagination button:hover{
+        color: #96c930;
+        font-weight: 500;
+    }
+
+    .pagination{
+        margin-top: 20px;
+        float: right;
+    }
+
+    @media (max-width: 575px) {
+        .pagination-btn-text{
+            display: none;
+        }
+        #prev,
+        #next{
+            margin: 0 1px;
+        }
+    }
