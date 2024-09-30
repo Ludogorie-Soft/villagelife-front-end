@@ -7,13 +7,11 @@
 .property-grid {
     display: flex;
     transition: transform 0.5s ease;
-    width: 100%; /* Ensure the grid is only as wide as needed */
 }
 
 .property {
-    flex: 0 0 calc((100% / 3) - 20px); /* Subtract the total margin (10px on each side) */
-    margin: 10px; /* Margin around each card */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin: 10px;
+    box-sizing: border-box;
 }
 
 .card {
@@ -78,4 +76,25 @@ h6:hover {
 #nextButton:hover {
     background: #96c930;
     color: white;
+}
+
+/* Large screens: Show 3 cards */
+@media (min-width: 1200px) {
+    .property {
+        flex: 0 0 calc((100% / 3) - 20px);
+    }
+}
+
+/* Medium screens: Show 2 cards */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .property {
+        flex: 0 0 calc((100% / 2) - 20px);
+    }
+}
+
+/* Small screens: Show 1 card */
+@media (max-width: 767px) {
+    .property {
+        flex: 0 0 calc(100% - 20px);
+    }
 }
