@@ -428,6 +428,16 @@
     </div>
 </div>
 
+
+
+<div id="properties-container" class="row">
+    <div th:each="property : ${properties}" class="col">
+        <span th:text="${property.id}"></span>
+    </di>
+</div>
+
+
+
 <div th:if="${isSent != null}">
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
         <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
