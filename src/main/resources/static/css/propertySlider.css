@@ -70,13 +70,15 @@ h6:hover {
     display: flex;
     flex-wrap: nowrap;
     transition: transform 0.5s ease;
+    width: calc(33.33% * 3);
 }
 
 .property-item {
-    flex-grow: 1;
-    margin: 10px;
-    text-align: center;
-    transition: transform 0.5s ease;
+    flex: 0 0 calc(100% / 3);
+    box-sizing: border-box;
+}
+.property {
+    display: none; /* Скриване на всички имоти по подразбиране */
 }
 
 #prevButton,
