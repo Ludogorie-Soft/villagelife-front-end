@@ -28,19 +28,36 @@ document.addEventListener("DOMContentLoaded", function () {
             parseInt(window.getComputedStyle(propertyItems[0]).marginRight);
     }
 
-    // Function to update the transform position of the grid for sliding
+    // Function to update the grid position and visibility of buttons
     function updateGridPosition(index) {
-        const maxIndex = totalItems - visibleItems; // Ensure we don't go beyond the last set of items
-        if (index < 0) {
-            index = 0; // Prevent going to negative indices
-        } else if (index > maxIndex) {
-            index = maxIndex; // Prevent going beyond the last set of items
-        }
-
+        visibleItems = getVisibleItems(); // Recalculate visible items on each call
+        const maxIndex = totalItems - visibleItems; // Max sliding index
         const propertyItemWidth = calculatePropertyWidth(); // Recalculate in case of resize
-        const offset = -(index * propertyItemWidth); // Calculate the offset for sliding
-        propertyGrid.style.transform = `translateX(${offset}px)`;
-        currentIndex = index;
+
+        // If there are fewer properties than visible items, reset the transform and hide buttons
+        if (totalItems <= visibleItems) {
+            // Align items from the left by setting transform to 0
+            propertyGrid.style.transform = 'translateX(0)';
+            // Hide the buttons since no sliding is needed
+            prevButton.style.display = 'none';
+            nextButton.style.display = 'none';
+        } else {
+            // Enable the buttons if sliding is possible
+            prevButton.style.display = 'inline-block';
+            nextButton.style.display = 'inline-block';
+
+            // Ensure the index doesn't go below zero or beyond the max index
+            if (index < 0) {
+                index = 0;
+            } else if (index > maxIndex) {
+                index = maxIndex;
+            }
+
+            // Calculate the offset for sliding
+            const offset = -(index * propertyItemWidth);
+            propertyGrid.style.transform = `translateX(${offset}px)`;
+            currentIndex = index;
+        }
     }
 
     function showNextProperty() {
@@ -59,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update layout on screen resize
     window.addEventListener("resize", function () {
-        visibleItems = getVisibleItems(); // Recalculate visible items
         updateGridPosition(currentIndex); // Update the grid position for new layout
     });
 });

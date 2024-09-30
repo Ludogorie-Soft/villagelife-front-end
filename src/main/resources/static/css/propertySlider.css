@@ -78,6 +78,11 @@ h6:hover {
     color: white;
 }
 
+#prevButton:disabled,
+#nextButton:disabled {
+    display: none; /* Optionally, hide disabled buttons */
+}
+
 /* Large screens: Show 3 cards */
 @media (min-width: 1200px) {
     .property {
