@@ -438,41 +438,37 @@
 </div>-->
 
 <div class="container">
-    <button id="nextButton">Next</button>
     <button id="prevButton">Prev</button>
+    <button id="nextButton">Next</button>
 
     <div class="property-slider">
         <div class="property-grid">
-            <div class="row infowindow-row col-12">
-                <div th:each="property : ${properties}" class="col-lg-4 col-md-6 col-sm-12 property">
-                    <div class="card">
-                        <div class="image-container">
-                            <img alt="pictures of all properties"
-                                th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
-                                onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" loading="lazy" width="1024" height="683">
-                        </div>
-
-                        <div class="card-body">
-                            <a th:href="@{#}" class="card-body-link">
-                                <h5><span th:text="#{${property.propertyType.key}}"></span></h5>
-                                <h6><span th:text="#{village}"></span>
-                                    <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
-                                    <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-                                    <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-                                    <span th:text="#{region}"></span>
-                                    <span th:text="#{${property.villageDTO.region}}"></span>
-                                </h6>
-                            </a>
-                            <br>
-                            <a th:href="@{#}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
-                        </div>
-
+            <div th:each="property : ${properties}" class="property">
+                <div class="card">
+                    <div class="image-container">
+                        <img alt="pictures of all properties"
+                             th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
+                             onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';"
+                             loading="lazy" width="1024" height="683">
+                    </div>
+                    <div class="card-body">
+                        <a th:href="@{#}" class="card-body-link">
+                            <h5><span th:text="#{${property.propertyType.key}}"></span></h5>
+                            <h6><span th:text="#{village}"></span>
+                                <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
+                                <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:text="#{region}"></span>
+                                <span th:text="#{${property.villageDTO.region}}"></span>
+                            </h6>
+                        </a>
+                        <br>
+                        <a th:href="@{#}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 
