@@ -80,24 +80,21 @@ h6:hover {
 
 #prevButton:disabled,
 #nextButton:disabled {
-    display: none; /* Optionally, hide disabled buttons */
+    display: none;
 }
 
-/* Large screens: Show 3 cards */
 @media (min-width: 1200px) {
     .property {
         flex: 0 0 calc((100% / 3) - 20px);
     }
 }
 
-/* Medium screens: Show 2 cards */
 @media (min-width: 768px) and (max-width: 1199px) {
     .property {
         flex: 0 0 calc((100% / 2) - 20px);
     }
 }
 
-/* Small screens: Show 1 card */
 @media (max-width: 767px) {
     .property {
         flex: 0 0 calc(100% - 20px);
