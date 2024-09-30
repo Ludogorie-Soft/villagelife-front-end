@@ -1,0 +1,99 @@
+.property-item {
+    flex-basis: calc(33.33% - 20px);
+    margin: 10px;
+    text-align: center;
+}
+
+.property-item {
+    transition: background-color 0.3s ease;
+}
+
+.property-item:hover {
+background-color: #96c930;
+color: white;
+}
+
+.card{
+    margin: 10px;
+    transition: box-shadow 0.4s ease;
+}
+.card:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.card-body a{
+    color: black;
+    text-decoration: none;
+}
+.btn-info,
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+    background-color: #96c930 !important;
+    border: none !important;
+    color: white !important;
+    float: right;
+    outline: none;
+    box-shadow: none;
+}
+
+.card-actions{
+    margin: 20px 40px 20px 0;
+}
+.image-container {
+    position: relative;
+    overflow: hidden;
+    max-height: 200px;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+h6 {
+    color: black;
+    transition: color 0.2s ease;
+}
+
+h6:hover {
+    color: #96c930;
+}
+
+
+.property-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.property-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    transition: transform 0.5s ease;
+}
+
+.property-item {
+    flex-grow: 1;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.5s ease;
+}
+
+#prevButton,
+#nextButton {
+    border-radius: 5px;
+    float: right;
+    background: white;
+    color: #96c930;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 1;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+#prevButton:hover ,
+#nextButton:hover {
+    background: #96c930;
+    color: white;
+}
