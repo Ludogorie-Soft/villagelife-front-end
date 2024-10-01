@@ -50,14 +50,14 @@
     height: auto;
     object-fit: cover;
 }
-
-h6 {
+.card-body-link:hover h5,
+.card-body-link:hover h6 {
     color: black;
     transition: color 0.2s ease;
 }
-
-h6:hover {
-    color: #96c930;
+h6 {
+    color: black;
+    transition: color 0.2s ease;
 }
 
 #prevButton,
@@ -99,4 +99,9 @@ h6:hover {
     .property {
         flex: 0 0 calc(100% - 20px);
     }
+}
+
+.card-body-link:hover h5,
+.card-body-link:hover h6 {
+    color: #96c930 !important;
 }
