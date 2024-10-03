@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Verify Your Email</title>
+</head>
+<body>
+<h1>Verify Your Email</h1>
+<form th:action="@{/auth/verify-verification-token}" method="post" th:object="${verificationRequest}">
+    <input type="email" th:field="*{email}" placeholder="Email" required />
+    <input type="text" th:field="*{token}" placeholder="Verification Token" required />
+    <button type="submit">Verify</button>
+</form>
+</body>
+</html>

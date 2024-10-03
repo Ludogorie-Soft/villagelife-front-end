@@ -82,6 +82,10 @@
 
         <div class="menu-overlay">
             <div th:replace="fragments :: menu"></div>
+            <div class="auth-buttons" style="position: absolute; top: 10px; right: 10px;">
+                <a href="auth/login" class="btn btn-outline-light me-2">Log In</a>
+                <a th:href="@{/auth/register-user}" class="btn btn-success">Register</a>
+            </div>
         </div>
     </div>
 

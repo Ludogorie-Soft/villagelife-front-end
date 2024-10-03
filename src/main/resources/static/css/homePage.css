@@ -360,3 +360,23 @@
         font-size: 15px !important;
     }
 
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons .btn {
+        padding: 5px 15px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .auth-buttons .btn-outline-light {
+        color: #fff;
+        border: 1px solid #fff;
+    }
+
+    .auth-buttons .btn-success {
+        color: #fff;
+    }
+

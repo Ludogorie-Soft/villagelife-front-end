@@ -4,6 +4,7 @@ import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -32,6 +34,17 @@ public class AuthController {
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEADER = "Bearer ";
     private static final String ADMINS = "admins";
+    private static final String ATTRIBUTE_MESSAGE = "message";
+    private static final String ATTRIBUTE_ROLES = "roles";
+
+
+    @GetMapping("/register-user")
+    public String createUser(Model model) {
+        model.addAttribute("adminNew", new RegisterRequest());  // Use RegisterRequest, not AdministratorRequest
+        model.addAttribute(ATTRIBUTE_ROLES, List.of(Role.USER, Role.AGENCY, Role.BUILDER, Role.INVESTOR));
+        return "user/register_form";
+    }
+
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -47,11 +60,24 @@ public class AuthController {
 
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("adminNew", new AdministratorRequest());
-            model.addAttribute("roles", Role.ADMIN);
+            model.addAttribute(ATTRIBUTE_ROLES, Role.ADMIN);
         } else {
             throw new ApiRequestException("Unauthorized: Invalid request");
         }
         return "admin_templates/register_form";
+    }
+
+    @PostMapping("/register-user")
+    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request,
+                               BindingResult bindingResult, Model model,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
+            return "user/register_form";
+        }
+        String message = authClient.register(request);
+        redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
+        return "redirect:/auth/verify-verification-token";
     }
 
     @PostMapping("/register")
@@ -61,12 +87,12 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
             model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute("roles", Role.values());
+            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
             return "admin_templates/register_form";
         }
         String token = (String) session.getAttribute(SESSION_NAME);
         String message = authClient.register(request, AUTH_HEADER + token);
-        redirectAttributes.addFlashAttribute("message", message);
+        redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
         return "redirect:/admins";
     }
 
@@ -87,4 +113,23 @@ public class AuthController {
         return "redirect:/admins/village";
     }
 
+    @GetMapping("/verify-verification-token")
+    public String verifyUser(Model model) {
+        model.addAttribute("verificationRequest", new VerificationRequest());
+        return "user/verify-user";
+    }
+
+    @PostMapping("/verify-verification-token")
+    public String verifyVerificationToken(@Valid @ModelAttribute("verificationRequest") VerificationRequest verificationRequest,
+                                          BindingResult bindingResult, Model model,
+                                          RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+            return "user/verify-user";
+        }
+
+        String message = authClient.verifyVerificationToken(verificationRequest);
+        model.addAttribute(ATTRIBUTE_MESSAGE, message);
+        return "HomePage";
+    }
 }

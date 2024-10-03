@@ -3,6 +3,7 @@ package com.ludogorieSoft.villagelifefrontend.auth;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,10 @@ public interface AuthClient {
             @Valid @RequestBody RegisterRequest request, @RequestHeader("Authorization") String token
     );
 
+    @PostMapping("/register")
+    String register(
+            @Valid @RequestBody RegisterRequest request);
+
     @PostMapping("/authenticate")
     ResponseEntity<AuthenticationResponce> authenticate(
             @RequestBody AuthenticationRequest request
@@ -28,4 +33,6 @@ public interface AuthClient {
     ResponseEntity<AlternativeUserDTO> getAdministratorInfo(@RequestHeader("Authorization") String token);
     @GetMapping("/check")
     public ResponseEntity<String> authorizeAdminToken(@RequestHeader("Authorization") String token);
+    @PostMapping("/verify-verification-token")
+    public String verifyVerificationToken(@RequestBody VerificationRequest verificationRequest);
 }
