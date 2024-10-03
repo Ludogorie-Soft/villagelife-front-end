@@ -14,5 +14,8 @@ public interface PropertyClient {
     PageableResponse<PropertyDTO> getAllProperties(@PathVariable("page") int page, @PathVariable("elements") int elements);
 
     @GetMapping("/village/{villageId}")
-    List<PropertyDTO> getPropertiesByVillageId(@PathVariable("villageId") Long villageId);
+    List<PropertyDTO> getAllPropertiesByVillageId(@PathVariable("villageId") Long villageId);
+
+    @GetMapping("/{id}")
+    PropertyDTO getPropertyWithMainImageById(@PathVariable("id") Long id);
 }

@@ -103,7 +103,7 @@ public class VillageController {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
         getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
-        List<PropertyDTO> propertyDTOS = propertyClient.getPropertiesByVillageId(id);
+        List<PropertyDTO> propertyDTOS = propertyClient.getAllPropertiesByVillageId(id);
         model.addAttribute("properties", propertyDTOS);
         return "ShowVillageById";
     }
