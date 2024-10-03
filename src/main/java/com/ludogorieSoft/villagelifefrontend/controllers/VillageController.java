@@ -142,7 +142,7 @@ public class VillageController {
         return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId() + "?village=" + URLEncoder.encode(village, StandardCharsets.UTF_8) + "&region=" + URLEncoder.encode(region, StandardCharsets.UTF_8);
     }
 
-    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
 
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -163,7 +163,7 @@ public class VillageController {
 
         model.addAttribute("answerDate", answerDate);
 
-        model.addAttribute("admin", administratorDTO);
+        model.addAttribute("admin", alternativeUserDTO);
 
         model.addAttribute("status", keyWord);
 
@@ -171,7 +171,7 @@ public class VillageController {
         model.addAttribute("videos", videoDTOS);
     }
 
-    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
+    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
         redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         redirectAttributes.addFlashAttribute("inquiry", inquiryDTO);
@@ -185,7 +185,7 @@ public class VillageController {
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         redirectAttributes.addFlashAttribute("questions", questionDTOS);
         redirectAttributes.addFlashAttribute("answerDate", answerDate);
-        redirectAttributes.addFlashAttribute("admin", administratorDTO);
+        redirectAttributes.addFlashAttribute("admin", alternativeUserDTO);
         redirectAttributes.addFlashAttribute("status", keyWord);
     }
 

@@ -1,6 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.auth;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
@@ -25,7 +25,7 @@ public interface AuthClient {
             @RequestBody AuthenticationRequest request
     );
     @GetMapping("/get-info")
-    ResponseEntity<AdministratorDTO> getAdministratorInfo(@RequestHeader("Authorization") String token);
+    ResponseEntity<AlternativeUserDTO> getAdministratorInfo(@RequestHeader("Authorization") String token);
     @GetMapping("/check")
     public ResponseEntity<String> authorizeAdminToken(@RequestHeader("Authorization") String token);
 }

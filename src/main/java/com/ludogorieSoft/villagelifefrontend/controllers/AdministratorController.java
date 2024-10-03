@@ -33,7 +33,7 @@ import static java.time.LocalDateTime.now;
 @RequiredArgsConstructor
 public class AdministratorController {
     private final AdminFunctionClient adminFunctionClient;
-    private final AdminClient adminClient;
+    private final AlternativeUserClient alternativeUserClient;
     private final VillageController villageController;
 
     private static final String SESSION_NAME = "admin";
@@ -53,10 +53,10 @@ public class AdministratorController {
     @GetMapping
     public String getAllAdmins(Model model, HttpSession session) {
         String token = (String) session.getAttribute(SESSION_NAME);
-        ResponseEntity<List<AdministratorDTO>> administrators = adminClient.getAllAdministrators(AUTH_HEADER + token);
-        List<AdministratorDTO> allAdmins = administrators.getBody();
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        ResponseEntity<List<AlternativeUserDTO>> administrators = alternativeUserClient.getAllAdministrators(AUTH_HEADER + token);
+        List<AlternativeUserDTO> allAdmins = administrators.getBody();
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         model.addAttribute("adminsAll", allAdmins);
         return "admin_templates/admin_all";
     }
@@ -65,14 +65,14 @@ public class AdministratorController {
     public String editAdmin(@PathVariable(name = "adminId") Long adminId, Model model, HttpSession session) {
         String token = (String) session.getAttribute(SESSION_NAME);
 
-        AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+        AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
         if (admin != null) {
             model.addAttribute(ADMINS, admin.getFullName());
         }
 
-        ResponseEntity<AdministratorDTO> adminById = adminClient.getAdministratorById(adminId, AUTH_HEADER + token);
-        AdministratorDTO administratorDTO = adminById.getBody();
-        model.addAttribute("adminById", administratorDTO);
+        ResponseEntity<AlternativeUserDTO> adminById = alternativeUserClient.getAdministratorById(adminId, AUTH_HEADER + token);
+        AlternativeUserDTO alternativeUserDTO = adminById.getBody();
+        model.addAttribute("adminById", alternativeUserDTO);
         model.addAttribute("roles", Role.ADMIN);
         return "admin_templates/update_admin";
     }
@@ -84,7 +84,7 @@ public class AdministratorController {
                               HttpSession session, Model model
     ) {
         if (bindingResult.hasErrors()) {
-            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("roles", Role.ADMIN);
             return "admin_templates/update_admin";
@@ -92,7 +92,7 @@ public class AdministratorController {
         administratorRequest.setCreatedAt(now());
 
         String token = (String) session.getAttribute(SESSION_NAME);
-        adminClient.updateAdministrator(adminId, administratorRequest, AUTH_HEADER + token);
+        alternativeUserClient.updateAdministrator(adminId, administratorRequest, AUTH_HEADER + token);
 
         redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId + " successfully updated !!!");
         return "redirect:/admins";
@@ -102,7 +102,7 @@ public class AdministratorController {
     public ModelAndView deleteAdmin(@PathVariable(name = "adminId") Long adminId,
                                     RedirectAttributes redirectAttributes, HttpSession session) {
         String token2 = (String) session.getAttribute(SESSION_NAME);
-        adminClient.deleteAdministratorById(adminId, AUTH_HEADER + token2);
+        alternativeUserClient.deleteAdministratorById(adminId, AUTH_HEADER + token2);
         redirectAttributes.addFlashAttribute(MESSAGE, "Administrator with ID: " + adminId + " successfully deleted !!!");
         return new ModelAndView("redirect:/admins");
 
@@ -127,12 +127,12 @@ public class AdministratorController {
     public String seeVillageToApproveIt(@RequestParam("villageId") Long villageId,
                                         @RequestParam("answerDate") String answerDate, @RequestParam("archived") String archived, Model model, HttpSession session) {
         model.addAttribute("subscription", new SubscriptionDTO());
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
         boolean status = false;
         String token2 = (String) session.getAttribute(SESSION_NAME);
         VillageInfo villageInfo = adminFunctionClient.getVillageInfoById(villageId, answerDate, status, AUTH_HEADER + token2);
         InquiryDTO inquiryDTO = new InquiryDTO();
-        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, administratorDTO, archived);
+        villageController.getInfoForShowingVillage(villageInfo, inquiryDTO, status, answerDate, model, alternativeUserDTO, archived);
         return "ShowVillageById";
     }
 
@@ -143,8 +143,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getNotDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/admin_images";
     }
 
@@ -190,8 +190,8 @@ public class AdministratorController {
             ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.getUnapprovedVillageResponses(AUTH_HEADER + token2);
 
             if (villageResponses.getStatusCode().is2xxSuccessful()) {
-                AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-                model.addAttribute(ADMINS, administratorDTO.getFullName());
+                AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+                model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
                 List<VillageResponse> villages = villageResponses.getBody();
                 model.addAttribute("status", "toApproved");
                 model.addAttribute(VILLAGES_ATTRIBUTE, villages);
@@ -222,8 +222,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageImageDTO> villageImageDTOs = villageImageClient.getDeletedVillageImageDTOsByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageImageDTOs", villageImageDTOs);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/deleted_images";
     }
 
@@ -240,9 +240,9 @@ public class AdministratorController {
     public String getVillagesWithRejectedResponses(Model model, HttpSession session) {
         String token = (String) session.getAttribute(SESSION_NAME);
 
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
 
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         try {
             ResponseEntity<List<VillageResponse>> villageResponses = adminFunctionClient.getVillagesWithRejectedResponses(AUTH_HEADER + token);
 
@@ -283,8 +283,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<SubscriptionDTO> subscriptionDTOS = subscriptionClient.getAllSubscriptions(AUTH_HEADER + token2);
         model.addAttribute("subscriptions", subscriptionDTOS);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/all_subscriptions";
     }
 
@@ -301,8 +301,8 @@ public class AdministratorController {
         String token = (String) session.getAttribute(SESSION_NAME);
         List<MessageDTO> messages = messageClient.getAllMessages(AUTH_HEADER + token);
         model.addAttribute("messages", messages);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/user_messages";
     }
 
@@ -312,8 +312,8 @@ public class AdministratorController {
         List<InquiryDTO> inquiries = inquiryClient.getAllInquiries(AUTH_HEADER + token);
         inquiries.forEach(inquiryDTO -> inquiryDTO.setVillageName(villageClient.getVillageById(inquiryDTO.getVillageId()).getName()));
         model.addAttribute("inquiries", inquiries);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/user_inquiries";
     }
 
@@ -322,8 +322,8 @@ public class AdministratorController {
         String token = (String) session.getAttribute(SESSION_NAME);
         List<Object[]> answersWithVillageName = villageAnswerQuestionClient.findVillageNameAndAnswerByQuestionName("question_name.eighth", AUTH_HEADER + token);
         model.addAttribute("contacts", answersWithVillageName);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/user_contacts";
     }
 
@@ -334,8 +334,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageVideoDTO> villageVideoDTOList = adminFunctionClient.getAllVideos(villageId, AUTH_HEADER + token2);//, AUTH_HEADER + token2
         model.addAttribute("villageVideoDTOs", villageVideoDTOList);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/admin_videos";
     }
 
@@ -356,8 +356,8 @@ public class AdministratorController {
         String token2 = (String) session.getAttribute(SESSION_NAME);
         List<VillageVideoDTO> villageVideoDTOs = adminFunctionClient.getAllDeletedVideosByVillageId(villageId, AUTH_HEADER + token2);
         model.addAttribute("villageVideoDTOs", villageVideoDTOs);
-        AdministratorDTO administratorDTO = (AdministratorDTO) session.getAttribute("info");
-        model.addAttribute(ADMINS, administratorDTO.getFullName());
+        AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute(ADMINS, alternativeUserDTO.getFullName());
         return "admin_templates/deleted-videos";
     }
 

@@ -1,6 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.config;
 
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(name = "villagelife-api-admin", url = "${backend.url}/admins")
-public interface AdminClient {
+public interface AlternativeUserClient {
     @GetMapping
-    ResponseEntity<List<AdministratorDTO>> getAllAdministrators(@RequestHeader("Authorization") String token);
+    ResponseEntity<List<AlternativeUserDTO>> getAllAdministrators(@RequestHeader("Authorization") String token);
 
     @GetMapping("/{id}")
-    ResponseEntity<AdministratorDTO> getAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
+    ResponseEntity<AlternativeUserDTO> getAdministratorById(@PathVariable("id") Long id, @RequestHeader("Authorization") String token);
 
     @PutMapping("/update/{id}")
     void updateAdministrator(@PathVariable("id") Long id,

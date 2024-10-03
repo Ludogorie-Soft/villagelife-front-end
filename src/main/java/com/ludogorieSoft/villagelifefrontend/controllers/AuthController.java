@@ -1,7 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
@@ -43,7 +43,7 @@ public class AuthController {
             throw new ApiRequestException("An error occurred while communicating with the API");
         }
         if (auth.getStatusCode().is2xxSuccessful()) {
-            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
 
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("adminNew", new AdministratorRequest());
@@ -59,7 +59,7 @@ public class AuthController {
                                 BindingResult bindingResult, Model model,
                                 RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
             model.addAttribute(ADMINS, admin.getFullName());
             model.addAttribute("roles", Role.values());
             return "admin_templates/register_form";
@@ -81,7 +81,7 @@ public class AuthController {
         ResponseEntity<AuthenticationResponce> authResponse;
         authResponse = authClient.authenticate(request);
         String token = Objects.requireNonNull(authResponse.getBody()).getToken();
-        ResponseEntity<AdministratorDTO> administratorDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
+        ResponseEntity<AlternativeUserDTO> administratorDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
         session.setAttribute(SESSION_NAME, token);
         session.setAttribute("info", administratorDTO.getBody());
         return "redirect:/admins/village";

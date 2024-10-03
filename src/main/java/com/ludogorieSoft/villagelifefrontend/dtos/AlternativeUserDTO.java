@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdministratorDTO implements Serializable {
+public class AlternativeUserDTO implements Serializable {
     private Long id;
 
     private String fullName;
@@ -25,12 +26,29 @@ public class AdministratorDTO implements Serializable {
 
     private String username;
 
+    private String password;
+
     private String mobile;
+
+    private List<VerificationTokenDTO> verificationTokenDTOs;
+
+    private UserSearchDataDTO userSearchDataDTO;
+
+    private String jobTitle;
+
+    private BusinessCardDTO businessCardDTO;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime createdAt;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime deletedAt;
+
     private boolean enabled;
+
     private Role role;
 
 }
