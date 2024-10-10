@@ -264,5 +264,57 @@
     </form>
 </nav>
 
+
+<div th:fragment="property-menu" class="menu-container">
+    <a th:href="@{/}">
+        <img th:src="@{/images/village-life-logo.png}" alt="VillageLife logo"
+             style="width: 175px; height: 60px; margin-top:10px;">
+    </a>
+    <div id="property-menu" class="d-flex align-items-center">
+
+        <a th:href="@{/properties}"><span th:text="#{property.menu.property}"></span></a>
+
+        <a th:href="@{/properties/add}" id="add-property" class="btn" role="button"><span th:text="#{property.menu.add}"></span></a>
+
+        <div class="dropdown ml-2">
+            <button class="btn dropdown-toggle" type="button" id="property-languageDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0.25rem 0.5rem; background-color: #f2f2f2; border: none !important;">
+                <span class="flag-icon flag-icon-bg" th:if="#{lang} == '??lang_bg??'"></span>
+                <span class="flag-icon flag-icon-gb" th:if="#{lang} == '??lang_en??'"></span>
+                <span class="flag-icon flag-icon-de" th:if="#{lang} == '??lang_de??'"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="property-languageDropdown">
+                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="property-hamburger-menu" id="property-hamburger-menu">
+    <a th:href="@{/}">
+        <img th:src="@{/images/village-life-logo.png}" alt="village life logo" class="smaller-logo-image">
+    </a>
+
+    <div id="property-myNav" class="nav-overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            <img th:src="@{/images/x-button.png}" alt="x">
+        </a>
+        <div class="nav-overlay-content">
+            <a th:href="@{/properties}"> <i class="fa-solid fa-house"></i>
+                <span th:text="#{property.menu.property}"></span></a>
+            <hr>
+            <a th:href="@{/properties/add}"> <i class="fa-regular fa-handshake"></i>
+                <span th:text="#{property.menu.add}"></span></a>
+
+            <hr>
+            <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+            <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+            <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
+        </div>
+    </div>
+    <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>
+</div>
+
 </body>
 </html>
