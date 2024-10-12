@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVP5MJERRY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EVP5MJERRY');
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '827137978479661');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=827137978479661&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <!-- Hotjar Tracking Code for https://villagelife.bg -->
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3202998,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="description" th:content="#{meta.description.add.village}">
+    <meta name="keywords" content="#{meta.keywords.add.village}">
+    <meta name="robots" content="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{addVillage.title}"></title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/addVillage.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Canonical URL address -->
+    <link rel="canonical" href="https://villagelife.bg/villages/create">
+</head>
+<body>
+
+<div th:replace="fragments :: menu"></div>
+<div th:replace="fragments :: hamburger-menu"></div>
+
+<div class="container">
+    <div th:if="${consentMessage}" class="message alert alert-info text-center">
+        <p th:text="${consentMessage}"></p>
+    </div>
+    <section class="lower-line-spacing">
+        <p>
+        <div th:text="#{addVillage.hello}"></div>
+        <div th:text="#{please.fill.form}">
+        </div>
+        </p>
+        <p th:text="#{thank.you}"></p>
+        <p>
+        <div th:text="#{regards}"></div>
+        <div>Village Life</div>
+        </p>
+<!--        return "redirect:/properties";-->
+    </section>
+<form action="/properties/save" method="post">
+    <label for="villageDTO">Village:</label>
+    <input type="text" id="villageDTO" name="villageDTO.name" required><br><br>
+
+    <label for="region">Region:</label>
+    <input type="text" id="region" name="villageDTO.region" required><br><br>
+
+    <label for="propertyType">Property Type:</label>
+    <select id="propertyType" name="propertyType" required>
+        <option value="PLOT">Plot</option>
+        <option value="AGRICULTURAL_LAND">Agricultural land</option>
+        <option value="HOUSE">House</option>
+        <option value="VILLA">Villa</option>
+        <option value="FLOOR_OF_A_HOUSE">Floor of a house</option>
+        <option value="BUSINESS_PROPERTY">Business property</option>
+        <option value="APARTMENT">Apartment</option>
+    </select><br><br>
+
+    <label for="propertyTransferType">Transfer Type:</label>
+    <select id="propertyTransferType" name="propertyTransferType" required>
+        <option value="SALE">Sale</option>
+        <option value="RENT">Rent</option>
+    </select><br><br>
+
+    <label for="price">Price:</label>
+    <input type="number" step="0.01" id="price" name="price" required><br><br>
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" required><br><br>
+
+    <label for="buildUpArea">Build-Up Area:</label>
+    <input type="number" step="0.01" id="buildUpArea" name="buildUpArea" required><br><br>
+
+    <label for="yardArea">Yard Area:</label>
+    <input type="number" step="0.01" id="yardArea" name="yardArea"><br><br>
+
+    <label for="roomsCount">Rooms Count:</label>
+    <input type="number" id="roomsCount" name="roomsCount" required><br><br>
+
+    <label for="bathroomsCount">Bathrooms Count:</label>
+    <input type="number" id="bathroomsCount" name="bathroomsCount" required><br><br>
+
+    <label for="heating">Heating Types:</label>
+    <input type="text" id="heating" name="heating" required><br><br>
+
+<!--    <div class="mb-3">-->
+<!--        <label for="formFileMultiple" class="form-label fw-bold" th:text="#{photos}"></label>-->
+<!--        <input class="form-control" id="formFileMultiple" name="multipartImages" type="file" multiple accept="image/*">-->
+<!--        <span class="text-muted" th:text="#{photos.max.size}"></span>-->
+<!--    </div>-->
+
+    <label for="imageUrl">Image URL:</label>
+    <input type="file" id="imageUrl" name="imageUrl"><br><br>
+
+    <label for="constructionType">Construction Type:</label>
+    <select id="constructionType" name="constructionType" required>
+        <option value="BRICKS">Bricks</option>
+        <option value="PANEL">Panel</option>
+        <option value="WOOD">Wood</option>
+    </select><br><br>
+
+    <label for="constructionYear">Construction Year:</label>
+    <input type="number" id="constructionYear" name="constructionYear" min="1800" max="2024" required><br><br>
+
+    <label for="extras">Extras:</label>
+    <input type="text" id="extras" name="extras"><br><br>
+
+    <label for="ownershipType">Ownership Type:</label>
+    <select id="ownershipType" name="ownershipType" required>
+        <option value="INDIVIDUAL">Individual</option>
+        <option value="AGENCY">Agency</option>
+        <option value="BUILDER">Builder</option>
+        <option value="INVESTOR">Investor</option>
+    </select><br><br>
+
+    <label for="propertyCondition">Property Condition:</label>
+    <select id="propertyCondition" name="propertyCondition" required>
+        <option value="NEW">New</option>
+        <option value="EXCELLENT">Excellent</option>
+        <option value="GOOD">Good</option>
+        <option value="FAIR">Fair</option>
+        <option value="Poor">Poor</option>
+        <option value="UNDER_CONSTRUCTION">Under construction</option>
+        <option value="DAMAGED">Damaged</option>
+        <option value="RENOVATION_REQUIRED">Renovation required</option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
