@@ -34,9 +34,11 @@ public class PropertyController {
     @GetMapping("/show/{id}")
     public String showPropertyById(@PathVariable(name = "id") Long id, Model model) {
         PropertyDTO propertyDTO = propertyClient.getPropertyWithMainImageById(id);
-        model.addAttribute("property", propertyDTO);
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
+        propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null));
+        model.addAttribute("property", propertyDTO);
         model.addAttribute("propertyImages", propertyImageDTOs);
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "/property/property";
     }
 }
