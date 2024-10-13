@@ -52,7 +52,7 @@ public class PropertyController {
         return "/property/create-property";
     }
 
-//    @PostMapping(PROPERTY_SAVE)
+    //    @PostMapping(PROPERTY_SAVE)
 //    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session){
 //        try {
 //            if (bindingResult.hasErrors()) {
@@ -96,7 +96,7 @@ public class PropertyController {
 //        return "redirect:/properties";
 //    }
     @PostMapping(PROPERTY_SAVE)
-    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO,BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
@@ -108,11 +108,16 @@ public class PropertyController {
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
             return "redirect:/properties/add";
         }
+
+        byte[] mainImageBytes = convertImageToBytes(mainImage);
+        propertyDTO.setMainImageBytes(mainImageBytes);
+
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setPropertyUserDTO(getLoggedPropertyUserDTO(session));
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
     }
+
     private void hasExceededFileSize(List<MultipartFile> images) throws ImageMaxUploadSizeExceededException {
         long totalSize = images.stream()
                 .mapToLong(MultipartFile::getSize)
@@ -121,17 +126,20 @@ public class PropertyController {
             throw new ImageMaxUploadSizeExceededException("File size should not exceed 5 MB");
         }
     }
-    private List<byte[]> convertImagesToBytes(List<MultipartFile> images, List<byte[]> imageBytes) {
-        for (MultipartFile image : images) {
+
+    private byte[] convertImageToBytes(MultipartFile image) {
+        byte[] imageData = null;
+        if (image.getSize() > 0) {
             try {
-                byte[] imageData = image.getBytes();
-                imageBytes.add(imageData);
+                imageData = image.getBytes();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return imageBytes;
+
+        return imageData;
     }
+
     public PropertyUserDTO getLoggedPropertyUserDTO(HttpSession session) {
         PropertyUserDTO loggedPropertyUserDTO = (PropertyUserDTO) session.getAttribute("info");
         return loggedPropertyUserDTO;

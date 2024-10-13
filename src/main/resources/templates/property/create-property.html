@@ -80,7 +80,7 @@
         </p>
 <!--        return "redirect:/properties";-->
     </section>
-<form action="/properties/save" method="post">
+<form action="/properties/save" method="post" enctype="multipart/form-data">
     <label for="villageDTO">Village:</label>
     <input type="text" id="villageDTO" name="villageDTO.name" required><br><br>
 
@@ -131,8 +131,11 @@
 <!--        <span class="text-muted" th:text="#{photos.max.size}"></span>-->
 <!--    </div>-->
 
-    <label for="imageUrl">Image URL:</label>
-    <input type="file" id="imageUrl" name="imageUrl"><br><br>
+    <div class="mb-3">
+        <label for="formFileMultiple" class="form-label fw-bold" th:text="#{photos}"></label>
+        <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*">
+        <span class="text-muted" th:text="#{photos.max.size}"></span>
+    </div>
 
     <label for="constructionType">Construction Type:</label>
     <select id="constructionType" name="constructionType" required>
