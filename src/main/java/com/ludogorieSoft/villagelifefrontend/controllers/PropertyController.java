@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -96,7 +97,7 @@ public class PropertyController {
 //        return "redirect:/properties";
 //    }
     @PostMapping(PROPERTY_SAVE)
-    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
@@ -112,6 +113,16 @@ public class PropertyController {
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
 
+        List<byte[]> propertyImagesBytes =propertyImages.stream()
+                .map(this::convertImageToBytes)
+                .toList();
+        if (propertyDTO.getImages() == null) {
+            propertyDTO.setImages(new ArrayList<>());
+        }
+        for (int i = 0; i < propertyDTO.getImages().size(); i++) {
+            propertyDTO.getImages().get(i).setPropertyImageBytes(propertyImagesBytes.get(i));
+            System.out.println(propertyDTO.getImages().get(i).getPropertyImageBytes());
+        }
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setPropertyUserDTO(getLoggedPropertyUserDTO(session));
         propertyClient.createProperty(propertyDTO);
@@ -139,6 +150,21 @@ public class PropertyController {
 
         return imageData;
     }
+//    private List<byte[]> convertImagesToBytes(List<MultipartFile> images) {
+//        return images.stream()
+//                .filter(image -> image != null && image.getSize() > 0)
+//                .map(image -> {
+//                    try {
+//                        return image.getBytes();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        return null;
+//                    }
+//                })
+//                .filter(bytes -> bytes != null)
+//                .toList();
+//    }
+
 
     public PropertyUserDTO getLoggedPropertyUserDTO(HttpSession session) {
         PropertyUserDTO loggedPropertyUserDTO = (PropertyUserDTO) session.getAttribute("info");

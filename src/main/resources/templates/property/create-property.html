@@ -132,6 +132,12 @@
 <!--    </div>-->
 
     <div class="mb-3">
+        <label for="formFileForMultiple" class="form-label fw-bold" th:text="#{photos}"></label>
+        <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*" >
+        <span class="text-muted" th:text="#{photos.max.size}"></span>
+    </div>
+
+    <div class="mb-3">
         <label for="formFileMultiple" class="form-label fw-bold" th:text="#{photos}"></label>
         <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*">
         <span class="text-muted" th:text="#{photos.max.size}"></span>
