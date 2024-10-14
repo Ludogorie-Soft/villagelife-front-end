@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.dtos.request;
 
+import com.ludogorieSoft.villagelifefrontend.dtos.BusinessCardDTO;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -35,4 +36,7 @@ public class RegisterRequest {
 
     private Role role;
 
+    private String jobTitle;
+
+    private BusinessCardDTO businessCardDTO;
 }

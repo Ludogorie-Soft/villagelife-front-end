@@ -360,23 +360,17 @@
         font-size: 15px !important;
     }
 
-    .auth-buttons {
-        display: flex;
-        gap: 10px;
+    .auth-btn {
+        background-color: #96c930;
+        color: white;
+        font-size: 13px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
     }
 
-    .auth-buttons .btn {
-        padding: 5px 15px;
-        font-size: 14px;
-        font-weight: 500;
+    .auth-btn:hover {
+        background-color: #7CB342;
     }
-
-    .auth-buttons .btn-outline-light {
-        color: #fff;
-        border: 1px solid #fff;
-    }
-
-    .auth-buttons .btn-success {
-        color: #fff;
-    }
-

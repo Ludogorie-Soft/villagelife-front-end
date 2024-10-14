@@ -10,73 +10,364 @@
     <link th:href="@{/css/user_css.css}" rel="stylesheet"/>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<!-- Use a different navbar fragment for users if necessary -->
 <div th:if="${message}" class="alert alert-success text-center">
     [[${message}]]
 </div>
-<section class="h-custom" style="min-height: 100vh;">
-    <div style="background-color: #96c930;">
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col-lg-8 col-xl-6">
-                    <div class="card rounded-3">
-                        <img th:src="@{/images/user-register.jpg}" class="w-100"
-                             style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="register form">
-                        <div class="card-body p-4 p-md-5">
-                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 row justify-content-center">Регистрация на потребител</h3>
+<section class="h-custom" style="min-height: 100vh; background-color: #96c930;">
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card rounded-3">
+                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 row justify-content-center">Register Form</h3>
 
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs" id="registerTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual" type="button" role="tab" aria-controls="individual" aria-selected="true">Individual</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="agency-tab" data-bs-toggle="tab" data-bs-target="#agency" type="button" role="tab" aria-controls="agency" aria-selected="false">Agency</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder" type="button" role="tab" aria-controls="builder" aria-selected="false">Builder</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="investor-tab" data-bs-toggle="tab" data-bs-target="#investor" type="button" role="tab" aria-controls="investor" aria-selected="false">Investor</button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="registerTabsContent">
+                        <!-- Individual Tab -->
+                        <div class="tab-pane fade show active" id="individual" role="tabpanel" aria-labelledby="individual-tab">
                             <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">
-                            <div class="mb-3">
+                                <!-- Common Fields -->
+                                <input type="hidden" name="role" th:value="${'USER'}">
+                                <div class="mb-3">
                                     <label for="fullName" class="form-label">Три имена</label>
-                                    <input type="text" class="form-control" id="fullName" name="fullName"
-                                           placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">
-                                    <div th:if="${#fields.hasErrors('fullName')}">
-                                        <span th:errors="*{fullName}" class="text-danger"></span>
-                                    </div>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Имейл</label>
-                                    <input type="email" class="fo   rm-control" id="email" name="email"
-                                           placeholder="Въведете имейл" th:required="true" th:field="*{email}">
-                                    <div th:if="${#fields.hasErrors('email')}"><span th:errors="*{email}" class="text-danger"></span></div>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Потребителско име</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                           placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">
-                                    <div th:if="${#fields.hasErrors('username')}"><span th:errors="*{username}" class="text-danger"></span></div>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Парола</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                           placeholder="Въведете парола" th:required="true" th:field="*{password}">
-                                    <div th:if="${#fields.hasErrors('password')}"><span th:errors="*{password}" class="text-danger"></span></div>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="mobile" class="form-label">Телефонен номер</label>
-                                    <input type="number" class="form-control" id="mobile" name="mobile"
-                                           placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">
-                                    <div th:if="${#fields.hasErrors('mobile')}"><span th:errors="*{mobile}" class="text-danger"></span></div>
+                                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
 
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Agency Tab -->
+                        <div class="tab-pane fade" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">
+                                <input type="hidden" name="role" th:value="${'AGENCY'}">
                                 <div class="mb-3">
-                                    <label for="role" class="form-label">Роля</label>
-                                    <select class="form-control" id="role" name="role" th:required="true" th:field="*{role}">
-                                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-                                    </select>
-                                    <div th:if="${#fields.hasErrors('role')}"><span th:errors="*{role}" class="text-danger"></span></div>
+                                    <label for="fullNameA" class="form-label">Три имена</label>
+                                    <input type="text" class="form-control" id="fullNameA" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
-
-                                <!-- Optional subscription -->
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="subscribe" name="subscribe">
-                                    <label class="form-check-label" for="subscribe">Абонирайте се за бюлетина</label>
+                                <div class="mb-3">
+                                    <label for="emailA" class="form-label">Имейл</label>
+                                    <input type="email" class="form-control" id="emailA" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="usernameA" class="form-label">Потребителско име</label>
+                                    <input type="text" class="form-control" id="usernameA" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordA" class="form-label">Парола</label>
+                                    <input type="password" class="form-control" id="passwordA" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileA" class="form-label">Телефонен номер</label>
+                                    <input type="text" class="form-control" id="mobileA" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleA" class="form-label">Job Title</label>
+                                    <input type="text" class="form-control" id="jobTitleA" name="jobTitle" placeholder="Enter job title" th:field="*{jobTitle}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardNameA" class="form-label">Име на фирмата</label>
+                                    <input type="text" class="form-control" id="cardNameA" name="businessCardDTO.name" placeholder="Въведете име" th:required="true" th:field="*{businessCardDTO.name}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.name')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardEmailA" class="form-label">Имейл на фирмата</label>
+                                    <input type="email" class="form-control" id="cardEmailA" name="businessCardDTO.email" placeholder="Въведете имейл" th:required="true" th:field="*{businessCardDTO.email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardMobileA" class="form-label">Телефонен номер на фирмата</label>
+                                    <input type="text" class="form-control" id="cardMobileA" name="businessCardDTO.phoneNumber" placeholder="Въведете телефонен номер" th:required="true" th:field="*{businessCardDTO.phoneNumber}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessAddressA" class="form-label">Business Address</label>
+                                    <input type="text" class="form-control" id="businessAddressA" name="businessCardDTO.address" placeholder="Enter business address" th:field="*{businessCardDTO.address}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.address')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkA" class="form-label">Website Link</label>
+                                    <input type="text" class="form-control" id="websiteLinkA" name="businessCardDTO.websiteLink" placeholder="Enter website link" th:field="*{businessCardDTO.websiteLink}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.websiteLink')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mn-3">
+                                    <label for="employeesA" class="form-label">Number of employees</label>
+                                    <input type="number" class="form-control" id="employeesA" name="businessCardDTO.numberOfEmployees" placeholder="Enter number of employees" th:field="*{businessCardDTO.numberOfEmployees}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.numberOfEmployees')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>
+                                </div>
+                            </form>
+                        </div>
 
+                        <!-- Builder Tab -->
+                        <div class="tab-pane fade" id="builder" role="tabpanel" aria-labelledby="builder-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">
+                                <input type="hidden" name="role" th:value="${'BUILDER'}">
+                                <div class="mb-3">
+                                    <label for="fullNameB" class="form-label">Три имена</label>
+                                    <input type="text" class="form-control" id="fullNameB" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailB" class="form-label">Имейл</label>
+                                    <input type="email" class="form-control" id="emailB" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usernameB" class="form-label">Потребителско име</label>
+                                    <input type="text" class="form-control" id="usernameB" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordB" class="form-label">Парола</label>
+                                    <input type="password" class="form-control" id="passwordB" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileB" class="form-label">Телефонен номер</label>
+                                    <input type="text" class="form-control" id="mobileB" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleB" class="form-label">Job Title</label>
+                                    <input type="text" class="form-control" id="jobTitleB" name="jobTitle" placeholder="Enter job title" th:field="*{jobTitle}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardNameB" class="form-label">Име на фирмата</label>
+                                    <input type="text" class="form-control" id="cardNameB" name="businessCardDTO.name" placeholder="Въведете име" th:required="true" th:field="*{businessCardDTO.name}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.name')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardEmailB" class="form-label">Имейл на фирмата</label>
+                                    <input type="email" class="form-control" id="cardEmailB" name="businessCardDTO.email" placeholder="Въведете имейл" th:required="true" th:field="*{businessCardDTO.email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardMobileB" class="form-label">Телефонен номер на фирмата</label>
+                                    <input type="text" class="form-control" id="cardMobileB" name="businessCardDTO.phoneNumber" placeholder="Въведете телефонен номер" th:required="true" th:field="*{businessCardDTO.phoneNumber}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessAddressB" class="form-label">Business Address</label>
+                                    <input type="text" class="form-control" id="businessAddressB" name="businessCardDTO.address" placeholder="Enter business address" th:field="*{businessCardDTO.address}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.address')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkB" class="form-label">Website Link</label>
+                                    <input type="text" class="form-control" id="websiteLinkB" name="businessCardDTO.websiteLink" placeholder="Enter website link" th:field="*{businessCardDTO.websiteLink}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.websiteLink')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mn-3">
+                                    <label for="employeesB" class="form-label">Number of employees</label>
+                                    <input type="number" class="form-control" id="employeesB" name="businessCardDTO.numberOfEmployees" placeholder="Enter number of employees" th:field="*{businessCardDTO.numberOfEmployees}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.numberOfEmployees')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Investor Tab -->
+                        <div class="tab-pane fade" id="investor" role="tabpanel" aria-labelledby="investor-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">
+                                <input type="hidden" name="role" th:value="${'INVESTOR'}">
+                                <div class="mb-3">
+                                    <label for="fullNameI" class="form-label">Три имена</label>
+                                    <input type="text" class="form-control" id="fullNameI" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailI" class="form-label">Имейл</label>
+                                    <input type="email" class="form-control" id="emailI" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usernameI" class="form-label">Потребителско име</label>
+                                    <input type="text" class="form-control" id="usernameI" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordI" class="form-label">Парола</label>
+                                    <input type="password" class="form-control" id="passwordI" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileI" class="form-label">Телефонен номер</label>
+                                    <input type="text" class="form-control" id="mobileI" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleI" class="form-label">Job Title</label>
+                                    <input type="text" class="form-control" id="jobTitleI" name="jobTitle" placeholder="Enter job title" th:field="*{jobTitle}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardNameI" class="form-label">Име на фирмата</label>
+                                    <input type="text" class="form-control" id="cardNameI" name="businessCardDTO.name" placeholder="Въведете име" th:required="true" th:field="*{businessCardDTO.name}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.name')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardEmailI" class="form-label">Имейл на фирмата</label>
+                                    <input type="email" class="form-control" id="cardEmailI" name="businessCardDTO.email" placeholder="Въведете имейл" th:required="true" th:field="*{businessCardDTO.email}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.email')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardMobileI" class="form-label">Телефонен номер на фирмата</label>
+                                    <input type="text" class="form-control" id="cardMobileI" name="businessCardDTO.phoneNumber" placeholder="Въведете телефонен номер" th:required="true" th:field="*{businessCardDTO.phoneNumber}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessAddressI" class="form-label">Business Address</label>
+                                    <input type="text" class="form-control" id="businessAddressI" name="businessCardDTO.address" placeholder="Enter business address" th:field="*{businessCardDTO.address}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.address')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkI" class="form-label">Website Link</label>
+                                    <input type="text" class="form-control" id="websiteLinkI" name="businessCardDTO.websiteLink" placeholder="Enter website link" th:field="*{businessCardDTO.websiteLink}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.websiteLink')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mn-3">
+                                    <label for="employeesI" class="form-label">Number of employees</label>
+                                    <input type="number" class="form-control" id="employeesI" name="businessCardDTO.numberOfEmployees" placeholder="Enter number of employees" th:field="*{businessCardDTO.numberOfEmployees}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('businessCardDTO.numberOfEmployees')}" th:text="${err}" class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>
                                 </div>
@@ -88,8 +379,238 @@
         </div>
     </div>
 </section>
+<script>
+    document.querySelectorAll('.nav-link').forEach(tab => {
+    tab.addEventListener('click', function() {
+        localStorage.setItem('activeTab', this.id);
+    });
+});
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/scripts.js"></script>
+// Set active tab from localStorage on page load
+window.onload = function() {
+    const activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+        const tabToActivate = document.getElementById(activeTab);
+        if (tabToActivate) {
+            tabToActivate.click();
+        }
+    }
+};
+</script>
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Регистрация на потребител - VillageLife</title>-->
+<!--    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">-->
+<!--    <link rel="icon" type="image/x-icon" th:href="@{/images/tree.png}"/>-->
+<!--    <link th:href="@{/css/user_css.css}" rel="stylesheet"/>-->
+
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:if="${message}" class="alert alert-success text-center">-->
+<!--    [[${message}]]-->
+<!--</div>-->
+<!--<section class="h-custom" style="min-height: 100vh; background-color: #96c930;">-->
+<!--    <div class="container py-5">-->
+<!--        <div class="row d-flex justify-content-center align-items-center">-->
+<!--            <div class="col-lg-8 col-xl-6">-->
+<!--                <div class="card rounded-3">-->
+<!--                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 row justify-content-center">Register Form</h3>-->
+
+<!--                    &lt;!&ndash; Tab Navigation &ndash;&gt;-->
+<!--                    <ul class="nav nav-tabs" id="registerTabs" role="tablist">-->
+<!--                        <li class="nav-item" role="presentation">-->
+<!--                            <button class="nav-link active" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual" type="button" role="tab" aria-controls="individual" aria-selected="true">Individual</button>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item" role="presentation">-->
+<!--                            <button class="nav-link" id="agency-tab" data-bs-toggle="tab" data-bs-target="#agency" type="button" role="tab" aria-controls="agency" aria-selected="false">Agency</button>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item" role="presentation">-->
+<!--                            <button class="nav-link" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder" type="button" role="tab" aria-controls="builder" aria-selected="false">Builder</button>-->
+<!--                        </li>-->
+<!--                        <li class="nav-item" role="presentation">-->
+<!--                            <button class="nav-link" id="investor-tab" data-bs-toggle="tab" data-bs-target="#investor" type="button" role="tab" aria-controls="investor" aria-selected="false">Investor</button>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+
+<!--                    &lt;!&ndash; Tab Content &ndash;&gt;-->
+<!--                    <div class="tab-content" id="registerTabsContent">-->
+<!--                        &lt;!&ndash; Individual Tab &ndash;&gt;-->
+<!--                        <div class="tab-pane fade show active" id="individual" role="tabpanel" aria-labelledby="individual-tab">-->
+<!--                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">-->
+<!--                                &lt;!&ndash; Common Fields &ndash;&gt;-->
+<!--                                <input type="hidden" name="role" th:value="${'USER'}">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="fullName" class="form-label">Три имена</label>-->
+<!--                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="email" class="form-label">Имейл</label>-->
+<!--                                    <input type="email" class="form-control" id="email" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="username" class="form-label">Потребителско име</label>-->
+<!--                                    <input type="text" class="form-control" id="username" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="password" class="form-label">Парола</label>-->
+<!--                                    <input type="password" class="form-control" id="password" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="mobile" class="form-label">Телефонен номер</label>-->
+<!--                                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+
+<!--                                &lt;!&ndash; Submit Button &ndash;&gt;-->
+<!--                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">-->
+<!--                                    <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Agency Tab &ndash;&gt;-->
+<!--                        <div class="tab-pane fade" id="agency" role="tabpanel" aria-labelledby="agency-tab">-->
+<!--                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}" method="post">-->
+<!--                                <input type="hidden" name="role" th:value="${'AGENCY'}">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="fullNameA" class="form-label">Три имена</label>-->
+<!--                                    <input type="text" class="form-control" id="fullNameA" name="fullName" placeholder="Въведете трите си имена" th:required="true" th:field="*{fullName}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="emailA" class="form-label">Имейл</label>-->
+<!--                                    <input type="email" class="form-control" id="emailA" name="email" placeholder="Въведете имейл" th:required="true" th:field="*{email}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="usernameA" class="form-label">Потребителско име</label>-->
+<!--                                    <input type="text" class="form-control" id="usernameA" name="username" placeholder="Въведете потребителско име" th:required="true" th:field="*{username}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="passwordA" class="form-label">Парола</label>-->
+<!--                                    <input type="password" class="form-control" id="passwordA" name="password" placeholder="Въведете парола" th:required="true" th:field="*{password}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="mobileA" class="form-label">Телефонен номер</label>-->
+<!--                                    <input type="text" class="form-control" id="mobileA" name="mobile" placeholder="Въведете телефонен номер" th:required="true" th:field="*{mobile}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="jobTitleA" class="form-label">Job Title</label>-->
+<!--                                    <input type="text" class="form-control" id="jobTitleA" name="jobTitle" placeholder="Enter job title" th:field="*{jobTitle}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="cardNameA" class="form-label">Име на фирмата</label>-->
+<!--                                    <input type="text" class="form-control" id="cardNameA" name="businessCardDTO.name" placeholder="Въведете име" th:required="true" th:field="*{businessCardDTO.name}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.name')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="cardEmailA" class="form-label">Имейл на фирмата</label>-->
+<!--                                    <input type="email" class="form-control" id="cardEmailA" name="businessCardDTO.email" placeholder="Въведете имейл" th:required="true" th:field="*{businessCardDTO.email}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.email')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="cardMobileA" class="form-label">Телефонен номер на фирмата</label>-->
+<!--                                    <input type="text" class="form-control" id="cardMobileA" name="businessCardDTO.phoneNumber" placeholder="Въведете телефонен номер" th:required="true" th:field="*{businessCardDTO.phoneNumber}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="businessAddressA" class="form-label">Business Address</label>-->
+<!--                                    <input type="text" class="form-control" id="businessAddressA" name="businessCardDTO.address" placeholder="Enter business address" th:field="*{businessCardDTO.address}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.address')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="websiteLinkA" class="form-label">Website Link</label>-->
+<!--                                    <input type="text" class="form-control" id="websiteLinkA" name="businessCardDTO.websiteLink" placeholder="Enter website link" th:field="*{businessCardDTO.websiteLink}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.websiteLink')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="mn-3">-->
+<!--                                    <label for="employeesA" class="form-label">Number of employees</label>-->
+<!--                                    <input type="number" class="form-control" id="employeesA" name="businessCardDTO.numberOfEmployees" placeholder="Enter number of employees" th:field="*{businessCardDTO.numberOfEmployees}">-->
+<!--                                    <ul class="error-list">-->
+<!--                                        <li th:each="err : ${#fields.errors('businessCardDTO.numberOfEmployees')}" th:text="${err}" class="error text-danger"></li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash; Submit Button &ndash;&gt;-->
+<!--                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">-->
+<!--                                    <button type="submit" class="btn btn-primary btn-lg">Регистриране</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--<script>-->
+<!--    document.querySelectorAll('.nav-link').forEach(tab => {-->
+<!--    tab.addEventListener('click', function() {-->
+<!--        localStorage.setItem('activeTab', this.id);-->
+<!--    });-->
+<!--});-->
+
+<!--// Set active tab from localStorage on page load-->
+<!--window.onload = function() {-->
+<!--    const activeTab = localStorage.getItem('activeTab');-->
+<!--    if (activeTab) {-->
+<!--        const tabToActivate = document.getElementById(activeTab);-->
+<!--        if (tabToActivate) {-->
+<!--            tabToActivate.click();-->
+<!--        }-->
+<!--    }-->
+<!--};-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+

@@ -2,6 +2,7 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.BusinessCardDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
@@ -36,11 +37,15 @@ public class AuthController {
     private static final String ADMINS = "admins";
     private static final String ATTRIBUTE_MESSAGE = "message";
     private static final String ATTRIBUTE_ROLES = "roles";
+    private static final String ADMIN_NEW = "adminNew";
+    private static final String REDIRECT_HOME_PAGE = "redirect:/";
 
 
     @GetMapping("/register-user")
     public String createUser(Model model) {
-        model.addAttribute("adminNew", new RegisterRequest());  // Use RegisterRequest, not AdministratorRequest
+        RegisterRequest request = new RegisterRequest();
+        request.setBusinessCardDTO(new BusinessCardDTO());
+        model.addAttribute(ADMIN_NEW, request);
         model.addAttribute(ATTRIBUTE_ROLES, List.of(Role.USER, Role.AGENCY, Role.BUILDER, Role.INVESTOR));
         return "user/register_form";
     }
@@ -59,7 +64,7 @@ public class AuthController {
             AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
 
             model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute("adminNew", new AdministratorRequest());
+            model.addAttribute(ADMIN_NEW, new AdministratorRequest());
             model.addAttribute(ATTRIBUTE_ROLES, Role.ADMIN);
         } else {
             throw new ApiRequestException("Unauthorized: Invalid request");
@@ -72,11 +77,16 @@ public class AuthController {
                                BindingResult bindingResult, Model model,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
-            return "user/register_form";
+            redirectAttributes.addFlashAttribute("registrationModal", true);
+            System.out.println("----1");
+            redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+            System.out.println("----2");
+            return REDIRECT_HOME_PAGE;
         }
         String message = authClient.register(request);
+        System.out.println("----3");
         redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
+        System.out.println("----4");
         return "redirect:/auth/verify-verification-token";
     }
 
@@ -107,10 +117,12 @@ public class AuthController {
         ResponseEntity<AuthenticationResponce> authResponse;
         authResponse = authClient.authenticate(request);
         String token = Objects.requireNonNull(authResponse.getBody()).getToken();
-        ResponseEntity<AlternativeUserDTO> administratorDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
+        ResponseEntity<AlternativeUserDTO> altUserDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
         session.setAttribute(SESSION_NAME, token);
-        session.setAttribute("info", administratorDTO.getBody());
-        return "redirect:/admins/village";
+        session.setAttribute("info", altUserDTO.getBody());
+        if (altUserDTO.getBody().getRole().equals(Role.ADMIN))
+            return "redirect:/admins/village";
+        return REDIRECT_HOME_PAGE;
     }
 
     @GetMapping("/verify-verification-token")
@@ -130,6 +142,6 @@ public class AuthController {
 
         String message = authClient.verifyVerificationToken(verificationRequest);
         model.addAttribute(ATTRIBUTE_MESSAGE, message);
-        return "HomePage";
+        return REDIRECT_HOME_PAGE;
     }
 }

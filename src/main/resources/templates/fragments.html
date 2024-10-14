@@ -31,6 +31,11 @@
                 <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
             </div>
         </div>
+        <button type="button" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Login
+        </button>
+<!--        <a th:href="@{/auth/register-user}" class="auth-btn">Register</a>-->
+        <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
     </div>
 </div>
 
@@ -198,6 +203,10 @@
             <hr>
             <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span
                     th:text="#{header.addVillage}"></span></a>
+            <hr>
+            <a href="#" class="btn" role="button" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
+            <hr>
+            <a th:href="@{/auth/register-user}" class="btn" role="button">Register</a>
             <hr>
             <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
             <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
