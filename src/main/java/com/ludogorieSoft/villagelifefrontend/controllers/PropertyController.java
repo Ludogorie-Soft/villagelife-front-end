@@ -116,12 +116,14 @@ public class PropertyController {
         List<byte[]> propertyImagesBytes =propertyImages.stream()
                 .map(this::convertImageToBytes)
                 .toList();
-        if (propertyDTO.getImages() == null) {
+        if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty()) {
             propertyDTO.setImages(new ArrayList<>());
         }
-        for (int i = 0; i < propertyDTO.getImages().size(); i++) {
-            propertyDTO.getImages().get(i).setPropertyImageBytes(propertyImagesBytes.get(i));
-            System.out.println(propertyDTO.getImages().get(i).getPropertyImageBytes());
+
+        for (byte[] imageBytes : propertyImagesBytes) {
+            PropertyImageDTO propertyImageDTO = new PropertyImageDTO();
+            propertyImageDTO.setPropertyImageBytes(imageBytes);
+            propertyDTO.getImages().add(propertyImageDTO);
         }
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setPropertyUserDTO(getLoggedPropertyUserDTO(session));
