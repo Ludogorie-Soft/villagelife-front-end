@@ -39,6 +39,7 @@ public class PropertyDTO {
     private OwnershipType ownershipType;
     private PropertyCondition propertyCondition;
     private byte[] mainImageBytes;
+    private String heatingText;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
