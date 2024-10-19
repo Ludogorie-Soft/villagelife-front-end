@@ -9,7 +9,12 @@ import com.ludogorieSoft.villagelifefrontend.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,11 +40,14 @@ public class PropertyDTO {
     private ConstructionType constructionType;
     private int constructionYear;
     private String extras;
+    private String description;
+    private String address;
     private PropertyStatsDTO propertyStatsDTO;
     private OwnershipType ownershipType;
     private PropertyCondition propertyCondition;
     private byte[] mainImageBytes;
     private String heatingText;
+
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
