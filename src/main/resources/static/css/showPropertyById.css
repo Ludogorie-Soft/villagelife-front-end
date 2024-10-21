@@ -91,13 +91,15 @@
     section{
         margin-top: 70px;
     }
-    .general-information .property-info{
+    .properties-dimensions .property-info,
+    .construction-condition .property-info {
         color: #707070;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
     }
-    .general-information .info-title {
+    .properties-dimensions .info-title,
+    .construction-condition .property-info {
         font-weight: 500;
     }
     hr{
@@ -106,136 +108,29 @@
         border: none;
     }
 
-    .heating-row {
+    .heating-row,
+    .condition-row {
       margin-right: 15px;
     }
     @media screen and (max-width: 768px) {
-        .heating-row {
+        .heating-row,
+        .condition-row  {
           margin-right: 35px;
         }
     }
     @media screen and (max-width: 575px) {
-        .heating-row {
+        .heating-row,
+        .condition-row  {
              margin-right: 0;
         }
-        .heating-col {
+        .heating-col,
+        .condition-col {
             padding-right: 0;
         }
         .container{
             padding-left: 25px;
             padding-right: 25px;
         }
-    }
-
-
-
-
-    .lightbox-form-wrap {
-        max-width: 400px;
-        margin: 50px auto;
-        position: -webkit-sticky;
-        position: sticky;
-        top: 20px;
-    }
-
-    .property-form .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-control-sm {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: none;
-        transition: border-color 0.2s ease-in-out;
-    }
-
-    .form-control-sm:focus {
-        outline: none;
-        border-color: #3498db;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        font-size: 14px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-    .btn-secondary {
-        background-color: #3498db;
-        color: #fff;
-    }
-
-    .btn-secondary:hover {
-        background-color: #2980b9;
-    }
-
-    .btn-secondary-outlined {
-        border: 2px solid #3498db;
-        color: #3498db;
-        background-color: transparent;
-    }
-
-    .btn-secondary-outlined:hover {
-        background-color: #3498db;
-        color: #fff;
-    }
-
-    .btn-half-width {
-        width: 48%;
-        margin-right: 4%;
-    }
-
-    .btn-half-width:last-child {
-        margin-right: 0;
-    }
-
-    .btn-secondary-outlined.show-on-click {
-        display: none;
-    }
-
-    .btn-secondary-outlined.show-on-click.active {
-        display: inline-block;
-    }
-
-    .btn-secondary-outlined.hide-on-click {
-        display: inline-block;
-    }
-
-    .btn-secondary-outlined.hide-on-click.active {
-        display: none;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-    }
-
-    .form-group label {
-        font-size: 14px;
-        color: #444;
-    }
-
-    .form-group label a {
-        text-decoration: none;
-        color: #96c930;
-        font-weight: bold;
-    }
-
-
-    .d-flex.align-items-center {
-        justify-content: center;
-        align-items: center;
-    }
-
-    .information-wrap {
-      margin-left: 10px;
     }
 
     .print-button {
@@ -256,58 +151,10 @@
         background-image: url('/images/printer-white.png');
         background-color: black;
     }
-    .btn-separation {
-        margin-right: 30px;
-    }
 
-    .btn-equal-size {
-        width: 100%;
-    }
-    .btn-separation {
-        margin-right: 30px;
-    }
-
-    .btn-equal-size {
-        width: 100%;
-    }
-    .btn-separation {
-        margin-right: 30px;
-    }
-
-    .btn-equal-size {
-        width: 100%;
-    }
-
-    .error-list {
-        list-style-type: none;
-        padding: 0;
-    }
-    .hidden {
-        display: none;
-    }
-    #toggleButton {
-        height: 40px;
-        float: right;
-        font-size: 20px;
-        margin-right: 5px;
-        background-color: transparent;
-        border: solid 1px black;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-    }
-    #toggleButton:hover {
-         box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-    }
-
-    @media screen and (max-width: 575px) {
-        #toggleButton span {
-            display: none;
-        }
-        #toggleBtnIcon {
-            padding-bottom: 3px;
-        }
-        #toggleButton {
-            border: none;
-            font-size: 28px;
-        }
+    .sticky-form {
+        max-width: 400px;
+        margin: 50px auto;
+        position: sticky;
+        top: 20px;
     }
