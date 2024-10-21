@@ -229,42 +229,42 @@
         <label for="price">Price:</label>
         <input type="number" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" required><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Phone Number -->
         <label for="phoneNumber">Phone Number:</label>
         <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" required><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Build-Up Area -->
         <label for="buildUpArea">Build-Up Area:</label>
         <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" required><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Yard Area -->
         <label for="yardArea">Yard Area:</label>
         <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea"><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Rooms Count -->
         <label for="roomsCount">Rooms Count:</label>
         <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" required><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Bathrooms Count -->
         <label for="bathroomsCount">Bathrooms Count:</label>
         <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" required><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Heating Text -->

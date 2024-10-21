@@ -1,5 +1,6 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class PropertyController {
     private PropertyClient propertyClient;
     private VillageClient villageClient;
+    private PropertyValidator propertyValidator;
     private static final String PROPERTY_DTO_NAME = "propertyDTO";
     private static final String PROPERTY_SAVE = "/save";
     private static final String REDIRECT_INDEX = "redirect:/";
@@ -51,7 +53,8 @@ public class PropertyController {
         return "/property/create-property";
     }
     @PostMapping(PROPERTY_SAVE)
-    public String submitProperty(@Valid @ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+        propertyValidator.validate(propertyDTO, bindingResult); // Само ръчна валидация
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
