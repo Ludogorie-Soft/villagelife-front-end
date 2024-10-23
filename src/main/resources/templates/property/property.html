@@ -68,11 +68,9 @@
 
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
-        <img alt="image pointer" th:src="@{/images/point.png}" class="point-icon"><span th:text="#{village}"></span>
-        <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
-        <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-        <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-        <span th:text="#{region}"></span> <span th:text="#{${property.villageDTO.region}}"></span>
+        <img alt="image pointer" th:src="@{/images/point.png}" class="point-icon">
+        <span th:text="#{region}"></span> <span th:text="#{${property.villageDTO.region}}"></span><span th:text="', ' + #{village}"></span><span th:if="${#locale.language == 'bg'}" th:text="' ' + ${property.villageDTO.name}"></span><span th:if="${#locale.language == 'en'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:if="${#locale.language == 'de'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:text="', ' + ${property.address}"></span>
+
     </div>
 
 
@@ -166,7 +164,7 @@
                         <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="row">
                                 <span class="info-title col" th:text="#{property.construction.type} + ':'"></span>
-                                <span th:text="${property.constructionType}" class="property-info col"></span>
+                                <span th:text="#{${property.constructionType.key}}" class="property-info col"></span>
                                 <hr>
                             </div>
                         </div>
@@ -180,7 +178,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div>
                                 <span class="info-title col" th:text="#{property.condition} + ':'"></span>
-                                <span th:text="${property.propertyCondition}" class="condition property-info" style="display: inline; padding-left: 4px; margin: 0; float: right;"></span>
+                                <span th:text="#{${property.propertyCondition.key}}" class="condition property-info" style="display: inline; padding-left: 4px; margin: 0; float: right;"></span>
                                 <hr>
                             </div>
                         </div>
