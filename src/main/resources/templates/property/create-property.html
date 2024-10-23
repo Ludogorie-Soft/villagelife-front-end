@@ -200,22 +200,31 @@
     <form action="/properties/save" method="post" enctype="multipart/form-data">
         <!-- Village Name and Region -->
         <label for="villageDTO">Village:</label>
-        <input type="text" id="villageDTO" name="villageDTO.name" required><br><br>
+        <input type="text" id="villageDTO" name="villageDTO.name"><br><br>
+        <ul class="error-list">
+            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="${err}" class="error text-danger"></li>
+        </ul>
 
         <label for="region">Region:</label>
-        <input type="text" id="region" name="villageDTO.region" required><br><br>
+        <input type="text" id="region" name="villageDTO.region" ><br><br>
+        <ul class="error-list">
+            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="${err}" class="error text-danger"></li>
+        </ul>
 
         <!-- Property Type -->
         <label for="propertyType">Property Type:</label>
-        <select id="propertyType" name="propertyType" required>
+        <select id="propertyType" name="propertyType" >
             <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
                     th:value="${propertyType1}" th:text="${propertyType1}">
             </option>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="${err}" class="error text-danger"></li>
+            </ul>
         </select><br><br>
 
         <!-- Property Transfer Type -->
         <label for="propertyTransferType">Property Transfer Type:</label>
-        <select id="propertyTransferType" name="propertyTransferType" required>
+        <select id="propertyTransferType" name="propertyTransferType" >
             <option th:each="propertyTransferType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType).values()}"
                     th:value="${propertyTransferType1}" th:text="${propertyTransferType1}">
             </option>
@@ -223,25 +232,28 @@
 
         <!-- Address -->
         <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required><br><br>
+        <input type="text" id="address" name="address" ><br><br>
+        <ul class="error-list">
+            <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="${err}" class="error text-danger"></li>
+        </ul>
 
         <!-- Price -->
         <label for="price">Price:</label>
-        <input type="number" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" required><br><br>
+        <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price"><br><br>
         <ul class="error-list">
             <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Phone Number -->
         <label for="phoneNumber">Phone Number:</label>
-        <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" required><br><br>
+        <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" ><br><br>
         <ul class="error-list">
             <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Build-Up Area -->
         <label for="buildUpArea">Build-Up Area:</label>
-        <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" required><br><br>
+        <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" ><br><br>
         <ul class="error-list">
             <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="${err}" class="error text-danger"></li>
         </ul>
@@ -255,27 +267,30 @@
 
         <!-- Rooms Count -->
         <label for="roomsCount">Rooms Count:</label>
-        <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" required><br><br>
+        <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" ><br><br>
         <ul class="error-list">
             <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Bathrooms Count -->
         <label for="bathroomsCount">Bathrooms Count:</label>
-        <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" required><br><br>
+        <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" ><br><br>
         <ul class="error-list">
             <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="${err}" class="error text-danger"></li>
         </ul>
 
         <!-- Heating Text -->
         <label for="heatingText">Heating Types:</label>
-        <input type="text" id="heatingText" name="heatingText" required><br><br>
+        <input type="text" id="heatingText" name="heatingText" ><br><br>
 
         <!-- Property Images -->
         <div class="mb-3">
             <label for="formFileForMultiple" class="form-label fw-bold">Upload Property Images:</label>
             <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*">
             <span class="text-muted">You can upload multiple images.</span>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="${err}" class="error text-danger"></li>
+            </ul>
         </div>
 
         <!-- Main Image -->
@@ -283,11 +298,14 @@
             <label for="formFileMultiple" class="form-label fw-bold">Upload Main Image:</label>
             <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*">
             <span class="text-muted">Upload a main image for the property.</span>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="${err}" class="error text-danger"></li>
+            </ul>
         </div>
 
         <!-- Construction Type -->
         <label for="constructionType">Construction Type:</label>
-        <select id="constructionType" name="constructionType" required>
+        <select id="constructionType" name="constructionType" >
             <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
                     th:value="${constructionType1}" th:text="${constructionType1}">
             </option>
@@ -295,7 +313,7 @@
 
         <!-- Construction Year -->
         <label for="constructionYear">Construction Year:</label>
-        <input type="number" id="constructionYear" name="constructionYear" min="1800" max="2024" required><br><br>
+        <input type="text" id="constructionYear" name="constructionYear"><br><br>
 
         <!-- Extras -->
         <label for="extras">Extras:</label>
@@ -303,23 +321,32 @@
 
         <!-- Ownership Type -->
         <label for="ownershipType">Ownership Type:</label>
-        <select id="ownershipType" name="ownershipType" required>
+        <select id="ownershipType" name="ownershipType" >
             <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
                     th:value="${ownershipType1}" th:text="${ownershipType1}">
             </option>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="${err}" class="error text-danger"></li>
+            </ul>
         </select><br><br>
 
         <!-- Property Condition -->
         <label for="propertyCondition">Property Condition:</label>
-        <select id="propertyCondition" name="propertyCondition" required>
+        <select id="propertyCondition" name="propertyCondition" >
             <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
                     th:value="${propertyCondition1}" th:text="${propertyCondition1}">
             </option>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="${err}" class="error text-danger"></li>
+            </ul>
         </select><br><br>
 
         <!-- Description -->
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required><br><br>
+        <input type="text" id="description" name="description" ><br><br>
+        <ul class="error-list">
+            <li th:each="err : ${#fields.errors('propertyDTO.description')}" th:text="${err}" class="error text-danger"></li>
+        </ul>
 
         <!-- Submit Button -->
         <input type="submit" value="Submit" class="btn btn-primary">

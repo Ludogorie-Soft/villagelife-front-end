@@ -54,19 +54,6 @@ public class PropertyController {
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
-        propertyValidator.validate(propertyDTO, bindingResult); // Само ръчна валидация
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
-            redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
-            return "redirect:/properties/add";
-        }
-        VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
-        if (villageDTO == null) {
-            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "The village is not found!");
-            redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
-            return "redirect:/properties/add";
-        }
-
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
 
@@ -82,6 +69,19 @@ public class PropertyController {
             propertyImageDTO.setPropertyImageBytes(imageBytes);
             propertyDTO.getImages().add(propertyImageDTO);
         }
+        propertyValidator.validate(propertyDTO, bindingResult); // Само ръчна валидация
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
+            redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
+            return "redirect:/properties/add";
+        }
+        VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
+        if (villageDTO == null) {
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, "The village is not found!");
+            redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
+            return "redirect:/properties/add";
+        }
+
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setPropertyUserDTO(getLoggedPropertyUserDTO(session));
         propertyClient.createProperty(propertyDTO);

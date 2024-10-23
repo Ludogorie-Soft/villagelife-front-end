@@ -27,6 +27,7 @@ public class PropertyDTO {
     private Long id;
     private VillageDTO villageDTO;
     private PropertyUserDTO propertyUserDTO;
+    @NotNull(message = "Property type is required.")
     private PropertyType propertyType;
     private PropertyTransferType propertyTransferType;
 
@@ -37,31 +38,36 @@ public class PropertyDTO {
     @Size(min = 10, message = "Phone number should be at least 10 characters long!")
     private String phoneNumber;
 
-    @NotNull(message = "This field is required")
-    @Min(value = 0, message = "Must be greater than or equal to 0")
+//    @NotNull(message = "This field is required")
+//    @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double buildUpArea;
 
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double yardArea;
 
-    @NotNull(message = "This field is required")
-    @Min(value = 0, message = "Must be greater than or equal to 0")
+//    @NotNull(message = "This field is required")
+//    @Min(value = 0, message = "Must be greater than or equal to 0")
     private int roomsCount;
 
-    @NotNull(message = "This field is required")
-    @Min(value = 0, message = "Must be greater than or equal to 0")
+//    @NotNull(message = "This field is required")
+//    @Min(value = 0, message = "Must be greater than or equal to 0")
     private int bathroomsCount;
     private List<String> heating;
     private List<PropertyImageDTO> images;
     private String imageUrl;
     private ConstructionType constructionType;
-    private int constructionYear;
+    private String constructionYear;
     private String extras;
+    @NotBlank(message = "Description is required and cannot be blank.")
+    @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters long.")
     private String description;
+    @NotBlank(message = "Address is required and cannot be blank.")
     private String address;
     private PropertyStatsDTO propertyStatsDTO;
+    @NotNull(message = "Ownership type is required.")
     private OwnershipType ownershipType;
+    @NotNull(message = "Property condition is required.")
     private PropertyCondition propertyCondition;
     private byte[] mainImageBytes;
     private String heatingText;
