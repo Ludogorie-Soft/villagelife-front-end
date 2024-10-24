@@ -54,6 +54,7 @@
 
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <link rel="stylesheet" href="/css/min/addVillage.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <!-- Canonical URL address -->
     <link rel="canonical" href="https://villagelife.bg/villages/create">
@@ -492,6 +493,9 @@
 
     </form>
 </div>
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var invalidFormatMessage = /*[[#{error.invalid.format}]]*/ 'Invalid format. Only JPG and PNG are allowed.';
@@ -511,9 +515,19 @@
 <script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/consentScript.min.js"></script>
 <script src="/js/min/validateGroundCategory.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/validateEthnicity.min.js"></script>
 <script src="/js/min/validate_radio.min.js"></script>
 <script src="/js/min/nameAndRegion.min.js"></script>
 <script src="/js/min/updateRequiredConsents.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+
 </body>
 </html>

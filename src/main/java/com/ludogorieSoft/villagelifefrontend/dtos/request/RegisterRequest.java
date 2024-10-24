@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -15,27 +17,25 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @NotBlank(message = "Full name cannot be empty!")
-    @Length(min = 2, message = "Full name should be at least than 2 characters long!")
+    @Length(min = 2, max = 255, message = "register.request.validations.full.name.length")
     private String fullName;
 
-    @NotBlank(message = "Email cannot be empty!")
-    @Email(message = "Please enter a valid email address!")
+    @Email(message = "register.request.validations.email.valid")
+    @Length(min = 3, max = 255, message = "register.request.validations.email.length")
     private String email;
 
-    @NotBlank(message = "Username cannot be empty!")
-    @Length(min=3, max = 10, message = "Username should be from 3 to 10 characters long!")
+    @Length(min=3, max = 10, message = "register.request.validations.username.length")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty!")
-    @Length(min = 8, message = "Password should be at least 8 characters long!")
+    @Length(min = 8, max = 255, message = "register.request.validations.password.length")
     private String password;
 
-    @Length(min = 10, message = "Phone number should be at least 10 numbers long!")
+    @Length(min = 10, max = 255, message = "register.request.validations.phone.number.length")
     private String mobile;
 
     private Role role;
 
+    @Length(max = 255, message = "register.request.validations.job.title.length")
     private String jobTitle;
 
     private BusinessCardDTO businessCardDTO;

@@ -31,11 +31,13 @@
                 <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
             </div>
         </div>
-        <button type="button" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-            Login
-        </button>
-<!--        <a th:href="@{/auth/register-user}" class="auth-btn">Register</a>-->
-        <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
+        <div th:unless="${session.admin}">
+            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal" th:text="#{auth.log.in}" style="color: white;"></a>
+            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>
+        </div>
+        <div th:if="${session.admin}">
+            <a class="auth-btn" th:href="@{/auth/logout}" th:text="#{auth.log.out}" style="color: white;"></a>
+        </div>
     </div>
 </div>
 
@@ -176,6 +178,21 @@
             </div>
         </div>
     </div>
+
+    <div th:if="${verificationSuccessMessage != null}">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                         style="width: 25px;">
+                    <strong class="me-auto">Village Life</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" th:text="#{${verificationSuccessMessage}}"
+                     style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -204,10 +221,17 @@
             <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span
                     th:text="#{header.addVillage}"></span></a>
             <hr>
-            <a href="#" class="btn" role="button" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
-            <hr>
-            <a th:href="@{/auth/register-user}" class="btn" role="button">Register</a>
-            <hr>
+            <div th:unless="${session.admin}">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="fa-solid fa-right-to-bracket"></i> <span th:text="#{auth.log.in}"></span></a>
+                <hr>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>
+                <hr>
+            </div>
+
+            <div th:if="${session.admin}">
+                <a th:href="@{/auth/logout}"><i class="fa-solid fa-right-to-bracket"></i><span th:text="#{auth.log.out}"></span></a>
+                <hr>
+            </div>
             <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
             <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
             <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>

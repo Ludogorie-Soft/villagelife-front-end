@@ -1,0 +1,599 @@
+<div th:fragment="loginModal">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
+         th:attr="data-show-modal=${loginModal}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel" th:text="#{auth.log.in}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:if="${credentialError != null}" th:text="#{${credentialError}}"
+                         class="error text-danger"></div>
+                    <form th:object="${admins}" th:action="@{/auth/authenticate}" method="post">
+                        <div class="mb-4">
+                            <label for="username1" class="form-label" th:text="#{auth.username}"></label>
+                            <input type="text" class="form-control" id="username1" name="username"
+                                   th:placeholder="#{auth.username.placeholder}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password1" class="form-label" th:text="#{auth.password}"></label>
+                            <input type="password" class="form-control" id="password1" name="password"
+                                   th:placeholder="#{auth.password.placeholder}" required>
+                        </div>
+                        <button type="submit" class="auth-btn w-100" th:text="#{auth.log.in}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="verificationModal">
+
+    <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true"
+         th:attr="data-show-modal=${verificationModal}">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verificationModalLabel" th:text="#{verification.token.title}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div th:if="${verificationTokenError != null}" th:text="#{${verificationTokenError}}" class="error text-danger"></div>
+                    <form th:action="@{/auth/verify-verification-token}" method="post" th:object="${verificationRequest}">
+                        <div class="mb-3">
+                            <label for="emailV" class="form-label" th:text="#{auth.email}"></label>
+                            <input type="email" class="form-control" th:field="*{email}" id="emailV" th:placeholder="#{auth.email.placeholder}" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="token" class="form-label" th:text="#{verification.token}"></label>
+                            <input type="text" class="form-control" th:field="*{token}" id="token" th:placeholder="#{verification.token.placeholder}" required />
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary" th:text="#{verification.token.verify}"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="registrationModal">
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true"
+         th:attr="data-show-modal=${registrationModal}">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel" th:text="#{auth.user.registration}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs" id="registerTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="individual-tab" data-bs-toggle="tab"
+                                    data-bs-target="#individual" type="button" role="tab" aria-controls="individual"
+                                    aria-selected="true" th:text="#{auth.individual}">
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="agency-tab" data-bs-toggle="tab" data-bs-target="#agency"
+                                    type="button" role="tab" aria-controls="agency" aria-selected="false"
+                                    th:text="#{auth.agency}">
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="builder-tab" data-bs-toggle="tab" data-bs-target="#builder"
+                                    type="button" role="tab" aria-controls="builder" aria-selected="false"
+                                    th:text="#{auth.builder}">
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="investor-tab" data-bs-toggle="tab" data-bs-target="#investor"
+                                    type="button" role="tab" aria-controls="investor" aria-selected="false"
+                                    th:text="#{auth.investor}">
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="registerTabsContent">
+                        <!-- Individual Tab -->
+                        <div class="tab-pane fade show active" id="individual" role="tabpanel"
+                             aria-labelledby="individual-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
+                                  method="post">
+                                <!-- Common Fields -->
+                                <input type="hidden" name="role" th:value="${'USER'}">
+                                <div class="mb-3">
+                                    <label for="fullName" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
+                                           th:placeholder="#{auth.three.names.placeholder}">
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailU" class="form-label" th:text="#{auth.email}"></label>
+                                    <input type="email" class="form-control" id="emailU" th:field="*{email}"
+                                           th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                    <div th:if="${duplicateEmailError != null}" th:text="#{${duplicateEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label" th:text="#{auth.username}"></label>
+                                    <input type="text" class="form-control" id="username" th:field="*{username}"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="2" maxlength="10"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                    <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label" th:text="#{auth.password}"></label>
+                                    <input type="password" class="form-control" id="password" th:field="*{password}"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="8" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobile" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <input type="text" class="form-control" id="mobile" th:field="*{mobile}"
+                                           th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                    <div th:if="${duplicateMobileError != null}" th:text="#{${duplicateMobileError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" style="background-color: #96c930; color: white;"
+                                            class="btn btn-lg" th:text="#{auth.register}">
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Agency Tab -->
+                        <div class="tab-pane fade" id="agency" role="tabpanel" aria-labelledby="agency-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
+                                  method="post">
+                                <input type="hidden" name="role" th:value="${'AGENCY'}">
+                                <div class="mb-3">
+                                    <label for="fullNameA" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <input type="text" class="form-control" id="fullNameA" th:field="*{fullName}"
+                                           th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailA" class="form-label" th:text="#{auth.email}"></label>
+                                    <input type="email" class="form-control" id="emailA" th:field="*{email}"
+                                           th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateEmailError != null}" th:text="#{${duplicateEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usernameA" class="form-label" th:text="#{auth.username}"></label>
+                                    <input type="text" class="form-control" id="usernameA" th:field="*{username}"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           required>
+                                    <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordA" class="form-label" th:text="#{auth.password}"></label>
+                                    <input type="password" class="form-control" id="passwordA" th:field="*{password}"
+                                           th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileA" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <input type="text" class="form-control" id="mobileA" th:field="*{mobile}"
+                                           th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateMobileError != null}" th:text="#{${duplicateMobileError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleA" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <input type="text" class="form-control" id="jobTitleA" th:field="*{jobTitle}"
+                                           th:placeholder="#{auth.job.title.placeholder}" minlength="2" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardNameA" class="form-label"
+                                           th:text="#{auth.business.name}"></label>
+                                    <input type="text" class="form-control" id="businessCardNameA"
+                                           th:field="*{businessCardDTO.name}"
+                                           th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <div id="businessCardNameErrorA" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardEmailA" class="form-label"
+                                           th:text="#{auth.business.email}"></label>
+                                    <input type="email" class="form-control" id="businessCardEmailA"
+                                           th:field="*{businessCardDTO.email}"
+                                           th:placeholder="#{auth.business.email.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <div id="businessCardEmailErrorA" class="text-danger" style="display:none;"></div>
+                                    <div th:if="${duplicateBusinessEmailError != null}"
+                                         th:text="#{${duplicateBusinessEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardPhoneNumberA" class="form-label"
+                                           th:text="#{auth.business.mobile}"></label>
+                                    <input type="text" class="form-control" id="businessCardPhoneNumberA"
+                                           th:field="*{businessCardDTO.phoneNumber}"
+                                           th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
+                                           required>
+                                    <div id="businessCardPhoneNumberErrorA" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardAddressA" class="form-label"
+                                           th:text="#{auth.business.address}"></label>
+                                    <input type="text" class="form-control" id="businessCardAddressA"
+                                           th:field="*{businessCardDTO.address}"
+                                           th:placeholder="#{auth.business.address.placeholder}" minlength="2"
+                                           maxlength="255" required>
+                                    <div id="businessCardAddressErrorA" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkA" class="form-label" th:text="#{auth.business.website}"></label>
+                                    <input type="text" class="form-control" id="websiteLinkA"
+                                           th:field="*{businessCardDTO.websiteLink}"
+                                           th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numberOfEmployeesA" class="form-label"
+                                           th:text="#{auth.business.employees}"></label>
+                                    <input type="number" class="form-control" id="numberOfEmployeesA"
+                                           th:field="*{businessCardDTO.numberOfEmployees}"
+                                           th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
+                                           max="200000000" required>
+                                    <div id="numberOfEmployeesErrorA" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" onclick="return validateBusinessCardDTO()"
+                                            style="background-color: #96c930; color: white;"
+                                            class="btn btn-lg" th:text="#{auth.register}">
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Builder Tab -->
+                        <div class="tab-pane fade" id="builder" role="tabpanel" aria-labelledby="builder-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
+                                  method="post">
+                                <input type="hidden" name="role" th:value="${'BUILDER'}">
+                                <div class="mb-3">
+                                    <label for="fullNameB" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <input type="text" class="form-control" id="fullNameB" th:field="*{fullName}"
+                                           th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailB" class="form-label" th:text="#{auth.email}"></label>
+                                    <input type="email" class="form-control" id="emailB" th:field="*{email}"
+                                           th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateEmailError != null}" th:text="#{${duplicateEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usernameB" class="form-label" th:text="#{auth.username}"></label>
+                                    <input type="text" class="form-control" id="usernameB" th:field="*{username}"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           required>
+                                    <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordB" class="form-label" th:text="#{auth.password}"></label>
+                                    <input type="password" class="form-control" id="passwordB" th:field="*{password}"
+                                           th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileB" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <input type="text" class="form-control" id="mobileB" th:field="*{mobile}"
+                                           th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateMobileError != null}" th:text="#{${duplicateMobileError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleB" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <input type="text" class="form-control" id="jobTitleB" th:field="*{jobTitle}"
+                                           th:placeholder="#{auth.job.title.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardNameB" class="form-label"
+                                           th:text="#{auth.business.name}"></label>
+                                    <input type="text" class="form-control" id="businessCardNameB"
+                                           th:field="*{businessCardDTO.name}"
+                                           th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <div id="businessCardNameErrorB" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardEmailB" class="form-label"
+                                           th:text="#{auth.business.email}"></label>
+                                    <input type="email" class="form-control" id="businessCardEmailB"
+                                           th:field="*{businessCardDTO.email}"
+                                           th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <div id="businessCardEmailErrorB" class="text-danger" style="display:none;"></div>
+                                    <div th:if="${duplicateBusinessEmailError != null}"
+                                         th:text="#{${duplicateBusinessEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardPhoneNumberB" class="form-label"
+                                           th:text="#{auth.business.mobile}"></label>
+                                    <input type="text" class="form-control" id="businessCardPhoneNumberB"
+                                           th:field="*{businessCardDTO.phoneNumber}"
+                                           th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
+                                           required>
+                                    <div id="businessCardPhoneNumberErrorB" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardAddressB" class="form-label"
+                                           th:text="#{auth.business.address}"></label>
+                                    <input type="text" class="form-control" id="businessCardAddressB"
+                                           th:field="*{businessCardDTO.address}"
+                                           th:placeholder="#{auth.business.address.placeholder}" minlength="1"
+                                           maxlength="255" required>
+                                    <div id="businessCardAddressErrorB" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkB" class="form-label" th:text="#{auth.business.website}"></label>
+                                    <input type="text" class="form-control" id="websiteLinkB"
+                                           th:field="*{businessCardDTO.websiteLink}"
+                                           th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numberOfEmployeesB" class="form-label"
+                                           th:text="#{auth.business.employees}"></label>
+                                    <input type="number" class="form-control" id="numberOfEmployeesB"
+                                           th:field="*{businessCardDTO.numberOfEmployees}"
+                                           th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
+                                           max="200000000" required>
+                                    <div id="numberOfEmployeesErrorB" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" onclick="return validateBusinessCardDTO()"
+                                            style="background-color: #96c930; color: white;"
+                                            class="btn btn-lg" th:text="#{auth.register}">
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Investor Tab -->
+                        <div class="tab-pane fade" id="investor" role="tabpanel" aria-labelledby="investor-tab">
+                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
+                                  method="post">
+                                <input type="hidden" name="role" th:value="${'INVESTOR'}">
+                                <div class="mb-3">
+                                    <label for="fullNameI" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <input type="text" class="form-control" id="fullNameI" th:field="*{fullName}"
+                                           th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('fullName')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailI" class="form-label" th:text="#{auth.email}"></label>
+                                    <input type="email" class="form-control" id="emailI" th:field="*{email}"
+                                           th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateEmailError != null}" th:text="#{${duplicateEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('email')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="usernameI" class="form-label" th:text="#{auth.username}"></label>
+                                    <input type="text" class="form-control" id="usernameI" th:field="*{username}"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           required>
+                                    <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordI" class="form-label" th:text="#{auth.password}"></label>
+                                    <input type="password" class="form-control" id="passwordI" th:field="*{password}"
+                                           th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('password')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mobileI" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <input type="text" class="form-control" id="mobileI" th:field="*{mobile}"
+                                           th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
+                                           required>
+                                    <div th:if="${duplicateMobileError != null}" th:text="#{${duplicateMobileError}}"
+                                         class="error text-danger">
+                                    </div>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('mobile')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="jobTitleI" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <input type="text" class="form-control" id="jobTitleI" th:field="*{jobTitle}"
+                                           th:placeholder="#{auth.job.title.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <ul class="error-list">
+                                        <li th:each="err : ${#fields.errors('jobTitle')}" th:text="#{${err}}"
+                                            class="error text-danger"></li>
+                                    </ul>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardNameI" class="form-label"
+                                           th:text="#{auth.business.name}"></label>
+                                    <input type="text" class="form-control" id="businessCardNameI"
+                                           th:field="*{businessCardDTO.name}"
+                                           th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
+                                           required>
+                                    <div id="businessCardNameErrorI" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardEmailI" class="form-label"
+                                           th:text="#{auth.business.email}"></label>
+                                    <input type="email" class="form-control" id="businessCardEmailI"
+                                           th:field="*{businessCardDTO.email}"
+                                           th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
+                                           required>
+                                    <div id="businessCardEmailErrorI" class="text-danger" style="display:none;"></div>
+                                    <div th:if="${duplicateBusinessEmailError != null}"
+                                         th:text="#{${duplicateBusinessEmailError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardPhoneNumberI" class="form-label"
+                                           th:text="#{auth.business.mobile}"></label>
+                                    <input type="text" class="form-control" id="businessCardPhoneNumberI"
+                                           th:field="*{businessCardDTO.phoneNumber}"
+                                           th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
+                                           required>
+                                    <div id="businessCardPhoneNumberErrorI" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="businessCardAddressI" class="form-label"
+                                           th:text="#{auth.business.address}"></label>
+                                    <input type="text" class="form-control" id="businessCardAddressI"
+                                           th:field="*{businessCardDTO.address}"
+                                           th:placeholder="#{auth.business.address.placeholder}" minlength="1"
+                                           maxlength="255" required>
+                                    <div id="businessCardAddressErrorI" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="websiteLinkI" class="form-label" th:text="#{auth.business.website}"></label>
+                                    <input type="text" class="form-control" id="websiteLinkI"
+                                           th:field="*{businessCardDTO.websiteLink}"
+                                           th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numberOfEmployeesI" class="form-label"
+                                           th:text="#{auth.business.employees}"></label>
+                                    <input type="number" class="form-control" id="numberOfEmployeesI"
+                                           th:field="*{businessCardDTO.numberOfEmployees}"
+                                           th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
+                                           max="200000000" required>
+                                    <div id="numberOfEmployeesErrorI" class="text-danger" style="display:none;"></div>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <button type="submit" onclick="return validateBusinessCardDTO()"
+                                            style="background-color: #96c930; color: white;"
+                                            class="btn btn-lg" th:text="#{auth.register}">
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

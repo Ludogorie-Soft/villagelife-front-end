@@ -359,18 +359,3 @@
     .btn {
         font-size: 15px !important;
     }
-
-    .auth-btn {
-        background-color: #96c930;
-        color: white;
-        font-size: 13px;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        margin-left: 10px;
-    }
-
-    .auth-btn:hover {
-        background-color: #7CB342;
-    }

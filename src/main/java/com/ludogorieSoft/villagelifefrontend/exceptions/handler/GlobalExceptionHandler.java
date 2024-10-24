@@ -51,9 +51,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ModelAndView(LOGIN_URL);
     }
     @ExceptionHandler(DuplicateEmailException.class)
-    public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes, HttpServletRequest request, Model model) {
         redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
         String referer = request.getHeader("referer");
+        model.addAttribute("registrationModal", true);
         return new ModelAndView("redirect:" + referer);
     }
     @ExceptionHandler({ImageMaxUploadSizeExceededException.class,MaxUploadSizeExceededException.class})

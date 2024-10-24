@@ -59,6 +59,7 @@
     <link rel="stylesheet" href="/css/min/searchingForm.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <link rel="stylesheet" href="/css/min/sort.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
 
 </head>
 <body>
@@ -209,6 +210,10 @@
 </div>
 </div>
 
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+
 <div th:replace="fragments :: footer"></div>
 <script>
 function updatePageValue(event) {
@@ -236,5 +241,15 @@ function updatePageValue(event) {
 <script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/handleSortChange.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+
 </body>
 </html>
