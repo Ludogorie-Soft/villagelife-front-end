@@ -9,14 +9,14 @@ function validateBusinessCardDTO() {
             let isValid = true;
 
         if (!nameInput || nameInput.value.trim() === '') {
-            showError('businessCardNameErrorA', 'business.card.dto.validations.name.blank');
+            showError('businessCardNameErrorA');
             isValid = false;
         } else {
             hideError('businessCardNameErrorA');
         }
 
         if (!emailInput || emailInput.value.trim() === '') {
-            showError('businessCardEmailErrorA', 'Business email cannot be empty!!!');
+            showError('businessCardEmailErrorA');
             isValid = false;
         } else {
             hideError('businessCardEmailErrorA');
@@ -24,25 +24,22 @@ function validateBusinessCardDTO() {
 
         const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
 
-        if (!phoneNumberInput || phoneNumberInput.value.trim() === '') {
-            showError('businessCardPhoneNumberErrorA', 'Business phone number cannot be empty!!!');
-            isValid = false;
-        } else if (!phonePattern.test(phoneNumberInput.value.trim())) {
-            showError('businessCardPhoneNumberErrorA', 'Business phone number format is invalid!!!');
+        if (!phonePattern.test(phoneNumberInput.value.trim())) {
+            showError('businessCardPhoneNumberErrorA');
             isValid = false;
         } else {
             hideError('businessCardPhoneNumberErrorA');
         }
 
         if (!addressInput || addressInput.value.trim() === '') {
-            showError('businessCardAddressErrorA', 'Business address cannot be empty!!!');
+            showError('businessCardAddressErrorA');
             isValid = false;
         } else {
             hideError('businessCardAddressErrorA');
         }
 
         if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-            showError('numberOfEmployeesErrorA', 'Number of employees cannot be less than 1!!!');
+            showError('numberOfEmployeesErrorA');
             isValid = false;
         } else {
             hideError('numberOfEmployeesErrorA');
@@ -59,14 +56,14 @@ function validateBusinessCardDTO() {
         let isValid = true;
 
         if (!nameInput || nameInput.value.trim() === '') {
-            showError('businessCardNameErrorB', 'Business name cannot be empty!!!');
+            showError('businessCardNameErrorB');
             isValid = false;
         } else {
             hideError('businessCardNameErrorB');
         }
 
         if (!emailInput || emailInput.value.trim() === '') {
-            showError('businessCardEmailErrorB', 'Business email cannot be empty!!!');
+            showError('businessCardEmailErrorB');
             isValid = false;
         } else {
             hideError('businessCardEmailErrorB');
@@ -74,25 +71,22 @@ function validateBusinessCardDTO() {
 
         const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
 
-        if (!phoneNumberInput || phoneNumberInput.value.trim() === '') {
-            showError('businessCardPhoneNumberErrorB', 'Business phone number cannot be empty!!!');
-            isValid = false;
-        } else if (!phonePattern.test(phoneNumberInput.value.trim())) {
-            showError('businessCardPhoneNumberErrorB', 'Business phone number format is invalid!!!');
+        if (!phonePattern.test(phoneNumberInput.value.trim())) {
+            showError('businessCardPhoneNumberErrorB');
             isValid = false;
         } else {
             hideError('businessCardPhoneNumberErrorB');
         }
 
         if (!addressInput || addressInput.value.trim() === '') {
-            showError('businessCardAddressErrorB', 'Business address cannot be empty!!!');
+            showError('businessCardAddressErrorB');
             isValid = false;
         } else {
             hideError('businessCardAddressErrorB');
         }
 
         if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-            showError('numberOfEmployeesErrorB', 'Number of employees cannot be less than 1!!!');
+            showError('numberOfEmployeesErrorB');
             isValid = false;
         } else {
             hideError('numberOfEmployeesErrorB');
@@ -109,14 +103,14 @@ function validateBusinessCardDTO() {
             let isValid = true;
 
             if (!nameInput || nameInput.value.trim() === '') {
-                showError('businessCardNameErrorI', 'Business name cannot be empty!!!');
+                showError('businessCardNameErrorI');
                 isValid = false;
             } else {
                 hideError('businessCardNameErrorI');
             }
 
             if (!emailInput || emailInput.value.trim() === '') {
-                showError('businessCardEmailErrorI', 'Business email cannot be empty!!!');
+                showError('businessCardEmailErrorI');
                 isValid = false;
             } else {
                 hideError('businessCardEmailErrorI');
@@ -124,25 +118,22 @@ function validateBusinessCardDTO() {
 
             const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
 
-            if (!phoneNumberInput || phoneNumberInput.value.trim() === '') {
-                showError('businessCardPhoneNumberErrorI', 'Business phone number cannot be empty!!!');
-                isValid = false;
-            } else if (!phonePattern.test(phoneNumberInput.value.trim())) {
-                showError('businessCardPhoneNumberErrorI', 'Business phone number format is invalid!!!');
+            if (!phonePattern.test(phoneNumberInput.value.trim())) {
+                showError('businessCardPhoneNumberErrorI');
                 isValid = false;
             } else {
                 hideError('businessCardPhoneNumberErrorI');
             }
 
             if (!addressInput || addressInput.value.trim() === '') {
-                showError('businessCardAddressErrorI', 'Business address cannot be empty!!!');
+                showError('businessCardAddressErrorI');
                 isValid = false;
             } else {
                 hideError('businessCardAddressErrorI');
             }
 
             if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-                showError('numberOfEmployeesErrorI', 'Number of employees cannot be less than 1!!!');
+                showError('numberOfEmployeesErrorI');
                 isValid = false;
             } else {
                 hideError('numberOfEmployeesErrorI');
@@ -156,6 +147,13 @@ function showError(elementId, message) {
 const errorElement = document.getElementById(elementId);
 if (errorElement) {
     errorElement.textContent = message;
+    errorElement.style.display = 'block';
+}
+}
+
+function showError(elementId) {
+const errorElement = document.getElementById(elementId);
+if (errorElement) {
     errorElement.style.display = 'block';
 }
 }

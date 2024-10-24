@@ -110,7 +110,8 @@
                                 <div class="mb-3">
                                     <label for="fullName" class="form-label" th:text="#{auth.three.names}"></label>
                                     <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
-                                           th:placeholder="#{auth.three.names.placeholder}">
+                                           th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
+                                           required>
                                     <ul class="error-list">
                                         <li th:each="err : ${#fields.errors('fullName')}" th:text="#{${err}}"
                                             class="error text-danger"></li>
@@ -256,7 +257,7 @@
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
                                            required>
-                                    <div id="businessCardNameErrorA" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardNameErrorA" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardEmailA" class="form-label"
@@ -265,7 +266,7 @@
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="1" maxlength="255"
                                            required>
-                                    <div id="businessCardEmailErrorA" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardEmailErrorA" class="text-danger" th:text="#{business.card.dto.validations.email.valid}" style="display:none;"></div>
                                     <div th:if="${duplicateBusinessEmailError != null}"
                                          th:text="#{${duplicateBusinessEmailError}}"
                                          class="error text-danger">
@@ -278,7 +279,7 @@
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
                                            required>
-                                    <div id="businessCardPhoneNumberErrorA" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardPhoneNumberErrorA" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardAddressA" class="form-label"
@@ -287,7 +288,7 @@
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="2"
                                            maxlength="255" required>
-                                    <div id="businessCardAddressErrorA" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardAddressErrorA" class="text-danger" th:text="#{business.card.dto.validations.address.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="websiteLinkA" class="form-label" th:text="#{auth.business.website}"></label>
@@ -302,7 +303,7 @@
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
                                            max="200000000" required>
-                                    <div id="numberOfEmployeesErrorA" class="text-danger" style="display:none;"></div>
+                                    <div id="numberOfEmployeesErrorA" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -395,7 +396,7 @@
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
                                            required>
-                                    <div id="businessCardNameErrorB" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardNameErrorB" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardEmailB" class="form-label"
@@ -404,7 +405,7 @@
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
                                            required>
-                                    <div id="businessCardEmailErrorB" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardEmailErrorB" class="text-danger" th:text="#{business.card.dto.validations.email.valid}" style="display:none;"></div>
                                     <div th:if="${duplicateBusinessEmailError != null}"
                                          th:text="#{${duplicateBusinessEmailError}}"
                                          class="error text-danger">
@@ -417,7 +418,7 @@
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
                                            required>
-                                    <div id="businessCardPhoneNumberErrorB" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardPhoneNumberErrorB" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardAddressB" class="form-label"
@@ -426,7 +427,7 @@
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="1"
                                            maxlength="255" required>
-                                    <div id="businessCardAddressErrorB" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardAddressErrorB" class="text-danger" th:text="#{business.card.dto.validations.address.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="websiteLinkB" class="form-label" th:text="#{auth.business.website}"></label>
@@ -441,7 +442,7 @@
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
                                            max="200000000" required>
-                                    <div id="numberOfEmployeesErrorB" class="text-danger" style="display:none;"></div>
+                                    <div id="numberOfEmployeesErrorB" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -534,7 +535,7 @@
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
                                            required>
-                                    <div id="businessCardNameErrorI" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardNameErrorI" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardEmailI" class="form-label"
@@ -543,7 +544,7 @@
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
                                            required>
-                                    <div id="businessCardEmailErrorI" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardEmailErrorI" class="text-danger" th:text="#{business.card.dto.validations.email.valid}" style="display:none;"></div>
                                     <div th:if="${duplicateBusinessEmailError != null}"
                                          th:text="#{${duplicateBusinessEmailError}}"
                                          class="error text-danger">
@@ -556,7 +557,7 @@
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
                                            required>
-                                    <div id="businessCardPhoneNumberErrorI" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardPhoneNumberErrorI" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardAddressI" class="form-label"
@@ -565,7 +566,7 @@
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="1"
                                            maxlength="255" required>
-                                    <div id="businessCardAddressErrorI" class="text-danger" style="display:none;"></div>
+                                    <div id="businessCardAddressErrorI" class="text-danger" th:text="#{business.card.dto.validations.address.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="websiteLinkI" class="form-label" th:text="#{auth.business.website}"></label>
@@ -580,7 +581,7 @@
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
                                            max="200000000" required>
-                                    <div id="numberOfEmployeesErrorI" class="text-danger" style="display:none;"></div>
+                                    <div id="numberOfEmployeesErrorI" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
