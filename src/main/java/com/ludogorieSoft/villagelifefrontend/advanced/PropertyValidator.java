@@ -28,9 +28,18 @@ public class PropertyValidator implements Validator {
         if (propertyDTO.getPrice() == null || propertyDTO.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             errors.rejectValue("price", "price.invalid", "The price must be greater than or equal to 0 and cannot be empty.");
         }
+        if (propertyDTO.getBuildUpArea() == null || propertyDTO.getBuildUpArea() < 0) {
+            errors.rejectValue("buildUpArea", "buildUpArea.invalid", "Build-up area must be greater than or equal to 0.");
+        }
 
         if (propertyDTO.getYardArea() == null || propertyDTO.getYardArea() < 0) {
             errors.rejectValue("yardArea", "yardArea.invalid", "Yard area must be greater than or equal to 0.");
+        }
+        if (propertyDTO.getRoomsCount() < 0) {
+            errors.rejectValue("roomsCount", "roomsCount.invalid", "The number of rooms must be greater than or equal to 0.");
+        }
+        if (propertyDTO.getBathroomsCount() < 0) {
+            errors.rejectValue("bathroomsCount", "bathroomsCount.invalid", "The number of bathrooms must be greater than or equal to 0.");
         }
 
         if (propertyDTO.getPhoneNumber() == null || propertyDTO.getPhoneNumber().trim().length() < 10) {
@@ -61,7 +70,8 @@ public class PropertyValidator implements Validator {
         if (propertyDTO.getVillageDTO().getRegion() == null || propertyDTO.getVillageDTO().getRegion().trim().isEmpty()) {
             errors.rejectValue("villageDTO.region", "villageDTO.region.invalid", "Village region is required.");
         }
-        if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty()) {
+        System.out.println("!" + propertyDTO.getImages().get(0) + "!");
+        if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty() || propertyDTO.getImages().get(0).getPropertyImageBytes() == null) {
             errors.rejectValue("images", "images.invalid", "At least one image is required.");
         } else {
             // Ограничение за размер на всяко изображение (500 KB)

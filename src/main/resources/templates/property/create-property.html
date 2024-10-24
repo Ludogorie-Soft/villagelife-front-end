@@ -280,8 +280,18 @@
         </ul>
 
         <!-- Heating Text -->
-        <label for="heatingText">Heating Types:</label>
-        <input type="text" id="heatingText" name="heatingText" ><br><br>
+        <section id="heatingType">
+
+            <div th:each="heatingType : ${T(com.ludogorieSoft.villagelifefrontend.enums.HeatingType).values()}" class="checkbox-wrapper">
+                <input type="checkbox" th:id="${'heatingType-' + heatingType}"
+                       th:name="heating"
+                       th:value="${heatingType.key}" class="checkbox col"/>
+                <label th:for="${'heatingType-' + heatingType}"
+                       class="checkbox-label col" th:text="#{${heatingType.key}}"></label>
+            </div>
+            <input type="checkbox" th:text="#{heating.type.other}" onclick="var input = document.getElementById('other'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}" />
+            <input id="other" name="heatingText" disabled="disabled" />
+        </section>
 
         <!-- Property Images -->
         <div class="mb-3">
