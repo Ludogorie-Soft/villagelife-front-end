@@ -48,6 +48,7 @@ public class VillageController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final SubscriptionClient subscriptionClient;
+    private final PropertyClient propertyClient;
     private final UserValidator userValidator;
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
@@ -114,6 +115,8 @@ public class VillageController {
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
         getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
+        List<PropertyDTO> propertyDTOS = propertyClient.getAllPropertiesByVillageId(id);
+        model.addAttribute("properties", propertyDTOS);
         return "ShowVillageById";
     }
 
