@@ -430,8 +430,10 @@
 </div>
 
 <div class="container">
-    <button id="prevButton" th:text="#{prev}"></button>
-    <button id="nextButton" th:text="#{next}"></button>
+    <div th:if="${properties != null and not #lists.isEmpty(properties)}">
+        <button id="prevButton" th:text="#{prev}"></button>
+        <button id="nextButton" th:text="#{next}"></button>
+    </div>
 
     <div class="property-slider">
         <div class="property-grid">
