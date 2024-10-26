@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +42,8 @@ public class AuthController {
     private static final String ATTRIBUTE_ROLES = "roles";
     private static final String ADMIN_NEW = "adminNew";
     private static final String REDIRECT_HOME_PAGE = "redirect:/";
+    private static final String REFERER = "referer";
+    private static final String REDIRECT = "redirect:";
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -69,14 +70,13 @@ public class AuthController {
     public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
-        String referer = httpRequest.getHeader("referer");
+        String referer = httpRequest.getHeader(REFERER);
         if (!request.getRole().equals(Role.USER)) businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
             redirectAttributes.addFlashAttribute("registrationModal", true);
             redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
-            return "redirect:" + referer;
-            //return REDIRECT_HOME_PAGE;
+            return REDIRECT + referer;
         }
         try {
             String message = authClient.register(request);
@@ -98,8 +98,7 @@ public class AuthController {
         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
         redirectAttributes.addFlashAttribute("registrationModal", true);
         redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
-        //return REDIRECT_HOME_PAGE;
-        return "redirect:" + referer;
+        return REDIRECT + referer;
     }
 
     @PostMapping("/register")
@@ -127,7 +126,7 @@ public class AuthController {
     @PostMapping("/authenticate")
     public String authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
-        String referer = httpRequest.getHeader("referer");
+        String referer = httpRequest.getHeader(REFERER);
         try{
             ResponseEntity<AuthenticationResponce> authResponse;
             authResponse = authClient.authenticate(request);
@@ -137,29 +136,27 @@ public class AuthController {
             session.setAttribute("info", altUserDTO.getBody());
             if (altUserDTO.getBody().getRole().equals(Role.ADMIN))
                 return "redirect:/admins/village";
-            //return REDIRECT_HOME_PAGE;
-            return "redirect:" + referer;
+            return REDIRECT + referer;
         } catch (UsernamePasswordException ex) {
             redirectAttributes.addFlashAttribute("loginModal", true);
             redirectAttributes.addFlashAttribute(ADMINS, request);
             redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.error");
-            //return REDIRECT_HOME_PAGE;
-            return "redirect:" + referer;
+            return REDIRECT + referer;
         }
     }
 
     @GetMapping("/verify-verification-token")
     public String verifyUser(RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
-        String referer = httpRequest.getHeader("referer");
+        String referer = httpRequest.getHeader(REFERER);
         redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
         redirectAttributes.addFlashAttribute("verificationModal", true);
-        return "redirect:" + referer;
+        return REDIRECT + referer;
     }
 
     @PostMapping("/verify-verification-token")
     public String verifyVerificationToken(@Valid @ModelAttribute("verificationRequest") VerificationRequest verificationRequest,
                                           Model model, HttpServletRequest httpRequest, RedirectAttributes redirectAttributes) {
-        String referer = httpRequest.getHeader("referer");
+        String referer = httpRequest.getHeader(REFERER);
         try {
             String message = authClient.verifyVerificationToken(verificationRequest);
             model.addAttribute(ATTRIBUTE_MESSAGE, message);
@@ -168,11 +165,11 @@ public class AuthController {
                 redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
                 redirectAttributes.addFlashAttribute("verificationModal", true);
                 redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.error");
-                return "redirect:" + referer;
+                return REDIRECT + referer;
             }
         }
         redirectAttributes.addFlashAttribute("verificationSuccessMessage", "verification.token.success");
-        return "redirect:" + referer;
+        return REDIRECT + referer;
     }
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) {

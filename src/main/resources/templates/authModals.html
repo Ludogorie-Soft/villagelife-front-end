@@ -133,7 +133,7 @@
                                 <div class="mb-3">
                                     <label for="username" class="form-label" th:text="#{auth.username}"></label>
                                     <input type="text" class="form-control" id="username" th:field="*{username}"
-                                           th:placeholder="#{auth.username.placeholder}" minlength="2" maxlength="10"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="2" maxlength="25"
                                            required>
                                     <ul class="error-list">
                                         <li th:each="err : ${#fields.errors('username')}" th:text="#{${err}}"
@@ -207,7 +207,7 @@
                                 <div class="mb-3">
                                     <label for="usernameA" class="form-label" th:text="#{auth.username}"></label>
                                     <input type="text" class="form-control" id="usernameA" th:field="*{username}"
-                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
                                     <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
                                          class="error text-danger">
@@ -346,7 +346,7 @@
                                 <div class="mb-3">
                                     <label for="usernameB" class="form-label" th:text="#{auth.username}"></label>
                                     <input type="text" class="form-control" id="usernameB" th:field="*{username}"
-                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
                                     <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
                                          class="error text-danger">
@@ -485,7 +485,7 @@
                                 <div class="mb-3">
                                     <label for="usernameI" class="form-label" th:text="#{auth.username}"></label>
                                     <input type="text" class="form-control" id="usernameI" th:field="*{username}"
-                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="10"
+                                           th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
                                     <div th:if="${duplicateUsernameError != null}" th:text="#{${duplicateUsernameError}}"
                                          class="error text-danger">

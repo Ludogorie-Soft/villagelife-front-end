@@ -6,9 +6,6 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -24,7 +21,7 @@ public class RegisterRequest {
     @Length(min = 3, max = 255, message = "register.request.validations.email.length")
     private String email;
 
-    @Length(min=3, max = 10, message = "register.request.validations.username.length")
+    @Length(min=3, max = 25, message = "register.request.validations.username.length")
     private String username;
 
     @Length(min = 8, max = 255, message = "register.request.validations.password.length")

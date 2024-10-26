@@ -1,166 +1,62 @@
 function validateBusinessCardDTO() {
-        var role = localStorage.getItem('activeTab').split('-')[0];
-        if (role === 'agency') {
-            const nameInput = document.getElementById('businessCardNameA');
-            const emailInput = document.getElementById('businessCardEmailA');
-            const phoneNumberInput = document.getElementById('businessCardPhoneNumberA');
-            const addressInput = document.getElementById('businessCardAddressA');
-            const numberOfEmployeesInput = document.getElementById('numberOfEmployeesA');
-            let isValid = true;
+    var role = localStorage.getItem('activeTab').split('-')[0];
+    var suffix = role === 'agency' ? 'A' : role === 'builder' ? 'B' : role === 'investor' ? 'I' : '';
 
-        if (!nameInput || nameInput.value.trim() === '') {
-            showError('businessCardNameErrorA');
-            isValid = false;
+    if (!suffix) return false;
+
+    const inputs = {
+        name: document.getElementById(`businessCardName${suffix}`),
+        email: document.getElementById(`businessCardEmail${suffix}`),
+        phoneNumber: document.getElementById(`businessCardPhoneNumber${suffix}`),
+        address: document.getElementById(`businessCardAddress${suffix}`),
+        numberOfEmployees: document.getElementById(`numberOfEmployees${suffix}`)
+    };
+
+    let isValid = true;
+    const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
+
+    const validateInput = (input, errorId) => {
+        if (!input || input.value.trim() === '') {
+            showError(errorId);
+            return false;
         } else {
-            hideError('businessCardNameErrorA');
+            hideError(errorId);
+            return true;
         }
+    };
 
-        if (!emailInput || emailInput.value.trim() === '') {
-            showError('businessCardEmailErrorA');
-            isValid = false;
-        } else {
-            hideError('businessCardEmailErrorA');
-        }
+    isValid &= validateInput(inputs.name, `businessCardNameError${suffix}`);
+    isValid &= validateInput(inputs.email, `businessCardEmailError${suffix}`);
 
-        const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
+    if (!phonePattern.test(inputs.phoneNumber.value.trim())) {
+        showError(`businessCardPhoneNumberError${suffix}`);
+        isValid = false;
+    } else {
+        hideError(`businessCardPhoneNumberError${suffix}`);
+    }
 
-        if (!phonePattern.test(phoneNumberInput.value.trim())) {
-            showError('businessCardPhoneNumberErrorA');
-            isValid = false;
-        } else {
-            hideError('businessCardPhoneNumberErrorA');
-        }
+    isValid &= validateInput(inputs.address, `businessCardAddressError${suffix}`);
 
-        if (!addressInput || addressInput.value.trim() === '') {
-            showError('businessCardAddressErrorA');
-            isValid = false;
-        } else {
-            hideError('businessCardAddressErrorA');
-        }
+    if (!inputs.numberOfEmployees || parseInt(inputs.numberOfEmployees.value, 10) < 1) {
+        showError(`numberOfEmployeesError${suffix}`);
+        isValid = false;
+    } else {
+        hideError(`numberOfEmployeesError${suffix}`);
+    }
 
-        if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-            showError('numberOfEmployeesErrorA');
-            isValid = false;
-        } else {
-            hideError('numberOfEmployeesErrorA');
-        }
-
-        return isValid;
-        }
-    if (role === 'builder') {
-        const nameInput = document.getElementById('businessCardNameB');
-        const emailInput = document.getElementById('businessCardEmailB');
-        const phoneNumberInput = document.getElementById('businessCardPhoneNumberB');
-        const addressInput = document.getElementById('businessCardAddressB');
-        const numberOfEmployeesInput = document.getElementById('numberOfEmployeesB');
-        let isValid = true;
-
-        if (!nameInput || nameInput.value.trim() === '') {
-            showError('businessCardNameErrorB');
-            isValid = false;
-        } else {
-            hideError('businessCardNameErrorB');
-        }
-
-        if (!emailInput || emailInput.value.trim() === '') {
-            showError('businessCardEmailErrorB');
-            isValid = false;
-        } else {
-            hideError('businessCardEmailErrorB');
-        }
-
-        const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
-
-        if (!phonePattern.test(phoneNumberInput.value.trim())) {
-            showError('businessCardPhoneNumberErrorB');
-            isValid = false;
-        } else {
-            hideError('businessCardPhoneNumberErrorB');
-        }
-
-        if (!addressInput || addressInput.value.trim() === '') {
-            showError('businessCardAddressErrorB');
-            isValid = false;
-        } else {
-            hideError('businessCardAddressErrorB');
-        }
-
-        if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-            showError('numberOfEmployeesErrorB');
-            isValid = false;
-        } else {
-            hideError('numberOfEmployeesErrorB');
-        }
-
-        return isValid;
-        }
-        if (role === 'investor') {
-            const nameInput = document.getElementById('businessCardNameI');
-            const emailInput = document.getElementById('businessCardEmailI');
-            const phoneNumberInput = document.getElementById('businessCardPhoneNumberI');
-            const addressInput = document.getElementById('businessCardAddressI');
-            const numberOfEmployeesInput = document.getElementById('numberOfEmployeesI');
-            let isValid = true;
-
-            if (!nameInput || nameInput.value.trim() === '') {
-                showError('businessCardNameErrorI');
-                isValid = false;
-            } else {
-                hideError('businessCardNameErrorI');
-            }
-
-            if (!emailInput || emailInput.value.trim() === '') {
-                showError('businessCardEmailErrorI');
-                isValid = false;
-            } else {
-                hideError('businessCardEmailErrorI');
-            }
-
-            const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
-
-            if (!phonePattern.test(phoneNumberInput.value.trim())) {
-                showError('businessCardPhoneNumberErrorI');
-                isValid = false;
-            } else {
-                hideError('businessCardPhoneNumberErrorI');
-            }
-
-            if (!addressInput || addressInput.value.trim() === '') {
-                showError('businessCardAddressErrorI');
-                isValid = false;
-            } else {
-                hideError('businessCardAddressErrorI');
-            }
-
-            if (!numberOfEmployeesInput || parseInt(numberOfEmployeesInput.value, 10) < 1) {
-                showError('numberOfEmployeesErrorI');
-                isValid = false;
-            } else {
-                hideError('numberOfEmployeesErrorI');
-            }
-
-            return isValid;
-            }
-}
-
-function showError(elementId, message) {
-const errorElement = document.getElementById(elementId);
-if (errorElement) {
-    errorElement.textContent = message;
-    errorElement.style.display = 'block';
-}
+    return isValid;
 }
 
 function showError(elementId) {
-const errorElement = document.getElementById(elementId);
-if (errorElement) {
-    errorElement.style.display = 'block';
-}
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.style.display = 'block';
+    }
 }
 
 function hideError(elementId) {
-const errorElement = document.getElementById(elementId);
-if (errorElement) {
-    errorElement.style.display = 'none';
-}
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
 }
