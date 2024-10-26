@@ -14,6 +14,4 @@ public enum PropertyType {
     BUSINESS_PROPERTY("property.type.business.property"),
     APARTMENT("property.type.apartment");
     private final String key;
-
-
 }
