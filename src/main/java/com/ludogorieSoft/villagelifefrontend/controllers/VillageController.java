@@ -6,6 +6,8 @@ import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
 import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
@@ -73,6 +75,15 @@ public class VillageController {
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+//        if (!model.containsAttribute("adminNew")) {
+//            model.addAttribute("adminNew", new RegisterRequest());
+//        }
+//        if (!model.containsAttribute("verificationRequest")) {
+//            model.addAttribute("verificationRequest", new VerificationRequest());
+//        }
+
+        addAuthAttributes(model);
+
         try {
             ResponseEntity<PageableResponse<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 
@@ -100,6 +111,7 @@ public class VillageController {
                                          @RequestParam(name = "village", required = false) String village,
                                          @RequestParam(name = "region", required = false) String region,
                                          Model model) {
+        addAuthAttributes(model);
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
         getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
@@ -145,7 +157,7 @@ public class VillageController {
         return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId() + "?village=" + URLEncoder.encode(village, StandardCharsets.UTF_8) + "&region=" + URLEncoder.encode(region, StandardCharsets.UTF_8);
     }
 
-    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
 
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -166,7 +178,7 @@ public class VillageController {
 
         model.addAttribute("answerDate", answerDate);
 
-        model.addAttribute("admin", administratorDTO);
+        model.addAttribute("admin", alternativeUserDTO);
 
         model.addAttribute("status", keyWord);
 
@@ -174,7 +186,7 @@ public class VillageController {
         model.addAttribute("videos", videoDTOS);
     }
 
-    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
+    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
         redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         redirectAttributes.addFlashAttribute("inquiry", inquiryDTO);
@@ -188,12 +200,13 @@ public class VillageController {
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         redirectAttributes.addFlashAttribute("questions", questionDTOS);
         redirectAttributes.addFlashAttribute("answerDate", answerDate);
-        redirectAttributes.addFlashAttribute("admin", administratorDTO);
+        redirectAttributes.addFlashAttribute("admin", alternativeUserDTO);
         redirectAttributes.addFlashAttribute("status", keyWord);
     }
 
     @GetMapping(VILLAGE_CREATE)
     public String showCreateVillageForm(Model model) {
+        addAuthAttributes(model);
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
         return getAddVillagePage(addVillageFormResult, model);
     }
@@ -248,12 +261,14 @@ public class VillageController {
 
     @GetMapping(VILLAGE_PARTNERS)
     public String showPartnersPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "partners";
     }
 
     @GetMapping(VILLAGE_CONTACTS)
     public String showContactsPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         return CONTACTS_VIEW;
@@ -277,6 +292,7 @@ public class VillageController {
 
     @GetMapping(VILLAGE_ABOUT_US)
     public String showAboutUsPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "about-us";
     }
@@ -306,7 +322,17 @@ public class VillageController {
 
     @GetMapping(VILLAGE_GENERAL_TERMS)
     String showGeneralTerms(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "general-terms";
+    }
+
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
     }
 }
