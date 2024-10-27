@@ -70,7 +70,6 @@ public class PropertyValidator implements Validator {
         if (propertyDTO.getVillageDTO().getRegion() == null || propertyDTO.getVillageDTO().getRegion().trim().isEmpty()) {
             errors.rejectValue("villageDTO.region", "villageDTO.region.invalid", "Village region is required.");
         }
-        System.out.println("!" + propertyDTO.getImages().get(0) + "!");
         if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty() || propertyDTO.getImages().get(0).getPropertyImageBytes() == null) {
             errors.rejectValue("images", "images.invalid", "At least one image is required.");
         } else {

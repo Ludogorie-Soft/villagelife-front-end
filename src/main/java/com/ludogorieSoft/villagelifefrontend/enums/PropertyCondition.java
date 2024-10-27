@@ -16,4 +16,5 @@ public enum PropertyCondition {
     RENOVATION_REQUIRED("property.condition.renovation.required");
 
     private final String key;
+
 }
