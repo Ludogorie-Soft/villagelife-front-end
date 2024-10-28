@@ -88,7 +88,7 @@
         </label>
         <input type="text" id="villageDTO" name="villageDTO.name"><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <label for="region" class="fw-bold">
@@ -96,7 +96,7 @@
         </label>
         <input type="text" id="region" name="villageDTO.region" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Property Type -->
@@ -105,10 +105,10 @@
         </label>
         <select id="propertyType" name="propertyType" >
             <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
-                    th:value="${propertyType1.key}" th:text="#{${propertyType1.key}}">
+                    th:value="${propertyType1}" th:text="#{${propertyType1.key}}">
             </option>
             <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="${err}" class="error text-danger"></li>
+                <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </select><br><br>
 
@@ -118,7 +118,7 @@
         </label>
         <select id="propertyTransferType" name="propertyTransferType" >
             <option th:each="propertyTransferType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType).values()}"
-                    th:value="${propertyTransferType1.key}" th:text="#{${propertyTransferType1.key}}">
+                    th:value="${propertyTransferType1}" th:text="#{${propertyTransferType1.key}}">
             </option>
         </select><br><br>
 
@@ -128,7 +128,7 @@
         </label>
         <input type="text" id="address" name="address" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Price -->
@@ -137,7 +137,7 @@
         </label>
         <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price"><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Phone Number -->
@@ -146,7 +146,7 @@
         </label>
         <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Build-Up Area -->
@@ -155,7 +155,7 @@
         </label>
         <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Yard Area -->
@@ -164,7 +164,7 @@
         </label>
         <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea"><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Rooms Count -->
@@ -173,7 +173,7 @@
         </label>
         <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Bathrooms Count -->
@@ -182,7 +182,7 @@
         </label>
         <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Heating Text -->
@@ -209,7 +209,7 @@
             <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*">
             <span class="text-muted">You can upload multiple images.</span>
             <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="${err}" class="error text-danger"></li>
+                <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </div>
 
@@ -221,7 +221,7 @@
             <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*">
             <span class="text-muted">Upload a main image for the property.</span>
             <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="${err}" class="error text-danger"></li>
+                <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </div>
 
@@ -231,7 +231,7 @@
         </label>
         <select id="constructionType" name="constructionType" >
             <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
-                    th:value="${constructionType1.key}" th:text="#{${constructionType1.key}}">
+                    th:value="${constructionType1}" th:text="#{${constructionType1.key}}">
             </option>
         </select><br><br>
 
@@ -253,10 +253,10 @@
         </label>
         <select id="ownershipType" name="ownershipType" >
             <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
-                    th:value="${ownershipType1.key}" th:text="#{${ownershipType1.key}}">
+                    th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}">
             </option>
             <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="${err}" class="error text-danger"></li>
+                <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </select><br><br>
 
@@ -266,10 +266,10 @@
         </label>
         <select id="propertyCondition" name="propertyCondition" >
             <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
-                    th:value="${propertyCondition1.key}" th:text="#{${propertyCondition1.key}}">
+                    th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}">
             </option>
             <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="${err}" class="error text-danger"></li>
+                <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </select><br><br>
 
@@ -279,7 +279,7 @@
         </label>
         <input type="text" id="description" name="description" ><br><br>
         <ul class="error-list">
-            <li th:each="err : ${#fields.errors('propertyDTO.description')}" th:text="${err}" class="error text-danger"></li>
+            <li th:each="err : ${#fields.errors('propertyDTO.description')}" th:text="#{${err}}" class="error text-danger"></li>
         </ul>
 
         <!-- Submit Button -->
