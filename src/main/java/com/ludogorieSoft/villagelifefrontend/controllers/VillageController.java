@@ -4,6 +4,7 @@ import com.ludogorieSoft.villagelifefrontend.advanced.AddVillageFormValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
+import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
@@ -23,6 +24,7 @@ import feign.FeignException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +56,7 @@ public class VillageController {
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
     private final VillageVideoClient villageVideoClient;
+    private final AuthClient authClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String VILLAGE_BY_Id = "/" + VILLAGES_ATTRIBUTE + "/show/{id}";
     private static final String VILLAGE_SUBSCRIPTION = "/" + VILLAGES_ATTRIBUTE + "/subscription-save";
@@ -70,18 +73,14 @@ public class VillageController {
     private static final long MAX_FILE_SIZE = (long) 5 * 1024 * 1024;
 
     @GetMapping(value = {"/{page}", ""})
-    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
+    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page, HttpSession session) {
         int currentPage = (page != null) ? page : 0;
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-//        if (!model.containsAttribute("adminNew")) {
-//            model.addAttribute("adminNew", new RegisterRequest());
-//        }
-//        if (!model.containsAttribute("verificationRequest")) {
-//            model.addAttribute("verificationRequest", new VerificationRequest());
-//        }
 
+        AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
+        model.addAttribute("user", admin);
         addAuthAttributes(model);
 
         try {

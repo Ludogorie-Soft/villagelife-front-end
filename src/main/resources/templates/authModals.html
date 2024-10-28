@@ -179,7 +179,7 @@
                         <!-- Agency Tab -->
                         <div class="tab-pane fade" id="agency" role="tabpanel" aria-labelledby="agency-tab">
                             <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
-                                  method="post">
+                                  method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'AGENCY'}">
                                 <div class="mb-3">
                                     <label for="fullNameA" class="form-label" th:text="#{auth.three.names}"></label>
@@ -305,6 +305,11 @@
                                            max="200000000" required>
                                     <div id="numberOfEmployeesErrorA" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label fw-bold" th:text="#{auth.business.logo}"></label>
+                                    <input class="form-control" id="formFile" name="images" type="file" accept="image/*">
+                                </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -318,7 +323,7 @@
                         <!-- Builder Tab -->
                         <div class="tab-pane fade" id="builder" role="tabpanel" aria-labelledby="builder-tab">
                             <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
-                                  method="post">
+                                  method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'BUILDER'}">
                                 <div class="mb-3">
                                     <label for="fullNameB" class="form-label" th:text="#{auth.three.names}"></label>
@@ -444,6 +449,10 @@
                                            max="200000000" required>
                                     <div id="numberOfEmployeesErrorB" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="formFileB" class="form-label fw-bold" th:text="#{auth.business.logo}"></label>
+                                    <input class="form-control" id="formFileB" name="images" type="file" accept="image/*">
+                                </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -457,7 +466,7 @@
                         <!-- Investor Tab -->
                         <div class="tab-pane fade" id="investor" role="tabpanel" aria-labelledby="investor-tab">
                             <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
-                                  method="post">
+                                  method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'INVESTOR'}">
                                 <div class="mb-3">
                                     <label for="fullNameI" class="form-label" th:text="#{auth.three.names}"></label>
@@ -582,6 +591,10 @@
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
                                            max="200000000" required>
                                     <div id="numberOfEmployeesErrorI" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formFileI" class="form-label fw-bold" th:text="#{auth.business.logo}"></label>
+                                    <input class="form-control" id="formFileI" name="images" type="file" accept="image/*">
                                 </div>
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">

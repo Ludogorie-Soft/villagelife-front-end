@@ -20,12 +20,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -68,8 +72,22 @@ public class AuthController {
 
     @PostMapping("/register-user")
     public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
-                               BindingResult bindingResult,
+                               BindingResult bindingResult, @RequestParam(value = "images", required = false) MultipartFile image,
                                RedirectAttributes redirectAttributes) {
+        if (!request.getRole().equals(Role.USER)) {
+            byte[] imageBytes = null;
+            if (image.getSize() > 0) {
+                try {
+                    imageBytes = image.getBytes();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            request.getBusinessCardDTO().setImageBytes(imageBytes);
+        }
+
+        //setImageBytesFromMultipartFile(request, image);
+
         String referer = httpRequest.getHeader(REFERER);
         if (!request.getRole().equals(Role.USER)) businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
         if (bindingResult.hasErrors()) {
@@ -83,14 +101,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
             return "redirect:/auth/verify-verification-token";
         } catch (DuplicateEmailException ex) {
-            if (ex.getMessage().contains("mobile"))
-                redirectAttributes.addFlashAttribute("duplicateMobileError", "register.request.validations.mobile.duplicate");
-            if (ex.getMessage().contains("email"))
-                redirectAttributes.addFlashAttribute("duplicateEmailError", "register.request.validations.email.duplicate");
-            if (ex.getMessage().contains("username"))
-                redirectAttributes.addFlashAttribute("duplicateUsernameError", "register.request.validations.username.duplicate");
-            if (!request.getRole().equals(Role.USER) && ex.getMessage().contains("email") && ex.getMessage().contains(request.getBusinessCardDTO().getEmail()))
-                redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
+            checkDuplicateEmailException(ex, redirectAttributes, request);
         } catch (ApiRequestException e) {
             if (e.getMessage().equals("Email already used!"))
                 redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
@@ -177,5 +188,30 @@ public class AuthController {
         session.removeAttribute("info");
         session.invalidate();
         return REDIRECT_HOME_PAGE;
+    }
+
+    private void checkDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes, RegisterRequest request) {
+        if (ex.getMessage().contains("mobile"))
+            redirectAttributes.addFlashAttribute("duplicateMobileError", "register.request.validations.mobile.duplicate");
+        if (ex.getMessage().contains("email"))
+            redirectAttributes.addFlashAttribute("duplicateEmailError", "register.request.validations.email.duplicate");
+        if (ex.getMessage().contains("username"))
+            redirectAttributes.addFlashAttribute("duplicateUsernameError", "register.request.validations.username.duplicate");
+        if (!request.getRole().equals(Role.USER) && ex.getMessage().contains("email") && ex.getMessage().contains(request.getBusinessCardDTO().getEmail()))
+            redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
+    }
+
+    private void setImageBytesFromMultipartFile(RegisterRequest request, MultipartFile image) {
+        if (!request.getRole().equals(Role.USER)) {
+            byte[] imageBytes = null;
+            if (image.getSize() > 0) {
+                try {
+                    imageBytes = image.getBytes();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            request.getBusinessCardDTO().setImageBytes(imageBytes);
+        }
     }
 }
