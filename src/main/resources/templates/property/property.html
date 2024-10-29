@@ -229,20 +229,18 @@
             </div>
             <h3 class="text-center" style="margin: 30px 0; font-weight: 400;">КОНТАКТИ</h3>
 
-            <div th:if="${property.alternativeUserDTO.role == T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
-                <div th:text="${property.alternativeUserDTO.fullName}"></div>
-            </div>
-
+            <div th:text="${property.alternativeUserDTO.fullName}" class="full-name"></div>
             <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
-                <div th:text="${property.alternativeUserDTO.jobTitle} + ' ' + ${property.alternativeUserDTO.fullName}"></div>
-                <div th:text="${property.alternativeUserDTO.businessCardDTO.name}"></div>
+                <div th:text="${property.alternativeUserDTO.jobTitle}"></div>
+                <div><span th:text="От"></span>
+                    <a th:href="@{${property.alternativeUserDTO.businessCardDTO.websiteLink}}" target="_blank">
+                        <span th:text="${property.alternativeUserDTO.businessCardDTO.name}"></span>
+                    </a>
+                </div>
                 <div th:text="${property.alternativeUserDTO.businessCardDTO.email}"></div>
                 <div th:text="${property.alternativeUserDTO.businessCardDTO.address}"></div>
-                <a th:href="@{${property.alternativeUserDTO.businessCardDTO.websiteLink}}" aria-label="to the first page">
-                    <div th:text="${property.alternativeUserDTO.businessCardDTO.websiteLink}"></div>
-                </a>
             </div>
-            <div th:text="${property.phoneNumber}"></div>
+            <div class="property-phone-number"><i class="fa-solid fa-phone fa-shake"></i> <span th:text="${property.phoneNumber}"></span></div>
 
         </div>
     </div>
