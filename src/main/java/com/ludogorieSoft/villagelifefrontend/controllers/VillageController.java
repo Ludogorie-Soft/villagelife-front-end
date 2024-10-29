@@ -79,10 +79,7 @@ public class VillageController {
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
 
-        AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
-        model.addAttribute("user", admin);
         addAuthAttributes(model);
-
         try {
             ResponseEntity<PageableResponse<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 

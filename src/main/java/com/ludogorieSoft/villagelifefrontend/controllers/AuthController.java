@@ -72,21 +72,9 @@ public class AuthController {
 
     @PostMapping("/register-user")
     public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
-                               BindingResult bindingResult, @RequestParam(value = "images", required = false) MultipartFile image,
+                               BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
                                RedirectAttributes redirectAttributes) {
-        if (!request.getRole().equals(Role.USER)) {
-            byte[] imageBytes = null;
-            if (image.getSize() > 0) {
-                try {
-                    imageBytes = image.getBytes();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            request.getBusinessCardDTO().setImageBytes(imageBytes);
-        }
-
-        //setImageBytesFromMultipartFile(request, image);
+        setImageBytesFromMultipartFile(request, image);
 
         String referer = httpRequest.getHeader(REFERER);
         if (!request.getRole().equals(Role.USER)) businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
