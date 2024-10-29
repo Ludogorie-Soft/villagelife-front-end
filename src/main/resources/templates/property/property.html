@@ -41,7 +41,7 @@
     <meta charset="UTF-8">
 
     <meta name="robots" content="all">
-    <title th:text="#{property.title}"></title>
+    <title th:text="#{${property.propertyType.key}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
@@ -227,7 +227,22 @@
                      alt="VillageLife circle logo" width="70" height="70">
                 <span> VillageLife</span>
             </div>
+            <h3 class="text-center" style="margin: 30px 0; font-weight: 400;">КОНТАКТИ</h3>
 
+            <div th:if="${property.alternativeUserDTO.role == T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
+                <div th:text="${property.alternativeUserDTO.fullName}"></div>
+            </div>
+
+            <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
+                <div th:text="${property.alternativeUserDTO.jobTitle} + ' ' + ${property.alternativeUserDTO.fullName}"></div>
+                <div th:text="${property.alternativeUserDTO.businessCardDTO.name}"></div>
+                <div th:text="${property.alternativeUserDTO.businessCardDTO.email}"></div>
+                <div th:text="${property.alternativeUserDTO.businessCardDTO.address}"></div>
+                <a th:href="@{${property.alternativeUserDTO.businessCardDTO.websiteLink}}" aria-label="to the first page">
+                    <div th:text="${property.alternativeUserDTO.businessCardDTO.websiteLink}"></div>
+                </a>
+            </div>
+            <div th:text="${property.phoneNumber}"></div>
 
         </div>
     </div>
