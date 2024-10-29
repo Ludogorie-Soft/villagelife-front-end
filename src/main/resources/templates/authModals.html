@@ -108,7 +108,9 @@
                                 <!-- Common Fields -->
                                 <input type="hidden" name="role" th:value="${'USER'}">
                                 <div class="mb-3">
-                                    <label for="fullName" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <label for="fullName" class="form-label" >
+                                        <span th:text="#{auth.three.names}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
                                            th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
                                            required>
@@ -118,7 +120,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="emailU" class="form-label" th:text="#{auth.email}"></label>
+                                    <label for="emailU" class="form-label" >
+                                        <span th:text="#{auth.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="emailU" th:field="*{email}"
                                            th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
                                            required>
@@ -131,7 +135,9 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="username" class="form-label" th:text="#{auth.username}"></label>
+                                    <label for="username" class="form-label" >
+                                        <span th:text="#{auth.username}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="username" th:field="*{username}"
                                            th:placeholder="#{auth.username.placeholder}" minlength="2" maxlength="25"
                                            required>
@@ -144,7 +150,9 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label" th:text="#{auth.password}"></label>
+                                    <label for="password" class="form-label" >
+                                        <span th:text="#{auth.password}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="password" class="form-control" id="password" th:field="*{password}"
                                            th:placeholder="#{auth.username.placeholder}" minlength="8" maxlength="255"
                                            required>
@@ -154,7 +162,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mobile" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <label for="mobile" class="form-label" >
+                                        <span th:text="#{auth.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="mobile" th:field="*{mobile}"
                                            th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
                                            required>
@@ -182,7 +192,9 @@
                                   method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'AGENCY'}">
                                 <div class="mb-3">
-                                    <label for="fullNameA" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <label for="fullNameA" class="form-label" >
+                                        <span th:text="#{auth.three.names}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="fullNameA" th:field="*{fullName}"
                                            th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
                                            required>
@@ -192,7 +204,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="emailA" class="form-label" th:text="#{auth.email}"></label>
+                                    <label for="emailA" class="form-label" >
+                                        <span th:text="#{auth.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="emailA" th:field="*{email}"
                                            th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
                                            required>
@@ -205,7 +219,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="usernameA" class="form-label" th:text="#{auth.username}"></label>
+                                    <label for="usernameA" class="form-label" >
+                                        <span th:text="#{auth.username}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="usernameA" th:field="*{username}"
                                            th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
@@ -218,7 +234,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="passwordA" class="form-label" th:text="#{auth.password}"></label>
+                                    <label for="passwordA" class="form-label" >
+                                        <span th:text="#{auth.password}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="password" class="form-control" id="passwordA" th:field="*{password}"
                                            th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
                                            required>
@@ -228,7 +246,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mobileA" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <label for="mobileA" class="form-label" >
+                                        <span th:text="#{auth.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="mobileA" th:field="*{mobile}"
                                            th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
                                            required>
@@ -241,7 +261,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jobTitleA" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <label for="jobTitleA" class="form-label" >
+                                        <span th:text="#{auth.job.title}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="jobTitleA" th:field="*{jobTitle}"
                                            th:placeholder="#{auth.job.title.placeholder}" minlength="2" maxlength="255"
                                            required>
@@ -251,8 +273,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardNameA" class="form-label"
-                                           th:text="#{auth.business.name}"></label>
+                                    <label for="businessCardNameA" class="form-label">
+                                        <span th:text="#{auth.business.name}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardNameA"
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
@@ -260,8 +283,9 @@
                                     <div id="businessCardNameErrorA" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardEmailA" class="form-label"
-                                           th:text="#{auth.business.email}"></label>
+                                    <label for="businessCardEmailA" class="form-label">
+                                        <span th:text="#{auth.business.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="businessCardEmailA"
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="1" maxlength="255"
@@ -273,8 +297,9 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardPhoneNumberA" class="form-label"
-                                           th:text="#{auth.business.mobile}"></label>
+                                    <label for="businessCardPhoneNumberA" class="form-label">
+                                        <span th:text="#{auth.business.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardPhoneNumberA"
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
@@ -282,8 +307,9 @@
                                     <div id="businessCardPhoneNumberErrorA" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardAddressA" class="form-label"
-                                           th:text="#{auth.business.address}"></label>
+                                    <label for="businessCardAddressA" class="form-label">
+                                        <span th:text="#{auth.business.address}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardAddressA"
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="2"
@@ -291,21 +317,22 @@
                                     <div id="businessCardAddressErrorA" class="text-danger" th:text="#{business.card.dto.validations.address.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="websiteLinkA" class="form-label" th:text="#{auth.business.website}"></label>
+                                    <label for="websiteLinkA" class="form-label" th:text="#{auth.business.website}">
+                                    </label>
                                     <input type="text" class="form-control" id="websiteLinkA"
                                            th:field="*{businessCardDTO.websiteLink}"
                                            th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="numberOfEmployeesA" class="form-label"
-                                           th:text="#{auth.business.employees}"></label>
+                                    <label for="numberOfEmployeesA" class="form-label">
+                                        <span th:text="#{auth.business.employees}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control" id="numberOfEmployeesA"
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
                                            max="200000000" required>
                                     <div id="numberOfEmployeesErrorA" class="text-danger" th:text="#{business.card.dto.validations.number.of.employees.min}" style="display:none;"></div>
                                 </div>
-
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label fw-bold" th:text="#{auth.business.logo}"></label>
                                     <input class="form-control" id="formFile" name="images" type="file" accept="image/*">
@@ -326,7 +353,9 @@
                                   method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'BUILDER'}">
                                 <div class="mb-3">
-                                    <label for="fullNameB" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <label for="fullNameB" class="form-label" >
+                                        <span th:text="#{auth.three.names}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="fullNameB" th:field="*{fullName}"
                                            th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
                                            required>
@@ -336,7 +365,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="emailB" class="form-label" th:text="#{auth.email}"></label>
+                                    <label for="emailB" class="form-label" >
+                                        <span th:text="#{auth.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="emailB" th:field="*{email}"
                                            th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
                                            required>
@@ -349,7 +380,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="usernameB" class="form-label" th:text="#{auth.username}"></label>
+                                    <label for="usernameB" class="form-label" >
+                                        <span th:text="#{auth.username}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="usernameB" th:field="*{username}"
                                            th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
@@ -362,7 +395,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="passwordB" class="form-label" th:text="#{auth.password}"></label>
+                                    <label for="passwordB" class="form-label" >
+                                        <span th:text="#{auth.password}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="password" class="form-control" id="passwordB" th:field="*{password}"
                                            th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
                                            required>
@@ -372,7 +407,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mobileB" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <label for="mobileB" class="form-label">
+                                        <span th:text="#{auth.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="mobileB" th:field="*{mobile}"
                                            th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
                                            required>
@@ -385,7 +422,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jobTitleB" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <label for="jobTitleB" class="form-label">
+                                        <span th:text="#{auth.job.title}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="jobTitleB" th:field="*{jobTitle}"
                                            th:placeholder="#{auth.job.title.placeholder}" minlength="1" maxlength="255"
                                            required>
@@ -395,8 +434,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardNameB" class="form-label"
-                                           th:text="#{auth.business.name}"></label>
+                                    <label for="businessCardNameB" class="form-label">
+                                        <span th:text="#{auth.business.name}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardNameB"
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
@@ -404,8 +444,9 @@
                                     <div id="businessCardNameErrorB" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardEmailB" class="form-label"
-                                           th:text="#{auth.business.email}"></label>
+                                    <label for="businessCardEmailB" class="form-label">
+                                        <span th:text="#{auth.business.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="businessCardEmailB"
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
@@ -417,8 +458,9 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardPhoneNumberB" class="form-label"
-                                           th:text="#{auth.business.mobile}"></label>
+                                    <label for="businessCardPhoneNumberB" class="form-label">
+                                        <span th:text="#{auth.business.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardPhoneNumberB"
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
@@ -426,8 +468,9 @@
                                     <div id="businessCardPhoneNumberErrorB" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardAddressB" class="form-label"
-                                           th:text="#{auth.business.address}"></label>
+                                    <label for="businessCardAddressB" class="form-label">
+                                        <span th:text="#{auth.business.address}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardAddressB"
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="1"
@@ -441,8 +484,9 @@
                                            th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="numberOfEmployeesB" class="form-label"
-                                           th:text="#{auth.business.employees}"></label>
+                                    <label for="numberOfEmployeesB" class="form-label">
+                                        <span th:text="#{auth.business.employees}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control" id="numberOfEmployeesB"
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
@@ -469,7 +513,9 @@
                                   method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="role" th:value="${'INVESTOR'}">
                                 <div class="mb-3">
-                                    <label for="fullNameI" class="form-label" th:text="#{auth.three.names}"></label>
+                                    <label for="fullNameI" class="form-label">
+                                        <span th:text="#{auth.three.names}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="fullNameI" th:field="*{fullName}"
                                            th:placeholder="#{auth.three.names.placeholder}" minlength="2" maxlength="255"
                                            required>
@@ -479,7 +525,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="emailI" class="form-label" th:text="#{auth.email}"></label>
+                                    <label for="emailI" class="form-label">
+                                        <span th:text="#{auth.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="emailI" th:field="*{email}"
                                            th:placeholder="#{auth.email.placeholder}" minlength="3" maxlength="255"
                                            required>
@@ -492,7 +540,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="usernameI" class="form-label" th:text="#{auth.username}"></label>
+                                    <label for="usernameI" class="form-label">
+                                        <span th:text="#{auth.username}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="usernameI" th:field="*{username}"
                                            th:placeholder="#{auth.username.placeholder}" minlength="3" maxlength="25"
                                            required>
@@ -505,7 +555,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="passwordI" class="form-label" th:text="#{auth.password}"></label>
+                                    <label for="passwordI" class="form-label">
+                                        <span th:text="#{auth.password}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="password" class="form-control" id="passwordI" th:field="*{password}"
                                            th:placeholder="#{auth.password.placeholder}" minlength="8" maxlength="255"
                                            required>
@@ -515,7 +567,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="mobileI" class="form-label" th:text="#{auth.mobile}"></label>
+                                    <label for="mobileI" class="form-label">
+                                        <span th:text="#{auth.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="mobileI" th:field="*{mobile}"
                                            th:placeholder="#{auth.mobile.placeholder}" minlength="10" maxlength="255"
                                            required>
@@ -528,7 +582,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jobTitleI" class="form-label" th:text="#{auth.job.title}"></label>
+                                    <label for="jobTitleI" class="form-label">
+                                        <span th:text="#{auth.job.title}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="jobTitleI" th:field="*{jobTitle}"
                                            th:placeholder="#{auth.job.title.placeholder}" minlength="1" maxlength="255"
                                            required>
@@ -538,8 +594,9 @@
                                     </ul>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardNameI" class="form-label"
-                                           th:text="#{auth.business.name}"></label>
+                                    <label for="businessCardNameI" class="form-label">
+                                        <span th:text="#{auth.business.name}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardNameI"
                                            th:field="*{businessCardDTO.name}"
                                            th:placeholder="#{auth.business.name.placeholder}" minlength="1" maxlength="255"
@@ -547,8 +604,9 @@
                                     <div id="businessCardNameErrorI" class="text-danger" th:text="#{business.card.dto.validations.name.blank}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardEmailI" class="form-label"
-                                           th:text="#{auth.business.email}"></label>
+                                    <label for="businessCardEmailI" class="form-label">
+                                        <span th:text="#{auth.business.email}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" class="form-control" id="businessCardEmailI"
                                            th:field="*{businessCardDTO.email}"
                                            th:placeholder="#{auth.business.email.placeholder}" minlength="3" maxlength="255"
@@ -561,7 +619,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="businessCardPhoneNumberI" class="form-label"
-                                           th:text="#{auth.business.mobile}"></label>
+                                          >
+                                        <span th:text="#{auth.business.mobile}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardPhoneNumberI"
                                            th:field="*{businessCardDTO.phoneNumber}"
                                            th:placeholder="#{auth.business.mobile.placeholder}" minlength="7" maxlength="25"
@@ -569,8 +629,9 @@
                                     <div id="businessCardPhoneNumberErrorI" class="text-danger" th:text="#{business.card.dto.validations.phone.number.invalid}" style="display:none;"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="businessCardAddressI" class="form-label"
-                                           th:text="#{auth.business.address}"></label>
+                                    <label for="businessCardAddressI" class="form-label">
+                                        <span th:text="#{auth.business.address}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="text" class="form-control" id="businessCardAddressI"
                                            th:field="*{businessCardDTO.address}"
                                            th:placeholder="#{auth.business.address.placeholder}" minlength="1"
@@ -584,8 +645,9 @@
                                            th:placeholder="#{auth.business.website.placeholder}" maxlength="255">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="numberOfEmployeesI" class="form-label"
-                                           th:text="#{auth.business.employees}"></label>
+                                    <label for="numberOfEmployeesI" class="form-label">
+                                        <span th:text="#{auth.business.employees}"></span></span><span class="text-danger">*</span>
+                                    </label>
                                     <input type="number" class="form-control" id="numberOfEmployeesI"
                                            th:field="*{businessCardDTO.numberOfEmployees}"
                                            th:placeholder="#{auth.business.employees.placeholder}" value="1" min="1"
