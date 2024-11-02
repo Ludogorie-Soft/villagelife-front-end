@@ -278,7 +278,7 @@
 <!--        &lt;!&ndash; Submit Button &ndash;&gt;-->
 <!--        <input type="submit" value="Submit" class="btn btn-primary">-->
 <!--    </form>-->
-    <form action="/properties/save" method="post" enctype="multipart/form-data">
+    <form action="/properties/save" method="post" enctype="multipart/form-data" class="needs-validation">
         <!-- Village Name and Region -->
         <div class="mb-3">
             <label for="villageDTO" class="form-label fw-bold">
@@ -307,8 +307,7 @@
             </label>
             <select id="propertyType" name="propertyType" class="form-select">
                 <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
-                        th:value="${propertyType1}" th:text="#{${propertyType1.key}}">
-                </option>
+                        th:value="${propertyType1}" th:text="#{${propertyType1.key}}"></option>
             </select>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="#{${err}}" class="error text-danger"></li>
@@ -316,7 +315,7 @@
         </div>
 
         <!-- Property Transfer Type -->
-        <input type="hidden" name="propertyTransferType" value="RENT">
+        <input type="hidden" name="propertyTransferType" value="SALE">
 
         <!-- Address -->
         <div class="mb-3">
@@ -332,7 +331,7 @@
         <!-- Price -->
         <div class="mb-3">
             <label for="price" class="form-label fw-bold">
-                <span th:text="#{property.price.rent}"></span><span class="text-danger">*</span>
+                <span th:text="#{property.price}"></span><span class="text-danger">*</span>
             </label>
             <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control">
             <ul class="error-list">
@@ -395,26 +394,6 @@
             </ul>
         </div>
 
-        <!-- Heating Text -->
-        <!--        <section id="heatingType" class="mb-3">-->
-        <!--            <label for="heatingType" class="form-label fw-bold">-->
-        <!--                <span th:text="#{property.heating.text}"></span>-->
-        <!--            </label>-->
-        <!--            <div th:each="heatingType : ${T(com.ludogorieSoft.villagelifefrontend.enums.HeatingType).values()}" class="form-check">-->
-        <!--                <input type="checkbox" th:id="${'heatingType-' + heatingType}"-->
-        <!--                       th:name="heating"-->
-        <!--                       th:value="${heatingType.key}" class="form-check-input">-->
-        <!--                <label th:for="${'heatingType-' + heatingType}" class="form-check-label" th:text="#{${heatingType.key}}"></label>-->
-        <!--            </div>-->
-        <!--            <div class="form-check">-->
-        <!--                <input type="checkbox" id="heatingType-other"-->
-        <!--                       onclick="var input = document.getElementById('other'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}"-->
-        <!--                       class="form-check-input">-->
-        <!--                <label for="heatingType-other" class="form-check-label" th:text="#{heating.type.other}"></label>-->
-        <!--                <input id="other" name="heatingText" disabled="disabled" class="form-control mt-2">-->
-        <!--            </div>-->
-        <!--        </section>-->
-
         <!-- Heating Text-->
         <section id="heatingType">
             <label for="heatingType" class="fw-bold">
@@ -443,7 +422,7 @@
                 <span th:text="#{property.images}"></span><span class="text-danger">*</span>
             </label>
             <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*">
-            <span class="text-muted">You can upload multiple images.</span>
+            <span class="form-text text-muted">You can upload multiple images.</span>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
@@ -455,7 +434,7 @@
                 <span th:text="#{property.main.image}"></span><span class="text-danger">*</span>
             </label>
             <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*">
-            <span class="text-muted">Upload a main image for the property.</span>
+            <span class="form-text text-muted">Upload a main image for the property.</span>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
@@ -468,8 +447,7 @@
             </label>
             <select id="constructionType" name="constructionType" class="form-select">
                 <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
-                        th:value="${constructionType1}" th:text="#{${constructionType1.key}}">
-                </option>
+                        th:value="${constructionType1}" th:text="#{${constructionType1.key}}"></option>
             </select>
         </div>
 
@@ -496,8 +474,7 @@
             </label>
             <select id="ownershipType" name="ownershipType" class="form-select">
                 <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
-                        th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}">
-                </option>
+                        th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}"></option>
             </select>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="#{${err}}" class="error text-danger"></li>
@@ -511,8 +488,7 @@
             </label>
             <select id="propertyCondition" name="propertyCondition" class="form-select">
                 <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
-                        th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}">
-                </option>
+                        th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}"></option>
             </select>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="#{${err}}" class="error text-danger"></li>
@@ -533,6 +509,7 @@
         <!-- Submit Button -->
         <input type="submit" value="Submit" class="btn btn-primary">
     </form>
+
 </div>
 </body>
 </html>
