@@ -1,9 +1,11 @@
 package com.ludogorieSoft.villagelifefrontend.advanced;
 
 import com.ludogorieSoft.villagelifefrontend.config.ValidationUtilsClient;
+import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.InquiryDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,6 +13,10 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
+import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.RENT;
+import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.SALE;
 
 @Component
 @AllArgsConstructor
@@ -19,29 +25,49 @@ public class PropertyValidator implements Validator {
     public boolean supports(Class<?> clazz) {
         return PropertyDTO.class.equals(clazz);
     }
+
     private static final String FIELD_REQUIRED = "field.required";
     private final ValidationUtilsClient validationUtilsClient;
+    private VillageClient villageClient;
+
     @Override
     public void validate(Object target, Errors errors) {
         PropertyDTO propertyDTO = (PropertyDTO) target;
-
+        if (propertyDTO.getVillageDTO().getName() == null || propertyDTO.getVillageDTO().getName().trim().isEmpty()) {
+            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "villageDTO.name.not.null");//Village name is required.
+        }
+        if (propertyDTO.getVillageDTO().getRegion() == null || propertyDTO.getVillageDTO().getRegion().trim().isEmpty()) {
+            errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "villageDTO.region.not.null");//Village region is required.
+        }
+        if(!Objects.equals(propertyDTO.getVillageDTO().getName(), "") && !Objects.equals(propertyDTO.getVillageDTO().getRegion(), "")){
+            VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
+            if (villageDTO == null) {
+                errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "villageDTO.can.not.be.found");
+            }
+        }
         if (propertyDTO.getPrice() == null) {
-            errors.rejectValue("price", FIELD_REQUIRED, "price.not.null");//The price must be greater than or equal to 0 and cannot be empty.
+            if (propertyDTO.getPropertyTransferType() == SALE){
+                errors.rejectValue("price", FIELD_REQUIRED, "price.not.null");//The price must be greater than or equal to 0 and cannot be empty.
+            }
+            else if (propertyDTO.getPropertyTransferType() == RENT){
+                errors.rejectValue("price", FIELD_REQUIRED, "monthly.rental.price.not.null");//The price must be greater than or equal to 0 and cannot be empty.
+            }
+        } else if (propertyDTO.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            if (propertyDTO.getPropertyTransferType() == SALE) {
+                errors.rejectValue("price", "field.minlength", "price.not.less.than.zero");
+            }
+            else if (propertyDTO.getPropertyTransferType() == RENT){
+                errors.rejectValue("price", "field.minlength", "monthly.rental.price.not.less.than.zero");
+            }
         }
-        else if (propertyDTO.getPrice().compareTo(BigDecimal.ZERO) < 0){
-            errors.rejectValue("price", "field.minlength", "price.not.less.than.zero");
-        }
-
         if (propertyDTO.getBuildUpArea() == null) {
             errors.rejectValue("buildUpArea", FIELD_REQUIRED, "buildUpArea.not.null");//Build-up area must be greater than or equal to 0.
-        }
-        else if (propertyDTO.getBuildUpArea() < 0){
+        } else if (propertyDTO.getBuildUpArea() < 0) {
             errors.rejectValue("buildUpArea", "field.minlength", "buildUpArea.not.less.than.zero");
         }
         if (propertyDTO.getYardArea() == null) {
             errors.rejectValue("yardArea", FIELD_REQUIRED, "yardArea.not.null");//Yard area must be greater than or equal to 0.
-        }
-        else if (propertyDTO.getYardArea() < 0){
+        } else if (propertyDTO.getYardArea() < 0) {
             errors.rejectValue("yardArea", "field.minlength", "yardArea.not.less.than.zero");
         }
         if (propertyDTO.getRoomsCount() < 0) {
@@ -53,11 +79,9 @@ public class PropertyValidator implements Validator {
 
         if (propertyDTO.getPhoneNumber() == null) {
             errors.rejectValue("phoneNumber", FIELD_REQUIRED, "phoneNumber.not.null");//Phone number must be at least 10 digits long.
-        }
-        else if (propertyDTO.getPhoneNumber().trim().length() < 10){
+        } else if (propertyDTO.getPhoneNumber().trim().length() < 10) {
             errors.rejectValue("phoneNumber", "field.minlength", "phoneNumber.not.less.than.ten");
-        }
-        else if (Boolean.FALSE.equals(validationUtilsClient.numberCheck(propertyDTO.getPhoneNumber()))) {
+        } else if (Boolean.FALSE.equals(validationUtilsClient.numberCheck(propertyDTO.getPhoneNumber()))) {
             errors.rejectValue("phoneNumber", "field.invalid", "phoneNumber.numbersonly");//Phone number must contain only digits.
         }
         if (propertyDTO.getPropertyType() == null) {
@@ -71,21 +95,14 @@ public class PropertyValidator implements Validator {
         }
         if (propertyDTO.getDescription() == null || propertyDTO.getDescription().trim().isEmpty()) {
             errors.rejectValue("description", FIELD_REQUIRED, "description.not.null");//Description is required and cannot be blank.
-        } else if (propertyDTO.getDescription().length() < 10 ) {
+        } else if (propertyDTO.getDescription().length() < 10) {
             errors.rejectValue("description", "field.minlength", "description.not.less.than.ten");//Description must be between 10 and 500 characters long.
-        }
-        else if (propertyDTO.getDescription().length() > 500){
+        } else if (propertyDTO.getDescription().length() > 500) {
             errors.rejectValue("description", "field.maxlength", "description.not.more.than.max.value");
         }
 
         if (propertyDTO.getAddress() == null || propertyDTO.getAddress().trim().isEmpty()) {
             errors.rejectValue("address", FIELD_REQUIRED, "address.not.null");//Address is required and cannot be blank.
-        }
-        if (propertyDTO.getVillageDTO().getName() == null || propertyDTO.getVillageDTO().getName().trim().isEmpty()) {
-            errors.rejectValue("villageDTO.name", FIELD_REQUIRED, "villageDTO.name.not.null");//Village name is required.
-        }
-        if (propertyDTO.getVillageDTO().getRegion() == null || propertyDTO.getVillageDTO().getRegion().trim().isEmpty()) {
-            errors.rejectValue("villageDTO.region", FIELD_REQUIRED, "villageDTO.region.not.null");//Village region is required.
         }
         if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty() || propertyDTO.getImages().get(0).getPropertyImageBytes() == null) {
             errors.rejectValue("images", FIELD_REQUIRED, "images.not.null");//At least one image is required.
@@ -98,27 +115,27 @@ public class PropertyValidator implements Validator {
                 // Проверка дали изображението не е празно
                 if (image.getPropertyImageBytes() == null || image.getPropertyImageBytes().length == 0) {
                     errors.rejectValue("images[" + i + "].propertyImageBytes", FIELD_REQUIRED, "image.not.null");//Image cannot be empty.
-                } else {
-                    // Проверка за размер на изображението (500 KB = 512000 bytes)
-                    long imageSizeInKB = image.getPropertyImageBytes().length / 1024;
-                    totalSizeInKB += imageSizeInKB;
-
-                    if (imageSizeInKB > 500) {
-                        errors.rejectValue("images[" + i + "].propertyImageBytes", "field.maxlength", "image.size.not.more.than.max.value");//Image size cannot exceed 500 KB.
-                    }
-
-                    // Лимитиране на общия размер на всички изображения (например 10 MB = 10240 KB)
-                    if (totalSizeInKB > 10240) {
-                        errors.rejectValue("images", "field.maxlength", "images.totalSize.not.more.than.max.value");//Total size of all images cannot exceed 10 MB.
-                        break; // Спиране на проверката, ако лимитът е надхвърлен
-                    }
                 }
+//                 else {
+//                    // Проверка за размер на изображението (500 KB = 512000 bytes)
+//                    long imageSizeInKB = image.getPropertyImageBytes().length / 1024;
+//                    totalSizeInKB += imageSizeInKB;
+//
+//                    if (imageSizeInKB > 500) {
+//                        errors.rejectValue("images[" + i + "].propertyImageBytes", "field.maxlength", "image.size.not.more.than.max.value");//Image size cannot exceed 500 KB.
+//                    }
+//
+//                    // Лимитиране на общия размер на всички изображения (например 10 MB = 10240 KB)
+//                    if (totalSizeInKB > 10240) {
+//                        errors.rejectValue("images", "field.maxlength", "images.totalSize.not.more.than.max.value");//Total size of all images cannot exceed 10 MB.
+//                        break; // Спиране на проверката, ако лимитът е надхвърлен
+//                    }
+//                }
             }
         }
         if (propertyDTO.getMainImageBytes() == null) {
             errors.rejectValue("mainImageBytes", FIELD_REQUIRED, "mainImageBytes.not.null");//Main image is required.
-        }
-        else if(propertyDTO.getMainImageBytes().length == 0) {
+        } else if (propertyDTO.getMainImageBytes().length == 0) {
             errors.rejectValue("mainImageBytes", FIELD_REQUIRED, "mainImageBytes.not.empty");//Main image cannot be empty.
         }
     }

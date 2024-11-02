@@ -113,14 +113,15 @@
         </select><br><br>
 
         <!-- Property Transfer Type -->
-        <label for="propertyTransferType" class="fw-bold">
-            <span th:text="#{property.transfer.type}"></span>
-        </label>
-        <select id="propertyTransferType" name="propertyTransferType" >
-            <option th:each="propertyTransferType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType).values()}"
-                    th:value="${propertyTransferType1}" th:text="#{${propertyTransferType1.key}}">
-            </option>
-        </select><br><br>
+        <input type="hidden" name="propertyTransferType" value="SALE">
+<!--        <label for="propertyTransferType" class="fw-bold">-->
+<!--            <span th:text="#{property.transfer.type}"></span>-->
+<!--        </label>-->
+<!--        <select id="propertyTransferType" name="propertyTransferType" >-->
+<!--            <option th:each="propertyTransferType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType).values()}"-->
+<!--                    th:value="${propertyTransferType1}" th:text="#{${propertyTransferType1.key}}">-->
+<!--            </option>-->
+<!--        </select><br><br>-->
 
         <!-- Address -->
         <label for="address" class="fw-bold">
