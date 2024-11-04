@@ -57,6 +57,7 @@
 
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <link rel="stylesheet" href="/css/min/partners.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
     <!-- Canonical URL address -->
     <link rel="canonical" href="https://villagelife.bg/villages/partners">
 </head>
@@ -114,11 +115,25 @@
     </div>
 </div>
 
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+
 <div th:replace="fragments :: footer"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+
 </body>
 </html>

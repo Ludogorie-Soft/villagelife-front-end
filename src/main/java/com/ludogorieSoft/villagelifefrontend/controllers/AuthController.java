@@ -1,15 +1,18 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
+import com.ludogorieSoft.villagelifefrontend.advanced.BusinessCardDTOValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AdministratorDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
+import com.ludogorieSoft.villagelifefrontend.exceptions.DuplicateEmailException;
+import com.ludogorieSoft.villagelifefrontend.exceptions.UsernamePasswordException;
 import lombok.RequiredArgsConstructor;
-
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
@@ -29,9 +34,16 @@ import java.util.Objects;
 public class AuthController {
 
     private final AuthClient authClient;
+    private final BusinessCardDTOValidator businessCardDTOValidator;
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEADER = "Bearer ";
     private static final String ADMINS = "admins";
+    private static final String ATTRIBUTE_MESSAGE = "message";
+    private static final String ATTRIBUTE_ROLES = "roles";
+    private static final String ADMIN_NEW = "adminNew";
+    private static final String REDIRECT_HOME_PAGE = "redirect:/";
+    private static final String REFERER = "referer";
+    private static final String REDIRECT = "redirect:";
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -43,15 +55,50 @@ public class AuthController {
             throw new ApiRequestException("An error occurred while communicating with the API");
         }
         if (auth.getStatusCode().is2xxSuccessful()) {
-            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
 
             model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute("adminNew", new AdministratorRequest());
-            model.addAttribute("roles", Role.ADMIN);
+            model.addAttribute(ADMIN_NEW, new AdministratorRequest());
+            model.addAttribute(ATTRIBUTE_ROLES, Role.ADMIN);
         } else {
             throw new ApiRequestException("Unauthorized: Invalid request");
         }
         return "admin_templates/register_form";
+    }
+
+    @PostMapping("/register-user")
+    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        String referer = httpRequest.getHeader(REFERER);
+        if (!request.getRole().equals(Role.USER)) businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
+            redirectAttributes.addFlashAttribute("registrationModal", true);
+            redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+            return REDIRECT + referer;
+        }
+        try {
+            String message = authClient.register(request);
+            redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
+            return "redirect:/auth/verify-verification-token";
+        } catch (DuplicateEmailException ex) {
+            if (ex.getMessage().contains("mobile"))
+                redirectAttributes.addFlashAttribute("duplicateMobileError", "register.request.validations.mobile.duplicate");
+            if (ex.getMessage().contains("email"))
+                redirectAttributes.addFlashAttribute("duplicateEmailError", "register.request.validations.email.duplicate");
+            if (ex.getMessage().contains("username"))
+                redirectAttributes.addFlashAttribute("duplicateUsernameError", "register.request.validations.username.duplicate");
+            if (!request.getRole().equals(Role.USER) && ex.getMessage().contains("email") && ex.getMessage().contains(request.getBusinessCardDTO().getEmail()))
+                redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
+        } catch (ApiRequestException e) {
+            if (e.getMessage().equals("Email already used!"))
+                redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
+        }
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
+        redirectAttributes.addFlashAttribute("registrationModal", true);
+        redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+        return REDIRECT + referer;
     }
 
     @PostMapping("/register")
@@ -59,14 +106,14 @@ public class AuthController {
                                 BindingResult bindingResult, Model model,
                                 RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            AdministratorDTO admin = (AdministratorDTO) session.getAttribute("info");
+            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
             model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute("roles", Role.values());
+            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
             return "admin_templates/register_form";
         }
         String token = (String) session.getAttribute(SESSION_NAME);
         String message = authClient.register(request, AUTH_HEADER + token);
-        redirectAttributes.addFlashAttribute("message", message);
+        redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
         return "redirect:/admins";
     }
 
@@ -77,14 +124,58 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public String authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session) {
-        ResponseEntity<AuthenticationResponce> authResponse;
-        authResponse = authClient.authenticate(request);
-        String token = Objects.requireNonNull(authResponse.getBody()).getToken();
-        ResponseEntity<AdministratorDTO> administratorDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
-        session.setAttribute(SESSION_NAME, token);
-        session.setAttribute("info", administratorDTO.getBody());
-        return "redirect:/admins/village";
+    public String authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session,
+                                    RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
+        String referer = httpRequest.getHeader(REFERER);
+        try{
+            ResponseEntity<AuthenticationResponce> authResponse;
+            authResponse = authClient.authenticate(request);
+            String token = Objects.requireNonNull(authResponse.getBody()).getToken();
+            ResponseEntity<AlternativeUserDTO> altUserDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
+            session.setAttribute(SESSION_NAME, token);
+            session.setAttribute("info", altUserDTO.getBody());
+            if (altUserDTO.getBody().getRole().equals(Role.ADMIN))
+                return "redirect:/admins/village";
+            return REDIRECT + referer;
+        } catch (UsernamePasswordException ex) {
+            redirectAttributes.addFlashAttribute("loginModal", true);
+            redirectAttributes.addFlashAttribute(ADMINS, request);
+            redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.error");
+            return REDIRECT + referer;
+        }
     }
 
+    @GetMapping("/verify-verification-token")
+    public String verifyUser(RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
+        String referer = httpRequest.getHeader(REFERER);
+        redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
+        redirectAttributes.addFlashAttribute("verificationModal", true);
+        return REDIRECT + referer;
+    }
+
+    @PostMapping("/verify-verification-token")
+    public String verifyVerificationToken(@Valid @ModelAttribute("verificationRequest") VerificationRequest verificationRequest,
+                                          Model model, HttpServletRequest httpRequest, RedirectAttributes redirectAttributes) {
+        String referer = httpRequest.getHeader(REFERER);
+        try {
+            String message = authClient.verifyVerificationToken(verificationRequest);
+            model.addAttribute(ATTRIBUTE_MESSAGE, message);
+        } catch (ApiRequestException e) {
+            if (e.getMessage().equals("Invalid token!")) {
+                redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
+                redirectAttributes.addFlashAttribute("verificationModal", true);
+                redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.error");
+                return REDIRECT + referer;
+            }
+        }
+        redirectAttributes.addFlashAttribute("verificationSuccessMessage", "verification.token.success");
+        return REDIRECT + referer;
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session, HttpServletResponse response) {
+        session.removeAttribute(SESSION_NAME);
+        session.removeAttribute("info");
+        session.invalidate();
+        return REDIRECT_HOME_PAGE;
+    }
 }
