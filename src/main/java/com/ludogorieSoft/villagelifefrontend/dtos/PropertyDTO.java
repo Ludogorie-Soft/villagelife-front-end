@@ -26,7 +26,7 @@ import java.util.List;
 public class PropertyDTO {
     private Long id;
     private VillageDTO villageDTO;
-    private PropertyUserDTO propertyUserDTO;
+    private AlternativeUserDTO alternativeUserDTO;
     @NotNull(message = "Property type is required.")
     private PropertyType propertyType;
     private PropertyTransferType propertyTransferType;

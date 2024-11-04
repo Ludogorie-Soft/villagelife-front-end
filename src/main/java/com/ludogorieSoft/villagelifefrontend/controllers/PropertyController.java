@@ -8,6 +8,7 @@ import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,7 +85,7 @@ public class PropertyController {
             propertyImageDTO.setPropertyImageBytes(imageBytes);
             propertyDTO.getImages().add(propertyImageDTO);
         }
-        propertyValidator.validate(propertyDTO, bindingResult); // Само ръчна валидация
+        propertyValidator.validate(propertyDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
@@ -97,7 +98,7 @@ public class PropertyController {
         }
         VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
         propertyDTO.setVillageDTO(villageDTO);
-        propertyDTO.setPropertyUserDTO(getLoggedPropertyUserDTO(session));
+        //propertyDTO.setAlternativeUserDTO(getLoggedUser(session));
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
     }
@@ -115,10 +116,13 @@ public class PropertyController {
         return imageData;
     }
 
-    public PropertyUserDTO getLoggedPropertyUserDTO(HttpSession session) {
-        PropertyUserDTO loggedPropertyUserDTO = (PropertyUserDTO) session.getAttribute("info");
-        return loggedPropertyUserDTO;
-    }
+//    public AlternativeUserDTO getLoggedUser(HttpSession session) {
+//        AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
+//        if (loggedUser == null) {
+//            throw new ApiRequestException("No user is currently logged in!");
+//        }
+//        return loggedUser;
+//    }
 
     @GetMapping("/show/{id}")
     public String showPropertyById(@PathVariable(name = "id") Long id, Model model) {
