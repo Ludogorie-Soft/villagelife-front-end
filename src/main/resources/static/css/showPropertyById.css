@@ -152,6 +152,43 @@
         background-color: black;
     }
 
+    .heart-container {
+        float: right;
+        position: relative;
+        display: inline-block;
+    }
+
+    .fa-heart {
+        font-size: 32px;
+        background-color: white;
+        padding: 2px;
+        margin: 2px 5px;
+        cursor: pointer;
+    }
+
+    .fa-regular {
+        transition: opacity 0.3s ease;
+        transition: font-size 0.3s ease;
+    }
+
+    .fa-solid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        transition: font-size 0.3s ease;
+    }
+
+    .heart-container:hover .fa-regular {
+        opacity: 0;
+    }
+
+    .heart-container:hover .fa-solid {
+        opacity: 1;
+        font-size: 33px;
+    }
+
     .sticky-form {
         padding: 15px;
         max-width: 400px;

@@ -68,8 +68,13 @@
 
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
+        <div class="heart-container">
+            <i class="fa-regular fa-heart" style="color: #e41111;"></i>
+            <i class="fa-solid fa-heart" style="color: #e41111;"></i>
+        </div>
+
         <img alt="image pointer" th:src="@{/images/point.png}" class="point-icon">
-        <span th:text="#{region}"></span> <span th:text="#{${property.villageDTO.region}}"></span><span th:text="', ' + #{village}"></span><span th:if="${#locale.language == 'bg'}" th:text="' ' + ${property.villageDTO.name}"></span><span th:if="${#locale.language == 'en'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:if="${#locale.language == 'de'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:text="', ' + ${property.address}"></span>
+        <span th:text="#{region}"></span> <span th:text="#{${property.villageDTO.region}}"></span><span th:text="', ' + #{village}"></span><span th:if="${#locale.language == 'bg'}" th:text="' ' + ${property.villageDTO.name}"></span><span th:if="${#locale.language == 'en'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:if="${#locale.language == 'de'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:text="', ' + ${property.address}" th:if="${property.address != null}"></span>
 
     </div>
 
@@ -195,6 +200,7 @@
                                 <span th:each="heating, iterStat : ${property.heating}" class="heating property-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
                                     <span th:text="${heating}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
+                                <span th:if="${property.heating == null or property.heating.isEmpty()}" style="display: inline; padding-left: 4px; margin: 0; float: right;">-</span>
                                 <hr>
                             </div>
                         </div>
@@ -203,7 +209,7 @@
             </div>
         </section>
 
-        <section class="description">
+        <section class="description" th:if="${property.description} != null">
             <h3 class="section-title" th:text="#{property.description}"></h3>
             <div class="row">
                 <hr>
@@ -211,7 +217,7 @@
             </div>
         </section>
 
-        <section class="extras">
+        <section class="extras" th:if="${property.extras} != null">
             <h3 class="section-title" th:text="#{property.extras}"></h3>
             <div class="row">
                 <hr>
@@ -228,12 +234,12 @@
                 <span> VillageLife</span>
             </div>
 
-            <h3 class="section-title text-center">КОНТАКТИ</h3>
+            <h3 class="section-title text-center" th:text="#{header.contacts}"></h3>
 
             <div th:text="${property.alternativeUserDTO.fullName}" class="full-name"></div>
             <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
                 <div th:text="${property.alternativeUserDTO.jobTitle}"></div>
-                <div><span th:text="От"></span>
+                <div><span th:text="#{property.from}"></span>
                     <a th:href="@{${property.alternativeUserDTO.businessCardDTO.websiteLink}}" target="_blank">
                         <span th:text="${property.alternativeUserDTO.businessCardDTO.name}"></span>
                     </a>
