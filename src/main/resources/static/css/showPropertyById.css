@@ -164,11 +164,11 @@
         padding: 2px;
         margin: 2px 5px;
         cursor: pointer;
+        color: #e41111 !important;
     }
 
     .fa-regular {
-        transition: opacity 0.3s ease;
-        transition: font-size 0.3s ease;
+        transition: opacity 0.3s ease, font-size 0.3s ease;
     }
 
     .fa-solid {
@@ -176,15 +176,25 @@
         top: 0;
         left: 0;
         opacity: 0;
-        transition: opacity 0.3s ease;
-        transition: font-size 0.3s ease;
+        transition: opacity 0.3s ease, font-size 0.3s ease;
     }
 
-    .heart-container:hover .fa-regular {
+    /* Hover effect only when active class is not applied */
+    .heart-container:not(.active):hover .fa-regular {
         opacity: 0;
     }
 
-    .heart-container:hover .fa-solid {
+    .heart-container:not(.active):hover .fa-solid {
+        opacity: 1;
+        font-size: 33px;
+    }
+
+    /* Permanent solid icon when active */
+    .heart-container.active .fa-regular {
+        opacity: 0;
+    }
+
+    .heart-container.active .fa-solid {
         opacity: 1;
         font-size: 33px;
     }

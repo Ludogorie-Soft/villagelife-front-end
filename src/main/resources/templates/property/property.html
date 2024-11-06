@@ -54,6 +54,7 @@
 
     <link rel="stylesheet" href="/css/showPropertyById.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
 </head>
 <body>
 <div th:replace="fragments :: property-menu"></div>
@@ -69,9 +70,14 @@
         <input value='' type='button' onclick='handlePrint()' class="print-button"/>
 
         <div class="heart-container">
-            <i class="fa-regular fa-heart" style="color: #e41111;"></i>
-            <i class="fa-solid fa-heart" style="color: #e41111;"></i>
+            <form th:action="@{'/properties/toggle-user-saved-property/' + ${property.id}}" method="post" id="toggleSavedForm">
+                <button type="submit" style="background: none; border: none; padding: 0;">
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+            </form>
         </div>
+
 
         <img alt="image pointer" th:src="@{/images/point.png}" class="point-icon">
         <span th:text="#{region}"></span> <span th:text="#{${property.villageDTO.region}}"></span><span th:text="', ' + #{village}"></span><span th:if="${#locale.language == 'bg'}" th:text="' ' + ${property.villageDTO.name}"></span><span th:if="${#locale.language == 'en'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:if="${#locale.language == 'de'}" th:text="' ' + ${property.villageDTO.latinName}"></span><span th:text="', ' + ${property.address}" th:if="${property.address != null}"></span>
@@ -237,7 +243,7 @@
             <h3 class="section-title text-center" th:text="#{header.contacts}"></h3>
 
             <div th:text="${property.alternativeUserDTO.fullName}" class="full-name"></div>
-            <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER}">
+            <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER and property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).ADMIN}">
                 <div th:text="${property.alternativeUserDTO.jobTitle}"></div>
                 <div><span th:text="#{property.from}"></span>
                     <a th:href="@{${property.alternativeUserDTO.businessCardDTO.websiteLink}}" target="_blank">
@@ -256,10 +262,28 @@
 
 
 </div>
+
+<div th:replace="authModals :: loginModal"></div>
 <div th:replace="fragments :: footer"></div>
+
 <script src="/js/min/imageSlider.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
 <script src="/js/min/handlePrint.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var iconContainer = document.querySelector('.heart-container');
+
+        if (/*[[${hasSaved}]]*/) {
+            iconContainer.classList.add('active');
+        }
+
+        iconContainer.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+</script>
 </body>
 </html>
