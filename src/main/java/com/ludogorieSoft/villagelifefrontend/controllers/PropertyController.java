@@ -1,6 +1,7 @@
 package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
+import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
@@ -9,6 +10,7 @@ import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
+import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,7 @@ public class PropertyController {
     private PropertyClient propertyClient;
     private VillageClient villageClient;
     private PropertyValidator propertyValidator;
+    private AuthClient authClient;
     private static final String PROPERTY_DTO_NAME = "propertyDTO";
     private static final String PROPERTY_SAVE= "/save";
     private static final String REDIRECT_INDEX = "redirect:/";
@@ -44,14 +47,20 @@ public class PropertyController {
     @GetMapping(value = {"/{page}", ""})
     String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page) {
         int currentPage = (page != null) ? page : 0;
-        model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
-        model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
+        PageableResponse<PropertyDTO> propertyDTOS = propertyClient.getAllProperties(currentPage, 6);
+        model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
+        model.addAttribute("properties", propertyDTOS.stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "/property/list-properties";
     }
 
     @GetMapping("/add-sale")
-    public String createPropertyForSale(Model model) {
+    public String createPropertyForSale(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
+        AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
+        if (loggedUser == null) {
+            redirectAttributes.addFlashAttribute("loginModal", true);
+            return "redirect:/properties";
+        }
         PropertyDTO propertyDTO = new PropertyDTO();
         propertyDTO.setPropertyTransferType(SALE);
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
@@ -60,7 +69,12 @@ public class PropertyController {
         return "/property/create-property-sale";
     }
     @GetMapping("/add-rent")
-    public String createPropertyForRent(Model model) {
+    public String createPropertyForRent(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
+        AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
+        if (loggedUser == null) {
+            redirectAttributes.addFlashAttribute("loginModal", true);
+            return "redirect:/properties";
+        }
         PropertyDTO propertyDTO = new PropertyDTO();
         propertyDTO.setPropertyTransferType(RENT);
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
@@ -70,6 +84,7 @@ public class PropertyController {
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+        AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
 
@@ -98,7 +113,7 @@ public class PropertyController {
         }
         VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
         propertyDTO.setVillageDTO(villageDTO);
-        //propertyDTO.setAlternativeUserDTO(getLoggedUser(session));
+        propertyDTO.setAlternativeUserDTO(loggedUser);
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
     }
@@ -115,14 +130,6 @@ public class PropertyController {
 
         return imageData;
     }
-
-//    public AlternativeUserDTO getLoggedUser(HttpSession session) {
-//        AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
-//        if (loggedUser == null) {
-//            throw new ApiRequestException("No user is currently logged in!");
-//        }
-//        return loggedUser;
-//    }
 
     @GetMapping("/show/{id}")
     public String showPropertyById(@PathVariable(name = "id") Long id, Model model) {
