@@ -264,6 +264,9 @@
 </div>
 
 <div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+
 <div th:replace="fragments :: footer"></div>
 
 <script src="/js/min/imageSlider.min.js"></script>
@@ -272,6 +275,13 @@
 <script src="/js/min/handlePrint.min.js"></script>
 <script src="/js/min/loginModal.min.js"></script>
 <script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
 <script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function() {
         var iconContainer = document.querySelector('.heart-container');

@@ -7,6 +7,8 @@ import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ public class PropertyController {
     @GetMapping(value = {"/{page}", ""})
     String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page){
         int currentPage = (page != null) ? page : 0;
+        addAuthAttributes(model);
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -43,6 +46,7 @@ public class PropertyController {
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
         propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null));
 
+        addAuthAttributes(model);
         model.addAttribute("property", propertyDTO);
         model.addAttribute("propertyImages", propertyImageDTOs);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -71,4 +75,12 @@ public class PropertyController {
         return "redirect:/properties/show/" + propertyId;
     }
 
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
+    }
 }
