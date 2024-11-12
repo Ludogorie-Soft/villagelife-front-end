@@ -60,6 +60,135 @@
 <div th:replace="fragments :: property-hamburger-menu"></div>
 <div class="container">
 
+    <!-- Button to Open Modal for Advanced Search -->
+    <div class="text-end my-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
+            Advanced Search
+        </button>
+    </div>
+
+    <!-- Advanced Search Modal -->
+    <div class="modal fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form th:action="@{/filter/search-property/0}" method="get">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="advancedSearchModalLabel">Advanced Property Search</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Property Type -->
+                        <div class="mb-3">
+                            <label for="propertyTypes" class="form-label">Property Types</label>
+                            <select name="propertyTypes" id="propertyTypes" multiple class="form-select">
+                                <option value="house">House</option>
+                                <option value="apartment">Apartment</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+
+                        <!-- Property Transfer Type -->
+                        <div class="mb-3">
+                            <label for="propertyTransferType" class="form-label">Transfer Type</label>
+                            <input type="text" name="propertyTransferType" class="form-control" id="propertyTransferType">
+                        </div>
+
+                        <!-- Built-up Area Range -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="minBuiltUpArea" class="form-label">Min Built-up Area</label>
+                                <input type="number" name="minBuiltUpArea" class="form-control" id="minBuiltUpArea">
+                            </div>
+                            <div class="col">
+                                <label for="maxBuiltUpArea" class="form-label">Max Built-up Area</label>
+                                <input type="number" name="maxBuiltUpArea" class="form-control" id="maxBuiltUpArea">
+                            </div>
+                        </div>
+
+                        <!-- Yard Area Range -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="minYardArea" class="form-label">Min Yard Area</label>
+                                <input type="number" name="minYardArea" class="form-control" id="minYardArea">
+                            </div>
+                            <div class="col">
+                                <label for="maxYardArea" class="form-label">Max Yard Area</label>
+                                <input type="number" name="maxYardArea" class="form-control" id="maxYardArea">
+                            </div>
+                        </div>
+
+                        <!-- Rooms and Bathrooms Range -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="minRoomsCount" class="form-label">Min Rooms</label>
+                                <input type="number" name="minRoomsCount" class="form-control" id="minRoomsCount">
+                            </div>
+                            <div class="col">
+                                <label for="maxRoomsCount" class="form-label">Max Rooms</label>
+                                <input type="number" name="maxRoomsCount" class="form-control" id="maxRoomsCount">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="minBathroomsCount" class="form-label">Min Bathrooms</label>
+                                <input type="number" name="minBathroomsCount" class="form-control" id="minBathroomsCount">
+                            </div>
+                            <div class="col">
+                                <label for="maxBathroomsCount" class="form-label">Max Bathrooms</label>
+                                <input type="number" name="maxBathroomsCount" class="form-control" id="maxBathroomsCount">
+                            </div>
+                        </div>
+
+                        <!-- Heating and Construction Types -->
+                        <div class="mb-3">
+                            <label for="heating" class="form-label">Heating Types</label>
+                            <select name="heating" id="heating" multiple class="form-select">
+                                <option value="central">Central</option>
+                                <option value="individual">Individual</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="constructionTypes" class="form-label">Construction Types</label>
+                            <select name="constructionTypes" id="constructionTypes" multiple class="form-select">
+                                <option value="brick">Brick</option>
+                                <option value="concrete">Concrete</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="minPrice" class="form-label">Min Price</label>
+                                <input type="number" name="minPrice" class="form-control" id="minPrice">
+                            </div>
+                            <div class="col">
+                                <label for="maxPrice" class="form-label">Max Price</label>
+                                <input type="number" name="maxPrice" class="form-control" id="maxPrice">
+                            </div>
+                        </div>
+
+                        <!-- Sort By -->
+                        <div class="mb-3">
+                            <label for="sort" class="form-label">Sort By</label>
+                            <select name="sort" id="sort" class="form-select">
+                                <option value="createdAt">Created At</option>
+                                <option value="price,asc">Price: Low to High</option>
+                                <option value="price,desc">Price: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer with Submit Button -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="row col-12">
         <div th:each="property : ${properties}" class="col-lg-4 col-md-6 col-sm-12 property">

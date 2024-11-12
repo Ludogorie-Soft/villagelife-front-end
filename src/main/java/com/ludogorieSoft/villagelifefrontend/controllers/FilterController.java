@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -85,6 +86,52 @@ public class FilterController {
         model.addAttribute("subscription", new SubscriptionDTO());
         displayAdvancedSearchResultMessage(model, villageDTOs.getTotalElements(),villageDTOs.getTotalPages());
         return SEARCHING_FORM_VIEW;
+    }
+
+    @GetMapping("/search-property/{page}")
+    public String searchProperty(@ModelAttribute AdvancedSearchForm formResult,
+                                 @PathVariable("page") int page,
+                                 @RequestParam(value = "propertyTypes", required = false) List<String> propertyTypes,
+                                 @RequestParam(value = "propertyTransferType", required = false) String propertyTransferType,
+                                 @RequestParam(value = "minBuiltUpArea", required = false) Double minBuiltUpArea,
+                                 @RequestParam(value = "maxBuiltUpArea", required = false) Double maxBuiltUpArea,
+                                 @RequestParam(value = "minYardArea", required = false) Double minYardArea,
+                                 @RequestParam(value = "maxYardArea", required = false) Double maxYardArea,
+                                 @RequestParam(value = "minRoomsCount", required = false) Short minRoomsCount,
+                                 @RequestParam(value = "maxRoomsCount", required = false) Short maxRoomsCount,
+                                 @RequestParam(value = "minBathroomsCount", required = false) Short minBathroomsCount,
+                                 @RequestParam(value = "maxBathroomsCount", required = false) Short maxBathroomsCount,
+                                 @RequestParam(value = "heating", required = false) List<String> heating,
+                                 @RequestParam(value = "constructionTypes", required = false) List<String> constructionTypes,
+                                 @RequestParam(value = "minConstructionYear", required = false) Short minConstructionYear,
+                                 @RequestParam(value = "maxConstructionYear", required = false) Short maxConstructionYear,
+                                 @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+                                 @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+                                 @RequestParam(value = "ownershipTypes", required = false) List<String> ownershipTypes,
+                                 @RequestParam(value = "villageName", required = false) String villageName,
+                                 @RequestParam(value = "regionName", required = false) String regionName,
+                                 @RequestParam(name = "sort", required = false, defaultValue = "createdAt") String sort,
+                                 BindingResult bindingResult, Model model) {
+
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Формата е празна");
+            model.addAttribute("subscription", new SubscriptionDTO());
+            return "redirect:/properties";
+        }
+        String[] sortParams = sort.split(",");
+        String sortBy = sortParams[0];
+        String sortDir = sortParams.length > 1 ? sortParams[1] : "asc";
+        Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
+        Page<PropertyDTO> propertyDTOS = filterClient.searchPropertiesByCriteria(propertyTypes, propertyTransferType,
+                minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,
+                maxBathroomsCount, heating, constructionTypes, minConstructionYear, maxConstructionYear, minPrice,
+                maxPrice, ownershipTypes, villageName, regionName, pageable);
+        model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
+        model.addAttribute("properties", propertyDTOS.stream().toList());
+        model.addAttribute("subscription", new SubscriptionDTO());
+        return "/property/list-properties";
     }
 
     private static void displayAdvancedSearchResultMessage(Model model, long resultCount, long pageSize) {

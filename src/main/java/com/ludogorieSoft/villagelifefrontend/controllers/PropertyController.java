@@ -5,6 +5,9 @@ import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
+import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
+import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
+import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,7 @@ public class PropertyController {
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        addSearchPropertyAttributes(model);
         return "/property/list-properties";
     }
 
@@ -38,5 +42,11 @@ public class PropertyController {
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
         model.addAttribute("propertyImages", propertyImageDTOs);
         return "/property/property";
+    }
+
+    private void addSearchPropertyAttributes(Model model) {
+        model.addAttribute("propertyTypes", List.of(PropertyType.values()));
+        model.addAttribute("constructionTypes", List.of(ConstructionType.values()));
+        model.addAttribute("ownershipTypes", List.of(OwnershipType.values()));
     }
 }

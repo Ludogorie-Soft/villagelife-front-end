@@ -24,25 +24,27 @@ import java.util.List;
 public class UserSearchDataDTO {
 
     private Long id;
-    private VillageDTO villageDTO;
-    private PropertyType propertyType;
+    private AlternativeUserDTO alternativeUserDTO;
+    private String searchName;
+    private String villageName;
+    private String regionName;
+    private List<PropertyType> propertyTypes;
     private PropertyTransferType propertyTransferType;
     private Double minBuiltUpArea;
     private Double maxBuiltUpArea;
     private Double minYardArea;
     private Double maxYardArea;
-    private short minRoomsCount;
-    private short maxRoomsCount;
-    private short minBathroomsCount;
-    private short maxBathroomsCount;
+    private Short minRoomsCount;
+    private Short maxRoomsCount;
+    private Short minBathroomsCount;
+    private Short maxBathroomsCount;
     private List<String> heating;
-    private ConstructionType constructionType;
-    private short minConstructionYear;
-    private short maxConstructionYear;
-    private String extras;
+    private List<ConstructionType> constructionTypes;
+    private Short minConstructionYear;
+    private Short maxConstructionYear;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
-    private OwnershipType ownershipType;
+    private List<OwnershipType> ownershipTypes;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
