@@ -9,6 +9,8 @@ import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
 import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import lombok.AllArgsConstructor;
@@ -48,6 +50,7 @@ public class PropertyController {
     String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page) {
         int currentPage = (page != null) ? page : 0;
         PageableResponse<PropertyDTO> propertyDTOS = propertyClient.getAllProperties(currentPage, 6);
+        addAuthAttributes(model);
         model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
         model.addAttribute("properties", propertyDTOS.stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -63,6 +66,7 @@ public class PropertyController {
         }
         PropertyDTO propertyDTO = new PropertyDTO();
         propertyDTO.setPropertyTransferType(SALE);
+        addAuthAttributes(model);
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
             model.addAttribute(PROPERTY_DTO_NAME, propertyDTO);
         }
@@ -77,6 +81,7 @@ public class PropertyController {
         }
         PropertyDTO propertyDTO = new PropertyDTO();
         propertyDTO.setPropertyTransferType(RENT);
+        addAuthAttributes(model);
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
             model.addAttribute(PROPERTY_DTO_NAME, propertyDTO);
         }
@@ -138,5 +143,13 @@ public class PropertyController {
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
         model.addAttribute("propertyImages", propertyImageDTOs);
         return "/property/property";
+    }
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
     }
 }

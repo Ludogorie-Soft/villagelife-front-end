@@ -83,24 +83,25 @@
 
     <form action="/properties/save" method="post" enctype="multipart/form-data">
         <!-- Village Name and Region -->
-        <div class="mb-3">
-            <label for="villageDTO" class="form-label fw-bold">
-                <span th:text="#{property.village}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="text" id="villageDTO" name="villageDTO.name" class="form-control" required>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <div class="mb-3">
-            <label for="region" class="form-label fw-bold">
-                <span th:text="#{property.region}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="text" id="region" name="villageDTO.region" class="form-control" required>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="villageDTO" class="form-label fw-bold">
+                    <span th:text="#{property.village}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="villageDTO" name="villageDTO.name" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="region" class="form-label fw-bold">
+                    <span th:text="#{property.region}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="region" name="villageDTO.region" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Property Type -->
@@ -136,7 +137,7 @@
             <label for="price" class="form-label fw-bold">
                 <span th:text="#{property.price.rent}"></span><span class="text-danger">*</span>
             </label>
-            <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control" required>
+            <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control" required min="0">
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
@@ -147,54 +148,54 @@
             <label for="phoneNumber" class="form-label fw-bold">
                 <span th:text="#{property.phone.number}"></span><span class="text-danger">*</span>
             </label>
-            <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control" required min="10">
+            <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control" required minlength="10">
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>
         </div>
 
         <!-- Build-Up Area -->
-        <div class="mb-3">
-            <label for="buildUpArea" class="form-label fw-bold">
-                <span th:text="#{property.build.up.area}"></span>
-            </label>
-            <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" class="form-control" required min="0">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <!-- Yard Area -->
-        <div class="mb-3">
-            <label for="yardArea" class="form-label fw-bold">
-                <span th:text="#{property.yard.area}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea" class="form-control" required min="0">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="buildUpArea" class="form-label fw-bold">
+                    <span th:text="#{property.build.up.area}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="yardArea" class="form-label fw-bold">
+                    <span th:text="#{property.yard.area}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Rooms Count -->
-        <div class="mb-3">
-            <label for="roomsCount" class="form-label fw-bold">
-                <span th:text="#{property.rooms.count}"></span>
-            </label>
-            <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <!-- Bathrooms Count -->
-        <div class="mb-3">
-            <label for="bathroomsCount" class="form-label fw-bold">
-                <span th:text="#{property.bathrooms.count}"></span>
-            </label>
-            <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="roomsCount" class="form-label fw-bold">
+                    <span th:text="#{property.rooms.count}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="bathroomsCount" class="form-label fw-bold">
+                    <span th:text="#{property.bathrooms.count}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Heating Text-->
@@ -220,27 +221,27 @@
         </section>
 
         <!-- Property Images -->
-        <div class="mb-3">
-            <label for="formFileForMultiple" class="form-label fw-bold">
-                <span th:text="#{property.images}"></span><span class="text-danger">*</span>
-            </label>
-            <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*" required>
-            <span class="text-muted" th:text="#{number.of.photos}"></span>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <!-- Main Image -->
-        <div class="mb-3">
-            <label for="formFileMultiple" class="form-label fw-bold">
-                <span th:text="#{property.main.image}"></span><span class="text-danger">*</span>
-            </label>
-            <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*" required>
-            <span class="text-muted" th:text="#{main.image}"></span>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="formFileMultiple" class="form-label fw-bold">
+                    <span th:text="#{property.main.image}"></span><span class="text-danger">*</span>
+                </label>
+                <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*" required>
+                <span class="text-muted" th:text="#{main.image}"></span>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="formFileForMultiple" class="form-label fw-bold">
+                    <span th:text="#{property.images}"></span><span class="text-danger">*</span>
+                </label>
+                <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*" required>
+                <span class="text-muted" th:text="#{number.of.photos}"></span>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Construction Type -->
@@ -304,7 +305,7 @@
             <label for="description" class="form-label fw-bold">
                 <span th:text="#{property.description}"></span><span class="text-danger">*</span>
             </label>
-            <textarea id="description" name="description" class="form-control" required min="10" max="500"></textarea>
+            <textarea id="description" name="description" class="form-control" required minlength="10" maxlength="500"></textarea>
             <ul class="error-list">
                 <li th:each="err : ${#fields.errors('propertyDTO.description')}" th:text="#{${err}}" class="error text-danger"></li>
             </ul>

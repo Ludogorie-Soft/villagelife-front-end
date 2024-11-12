@@ -314,21 +314,35 @@
                     style="padding: 0.25rem 0.5rem; border: none !important;">
                 <span th:text="#{property.menu.add}" style="color: white;"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="propertyDropdown">
-                <li><a class="dropdown-item" th:href="@{/properties/add-sale}"><span th:text="#{property.menu.add.sale}" ></span></a></li>
-                <li><a class="dropdown-item" th:href="@{/properties/add-rent}"><span th:text="#{property.menu.add.rent}"></span></a></li>
+            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="propertyDropdown">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:href="@{/properties/add-sale}">
+                        <i class="bi bi-house-fill me-2"></i>
+                        <span th:text="#{property.menu.add.sale}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:href="@{/properties/add-rent}">
+                        <i class="bi bi-building me-2"></i>
+                        <span th:text="#{property.menu.add.rent}"></span>
+                    </a>
+                </li>
             </ul>
         </div>
 
         <hr>
 
         <div th:unless="${session.admin}">
-            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal" th:text="#{auth.log.in}" style="color: white;"></a>
-            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>
+            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#loginModal"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.log.in}"></a>
+            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#registerModal"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.register}"></a>
         </div>
         <div th:if="${session.admin}">
-            <a class="auth-btn" th:href="@{/auth/logout}" th:text="#{auth.log.out}" style="color: white;"></a>
+            <a class="btn btn-sm auth-btn text-white" th:href="@{/auth/logout}"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.log.out}"></a>
         </div>
+
 
         <hr>
 
