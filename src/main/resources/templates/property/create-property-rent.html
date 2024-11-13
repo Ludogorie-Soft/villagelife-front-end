@@ -53,15 +53,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
-    <link rel="stylesheet" href="/css/min/addVillage.min.css">
+    <link rel="stylesheet" href="/css/min/addProperty.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <!-- Canonical URL address -->
     <link rel="canonical" href="https://villagelife.bg/villages/create">
 </head>
 <body>
 
-<div th:replace="fragments :: menu"></div>
-<div th:replace="fragments :: hamburger-menu"></div>
+<div th:replace="fragments :: property-menu"></div>
+<div th:replace="fragments :: property-hamburger-menu"></div>
 
 <div class="container">
     <div th:if="${consentMessage}" class="message alert alert-info text-center">
@@ -109,8 +110,8 @@
             <label for="propertyType" class="form-label fw-bold">
                 <span th:text="#{property.type}"></span><span class="text-danger">*</span>
             </label>
-            <select id="propertyType" name="propertyType" class="form-select" required>
-                <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
+            <select id="propertyType" name="propertyType" class="form-select custom-dropdown" required>
+                <option class="custom-option" th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
                         th:value="${propertyType1}" th:text="#{${propertyType1.key}}" ></option>
             </select>
             <ul class="error-list">
@@ -249,8 +250,8 @@
             <label for="constructionType" class="form-label fw-bold">
                 <span th:text="#{property.construction.type}"></span>
             </label>
-            <select id="constructionType" name="constructionType" class="form-select">
-                <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
+            <select id="constructionType" name="constructionType" class="form-select custom-dropdown">
+                <option class="custom-option" th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
                         th:value="${constructionType1}" th:text="#{${constructionType1.key}}">
                 </option>
             </select>
@@ -277,8 +278,8 @@
             <label for="ownershipType" class="form-label fw-bold">
                 <span th:text="#{property.ownership.type}"></span><span class="text-danger">*</span>
             </label>
-            <select id="ownershipType" name="ownershipType" class="form-select" required>
-                <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
+            <select id="ownershipType" name="ownershipType" class="form-select custom-dropdown" required>
+                <option class="custom-option" th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
                         th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}"></option>
             </select>
             <ul class="error-list">
@@ -291,8 +292,8 @@
             <label for="propertyCondition" class="form-label fw-bold">
                 <span th:text="#{property.condition}"></span><span class="text-danger">*</span>
             </label>
-            <select id="propertyCondition" name="propertyCondition" class="form-select" required>
-                <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
+            <select id="propertyCondition" name="propertyCondition" class="form-select custom-dropdown" required>
+                <option class="custom-option" th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
                         th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}"></option>
             </select>
             <ul class="error-list">
@@ -313,10 +314,11 @@
 
         <!-- Submit Button -->
         <section class="text-center">
-            <button type="submit" class="btn btn-primary" th:text="#{send.village}"></button>
+            <button type="submit" class="submit-btn" th:text="#{send.village}"></button>
         </section>
     </form>
 
 </div>
+<script src="/js/min/properties-navScript.min.js"></script>
 </body>
 </html>
