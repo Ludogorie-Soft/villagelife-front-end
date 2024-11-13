@@ -20,7 +20,7 @@ import java.util.List;
 public class PropertyDTO {
     private Long id;
     private VillageDTO villageDTO;
-    private PropertyUserDTO propertyUserDTO;
+    private AlternativeUserDTO alternativeUserDTO;
     private PropertyType propertyType;
     private PropertyTransferType propertyTransferType;
     private BigDecimal price;
@@ -34,6 +34,8 @@ public class PropertyDTO {
     private ConstructionType constructionType;
     private int constructionYear;
     private String extras;
+    private String description;
+    private String address;
     private PropertyStatsDTO propertyStatsDTO;
     private OwnershipType ownershipType;
     private PropertyCondition propertyCondition;
