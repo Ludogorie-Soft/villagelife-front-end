@@ -28,23 +28,6 @@ section {
     padding: 0;
 }
 
-.custom-dropdown {
-    background-color: white;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 5px;
-}
-
-.custom-dropdown option:hover {
-    background-color: #96c930;
-    color: white;
-}
-
-.custom-option:hover {
-    background-color: #96c930;
-    color: white;
-}
-
 .form-control:focus,
 #villageDTO:focus,
 #region:focus,

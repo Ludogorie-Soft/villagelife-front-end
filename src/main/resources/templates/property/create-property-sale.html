@@ -105,54 +105,58 @@
             </div>
         </div>
 
-        <!-- Property Type -->
-        <div class="mb-3">
-            <label for="propertyType" class="form-label fw-bold">
-                <span th:text="#{property.type}"></span><span class="text-danger">*</span>
-            </label>
-            <select id="propertyType" name="propertyType" class="form-select" required>
-                <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
-                        th:value="${propertyType1}" th:text="#{${propertyType1.key}}" ></option>
-            </select>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+        <div class="row mb-3">
+            <!-- Property Type -->
+            <div class="col-md-6">
+                <label for="propertyType" class="form-label fw-bold">
+                    <span th:text="#{property.type}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="propertyType" name="propertyType" class="form-select" required>
+                    <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
+                            th:value="${propertyType1}" th:text="#{${propertyType1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+
+            <!-- Price -->
+            <div class="col-md-6">
+                <label for="price" class="form-label fw-bold">
+                    <span th:text="#{property.price}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Property Transfer Type -->
         <input type="hidden" name="propertyTransferType" value="SALE">
 
-        <!-- Address -->
-        <div class="mb-3">
-            <label for="address" class="form-label fw-bold">
-                <span th:text="#{property.address}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="text" id="address" name="address" class="form-control" required>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
+        <div class="row mb-3">
+            <!-- Address -->
+            <div class="col-md-6">
+                <label for="address" class="form-label fw-bold">
+                    <span th:text="#{property.address}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="address" name="address" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
 
-        <!-- Price -->
-        <div class="mb-3">
-            <label for="price" class="form-label fw-bold">
-                <span th:text="#{property.price}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control"required min="0">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <!-- Phone Number -->
-        <div class="mb-3">
-            <label for="phoneNumber" class="form-label fw-bold">
-                <span th:text="#{property.phone.number}"></span><span class="text-danger">*</span>
-            </label>
-            <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control" required minlength="10">
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
+            <!-- Phone Number -->
+            <div class="col-md-6">
+                <label for="phoneNumber" class="form-label fw-bold">
+                    <span th:text="#{property.phone.number}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control" required minlength="10">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Build-Up Area -->
@@ -245,23 +249,55 @@
             </div>
         </div>
 
-        <!-- Construction Type -->
-        <div class="mb-3">
-            <label for="constructionType" class="form-label fw-bold">
-                <span th:text="#{property.construction.type}"></span>
-            </label>
-            <select id="constructionType" name="constructionType" class="form-select">
-                <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
-                        th:value="${constructionType1}" th:text="#{${constructionType1.key}}"></option>
-            </select>
+        <div class="row mb-3">
+            <!-- Construction Type -->
+            <div class="col-md-6">
+                <label for="constructionType" class="form-label fw-bold">
+                    <span th:text="#{property.construction.type}"></span>
+                </label>
+                <select id="constructionType" name="constructionType" class="form-select">
+                    <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
+                            th:value="${constructionType1}" th:text="#{${constructionType1.key}}"></option>
+                </select>
+            </div>
+
+            <!-- Construction Year -->
+            <div class="col-md-6">
+                <label for="constructionYear" class="form-label fw-bold">
+                    <span th:text="#{property.construction.year}"></span>
+                </label>
+                <input type="text" id="constructionYear" name="constructionYear" class="form-control">
+            </div>
         </div>
 
-        <!-- Construction Year -->
-        <div class="mb-3">
-            <label for="constructionYear" class="form-label fw-bold">
-                <span th:text="#{property.construction.year}"></span>
-            </label>
-            <input type="text" id="constructionYear" name="constructionYear" class="form-control">
+        <div class="row mb-3">
+            <!-- Ownership Type -->
+            <div class="col-md-6">
+                <label for="ownershipType" class="form-label fw-bold">
+                    <span th:text="#{property.ownership.type}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="ownershipType" name="ownershipType" class="form-select" required>
+                    <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
+                            th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+
+            <!-- Property Condition -->
+            <div class="col-md-6">
+                <label for="propertyCondition" class="form-label fw-bold">
+                    <span th:text="#{property.condition}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="propertyCondition" name="propertyCondition" class="form-select" required>
+                    <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
+                            th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
         </div>
 
         <!-- Extras -->
@@ -270,34 +306,6 @@
                 <span th:text="#{property.extras}"></span>
             </label>
             <textarea id="extras" name="extras" class="form-control"></textarea>
-        </div>
-
-        <!-- Ownership Type -->
-        <div class="mb-3">
-            <label for="ownershipType" class="form-label fw-bold">
-                <span th:text="#{property.ownership.type}"></span><span class="text-danger">*</span>
-            </label>
-            <select id="ownershipType" name="ownershipType" class="form-select" required>
-                <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
-                        th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}"></option>
-            </select>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
-        </div>
-
-        <!-- Property Condition -->
-        <div class="mb-3">
-            <label for="propertyCondition" class="form-label fw-bold">
-                <span th:text="#{property.condition}"></span><span class="text-danger">*</span>
-            </label>
-            <select id="propertyCondition" name="propertyCondition" class="form-select" required>
-                <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
-                        th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}"></option>
-            </select>
-            <ul class="error-list">
-                <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="#{${err}}" class="error text-danger"></li>
-            </ul>
         </div>
 
         <!-- Description -->
