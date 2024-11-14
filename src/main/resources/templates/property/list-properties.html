@@ -54,6 +54,7 @@
 
     <link rel="stylesheet" href="/css/min/list-properties.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
 </head>
 <body>
 <div th:replace="fragments :: property-menu"></div>
@@ -200,8 +201,13 @@
                 </div>
 
                 <div class="card-body">
-                    <a th:href="@{#}" class="card-body-link">
-                        <h5><span th:text="#{${property.propertyType.key}}"></span></h5>
+                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="card-body-link">
+                        <h6 style="font-weight: 400; text-transform: uppercase;">
+                            <div th:text="#{${property.propertyTransferType.name}}"></div>
+                        </h6>
+                        <h5>
+                            <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                        </h5>
                         <h6><span th:text="#{village}"></span>
                             <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
                             <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
@@ -211,7 +217,7 @@
                         </h6>
                     </a>
                     <br>
-                    <a th:href="@{#}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
+                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                 </div>
             </div>
         </div>
@@ -264,8 +270,21 @@
 
 </div>
 
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+
 <div th:replace="fragments :: footer"></div>
 
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
 <script>
 function updatePageValue(event) {
     if (event.key === 'Enter') {
@@ -296,7 +315,6 @@ function updatePageValue(event) {
 }
 </script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
-<script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
 </body>
 </html>
