@@ -1,4 +1,4 @@
-    document.querySelectorAll('.nav-link').forEach(tab => {
+document.querySelectorAll('.nav-link').forEach(tab => {
     tab.addEventListener('click', function() {
         localStorage.setItem('activeTab', this.id);
     });
@@ -9,6 +9,9 @@ window.onload = function() {
     if (activeTab) {
         const tabToActivate = document.getElementById(activeTab);
         if (tabToActivate) {
+            if (tabToActivate.classList.contains('dropdown-toggle')) {
+                return;
+            }
             tabToActivate.click();
         }
     }
