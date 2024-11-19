@@ -38,20 +38,14 @@ public class PropertyDTO {
     @Size(min = 10, message = "Phone number should be at least 10 characters long!")
     private String phoneNumber;
 
-//    @NotNull(message = "This field is required")
-//    @Min(value = 0, message = "Must be greater than or equal to 0")
+    @NotNull(message = "This field is required")
+    @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double buildUpArea;
 
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double yardArea;
-
-//    @NotNull(message = "This field is required")
-//    @Min(value = 0, message = "Must be greater than or equal to 0")
     private int roomsCount;
-
-//    @NotNull(message = "This field is required")
-//    @Min(value = 0, message = "Must be greater than or equal to 0")
     private int bathroomsCount;
     private List<String> heating;
     private List<PropertyImageDTO> images;
