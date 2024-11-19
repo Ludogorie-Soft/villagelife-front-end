@@ -3,6 +3,8 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchForm;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class FilterController {
     private final VillageImageClient villageImageClient;
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
+    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping("/advancedSearchModalForm")
     public String getPageWithModal(Model model) {
@@ -59,14 +62,12 @@ public class FilterController {
                          @RequestParam(name = "keyword", required = false) String villageName,
                          @RequestParam(name = "sort", required = false, defaultValue = "name") String sort,
                          BindingResult bindingResult, Model model) {
-//        AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
-//        validator.validate(formResult, bindingResult);
 
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
-            model.addAttribute("subscription", new SubscriptionDTO());
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
             return SEARCHING_FORM_VIEW;
         }
 
@@ -83,7 +84,7 @@ public class FilterController {
         Page<VillageDTO> villageDTOs = getVillageDTOs(model,region, villageName, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
         model.addAttribute("sort", sort);
         model.addAttribute("villages", villageDTOs);
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         displayAdvancedSearchResultMessage(model, villageDTOs.getTotalElements(),villageDTOs.getTotalPages());
         return SEARCHING_FORM_VIEW;
     }
@@ -113,11 +114,12 @@ public class FilterController {
                                  @RequestParam(name = "sort", required = false, defaultValue = "createdAt") String sort,
                                  BindingResult bindingResult, Model model) {
 
+        addAuthAttributes(model);
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
-            model.addAttribute("subscription", new SubscriptionDTO());
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
             return "redirect:/properties";
         }
         String[] sortParams = sort.split(",");
@@ -130,7 +132,7 @@ public class FilterController {
                 maxPrice, ownershipTypes, villageName, regionName, pageable);
         model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
         model.addAttribute("properties", propertyDTOS.stream().toList());
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "/property/list-properties";
     }
 
@@ -188,5 +190,14 @@ public class FilterController {
             return "redirect:" + newRedirectUrl;
         }
         return "redirect:" + referer;
+    }
+
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
     }
 }

@@ -2,10 +2,12 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
+import com.ludogorieSoft.villagelifefrontend.config.RegionClient;
 import com.ludogorieSoft.villagelifefrontend.config.UserSavedPropertyClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.RegionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
@@ -31,12 +33,15 @@ public class PropertyController {
     private PropertyClient propertyClient;
     private PropertyImageClient propertyImageClient;
     private UserSavedPropertyClient userSavedPropertyClient;
+    private RegionClient regionClient;
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping(value = {"/{page}", ""})
     String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page){
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
