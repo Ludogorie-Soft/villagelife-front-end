@@ -29,14 +29,14 @@
     <!-- End Meta Pixel Code -->
     <!-- Hotjar Tracking Code for https://villagelife.bg -->
     <script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:3202998,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3202998,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <meta charset="UTF-8">
 
@@ -49,8 +49,10 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Include noUiSlider CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/min/list-properties.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
@@ -60,131 +62,316 @@
 <div th:replace="fragments :: property-menu"></div>
 <div th:replace="fragments :: property-hamburger-menu"></div>
 <div class="container">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+         th:classappend="${successMessage != null ? ' bg-success' : (errorMessage != null ? ' bg-danger' : '')}">
+        <div class="toast-header">
+            <strong class="me-auto"></strong><!---текст?-->
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <!-- Only render this div if the successMessage is not null -->
+            <div th:if="${successMessage}" th:text="#{${successMessage}}"></div>
 
-    <!-- Button to Open Modal for Advanced Search -->
-    <div class="text-end my-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
-            Advanced Search
-        </button>
+            <!-- Only render this div if the errorMessage is not null -->
+            <div th:if="${errorMessage}" th:text="#{${errorMessage}}"></div>
+        </div>
     </div>
 
-    <!-- Advanced Search Modal -->
-    <div class="modal fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel" aria-hidden="true">
+    <div class="search-bar-row d-flex flex-wrap align-items-center justify-content-between">
+        <!-- Form for Region and Village Name Filters -->
+        <form th:action="@{/filter/search-property/0}" method="get"
+              class="d-flex flex-column flex-sm-row align-items-center flex-grow-1 me-3">
+            <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
+                 style="padding: 0;">
+                <div class="input-group">
+                    <select name="regionName" class="form-select fixed-width" id="regionName">
+                        <option value="" selected disabled style="text-align: left;"
+                                th:text="#{choose.region}"></option>
+                        <option th:each="region : ${regions}" th:value="${region.regionName}"
+                                th:text="#{${region.regionName}}" aria-label="regionName"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
+                 style="padding: 0;">
+                <div class="input-group">
+                    <label class="input-group-text icon-label" for="search-input" style="height: 35px !important;">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 14px;"></i>
+                    </label>
+                    <input type="text" name="villageName" id="search-input" class="form-control form-control-sm"
+                           th:placeholder="#{placeholder.search}">
+                    <button class="btn custom-filter-button" type="submit" style="font-weight: bold;"
+                            th:text="#{searching}"></button>
+                    <button type="button" id="clearSearchButton" class="btn btn-warning" th:text="#{search.clear.button}"></button>
+                    <!-- Confirmation Modal -->
+                    <div class="modal fade" id="clearWarningModal" tabindex="-1" aria-labelledby="clearWarningModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="clearWarningModalLabel" th:text="#{search.confirm.clear}"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p th:text="#{search.clear.warning}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" id="cancelClearSearch" data-bs-dismiss="modal" th:text="#{search.cancel.clear}"></button>
+                                    <button type="button" class="btn btn-danger" id="confirmClearSearch" th:text="#{search.clear}"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="button" class="btn custom-filter-button" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
+            <i class="fas fa-filter filter-icon"></i><span th:text="#{filter.search}"></span>
+        </button>
+        <div th:if="${session.admin}">
+            <button type="button" class="btn custom-filter-button" data-bs-toggle="modal" data-bs-target="#userSearchDataModal">
+                <i class="fa-regular fa-floppy-disk" style="color: white;"></i><span th:text="#{save.search}"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userSearchDataModal" tabindex="-1" aria-labelledby="userSearchDataModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
+                <form th:action="@{/user-search-data}" method="post">
+                    <div id="villageError" class="text-danger" style="display: none; margin-top: 10px;">
+                        <p th:text="#{search.select.region}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="searchName" class="form-label" th:text="#{save.search.name}"></label>
+                        <input type="text" class="form-control" th:field="*{userSearchDataDTO.searchName}" id="searchName" required/>
+                    </div>
+
+                    <!-- Hidden fields to store search criteria -->
+                    <input type="hidden" name="regionName" id="saveRegionName"/>
+                    <input type="hidden" name="villageName" id="saveVillageName"/>
+                    <input type="hidden" name="propertyTypes" id="savePropertyTypes"/>
+                    <input type="hidden" name="propertyTransferType" id="savePropertyTransferType"/>
+                    <input type="hidden" name="minBuiltUpArea" id="saveMinBuiltUpArea"/>
+                    <input type="hidden" name="maxBuiltUpArea" id="saveMaxBuiltUpArea"/>
+                    <input type="hidden" name="minYardArea" id="saveMinYardArea"/>
+                    <input type="hidden" name="maxYardArea" id="saveMaxYardArea"/>
+                    <input type="hidden" name="minRoomsCount" id="saveMinRoomsCount"/>
+                    <input type="hidden" name="maxRoomsCount" id="saveMaxRoomsCount"/>
+                    <input type="hidden" name="minBathroomsCount" id="saveMinBathroomsCount"/>
+                    <input type="hidden" name="maxBathroomsCount" id="saveMaxBathroomsCount"/>
+                    <input type="hidden" name="heating" id="saveHeating"/>
+                    <input type="hidden" name="constructionTypes" id="saveConstructionTypes"/>
+                    <input type="hidden" name="minPrice" id="saveMinPrice"/>
+                    <input type="hidden" name="maxPrice" id="saveMaxPrice"/>
+                    <input type="hidden" name="minRentPrice" id="saveMinRentPrice"/>
+                    <input type="hidden" name="maxRentPrice" id="saveMaxRentPrice"/>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-search" th:text="#{save.search}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
                 <form th:action="@{/filter/search-property/0}" method="get">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="advancedSearchModalLabel">Advanced Property Search</h5>
+                        <h5 class="modal-title" id="advancedSearchModalLabel" th:text="#{advanced.property.search}"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Property Type -->
                         <div class="mb-3">
-                            <label for="propertyTypes" class="form-label">Property Types</label>
-                            <select name="propertyTypes" id="propertyTypes" multiple class="form-select">
-                                <option value="house">House</option>
-                                <option value="apartment">Apartment</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                            <label class="form-label" th:text="#{advanced.property.search.types}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="HOUSE" id="propertyTypeHouse"
+                                           class="form-check-input">
+                                    <label for="propertyTypeHouse" class="form-check-label" th:text="#{property.type.house}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="APARTMENT"
+                                           id="propertyTypeApartment" class="form-check-input">
+                                    <label for="propertyTypeApartment" class="form-check-label" th:text="#{property.type.apartment}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="VILLA" id="propertyTypeVilla"
+                                           class="form-check-input">
+                                    <label for="propertyTypeVilla" class="form-check-label" th:text="#{property.type.villa}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="FLOOR_OF_A_HOUSE"
+                                           id="propertyTypeFloorOfHouse" class="form-check-input">
+                                    <label for="propertyTypeFloorOfHouse" class="form-check-label" th:text="#{property.type.floor.of.a.house}"</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="BUSINESS_PROPERTY"
+                                           id="propertyTypeBusinessProperty" class="form-check-input">
+                                    <label for="propertyTypeBusinessProperty" class="form-check-label" th:text="#{property.type.business.property}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="PLOT" id="propertyTypePlot"
+                                           class="form-check-input">
+                                    <label for="propertyTypePlot" class="form-check-label" th:text="#{property.type.plot}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="AGRICULTURAL_LAND"
+                                           id="propertyTypeAgriculturalLand" class="form-check-input">
+                                    <label for="propertyTypeAgriculturalLand" class="form-check-label" th:text="#{property.type.agricultural.land}"></label>
+                                </div>
+                            </div>
                         </div>
-
-                        <!-- Property Transfer Type -->
                         <div class="mb-3">
-                            <label for="propertyTransferType" class="form-label">Transfer Type</label>
-                            <input type="text" name="propertyTransferType" class="form-control" id="propertyTransferType">
-                        </div>
-
-                        <!-- Built-up Area Range -->
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="minBuiltUpArea" class="form-label">Min Built-up Area</label>
-                                <input type="number" name="minBuiltUpArea" class="form-control" id="minBuiltUpArea">
+                            <label id="propertyTransferTypeLabel" class="form-label" h:text="#{advanced.property.search.transfer}"></label>
+                            <div>
+                                <input type="radio" name="propertyTransferType" value="RENT" id="rentOption"
+                                       aria-labelledby="propertyTransferTypeLabel" class="form-check-input">
+                                <label for="rentOption" th:text="#{property.transfer.type.rent}"></label>
                             </div>
-                            <div class="col">
-                                <label for="maxBuiltUpArea" class="form-label">Max Built-up Area</label>
-                                <input type="number" name="maxBuiltUpArea" class="form-control" id="maxBuiltUpArea">
+                            <div>
+                                <input type="radio" name="propertyTransferType" value="SALE" id="saleOption"
+                                       aria-labelledby="propertyTransferTypeLabel" class="form-check-input">
+                                <label for="saleOption" th:text="#{property.transfer.type.sale}"></label>
                             </div>
                         </div>
 
-                        <!-- Yard Area Range -->
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="minYardArea" class="form-label">Min Yard Area</label>
-                                <input type="number" name="minYardArea" class="form-control" id="minYardArea">
-                            </div>
-                            <div class="col">
-                                <label for="maxYardArea" class="form-label">Max Yard Area</label>
-                                <input type="number" name="maxYardArea" class="form-control" id="maxYardArea">
-                            </div>
+                        <!-- Built-up Area Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.built.up.area}"></label>
+                            <div id="builtUpAreaSlider"></div>
+                            <div id="builtUpAreaRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minBuiltUpArea" id="minBuiltUpArea"/>
+                            <input type="hidden" name="maxBuiltUpArea" id="maxBuiltUpArea"/>
                         </div>
 
-                        <!-- Rooms and Bathrooms Range -->
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="minRoomsCount" class="form-label">Min Rooms</label>
-                                <input type="number" name="minRoomsCount" class="form-control" id="minRoomsCount">
-                            </div>
-                            <div class="col">
-                                <label for="maxRoomsCount" class="form-label">Max Rooms</label>
-                                <input type="number" name="maxRoomsCount" class="form-control" id="maxRoomsCount">
-                            </div>
+                        <!-- Yard Area Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.yard.area}"></label>
+                            <div id="yardAreaSlider"></div>
+                            <div id="yardAreaRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minYardArea" id="minYardArea"/>
+                            <input type="hidden" name="maxYardArea" id="maxYardArea"/>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="minBathroomsCount" class="form-label">Min Bathrooms</label>
-                                <input type="number" name="minBathroomsCount" class="form-control" id="minBathroomsCount">
-                            </div>
-                            <div class="col">
-                                <label for="maxBathroomsCount" class="form-label">Max Bathrooms</label>
-                                <input type="number" name="maxBathroomsCount" class="form-control" id="maxBathroomsCount">
-                            </div>
+
+                        <!-- Rooms Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.rooms.count}"></label>
+                            <div id="roomsSlider"></div>
+                            <div id="roomsRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minRoomsCount" id="minRoomsCount"/>
+                            <input type="hidden" name="maxRoomsCount" id="maxRoomsCount"/>
+                        </div>
+
+                        <!-- Bathrooms Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.bathrooms.count}"></label>
+                            <div id="bathroomsSlider"></div>
+                            <div id="bathroomsRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minBathroomsCount" id="minBathroomsCount"/>
+                            <input type="hidden" name="maxBathroomsCount" id="maxBathroomsCount"/>
                         </div>
 
                         <!-- Heating and Construction Types -->
                         <div class="mb-3">
-                            <label for="heating" class="form-label">Heating Types</label>
-                            <select name="heating" id="heating" multiple class="form-select">
-                                <option value="central">Central</option>
-                                <option value="individual">Individual</option>
-                                <!-- Add more options as needed -->
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="constructionTypes" class="form-label">Construction Types</label>
-                            <select name="constructionTypes" id="constructionTypes" multiple class="form-select">
-                                <option value="brick">Brick</option>
-                                <option value="concrete">Concrete</option>
-                                <!-- Add more options as needed -->
-                            </select>
+                            <label class="form-label fw-bold">
+                                <span th:text="#{property.heating}"></span>
+                            </label>
+                            <div>
+                                <div th:each="heatingType : ${T(com.ludogorieSoft.villagelifefrontend.enums.HeatingType).values()}"
+                                     class="form-check">
+                                    <input type="checkbox"
+                                           th:id="${'heatingType-' + heatingType}"
+                                           th:name="heating"
+                                           th:value="${heatingType.key}"
+                                           class="form-check-input" />
+                                    <label th:for="${'heatingType-' + heatingType}"
+                                           class="form-check-label"
+                                           th:text="#{${heatingType.key}}"></label>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Price Range -->
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label for="minPrice" class="form-label">Min Price</label>
-                                <input type="number" name="minPrice" class="form-control" id="minPrice">
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{property.construction.type}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="BRICKS"
+                                           id="constructionTypeBricks" class="form-check-input">
+                                    <label for="constructionTypeBricks" class="form-check-label" th:text="#{construction.type.bricks}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="PANEL"
+                                           id="constructionTypePanel" class="form-check-input">
+                                    <label for="constructionTypePanel" class="form-check-label" th:text="#{construction.type.panel}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="WOOD"
+                                           id="constructionTypeWood" class="form-check-input">
+                                    <label for="constructionTypeWood" class="form-check-label" th:text="#{construction.type.wood}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="TIMBER_FRAMED"
+                                           id="constructionTypeTimberFramed" class="form-check-input">
+                                    <label for="constructionTypeTimberFramed" class="form-check-label" th:text="#{construction.type.timber.framed}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="ADOBE"
+                                           id="constructionTypeAdobe" class="form-check-input">
+                                    <label for="constructionTypeAdobe" class="form-check-label" th:text="#{construction.type.adobe}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="REINFORCED_CONCRETE"
+                                           id="constructionTypeReinforcedConcrete" class="form-check-input">
+                                    <label for="constructionTypeReinforcedConcrete" class="form-check-label" th:text="#{construction.type.reinforced.concrete}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="STONE"
+                                           id="constructionTypeStone" class="form-check-input">
+                                    <label for="constructionTypeStone" class="form-check-label" th:text="#{construction.type.stone}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="CLAY"
+                                           id="constructionTypeClay" class="form-check-input">
+                                    <label for="constructionTypeClay" class="form-check-label" th:text="#{construction.type.clay}"></label>
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="maxPrice" class="form-label">Max Price</label>
-                                <input type="number" name="maxPrice" class="form-control" id="maxPrice">
-                            </div>
+                        </div>
+
+                        <!-- Price Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.price}"></label>
+                            <div id="priceSlider"></div>
+                            <div id="priceRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minPrice" id="minPrice"/>
+                            <input type="hidden" name="maxPrice" id="maxPrice"/>
+                        </div>
+
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.price}"></label>
+                            <div id="priceRentSlider"></div>
+                            <div id="priceRentRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minPrice" id="minRentPrice"/>
+                            <input type="hidden" name="maxPrice" id="maxRentPrice"/>
                         </div>
 
                         <!-- Sort By -->
-                        <div class="mb-3">
-                            <label for="sort" class="form-label">Sort By</label>
+                        <div class="mb-2">
+                            <label for="sort" class="form-label" th:text="#{advanced.property.search.sort}"></label>
                             <select name="sort" id="sort" class="form-select">
-                                <option value="createdAt">Created At</option>
-                                <option value="price,asc">Price: Low to High</option>
-                                <option value="price,desc">Price: High to Low</option>
+                                <option value="createdAt" th:text="#{advanced.property.search.sort.created.at}"></option>
+                                <option value="price,asc" th:text="#{advanced.property.search.sort.price.from.low}"></option>
+                                <option value="price,desc" th:text="#{advanced.property.search.sort.price.from.high}"></option>
                             </select>
                         </div>
                     </div>
 
                     <!-- Modal Footer with Submit Button -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-search" th:text="#{searching}"></button>
                     </div>
                 </form>
             </div>
@@ -197,7 +384,8 @@
                 <div class="image-container">
                     <img alt="pictures of all properties"
                          th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
-                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" loading="lazy" width="1024" height="683">
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';"
+                         loading="lazy" width="1024" height="683">
                 </div>
 
                 <div class="card-body">
@@ -206,23 +394,27 @@
                             <div th:text="#{${property.propertyTransferType.name}}"></div>
                         </h6>
                         <h5>
-                            <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                            <span th:text="#{${property.propertyType.key}}"></span>, <span
+                                th:text="${property.price} + ' EUR'"></span>
                         </h5>
                         <h6><span th:text="#{village}"></span>
-                            <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
-                            <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-                            <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                            <span th:if="${#locale.language == 'bg'}"
+                                  th:text="${property.villageDTO.name} + ', '"></span>
+                            <span th:if="${#locale.language == 'en'}"
+                                  th:text="${property.villageDTO.latinName} + ', '"></span>
+                            <span th:if="${#locale.language == 'de'}"
+                                  th:text="${property.villageDTO.latinName} + ', '"></span>
                             <span th:text="#{region}"></span>
                             <span th:text="#{${property.villageDTO.region}}"></span>
                         </h6>
                     </a>
                     <br>
-                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
+                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info"
+                       style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="card-actions" style="font-size: 15px;">
         <div class="text-center pagination">
@@ -237,7 +429,8 @@
             <div>
                 <a th:href="@{/properties/{page}(page=${page >= 1 ? page - 1 : 0})}">
                     <button id="prev" class="btn">
-                        <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}" class="pagination-btn-text"></span>
+                        <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}"
+                                                                 class="pagination-btn-text"></span>
                     </button>
                 </a>
             </div>
@@ -253,7 +446,8 @@
             <div>
                 <a th:href="@{/properties/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
                     <button id="next" class="btn">
-                        <span th:text="#{next.page}" class="pagination-btn-text"></span>  <i class="fas fa-chevron-right"></i>
+                        <span th:text="#{next.page}" class="pagination-btn-text"></span> <i
+                            class="fas fa-chevron-right"></i>
                     </button>
                 </a>
             </div>
@@ -266,8 +460,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <div th:replace="authModals :: loginModal"></div>
@@ -286,35 +478,829 @@
 <script src="/js/min/setActiveTab.min.js"></script>
 <script src="/js/min/businessCardValidations-script.min.js"></script>
 <script>
-function updatePageValue(event) {
-    if (event.key === 'Enter') {
-        var currentPageInput = document.getElementById('currentPage');
-        var pageCount = [[${pagesCount}]];
-        var currentPageValue = parseInt(currentPageInput.value);
+    function updatePageValue(event) {
+        if (event.key === 'Enter') {
+            var currentPageInput = document.getElementById('currentPage');
+            var pageCount = [[${pagesCount}]];
+            var currentPageValue = parseInt(currentPageInput.value);
 
-        if (currentPageValue >= 0 && currentPageValue <= pageCount) {
-            var newPageValue = currentPageValue - 1;
-            if (newPageValue >= 0) {
-                var currentURL = window.location.href;
-                var baseURL = currentURL.split('?')[0];
-                var queryParams = currentURL.split('?')[1];
+            if (currentPageValue >= 0 && currentPageValue <= pageCount) {
+                var newPageValue = currentPageValue - 1;
+                if (newPageValue >= 0) {
+                    var currentURL = window.location.href;
+                    var baseURL = currentURL.split('?')[0];
+                    var queryParams = currentURL.split('?')[1];
 
-                var newBaseURL;
-                if (baseURL.endsWith('/properties')) {
-                    newBaseURL = baseURL + "/" + newPageValue;
-                    console.log(newBaseURL)
-                } else {
-                    newBaseURL = baseURL.replace(/\/\d+$/, '/' + newPageValue);
+                    var newBaseURL;
+                    if (baseURL.endsWith('/properties')) {
+                        newBaseURL = baseURL + "/" + newPageValue;
+                        console.log(newBaseURL)
+                    } else {
+                        newBaseURL = baseURL.replace(/\/\d+$/, '/' + newPageValue);
+                    }
+
+                    var newURL = queryParams ? newBaseURL + '?' + queryParams : newBaseURL;
+                    window.location.href = newURL;
                 }
-
-                var newURL = queryParams ? newBaseURL + '?' + queryParams : newBaseURL;
-                window.location.href = newURL;
             }
         }
     }
-}
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('#advancedSearchModal form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let form = event.target;
+        let formData = new FormData(form);
+        let searchParams = new URLSearchParams();
+
+        formData.forEach((value, key) => {
+            if (value.trim() !== "") { // Only add the parameter if its value is not an empty string
+                searchParams.append(key, value);
+            }
+        });
+
+        let sortValue = form.querySelector('[name="sort"]').value;
+        if (sortValue) {
+            searchParams.set('sort', sortValue);
+        }
+
+        let actionURL = form.action;
+        let newURL = actionURL + '?' + searchParams.toString();
+
+        window.location.href = newURL;
+    });
+});
+</script>
+
+<!-- Include noUiSlider JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+
+<!-- Initialize Sliders -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function createSlider(sliderId, minInputId, maxInputId, rulerId, min, max, step, startMin, startMax, maxLabel, numRulerMarks) {
+            const slider = document.getElementById(sliderId);
+            const ruler = document.getElementById(rulerId);
+
+            const minValueBox = document.createElement('div');
+            const maxValueBox = document.createElement('div');
+            minValueBox.className = 'slider-value-box min-value';
+            maxValueBox.className = 'slider-value-box max-value';
+            slider.appendChild(minValueBox);
+            slider.appendChild(maxValueBox);
+
+            noUiSlider.create(slider, {
+                start: [startMin, startMax],
+                connect: true,
+                range: {
+                    'min': min,
+                    'max': max
+                },
+                step: step,
+                format: {
+                    to: function (value) {
+                        return Math.round(value);
+                    },
+                    from: function (value) {
+                        return value;
+                    }
+                }
+            });
+
+            function adjustValueBoxWidth(valueBox) {
+                const text = valueBox.innerHTML;
+                const padding = 5;
+                const minWidth = 5;
+
+                const boxWidth = Math.max(text.length * 8 + padding * 2, minWidth);
+                valueBox.style.width = `${boxWidth}px`;
+            }
+
+            slider.noUiSlider.on('update', function (values) {
+                const minValue = Math.round(values[0]);
+                const maxValue = Math.round(values[1]);
+
+                const minInput = document.getElementById(minInputId);
+                const maxInput = document.getElementById(maxInputId);
+
+                if (minValue !== startMin) {
+                    minInput.value = minValue;
+                    minInput.removeAttribute('disabled');
+                } else {
+                    minInput.value = ''; // Clear the value
+                    minInput.setAttribute('disabled', 'true');
+                }
+
+                if (maxValue !== startMax) {
+                    maxInput.value = maxValue;
+                    maxInput.removeAttribute('disabled');
+                } else {
+                    maxInput.value = ''; // Clear the value
+                    maxInput.setAttribute('disabled', 'true');
+                }
+
+                minValueBox.innerHTML = minValue;
+
+                if (maxValue === startMax) {
+                    maxValueBox.innerHTML = `${startMax - 1}+`;
+                } else {
+                    maxValueBox.innerHTML = maxValue;
+                }
+
+                if (minValue === startMax) {
+                    minValueBox.innerHTML = `${startMax - 1}+`;
+                } else {
+                    minValueBox.innerHTML = minValue;
+                }
+
+                adjustValueBoxWidth(minValueBox);
+                adjustValueBoxWidth(maxValueBox);
+
+                const minPosition = (minValue - min) / (max - min) * 100;
+                const maxPosition = (maxValue - min) / (max - min) * 100;
+                minValueBox.style.left = `calc(${minPosition}% - 20px)`;
+                maxValueBox.style.left = `calc(${maxPosition}% - 20px)`;
+            });
+
+            let rulerHtml = '';
+            const rulerStep = Math.ceil((max - min) / (numRulerMarks - 1) / step) * step;
+            for (let value = min; value <= max; value += rulerStep) {
+                const position = ((value - min) / (max - min)) * 100;
+                rulerHtml += `<span class="ruler-mark" style="left: ${position}%">${value}</span>`;
+            }
+            ruler.innerHTML = rulerHtml;
+        }
+
+        createSlider("builtUpAreaSlider", "minBuiltUpArea", "maxBuiltUpArea", "builtUpAreaRuler", 0, 1001, 10, 0, 1001, true, 10);
+        createSlider("yardAreaSlider", "minYardArea", "maxYardArea", "yardAreaRuler", 0, 5001, 10, 0, 5001, true, 10);
+        createSlider("roomsSlider", "minRoomsCount", "maxRoomsCount", "roomsRuler", 0, 21, 1, 0, 21, true, 7);
+        createSlider("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "bathroomsRuler", 0, 21, 1, 0, 21, true, 7);
+        createSlider("priceSlider", "minPrice", "maxPrice", "priceRuler", 0, 500001, 100, 0, 500001, true, 10);
+        createSlider("priceRentSlider", "minRentPrice", "maxRentPrice", "priceRentRuler", 0, 5001, 50, 0, 5001, true, 10);
+    });
+</script>
+
+<style>
+    .custom-filter-button {
+    background-color: #96c930; /* Green color */
+    color: white; /* Text and icon color */
+    border: none; /* Optional: To remove border if needed */
+}
+
+.custom-filter-button .filter-icon {
+    color: white; /* White color for the filter icon */
+}
+
+.custom-filter-button:hover {
+    background-color: #7fae58; /* Darker shade for hover effect */
+    color: white;
+}
+
+.custom-filter-button:focus {
+    outline: none; /* Optional: To remove focus outline */
+    box-shadow: 0 0 0 2px rgba(154, 199, 109, 0.5); /* Optional: Subtle focus ring */
+}
+
+    .search-bar-row {
+    margin-bottom: 20px;
+}
+
+.property .card {
+    max-width: 350px; /* Ensure consistent width for cards */
+    margin: auto;
+}
+
+.btn-info {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .search-bar-row {
+        align-items: center;
+    }
+    .btn-info {
+        margin-left: auto; /* Push button to the far right */
+    }
+}
+
+
+    .btn-search {
+    background-color: #9ac76d;
+    border-color: #9ac76d;
+    color: white;
+}
+    /* General Styles for Larger Fonts */
+    body, .modal-body, .modal-footer, .form-label, .form-check-label, .form-select {
+        font-size: 1.1rem; /* Slightly larger font for better readability */
+    }
+
+    /* Container for checkboxes to handle multi-column layout */
+    .checkbox-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
+        gap: 15px;
+    }
+
+    /* Style for each individual checkbox item */
+    .form-check {
+        margin-bottom: 10px; /* Increase space between checkboxes */
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    /* Style for the form labels */
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Property Types Section */
+    .mb-3 label.form-label {
+        font-size: 1.2rem; /* Make the property types label bigger */
+        margin-bottom: 15px;
+    }
+
+    /* Section Title */
+    h5.modal-title {
+        font-size: 1.5rem; /* Larger title */
+    }
+
+    /* Modal Body and Sliders */
+    .modal-body {
+        padding: 20px;
+    }
+
+    /* Adjust slider styles */
+    .slider {
+        margin-bottom: 20px;
+        position: relative;
+        width: 100%;
+        height: 20px;
+    }
+
+    /* Slider value box styles */
+    .slider-value-box {
+        position: absolute;
+        top: -40px;
+        width: auto;
+        min-width: 50px; /* Wider box for more space */
+        height: 25px;
+        padding: 5px;
+        font-size: 14px;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #333;
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+    }
+
+    /* Slider Ruler */
+    .slider-ruler {
+        position: relative;
+        width: 100%;
+        height: 10px; /* Slightly smaller height for better fit */
+    }
+
+    .ruler-mark {
+        position: absolute;
+        bottom: 0;
+        width: 1px;
+        height: 10px;
+        background-color: #ccc;
+        font-size: 12px;
+        text-align: center;
+        color: #333;
+    }
+
+    /* NoUi Slider Custom Styles */
+    .noUi-target .noUi-base {
+        background-color: #9ac76d !important;
+    }
+
+    .noUi-connect {
+        background-color: #9ac76d !important;
+    }
+
+    .noUi-handle {
+        border-radius: 50%; /* Rounded handles */
+        width: 15px;
+        height: 15px;
+        background-color: #9ac76d;
+        border: 2px solid #fff;
+    }
+
+    .noUi-handle:hover {
+        background-color: #fff;
+        border-color: #9ac76d;
+    }
+
+    /* Modal and Button Styles */
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    .btn-close {
+        font-size: 1.2rem;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        width: 100%; /* Full width for the Submit button */
+    }
+
+    /* Styling for Heating Select */
+    #heating, #sort {
+        padding: 5px;
+        width: 100%;
+    }
+
+    #sort {
+        margin-bottom: 10px;
+    }
+
+    /* Add a line between different sections in the form */
+    .modal-body > .mb-3 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Optional: Hover effect for checkboxes */
+    .form-check input[type="checkbox"]:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    /* Responsive Design for Mobile View */
+    @media (max-width: 768px) {
+        .checkbox-container {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+        }
+    }
+
+    /* Slider value box for min/max */
+    .min-value {
+        left: 0; /* Position at the start of the slider */
+    }
+
+    .max-value {
+        right: 0; /* Position at the end of the slider */
+    }
+
+    /* Specific adjustment for slider handles */
+    .noUi-handle {
+        border-radius: 50%; /* Rounded handles */
+        width: 15px;
+        height: 15px;
+        background-color: #9ac76d;
+        border: 2px solid #fff;
+    }
+
+    .noUi-handle:hover {
+        background-color: #fff;
+        border-color: #9ac76d;
+    }
+
+    /* Style for the checkboxes and radio buttons */
+    .form-check-input {
+        width: 20px; /* Make the checkboxes and radio buttons slightly bigger */
+        height: 20px; /* Make the checkboxes and radio buttons slightly bigger */
+        transition: background-color 0.1s, border-color 0.1s; /* Smooth transition for color change */
+    }
+
+    .form-check-input:checked {
+        background-color: #9ac76d; /* Green background when checked */
+        border-color: #9ac76d; /* Green border when checked */
+    }
+
+    .form-check-input:checked:focus {
+        border-color: #9ac76d; /* Keep the green border when focused */
+        box-shadow: 0 0 0 0.2rem rgba(154, 199, 109, 0.5); /* Optional glow effect */
+    }
+
+    .form-check-input[type="radio"]:checked:before {
+        background-color: #9ac76d; /* Green dot when checked */
+    }
+
+    /* Optional: Adding some space between the checkboxes/radios */
+    .form-check {
+        margin-bottom: 10px; /* Space between each checkbox/radio */
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .form-check-label {
+        font-size: 16px; /* Increase font size for labels */
+        font-weight: 600; /* Make labels bold */
+    }
+
+    .form-check input[type="checkbox"] {
+        margin-right: 10px; /* Spacing between checkbox and label */
+    }
+
+    /* Responsive adjustments for multiple columns in checkboxes */
+    .checkbox-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
+        gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .checkbox-container {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+        }
+    }
+
+    /* Slider Styles */
+    .slider {
+        position: relative;
+        width: 100%;
+        height: 20px;
+        margin-bottom: 20px;
+    }
+
+    .slider-value-box {
+        position: absolute;
+        top: -40px;  /* Adjust this value to place the box in the correct position */
+        width: auto;
+        height: 25px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+        color: #333;
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        align-items: center;      /* Center vertically */
+        min-width: 50px;
+    }
+
+    /* Slider Ruler */
+    .slider-ruler {
+        position: relative;
+        width: 100%;
+        height: 10px; /* Slightly smaller height for better fit */
+    }
+
+    .ruler-mark {
+        position: absolute;
+        bottom: 0;
+        width: 1px;
+        height: 10px;
+        background-color: #ccc;
+        font-size: 12px;
+        text-align: center;
+        color: #333;
+    }
+
+    /* NoUi Slider Custom Styles */
+    .noUi-target .noUi-base {
+        background-color: #9ac76d !important;
+    }
+
+    .noUi-connect {
+        background-color: #9ac76d !important;
+    }
+
+    .noUi-handle {
+        border-radius: 50%; /* Rounded handles */
+        width: 15px;
+        height: 15px;
+        background-color: #9ac76d;
+        border: 2px solid #fff;
+    }
+
+    .noUi-handle:hover {
+        background-color: #fff;
+        border-color: #9ac76d;
+    }
+
+    /* Modal and Button Styles */
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    .btn-close {
+        font-size: 1.2rem;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        width: 100%; /* Full width for the Submit button */
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchBarForm = document.querySelector(".search-bar-row form");
+        const modalForm = document.querySelector("#advancedSearchModal form");
+
+        /**
+         * Populate form fields from query parameters
+         */
+        function populateFieldsFromQuery(queryString, form) {
+            const params = new URLSearchParams(queryString);
+            params.forEach((value, key) => {
+                const fields = form.querySelectorAll(`[name="${key}"]`);
+                fields.forEach(field => {
+                    if (field.type === "checkbox" || field.type === "radio") {
+                        field.checked = Array.isArray(value)
+                            ? value.includes(field.value)
+                            : field.value === value;
+                    } else if (field.tagName === "SELECT") {
+                        field.value = value;
+                    } else {
+                        field.value = value;
+                    }
+                });
+
+                if (fields.length > 1 && fields[0].type === "checkbox") {
+                    const values = params.getAll(key);
+                    fields.forEach(field => {
+                        field.checked = values.includes(field.value);
+                    });
+                }
+
+                if (key.startsWith("min") || key.startsWith("max")) {
+                    const sliderField = form.querySelector(`#${key}`);
+                    if (sliderField) {
+                        sliderField.value = value;
+                        const associatedRuler = document.querySelector(`#${key}Ruler`);
+                        if (associatedRuler) {
+                            associatedRuler.innerHTML = value;
+                        }
+
+                        const slider = document.querySelector(`#${key}Slider`);
+                        if (slider && slider.noUiSlider) {
+                            const sliderValues = [
+                                params.get("min" + key.slice(3)),
+                                params.get("max" + key.slice(3)),
+                            ];
+                            slider.noUiSlider.set(sliderValues);
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Merge data from both forms
+         */
+        function mergeFormData(form1, form2) {
+            const formData = new FormData(form1);
+            for (let [key, value] of new FormData(form2)) {
+                if (!formData.has(key)) {
+                    formData.append(key, value);
+                } else {
+                    formData.delete(key);
+                    const form1Values = new FormData(form1).getAll(key);
+                    const form2Values = new FormData(form2).getAll(key);
+                    const combinedValues = [...new Set([...form1Values, ...form2Values])];
+                    combinedValues.forEach(v => formData.append(key, v));
+                }
+            }
+            return new URLSearchParams(formData);
+        }
+
+        const queryString = window.location.search;
+        if (queryString) {
+            populateFieldsFromQuery(queryString, searchBarForm);
+            populateFieldsFromQuery(queryString, modalForm);
+        }
+
+        searchBarForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const queryParams = mergeFormData(searchBarForm, modalForm);
+            const actionUrl = searchBarForm.getAttribute("action");
+            window.location.href = `${actionUrl}?${queryParams.toString()}`;
+        });
+
+        modalForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const queryParams = mergeFormData(searchBarForm, modalForm);
+            const actionUrl = modalForm.getAttribute("action");
+            window.location.href = `${actionUrl}?${queryParams.toString()}`;
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const queryString = window.location.search;
+        const params = new URLSearchParams(queryString);
+
+        function updateSliderFromParams(sliderId, minInputId, maxInputId, paramMinKey, paramMaxKey, defaultMin, defaultMax) {
+            const slider = document.getElementById(sliderId);
+
+            if (!slider || !slider.noUiSlider) return;
+
+            const paramMin = parseInt(params.get(paramMinKey)) || defaultMin;
+            const paramMax = parseInt(params.get(paramMaxKey)) || defaultMax;
+
+            slider.noUiSlider.set([paramMin, paramMax]);
+
+            const minInput = document.getElementById(minInputId);
+            const maxInput = document.getElementById(maxInputId);
+            if (minInput) minInput.value = paramMin !== defaultMin ? paramMin : '';
+            if (maxInput) maxInput.value = paramMax !== defaultMax ? paramMax : '';
+        }
+
+        updateSliderFromParams("builtUpAreaSlider", "minBuiltUpArea", "maxBuiltUpArea", "minBuiltUpArea", "maxBuiltUpArea", 0, 1001);
+        updateSliderFromParams("yardAreaSlider", "minYardArea", "maxYardArea", "minYardArea", "maxYardArea", 0, 5001);
+        updateSliderFromParams("roomsSlider", "minRoomsCount", "maxRoomsCount", "minRoomsCount", "maxRoomsCount", 0, 21);
+        updateSliderFromParams("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "minBathroomsCount", "maxBathroomsCount", 0, 21);
+        updateSliderFromParams("priceSlider", "minPrice", "maxPrice", "minPrice", "maxPrice", 0, 500001);
+        updateSliderFromParams("priceRentSlider", "minRentPrice", "maxRentPrice", "minPrice", "maxPrice", 0, 500001);
+    });
+</script>
+
+
+<!-- Show only selected option slider -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const rentOption = document.getElementById("rentOption");
+    const saleOption = document.getElementById("saleOption");
+    const priceDiv = document.querySelector("#priceSlider").closest(".mb-3");
+    const priceRentDiv = document.querySelector("#priceRentSlider").closest(".mb-3");
+
+    function togglePriceSliders() {
+        if (rentOption.checked) {
+            priceRentDiv.style.display = "block";
+            priceDiv.style.display = "none";
+        } else if (saleOption.checked) {
+            priceDiv.style.display = "block";
+            priceRentDiv.style.display = "none";
+        } else {
+            priceDiv.style.display = "block";
+            priceRentDiv.style.display = "none";
+        }
+    }
+
+    rentOption.addEventListener("change", togglePriceSliders);
+    saleOption.addEventListener("change", togglePriceSliders);
+
+    togglePriceSliders();
+});
+
+</script>
+
+<!-- Extract field for save search -->
+<script>
+    document.getElementById('userSearchDataModal').addEventListener('show.bs.modal', function () {
+        const regionName = document.getElementById('regionName').value.trim() || null;
+        const villageName = document.getElementById('search-input').value.trim() || null;
+
+        if (villageName && !regionName) {
+        event.preventDefault(); // Prevent the modal from being shown
+        alert("Please select a region for the specified village name.");
+        return; // Exit early
+    }
+
+        const propertyTypes = Array.from(document.querySelectorAll('[name="propertyTypes"]:checked')).map(el => el.value);
+        const propertyTransferType = document.querySelector('[name="propertyTransferType"]:checked')?.value || '';
+        const minBuiltUpArea = document.getElementById('minBuiltUpArea').value;
+        const maxBuiltUpArea = document.getElementById('maxBuiltUpArea').value;
+        const minYardArea = document.getElementById('minYardArea').value;
+        const maxYardArea = document.getElementById('maxYardArea').value;
+        const minRoomsCount = document.getElementById('minRoomsCount').value;
+        const maxRoomsCount = document.getElementById('maxRoomsCount').value;
+        const minBathroomsCount = document.getElementById('minBathroomsCount').value;
+        const maxBathroomsCount = document.getElementById('maxBathroomsCount').value;
+        const heating = Array.from(document.querySelectorAll('[name="heating"]:checked')).map(el => el.value);
+        const constructionTypes = Array.from(document.querySelectorAll('[name="constructionTypes"]:checked')).map(el => el.value);
+        const minPrice = document.getElementById('minPrice').value;
+        const maxPrice = document.getElementById('maxPrice').value;
+        const minRentPrice = document.getElementById('minRentPrice').value;
+        const maxRentPrice = document.getElementById('maxRentPrice').value;
+
+        document.getElementById('saveRegionName').value = regionName;
+        document.getElementById('saveVillageName').value = villageName;
+        document.getElementById('savePropertyTypes').value = propertyTypes.join(',');
+        document.getElementById('savePropertyTransferType').value = propertyTransferType;
+        document.getElementById('saveMinBuiltUpArea').value = minBuiltUpArea;
+        document.getElementById('saveMaxBuiltUpArea').value = maxBuiltUpArea;
+        document.getElementById('saveMinYardArea').value = minYardArea;
+        document.getElementById('saveMaxYardArea').value = maxYardArea;
+        document.getElementById('saveMinRoomsCount').value = minRoomsCount;
+        document.getElementById('saveMaxRoomsCount').value = maxRoomsCount;
+        document.getElementById('saveMinBathroomsCount').value = minBathroomsCount;
+        document.getElementById('saveMaxBathroomsCount').value = maxBathroomsCount;
+        document.getElementById('saveHeating').value = heating.join(',');
+        document.getElementById('saveConstructionTypes').value = constructionTypes.join(',');
+        document.getElementById('saveMinPrice').value = minPrice;
+        document.getElementById('saveMaxPrice').value = maxPrice;
+        document.getElementById('saveMinRentPrice').value = minRentPrice;
+        document.getElementById('saveMaxRentPrice').value = maxRentPrice;
+    });
+</script>
+
+<!-- Clear Search Button script-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("clearSearchButton").addEventListener("click", function () {
+            showClearWarningModal();
+        });
+
+        function showClearWarningModal() {
+            const warningModal = new bootstrap.Modal(document.getElementById("clearWarningModal"));
+            warningModal.show();
+
+            document.getElementById("confirmClearSearch").onclick = function () {
+                clearSearchData();
+                warningModal.hide();
+            };
+
+            document.getElementById("cancelClearSearch").onclick = function () {
+                warningModal.hide();
+            };
+        }
+
+        function clearSearchData() {
+            document.getElementById("regionName").value = "";
+            document.getElementById("search-input").value = "";
+
+            document.querySelectorAll("#advancedSearchModal input[type='checkbox']").forEach(input => input.checked = false);
+
+            document.querySelectorAll("#advancedSearchModal input[type='radio']").forEach(input => input.checked = false);
+
+            ["minBuiltUpArea", "maxBuiltUpArea", "minYardArea", "maxYardArea",
+                "minRoomsCount", "maxRoomsCount", "minBathroomsCount", "maxBathroomsCount",
+                "minPrice", "maxPrice", "minRentPrice", "maxRentPrice"
+            ].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = "";
+            });
+
+            document.querySelectorAll(".noUi-target").forEach(slider => {
+                slider.noUiSlider.set([slider.noUiSlider.options.range.min, slider.noUiSlider.options.range.max]);
+            });
+
+            document.querySelectorAll("#advancedSearchModal select").forEach(select => {
+                select.selectedIndex = 0;
+            });
+        }
+    });
+</script>
+
+<!--- toast -->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    const toastLive = document.getElementById('liveToast');
+    const toastBootstrap2 = new bootstrap.Toast(toastLive);
+    const toastBody = document.querySelector('.toast-body');
+    const successDiv = toastBody.querySelector('[th\\:text="#{${successMessage}}"]');
+    const errorDiv = toastBody.querySelector('[th\\:text="#{${errorMessage}}"]');
+
+    const errorMessage = /*[[${errorMessage}]]*/ null;
+    const successMessage = /*[[${successMessage}]]*/ null;
+
+    successDiv.style.display = 'none';
+    errorDiv.style.display = 'none';
+
+    if (errorMessage) {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = errorMessage;
+        toastLive.classList.add('bg-danger');
+        toastLive.classList.remove('bg-success');
+    } else if (successMessage) {
+        successDiv.style.display = 'block';
+        successDiv.textContent = successMessage;
+        toastLive.classList.add('bg-success');
+        toastLive.classList.remove('bg-danger');
+    }
+
+    if (errorMessage || successMessage) {
+        toastBootstrap2.show();
+    }
+});
+
+</script>
+
 <script src="/js/min/showSubscriptionToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

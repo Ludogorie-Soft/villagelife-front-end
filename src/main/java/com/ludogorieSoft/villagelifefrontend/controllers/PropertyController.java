@@ -9,6 +9,7 @@ import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.RegionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.UserSearchDataDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
@@ -41,6 +42,7 @@ public class PropertyController {
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
         model.addAttribute("regions", regionDTOS);
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());

@@ -130,6 +130,7 @@ public class FilterController {
                 minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,
                 maxBathroomsCount, heating, constructionTypes, minConstructionYear, maxConstructionYear, minPrice,
                 maxPrice, ownershipTypes, villageName, regionName, pageable);
+        model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
         model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
         model.addAttribute("properties", propertyDTOS.stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
