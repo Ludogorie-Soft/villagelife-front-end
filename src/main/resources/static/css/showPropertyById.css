@@ -179,7 +179,6 @@
         transition: opacity 0.3s ease, font-size 0.3s ease;
     }
 
-    /* Hover effect only when active class is not applied */
     .heart-container:not(.active):hover .fa-regular {
         opacity: 0;
     }
@@ -189,7 +188,6 @@
         font-size: 33px;
     }
 
-    /* Permanent solid icon when active */
     .heart-container.active .fa-regular {
         opacity: 0;
     }
@@ -208,12 +206,12 @@
     }
 
     .sticky-form div {
-        padding: 3px;
+        padding: 2px;
     }
 
     .sticky-form .property-phone-number{
         color: #96c930;
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .sticky-form .full-name {
@@ -221,10 +219,14 @@
     }
 
     .sticky-form a {
-        color: #007bff;
+        color: #96c930;
         text-decoration: none;
     }
 
     .sticky-form a:hover {
         text-decoration: underline;
+    }
+
+    .stats-icon{
+        height: 20px;
     }
