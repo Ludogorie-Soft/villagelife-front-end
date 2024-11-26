@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class  BusinessCardDTO {
     private Long id;
 
@@ -35,6 +37,10 @@ public class  BusinessCardDTO {
     @Email(message = "business.card.dto.validations.email.valid")
     @Length(max = 255, message = "business.card.dto.validations.email.length")
     private String email;
+
+    private String imageName;
+
+    private byte[] imageBytes;
 
     @NotBlank(message = "business.card.dto.validations.phone.number.blank")
     @Length(min = 7, max = 25, message = "business.card.dto.validations.phone.number.length")

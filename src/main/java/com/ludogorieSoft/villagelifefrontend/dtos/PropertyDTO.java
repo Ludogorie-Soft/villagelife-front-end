@@ -30,18 +30,14 @@ public class PropertyDTO {
     @NotNull(message = "Property type is required.")
     private PropertyType propertyType;
     private PropertyTransferType propertyTransferType;
-
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private BigDecimal price;
-
     @Size(min = 10, message = "Phone number should be at least 10 characters long!")
     private String phoneNumber;
-
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double buildUpArea;
-
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double yardArea;
