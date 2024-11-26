@@ -1,0 +1,103 @@
+document.addEventListener("DOMContentLoaded", function () {
+    function createSlider(sliderId, minInputId, maxInputId, rulerId, min, max, step, startMin, startMax, maxLabel, numRulerMarks) {
+        const slider = document.getElementById(sliderId);
+        const ruler = document.getElementById(rulerId);
+
+        const minValueBox = document.createElement('div');
+        const maxValueBox = document.createElement('div');
+        minValueBox.className = 'slider-value-box min-value';
+        maxValueBox.className = 'slider-value-box max-value';
+        slider.appendChild(minValueBox);
+        slider.appendChild(maxValueBox);
+
+        noUiSlider.create(slider, {
+            start: [startMin, startMax],
+            connect: true,
+            range: {
+                'min': min,
+                'max': max
+            },
+            step: step,
+            format: {
+                to: function (value) {
+                    return Math.round(value);
+                },
+                from: function (value) {
+                    return value;
+                }
+            }
+        });
+
+        function adjustValueBoxWidth(valueBox) {
+            const text = valueBox.innerHTML;
+            const padding = 5;
+            const minWidth = 5;
+
+            const boxWidth = Math.max(text.length * 8 + padding * 2, minWidth);
+            valueBox.style.width = `${boxWidth}px`;
+        }
+
+        slider.noUiSlider.on('update', function (values) {
+            const minValue = Math.round(values[0]);
+            const maxValue = Math.round(values[1]);
+
+            const minInput = document.getElementById(minInputId);
+            const maxInput = document.getElementById(maxInputId);
+
+            if (minValue !== startMin) {
+                minInput.value = minValue;
+                minInput.removeAttribute('disabled');
+            } else {
+                minInput.value = ''; // Clear the value
+                minInput.setAttribute('disabled', 'true');
+            }
+
+            if (maxValue !== startMax) {
+                maxInput.value = maxValue;
+                maxInput.removeAttribute('disabled');
+            } else {
+                maxInput.value = ''; // Clear the value
+                maxInput.setAttribute('disabled', 'true');
+            }
+
+            minValueBox.innerHTML = minValue;
+
+            if (maxValue === startMax) {
+                maxValueBox.innerHTML = `${startMax - 1}+`;
+            } else {
+                maxValueBox.innerHTML = maxValue;
+            }
+
+            if (minValue === startMax) {
+                minValueBox.innerHTML = `${startMax - 1}+`;
+            } else {
+                minValueBox.innerHTML = minValue;
+            }
+
+            adjustValueBoxWidth(minValueBox);
+            adjustValueBoxWidth(maxValueBox);
+
+            const minPosition = (minValue - min) / (max - min) * 100;
+            const maxPosition = (maxValue - min) / (max - min) * 100;
+            minValueBox.style.left = `calc(${minPosition}% - 20px)`;
+            maxValueBox.style.left = `calc(${maxPosition}% - 20px)`;
+        });
+
+        let rulerHtml = '';
+        const rulerStep = Math.ceil((max - min) / (numRulerMarks - 1) / step) * step;
+        for (let value = min; value <= max; value += rulerStep) {
+            const position = ((value - min) / (max - min)) * 100;
+            rulerHtml += `<span class="ruler-mark" style="left: ${position}%">${value}</span>`;
+        }
+        ruler.innerHTML = rulerHtml;
+    }
+
+    createSlider("builtUpAreaSlider", "minBuiltUpArea", "maxBuiltUpArea", "builtUpAreaRuler", 0, 1001, 10, 0, 1001, true, 10);
+    createSlider("yardAreaSlider", "minYardArea", "maxYardArea", "yardAreaRuler", 0, 5001, 10, 0, 5001, true, 10);
+    createSlider("roomsSlider", "minRoomsCount", "maxRoomsCount", "roomsRuler", 0, 21, 1, 0, 21, true, 7);
+    createSlider("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "bathroomsRuler", 0, 21, 1, 0, 21, true, 7);
+    createSlider("priceSlider", "minPrice", "maxPrice", "priceRuler", 0, 500001, 100, 0, 500001, true, 10);
+    createSlider("priceRentSlider", "minRentPrice", "maxRentPrice", "priceRentRuler", 0, 5001, 50, 0, 5001, true, 10);
+    const nextYear = new Date().getFullYear() + 1;
+    createSlider("constructionYearSlider", "minConstructionYear", "maxConstructionYear", "constructionYearRuler", 1900, nextYear, 1, 1900, nextYear, true, 10);
+});
