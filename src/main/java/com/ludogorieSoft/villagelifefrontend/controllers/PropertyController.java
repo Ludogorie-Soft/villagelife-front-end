@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @AllArgsConstructor
@@ -38,10 +41,11 @@ public class PropertyController {
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping(value = {"/{page}", ""})
-    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page){
+    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page, HttpServletRequest request){
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("currentLocale", RequestContextUtils.getLocaleResolver(request).resolveLocale(request));
         model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
         model.addAttribute("regions", regionDTOS);
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());

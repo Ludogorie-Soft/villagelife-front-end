@@ -57,23 +57,27 @@
     <link rel="stylesheet" href="/css/min/list-properties.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <link rel="stylesheet" href="/css/min/auth.min.css">
+    <link rel="stylesheet" href="/css/min/propertySearch.min.css">
 </head>
 <body>
 <div th:replace="fragments :: property-menu"></div>
 <div th:replace="fragments :: property-hamburger-menu"></div>
-<div class="container">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-         th:classappend="${successMessage != null ? ' bg-success' : (errorMessage != null ? ' bg-danger' : '')}">
-        <div class="toast-header">
-            <strong class="me-auto"></strong><!---текст?-->
+<div class="container" style="padding-top: 10px;">
+    <!-- Success Toast -->
+    <div id="successToast" class="toast align-items-center position-fixed start-50 translate-middle-x bg-success text-white"
+         role="alert" aria-live="assertive" aria-atomic="true" th:if="${successMessage != null}">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto" th:text="#{${successMessage}}"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">
-            <!-- Only render this div if the successMessage is not null -->
-            <div th:if="${successMessage}" th:text="#{${successMessage}}"></div>
+    </div>
 
-            <!-- Only render this div if the errorMessage is not null -->
-            <div th:if="${errorMessage}" th:text="#{${errorMessage}}"></div>
+    <!-- Error Toast -->
+    <div id="errorToast" class="toast align-items-center position-fixed start-50 translate-middle-x bg-danger text-white"
+         role="alert" aria-live="assertive" aria-atomic="true" th:if="${errorMessage != null}">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto" th:text="#{${errorMessage}}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 
@@ -162,10 +166,14 @@
                     <input type="hidden" name="maxBathroomsCount" id="saveMaxBathroomsCount"/>
                     <input type="hidden" name="heating" id="saveHeating"/>
                     <input type="hidden" name="constructionTypes" id="saveConstructionTypes"/>
+                    <input type="hidden" name="propertyConditions" id="savePropertyConditions"/>
+                    <input type="hidden" name="minConstructionYear" id="saveMinConstructionYear"/>
+                    <input type="hidden" name="maxConstructionYear" id="saveMaxConstructionYear"/>
                     <input type="hidden" name="minPrice" id="saveMinPrice"/>
                     <input type="hidden" name="maxPrice" id="saveMaxPrice"/>
                     <input type="hidden" name="minRentPrice" id="saveMinRentPrice"/>
                     <input type="hidden" name="maxRentPrice" id="saveMaxRentPrice"/>
+                    <input type="hidden" name="ownershipTypes" id="saveOwnershipTypes"/>
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-search" th:text="#{save.search}"></button>
@@ -206,7 +214,7 @@
                                 <div class="form-check">
                                     <input type="checkbox" name="propertyTypes" value="FLOOR_OF_A_HOUSE"
                                            id="propertyTypeFloorOfHouse" class="form-check-input">
-                                    <label for="propertyTypeFloorOfHouse" class="form-check-label" th:text="#{property.type.floor.of.a.house}"</label>
+                                    <label for="propertyTypeFloorOfHouse" class="form-check-label" th:text="#{property.type.floor.of.a.house}"></label>
                                 </div>
                                 <div class="form-check">
                                     <input type="checkbox" name="propertyTypes" value="BUSINESS_PROPERTY"
@@ -226,7 +234,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label id="propertyTransferTypeLabel" class="form-label" h:text="#{advanced.property.search.transfer}"></label>
+                            <label id="propertyTransferTypeLabel" class="form-label" th:text="#{advanced.property.search.transfer}"></label>
                             <div>
                                 <input type="radio" name="propertyTransferType" value="RENT" id="rentOption"
                                        aria-labelledby="propertyTransferTypeLabel" class="form-check-input">
@@ -341,6 +349,68 @@
                             </div>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{property.condition}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEW"
+                                           id="propertyConditionNew" class="form-check-input">
+                                    <label for="propertyConditionNew" class="form-check-label" th:text="#{property.condition.new}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="AFTER_COMPLETE_RENOVATION"
+                                           id="propertyConditionAfterCompleteRenovation" class="form-check-input">
+                                    <label for="propertyConditionAfterCompleteRenovation" class="form-check-label" th:text="#{after.complete.renovation}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="GOOD"
+                                           id="propertyConditionGood" class="form-check-input">
+                                    <label for="propertyConditionGood" class="form-check-label" th:text="#{property.condition.good}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEEDS_REPAIR"
+                                           id="propertyConditionNeedsRepair" class="form-check-input">
+                                    <label for="propertyConditionNeedsRepair" class="form-check-label" th:text="#{needs.repair}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEEDS_COMPLETE_RENOVATION"
+                                           id="propertyConditionNeedsCompleteRenovation" class="form-check-input">
+                                    <label for="propertyConditionNeedsCompleteRenovation" class="form-check-label" th:text="#{needs.complete.renovation}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="FOR_DEMOLITION"
+                                           id="propertyConditionForDemolition" class="form-check-input">
+                                    <label for="propertyConditionForDemolition" class="form-check-label" th:text="#{for.demolition}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{ownership.type.label}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="INDIVIDUAL"
+                                           id="ownershipTypeIndividual" class="form-check-input">
+                                    <label for="ownershipTypeIndividual" class="form-check-label" th:text="#{auth.individual}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="AGENCY"
+                                           id="ownershipTypeAgency" class="form-check-input">
+                                    <label for="ownershipTypeAgency" class="form-check-label" th:text="#{auth.agency}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="BUILDER"
+                                           id="ownershipTypeBuilder" class="form-check-input">
+                                    <label for="ownershipTypeBuilder" class="form-check-label" th:text="#{auth.builder}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="INVESTOR"
+                                           id="ownershipTypeInvestor" class="form-check-input">
+                                    <label for="ownershipTypeInvestor" class="form-check-label" th:text="#{auth.investor}"></label>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Price Range Slider -->
                         <div class="mb-3" style="padding-bottom: 10px;">
                             <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.price}"></label>
@@ -356,6 +426,14 @@
                             <div id="priceRentRuler" class="slider-ruler"></div>
                             <input type="hidden" name="minPrice" id="minRentPrice"/>
                             <input type="hidden" name="maxPrice" id="maxRentPrice"/>
+                        </div>
+
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.construction.year}"></label>
+                            <div id="constructionYearSlider"></div>
+                            <div id="constructionYearRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minConstructionYear" id="minConstructionYear"/>
+                            <input type="hidden" name="maxConstructionYear" id="maxConstructionYear"/>
                         </div>
 
                         <!-- Sort By -->
@@ -507,6 +585,7 @@
     }
 </script>
 
+<!--remove empty params from property search-->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#advancedSearchModal form').addEventListener('submit', function(event) {
@@ -535,484 +614,116 @@
 });
 </script>
 
-<!-- Include noUiSlider JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 
-<!-- Initialize Sliders -->
+<!--advanced search sliders-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        function createSlider(sliderId, minInputId, maxInputId, rulerId, min, max, step, startMin, startMax, maxLabel, numRulerMarks) {
-            const slider = document.getElementById(sliderId);
-            const ruler = document.getElementById(rulerId);
+    function createSlider(sliderId, minInputId, maxInputId, rulerId, min, max, step, startMin, startMax, maxLabel, numRulerMarks) {
+        const slider = document.getElementById(sliderId);
+        const ruler = document.getElementById(rulerId);
 
-            const minValueBox = document.createElement('div');
-            const maxValueBox = document.createElement('div');
-            minValueBox.className = 'slider-value-box min-value';
-            maxValueBox.className = 'slider-value-box max-value';
-            slider.appendChild(minValueBox);
-            slider.appendChild(maxValueBox);
+        const minValueBox = document.createElement('div');
+        const maxValueBox = document.createElement('div');
+        minValueBox.className = 'slider-value-box min-value';
+        maxValueBox.className = 'slider-value-box max-value';
+        slider.appendChild(minValueBox);
+        slider.appendChild(maxValueBox);
 
-            noUiSlider.create(slider, {
-                start: [startMin, startMax],
-                connect: true,
-                range: {
-                    'min': min,
-                    'max': max
+        noUiSlider.create(slider, {
+            start: [startMin, startMax],
+            connect: true,
+            range: {
+                'min': min,
+                'max': max
+            },
+            step: step,
+            format: {
+                to: function (value) {
+                    return Math.round(value);
                 },
-                step: step,
-                format: {
-                    to: function (value) {
-                        return Math.round(value);
-                    },
-                    from: function (value) {
-                        return value;
-                    }
+                from: function (value) {
+                    return value;
                 }
-            });
-
-            function adjustValueBoxWidth(valueBox) {
-                const text = valueBox.innerHTML;
-                const padding = 5;
-                const minWidth = 5;
-
-                const boxWidth = Math.max(text.length * 8 + padding * 2, minWidth);
-                valueBox.style.width = `${boxWidth}px`;
             }
+        });
 
-            slider.noUiSlider.on('update', function (values) {
-                const minValue = Math.round(values[0]);
-                const maxValue = Math.round(values[1]);
+        function adjustValueBoxWidth(valueBox) {
+            const text = valueBox.innerHTML;
+            const padding = 5;
+            const minWidth = 5;
 
-                const minInput = document.getElementById(minInputId);
-                const maxInput = document.getElementById(maxInputId);
-
-                if (minValue !== startMin) {
-                    minInput.value = minValue;
-                    minInput.removeAttribute('disabled');
-                } else {
-                    minInput.value = ''; // Clear the value
-                    minInput.setAttribute('disabled', 'true');
-                }
-
-                if (maxValue !== startMax) {
-                    maxInput.value = maxValue;
-                    maxInput.removeAttribute('disabled');
-                } else {
-                    maxInput.value = ''; // Clear the value
-                    maxInput.setAttribute('disabled', 'true');
-                }
-
-                minValueBox.innerHTML = minValue;
-
-                if (maxValue === startMax) {
-                    maxValueBox.innerHTML = `${startMax - 1}+`;
-                } else {
-                    maxValueBox.innerHTML = maxValue;
-                }
-
-                if (minValue === startMax) {
-                    minValueBox.innerHTML = `${startMax - 1}+`;
-                } else {
-                    minValueBox.innerHTML = minValue;
-                }
-
-                adjustValueBoxWidth(minValueBox);
-                adjustValueBoxWidth(maxValueBox);
-
-                const minPosition = (minValue - min) / (max - min) * 100;
-                const maxPosition = (maxValue - min) / (max - min) * 100;
-                minValueBox.style.left = `calc(${minPosition}% - 20px)`;
-                maxValueBox.style.left = `calc(${maxPosition}% - 20px)`;
-            });
-
-            let rulerHtml = '';
-            const rulerStep = Math.ceil((max - min) / (numRulerMarks - 1) / step) * step;
-            for (let value = min; value <= max; value += rulerStep) {
-                const position = ((value - min) / (max - min)) * 100;
-                rulerHtml += `<span class="ruler-mark" style="left: ${position}%">${value}</span>`;
-            }
-            ruler.innerHTML = rulerHtml;
+            const boxWidth = Math.max(text.length * 8 + padding * 2, minWidth);
+            valueBox.style.width = `${boxWidth}px`;
         }
 
-        createSlider("builtUpAreaSlider", "minBuiltUpArea", "maxBuiltUpArea", "builtUpAreaRuler", 0, 1001, 10, 0, 1001, true, 10);
-        createSlider("yardAreaSlider", "minYardArea", "maxYardArea", "yardAreaRuler", 0, 5001, 10, 0, 5001, true, 10);
-        createSlider("roomsSlider", "minRoomsCount", "maxRoomsCount", "roomsRuler", 0, 21, 1, 0, 21, true, 7);
-        createSlider("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "bathroomsRuler", 0, 21, 1, 0, 21, true, 7);
-        createSlider("priceSlider", "minPrice", "maxPrice", "priceRuler", 0, 500001, 100, 0, 500001, true, 10);
-        createSlider("priceRentSlider", "minRentPrice", "maxRentPrice", "priceRentRuler", 0, 5001, 50, 0, 5001, true, 10);
-    });
+        slider.noUiSlider.on('update', function (values) {
+            const minValue = Math.round(values[0]);
+            const maxValue = Math.round(values[1]);
+
+            const minInput = document.getElementById(minInputId);
+            const maxInput = document.getElementById(maxInputId);
+
+            if (minValue !== startMin) {
+                minInput.value = minValue;
+                minInput.removeAttribute('disabled');
+            } else {
+                minInput.value = ''; // Clear the value
+                minInput.setAttribute('disabled', 'true');
+            }
+
+            if (maxValue !== startMax) {
+                maxInput.value = maxValue;
+                maxInput.removeAttribute('disabled');
+            } else {
+                maxInput.value = ''; // Clear the value
+                maxInput.setAttribute('disabled', 'true');
+            }
+
+            minValueBox.innerHTML = minValue;
+
+            if (maxValue === startMax) {
+                maxValueBox.innerHTML = `${startMax - 1}+`;
+            } else {
+                maxValueBox.innerHTML = maxValue;
+            }
+
+            if (minValue === startMax) {
+                minValueBox.innerHTML = `${startMax - 1}+`;
+            } else {
+                minValueBox.innerHTML = minValue;
+            }
+
+            adjustValueBoxWidth(minValueBox);
+            adjustValueBoxWidth(maxValueBox);
+
+            const minPosition = (minValue - min) / (max - min) * 100;
+            const maxPosition = (maxValue - min) / (max - min) * 100;
+            minValueBox.style.left = `calc(${minPosition}% - 20px)`;
+            maxValueBox.style.left = `calc(${maxPosition}% - 20px)`;
+        });
+
+        let rulerHtml = '';
+        const rulerStep = Math.ceil((max - min) / (numRulerMarks - 1) / step) * step;
+        for (let value = min; value <= max; value += rulerStep) {
+            const position = ((value - min) / (max - min)) * 100;
+            rulerHtml += `<span class="ruler-mark" style="left: ${position}%">${value}</span>`;
+        }
+        ruler.innerHTML = rulerHtml;
+    }
+
+    createSlider("builtUpAreaSlider", "minBuiltUpArea", "maxBuiltUpArea", "builtUpAreaRuler", 0, 1001, 10, 0, 1001, true, 10);
+    createSlider("yardAreaSlider", "minYardArea", "maxYardArea", "yardAreaRuler", 0, 5001, 10, 0, 5001, true, 10);
+    createSlider("roomsSlider", "minRoomsCount", "maxRoomsCount", "roomsRuler", 0, 21, 1, 0, 21, true, 7);
+    createSlider("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "bathroomsRuler", 0, 21, 1, 0, 21, true, 7);
+    createSlider("priceSlider", "minPrice", "maxPrice", "priceRuler", 0, 500001, 100, 0, 500001, true, 10);
+    createSlider("priceRentSlider", "minRentPrice", "maxRentPrice", "priceRentRuler", 0, 5001, 50, 0, 5001, true, 10);
+    const nextYear = new Date().getFullYear() + 1;
+    createSlider("constructionYearSlider", "minConstructionYear", "maxConstructionYear", "constructionYearRuler", 1900, nextYear, 1, 1900, nextYear, true, 10);
+});
 </script>
 
-<style>
-    .custom-filter-button {
-    background-color: #96c930; /* Green color */
-    color: white; /* Text and icon color */
-    border: none; /* Optional: To remove border if needed */
-}
-
-.custom-filter-button .filter-icon {
-    color: white; /* White color for the filter icon */
-}
-
-.custom-filter-button:hover {
-    background-color: #7fae58; /* Darker shade for hover effect */
-    color: white;
-}
-
-.custom-filter-button:focus {
-    outline: none; /* Optional: To remove focus outline */
-    box-shadow: 0 0 0 2px rgba(154, 199, 109, 0.5); /* Optional: Subtle focus ring */
-}
-
-    .search-bar-row {
-    margin-bottom: 20px;
-}
-
-.property .card {
-    max-width: 350px; /* Ensure consistent width for cards */
-    margin: auto;
-}
-
-.btn-info {
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-@media (min-width: 768px) {
-    .search-bar-row {
-        align-items: center;
-    }
-    .btn-info {
-        margin-left: auto; /* Push button to the far right */
-    }
-}
-
-
-    .btn-search {
-    background-color: #9ac76d;
-    border-color: #9ac76d;
-    color: white;
-}
-    /* General Styles for Larger Fonts */
-    body, .modal-body, .modal-footer, .form-label, .form-check-label, .form-select {
-        font-size: 1.1rem; /* Slightly larger font for better readability */
-    }
-
-    /* Container for checkboxes to handle multi-column layout */
-    .checkbox-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
-        gap: 15px;
-    }
-
-    /* Style for each individual checkbox item */
-    .form-check {
-        margin-bottom: 10px; /* Increase space between checkboxes */
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    /* Style for the form labels */
-    .form-label {
-        font-weight: bold;
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    /* Property Types Section */
-    .mb-3 label.form-label {
-        font-size: 1.2rem; /* Make the property types label bigger */
-        margin-bottom: 15px;
-    }
-
-    /* Section Title */
-    h5.modal-title {
-        font-size: 1.5rem; /* Larger title */
-    }
-
-    /* Modal Body and Sliders */
-    .modal-body {
-        padding: 20px;
-    }
-
-    /* Adjust slider styles */
-    .slider {
-        margin-bottom: 20px;
-        position: relative;
-        width: 100%;
-        height: 20px;
-    }
-
-    /* Slider value box styles */
-    .slider-value-box {
-        position: absolute;
-        top: -40px;
-        width: auto;
-        min-width: 50px; /* Wider box for more space */
-        height: 25px;
-        padding: 5px;
-        font-size: 14px;
-        text-align: center;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        color: #333;
-        display: flex;
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically */
-    }
-
-    /* Slider Ruler */
-    .slider-ruler {
-        position: relative;
-        width: 100%;
-        height: 10px; /* Slightly smaller height for better fit */
-    }
-
-    .ruler-mark {
-        position: absolute;
-        bottom: 0;
-        width: 1px;
-        height: 10px;
-        background-color: #ccc;
-        font-size: 12px;
-        text-align: center;
-        color: #333;
-    }
-
-    /* NoUi Slider Custom Styles */
-    .noUi-target .noUi-base {
-        background-color: #9ac76d !important;
-    }
-
-    .noUi-connect {
-        background-color: #9ac76d !important;
-    }
-
-    .noUi-handle {
-        border-radius: 50%; /* Rounded handles */
-        width: 15px;
-        height: 15px;
-        background-color: #9ac76d;
-        border: 2px solid #fff;
-    }
-
-    .noUi-handle:hover {
-        background-color: #fff;
-        border-color: #9ac76d;
-    }
-
-    /* Modal and Button Styles */
-    .modal-footer {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-
-    .btn-close {
-        font-size: 1.2rem;
-    }
-
-    .btn-primary {
-        padding: 10px 20px;
-        font-size: 1.1rem;
-        width: 100%; /* Full width for the Submit button */
-    }
-
-    /* Styling for Heating Select */
-    #heating, #sort {
-        padding: 5px;
-        width: 100%;
-    }
-
-    #sort {
-        margin-bottom: 10px;
-    }
-
-    /* Add a line between different sections in the form */
-    .modal-body > .mb-3 {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-    }
-
-    /* Optional: Hover effect for checkboxes */
-    .form-check input[type="checkbox"]:hover {
-        background-color: #f1f1f1;
-        cursor: pointer;
-    }
-
-    /* Responsive Design for Mobile View */
-    @media (max-width: 768px) {
-        .checkbox-container {
-            grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
-        }
-    }
-
-    /* Slider value box for min/max */
-    .min-value {
-        left: 0; /* Position at the start of the slider */
-    }
-
-    .max-value {
-        right: 0; /* Position at the end of the slider */
-    }
-
-    /* Specific adjustment for slider handles */
-    .noUi-handle {
-        border-radius: 50%; /* Rounded handles */
-        width: 15px;
-        height: 15px;
-        background-color: #9ac76d;
-        border: 2px solid #fff;
-    }
-
-    .noUi-handle:hover {
-        background-color: #fff;
-        border-color: #9ac76d;
-    }
-
-    /* Style for the checkboxes and radio buttons */
-    .form-check-input {
-        width: 20px; /* Make the checkboxes and radio buttons slightly bigger */
-        height: 20px; /* Make the checkboxes and radio buttons slightly bigger */
-        transition: background-color 0.1s, border-color 0.1s; /* Smooth transition for color change */
-    }
-
-    .form-check-input:checked {
-        background-color: #9ac76d; /* Green background when checked */
-        border-color: #9ac76d; /* Green border when checked */
-    }
-
-    .form-check-input:checked:focus {
-        border-color: #9ac76d; /* Keep the green border when focused */
-        box-shadow: 0 0 0 0.2rem rgba(154, 199, 109, 0.5); /* Optional glow effect */
-    }
-
-    .form-check-input[type="radio"]:checked:before {
-        background-color: #9ac76d; /* Green dot when checked */
-    }
-
-    /* Optional: Adding some space between the checkboxes/radios */
-    .form-check {
-        margin-bottom: 10px; /* Space between each checkbox/radio */
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .form-check-label {
-        font-size: 16px; /* Increase font size for labels */
-        font-weight: 600; /* Make labels bold */
-    }
-
-    .form-check input[type="checkbox"] {
-        margin-right: 10px; /* Spacing between checkbox and label */
-    }
-
-    /* Responsive adjustments for multiple columns in checkboxes */
-    .checkbox-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
-        gap: 15px;
-    }
-
-    @media (max-width: 768px) {
-        .checkbox-container {
-            grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
-        }
-    }
-
-    /* Slider Styles */
-    .slider {
-        position: relative;
-        width: 100%;
-        height: 20px;
-        margin-bottom: 20px;
-    }
-
-    .slider-value-box {
-        position: absolute;
-        top: -40px;  /* Adjust this value to place the box in the correct position */
-        width: auto;
-        height: 25px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 5px;
-        font-size: 12px;
-        text-align: center;
-        color: #333;
-        display: flex;
-        justify-content: center;  /* Center horizontally */
-        align-items: center;      /* Center vertically */
-        min-width: 50px;
-    }
-
-    /* Slider Ruler */
-    .slider-ruler {
-        position: relative;
-        width: 100%;
-        height: 10px; /* Slightly smaller height for better fit */
-    }
-
-    .ruler-mark {
-        position: absolute;
-        bottom: 0;
-        width: 1px;
-        height: 10px;
-        background-color: #ccc;
-        font-size: 12px;
-        text-align: center;
-        color: #333;
-    }
-
-    /* NoUi Slider Custom Styles */
-    .noUi-target .noUi-base {
-        background-color: #9ac76d !important;
-    }
-
-    .noUi-connect {
-        background-color: #9ac76d !important;
-    }
-
-    .noUi-handle {
-        border-radius: 50%; /* Rounded handles */
-        width: 15px;
-        height: 15px;
-        background-color: #9ac76d;
-        border: 2px solid #fff;
-    }
-
-    .noUi-handle:hover {
-        background-color: #fff;
-        border-color: #9ac76d;
-    }
-
-    /* Modal and Button Styles */
-    .modal-body {
-        padding: 20px;
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-
-    .btn-close {
-        font-size: 1.2rem;
-    }
-
-    .btn-primary {
-        padding: 10px 20px;
-        font-size: 1.1rem;
-        width: 100%; /* Full width for the Submit button */
-    }
-</style>
-
+<!--update params from url-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const searchBarForm = document.querySelector(".search-bar-row form");
@@ -1107,6 +818,7 @@
     });
 </script>
 
+<!--update sliders from url-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const queryString = window.location.search;
@@ -1133,50 +845,29 @@
         updateSliderFromParams("roomsSlider", "minRoomsCount", "maxRoomsCount", "minRoomsCount", "maxRoomsCount", 0, 21);
         updateSliderFromParams("bathroomsSlider", "minBathroomsCount", "maxBathroomsCount", "minBathroomsCount", "maxBathroomsCount", 0, 21);
         updateSliderFromParams("priceSlider", "minPrice", "maxPrice", "minPrice", "maxPrice", 0, 500001);
-        updateSliderFromParams("priceRentSlider", "minRentPrice", "maxRentPrice", "minPrice", "maxPrice", 0, 500001);
+        updateSliderFromParams("priceRentSlider", "minRentPrice", "maxRentPrice", "minPrice", "maxPrice", 0, 5001);
+        updateSliderFromParams("constructionYearSlider", "minConstructionYear", "maxConstructionYear", "minConstructionYear", "maxConstructionYear", 1900, (new Date().getFullYear() + 1));
     });
 </script>
 
-
-<!-- Show only selected option slider -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const rentOption = document.getElementById("rentOption");
-    const saleOption = document.getElementById("saleOption");
-    const priceDiv = document.querySelector("#priceSlider").closest(".mb-3");
-    const priceRentDiv = document.querySelector("#priceRentSlider").closest(".mb-3");
-
-    function togglePriceSliders() {
-        if (rentOption.checked) {
-            priceRentDiv.style.display = "block";
-            priceDiv.style.display = "none";
-        } else if (saleOption.checked) {
-            priceDiv.style.display = "block";
-            priceRentDiv.style.display = "none";
-        } else {
-            priceDiv.style.display = "block";
-            priceRentDiv.style.display = "none";
-        }
-    }
-
-    rentOption.addEventListener("change", togglePriceSliders);
-    saleOption.addEventListener("change", togglePriceSliders);
-
-    togglePriceSliders();
-});
-
-</script>
-
-<!-- Extract field for save search -->
-<script>
+<!-- Extract fields for save search -->
+<script th:inline="javascript">
     document.getElementById('userSearchDataModal').addEventListener('show.bs.modal', function () {
         const regionName = document.getElementById('regionName').value.trim() || null;
         const villageName = document.getElementById('search-input').value.trim() || null;
 
         if (villageName && !regionName) {
-        event.preventDefault(); // Prevent the modal from being shown
-        alert("Please select a region for the specified village name.");
-        return; // Exit early
+        event.preventDefault();
+        //alert("Please select a region for the specified village name.");
+        const currentLocale = /*[[${currentLocale}]]*/;
+        if (currentLocale === 'bg') {
+            alert('Моля, изберете регион за посоченото име на село.');
+        } else if(currentLocale === 'en') {
+            alert('Please select a region for the specified village name.');
+        } else if(currentLocale === 'de') {
+            alert('Bitte wählen Sie eine Region für den angegebenen Dorfnamen aus.');
+        }
+        return;
     }
 
         const propertyTypes = Array.from(document.querySelectorAll('[name="propertyTypes"]:checked')).map(el => el.value);
@@ -1191,10 +882,14 @@
         const maxBathroomsCount = document.getElementById('maxBathroomsCount').value;
         const heating = Array.from(document.querySelectorAll('[name="heating"]:checked')).map(el => el.value);
         const constructionTypes = Array.from(document.querySelectorAll('[name="constructionTypes"]:checked')).map(el => el.value);
+        const propertyConditions = Array.from(document.querySelectorAll('[name="propertyConditions"]:checked')).map(el => el.value);
+        const minConstructionYear = document.getElementById('minConstructionYear').value;
+        const maxConstructionYear = document.getElementById('maxConstructionYear').value;
         const minPrice = document.getElementById('minPrice').value;
         const maxPrice = document.getElementById('maxPrice').value;
         const minRentPrice = document.getElementById('minRentPrice').value;
         const maxRentPrice = document.getElementById('maxRentPrice').value;
+        const ownershipTypes = Array.from(document.querySelectorAll('[name="ownershipTypes"]:checked')).map(el => el.value);
 
         document.getElementById('saveRegionName').value = regionName;
         document.getElementById('saveVillageName').value = villageName;
@@ -1210,14 +905,18 @@
         document.getElementById('saveMaxBathroomsCount').value = maxBathroomsCount;
         document.getElementById('saveHeating').value = heating.join(',');
         document.getElementById('saveConstructionTypes').value = constructionTypes.join(',');
+        document.getElementById('savePropertyConditions').value = propertyConditions.join(',');
+        document.getElementById('saveMinConstructionYear').value = minConstructionYear;
+        document.getElementById('saveMaxConstructionYear').value = maxConstructionYear;
         document.getElementById('saveMinPrice').value = minPrice;
         document.getElementById('saveMaxPrice').value = maxPrice;
         document.getElementById('saveMinRentPrice').value = minRentPrice;
         document.getElementById('saveMaxRentPrice').value = maxRentPrice;
+        document.getElementById('saveOwnershipTypes').value = ownershipTypes.join(',');
     });
 </script>
 
-<!-- Clear Search Button script-->
+<!--- clear property search -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("clearSearchButton").addEventListener("click", function () {
@@ -1265,42 +964,82 @@
     });
 </script>
 
-<!--- toast -->
-<script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-    const toastLive = document.getElementById('liveToast');
-    const toastBootstrap2 = new bootstrap.Toast(toastLive);
-    const toastBody = document.querySelector('.toast-body');
-    const successDiv = toastBody.querySelector('[th\\:text="#{${successMessage}}"]');
-    const errorDiv = toastBody.querySelector('[th\\:text="#{${errorMessage}}"]');
+<!--- show right price slider -->
+<!-- Show only selected option slider -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const rentOption = document.getElementById("rentOption");
+    const saleOption = document.getElementById("saleOption");
+    const priceDiv = document.querySelector("#priceSlider").closest(".mb-3");
+    const priceRentDiv = document.querySelector("#priceRentSlider").closest(".mb-3");
 
-    const errorMessage = /*[[${errorMessage}]]*/ null;
-    const successMessage = /*[[${successMessage}]]*/ null;
-
-    successDiv.style.display = 'none';
-    errorDiv.style.display = 'none';
-
-    if (errorMessage) {
-        errorDiv.style.display = 'block';
-        errorDiv.textContent = errorMessage;
-        toastLive.classList.add('bg-danger');
-        toastLive.classList.remove('bg-success');
-    } else if (successMessage) {
-        successDiv.style.display = 'block';
-        successDiv.textContent = successMessage;
-        toastLive.classList.add('bg-success');
-        toastLive.classList.remove('bg-danger');
+    function togglePriceSliders() {
+        if (rentOption.checked) {
+            priceRentDiv.style.display = "block";
+            priceDiv.style.display = "none";
+        } else if (saleOption.checked) {
+            priceDiv.style.display = "block";
+            priceRentDiv.style.display = "none";
+        } else {
+            priceDiv.style.display = "block";
+            priceRentDiv.style.display = "none";
+        }
     }
 
-    if (errorMessage || successMessage) {
-        toastBootstrap2.show();
+    rentOption.addEventListener("change", togglePriceSliders);
+    saleOption.addEventListener("change", togglePriceSliders);
+
+    togglePriceSliders();
+});
+</script>
+
+<!--- remove prices params when option is changed -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const rentOption = document.getElementById("rentOption");
+    const saleOption = document.getElementById("saleOption");
+
+    function clearPriceParams() {
+        // Clear inputs for price sliders
+        const minPriceInput = document.getElementById("minPrice");
+        const maxPriceInput = document.getElementById("maxPrice");
+        const minRentPriceInput = document.getElementById("minRentPrice");
+        const maxRentPriceInput = document.getElementById("maxRentPrice");
+
+        if (minPriceInput) minPriceInput.value = "";
+        if (maxPriceInput) maxPriceInput.value = "";
+        if (minRentPriceInput) minRentPriceInput.value = "";
+        if (maxRentPriceInput) maxRentPriceInput.value = "";
+
+        // Reset sliders to their min/max positions
+        const priceSlider = document.getElementById("priceSlider");
+        const priceRentSlider = document.getElementById("priceRentSlider");
+
+        if (priceSlider?.noUiSlider) {
+            priceSlider.noUiSlider.set([priceSlider.noUiSlider.options.range.min, priceSlider.noUiSlider.options.range.max]);
+        }
+        if (priceRentSlider?.noUiSlider) {
+            priceRentSlider.noUiSlider.set([priceRentSlider.noUiSlider.options.range.min, priceRentSlider.noUiSlider.options.range.max]);
+        }
+
+        // Remove price parameters from the URL
+        const url = new URL(window.location);
+        url.searchParams.delete("minPrice");
+        url.searchParams.delete("maxPrice");
+        url.searchParams.delete("minRentPrice");
+        url.searchParams.delete("maxRentPrice");
+        window.history.replaceState({}, '', url); // Update the URL without reloading the page
     }
+
+    rentOption.addEventListener("change", clearPriceParams);
+    saleOption.addEventListener("change", clearPriceParams);
 });
 
 </script>
 
+<script src="/js/min/list-propertiesToast.min.js"></script>
+
 <script src="/js/min/showSubscriptionToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

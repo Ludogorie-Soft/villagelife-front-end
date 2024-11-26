@@ -38,6 +38,7 @@ public interface FilterClient {
             @RequestParam(value = "maxBathroomsCount", required = false) Short maxBathroomsCount,
             @RequestParam(value = "heating", required = false) List<String> heating,
             @RequestParam(value = "constructionTypes", required = false) List<String> constructionTypes,
+            @RequestParam(value = "propertyConditions", required = false) List<String> propertyConditions,
             @RequestParam(value = "minConstructionYear", required = false) Short minConstructionYear,
             @RequestParam(value = "maxConstructionYear", required = false) Short maxConstructionYear,
             @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,

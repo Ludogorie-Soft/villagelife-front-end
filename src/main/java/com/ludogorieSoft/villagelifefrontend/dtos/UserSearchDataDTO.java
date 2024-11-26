@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
 import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
+import com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition;
 import com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType;
 import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,7 @@ public class UserSearchDataDTO {
     private Short maxBathroomsCount;
     private List<String> heating;
     private List<ConstructionType> constructionTypes;
+    private List<PropertyCondition> propertyConditions;
     private Short minConstructionYear;
     private Short maxConstructionYear;
     private BigDecimal minPrice;

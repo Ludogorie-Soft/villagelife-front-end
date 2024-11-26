@@ -16,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @AllArgsConstructor
@@ -104,6 +106,7 @@ public class FilterController {
                                  @RequestParam(value = "maxBathroomsCount", required = false) Short maxBathroomsCount,
                                  @RequestParam(value = "heating", required = false) List<String> heating,
                                  @RequestParam(value = "constructionTypes", required = false) List<String> constructionTypes,
+                                 @RequestParam(value = "propertyConditions", required = false) List<String> propertyConditions,
                                  @RequestParam(value = "minConstructionYear", required = false) Short minConstructionYear,
                                  @RequestParam(value = "maxConstructionYear", required = false) Short maxConstructionYear,
                                  @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
@@ -112,7 +115,7 @@ public class FilterController {
                                  @RequestParam(value = "villageName", required = false) String villageName,
                                  @RequestParam(value = "regionName", required = false) String regionName,
                                  @RequestParam(name = "sort", required = false, defaultValue = "createdAt") String sort,
-                                 BindingResult bindingResult, Model model) {
+                                 BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         addAuthAttributes(model);
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
@@ -128,8 +131,9 @@ public class FilterController {
         Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
         Page<PropertyDTO> propertyDTOS = filterClient.searchPropertiesByCriteria(propertyTypes, propertyTransferType,
                 minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,
-                maxBathroomsCount, heating, constructionTypes, minConstructionYear, maxConstructionYear, minPrice,
+                maxBathroomsCount, heating, constructionTypes, propertyConditions, minConstructionYear, maxConstructionYear, minPrice,
                 maxPrice, ownershipTypes, villageName, regionName, pageable);
+        model.addAttribute("currentLocale", RequestContextUtils.getLocaleResolver(request).resolveLocale(request));
         model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
         model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
         model.addAttribute("properties", propertyDTOS.stream().toList());

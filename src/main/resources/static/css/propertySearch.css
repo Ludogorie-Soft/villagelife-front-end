@@ -1,0 +1,382 @@
+    #successToast,
+    #errorToast {
+        z-index: 1055; /* Ensure it appears above most elements */
+        top: 30%; /* Adjust vertical position to be slightly lower */
+        width: 350px; /* Optional: Set a consistent width */
+        transform: translateX(-50%); /* Keep the horizontal centering intact */
+        left: 50%; /* Horizontal centering */
+    }
+
+    .toast-header {
+        text-align: center;
+        justify-content: center;
+    }
+
+
+            .custom-filter-button {
+            background-color: #96c930; /* Green color */
+            color: white; /* Text and icon color */
+            border: none; /* Optional: To remove border if needed */
+        }
+
+        .custom-filter-button .filter-icon {
+            color: white; /* White color for the filter icon */
+        }
+
+        .custom-filter-button:hover {
+            background-color: #7fae58; /* Darker shade for hover effect */
+            color: white;
+        }
+
+        .custom-filter-button:focus {
+            outline: none; /* Optional: To remove focus outline */
+            box-shadow: 0 0 0 2px rgba(154, 199, 109, 0.5); /* Optional: Subtle focus ring */
+        }
+
+            .search-bar-row {
+            margin-bottom: 20px;
+        }
+
+        .property .card {
+            max-width: 350px; /* Ensure consistent width for cards */
+            margin: auto;
+        }
+
+        .btn-info {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        @media (min-width: 768px) {
+            .search-bar-row {
+                align-items: center;
+            }
+            .btn-info {
+                margin-left: auto; /* Push button to the far right */
+            }
+        }
+
+
+            .btn-search {
+            background-color: #9ac76d;
+            border-color: #9ac76d;
+            color: white;
+        }
+            /* General Styles for Larger Fonts */
+            body, .modal-body, .modal-footer, .form-label, .form-check-label, .form-select {
+                font-size: 1.1rem; /* Slightly larger font for better readability */
+            }
+
+            /* Container for checkboxes to handle multi-column layout */
+            .checkbox-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
+                gap: 15px;
+            }
+
+            /* Style for each individual checkbox item */
+            .form-check {
+                margin-bottom: 10px; /* Increase space between checkboxes */
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            /* Style for the form labels */
+            .form-label {
+                font-weight: bold;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            /* Property Types Section */
+            .mb-3 label.form-label {
+                font-size: 1.2rem; /* Make the property types label bigger */
+                margin-bottom: 15px;
+            }
+
+            /* Section Title */
+            h5.modal-title {
+                font-size: 1.5rem; /* Larger title */
+            }
+
+            /* Modal Body and Sliders */
+            .modal-body {
+                padding: 20px;
+            }
+
+            /* Adjust slider styles */
+            .slider {
+                margin-bottom: 20px;
+                position: relative;
+                width: 100%;
+                height: 20px;
+            }
+
+            /* Slider value box styles */
+            .slider-value-box {
+                position: absolute;
+                top: -40px;
+                width: auto;
+                min-width: 50px; /* Wider box for more space */
+                height: 25px;
+                padding: 5px;
+                font-size: 14px;
+                text-align: center;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                color: #333;
+                display: flex;
+                justify-content: center; /* Center horizontally */
+                align-items: center; /* Center vertically */
+            }
+
+            /* Slider Ruler */
+            .slider-ruler {
+                position: relative;
+                width: 100%;
+                height: 10px; /* Slightly smaller height for better fit */
+            }
+
+            .ruler-mark {
+                position: absolute;
+                bottom: 0;
+                width: 1px;
+                height: 10px;
+                background-color: #ccc;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+            }
+
+            /* NoUi Slider Custom Styles */
+            .noUi-target .noUi-base {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-connect {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-handle {
+                border-radius: 50%; /* Rounded handles */
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            /* Modal and Button Styles */
+            .modal-footer {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .btn-close {
+                font-size: 1.2rem;
+            }
+
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                width: 100%; /* Full width for the Submit button */
+            }
+
+            /* Styling for Heating Select */
+            #heating, #sort {
+                padding: 5px;
+                width: 100%;
+            }
+
+            #sort {
+                margin-bottom: 10px;
+            }
+
+            /* Add a line between different sections in the form */
+            .modal-body > .mb-3 {
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+
+            /* Optional: Hover effect for checkboxes */
+            .form-check input[type="checkbox"]:hover {
+                background-color: #f1f1f1;
+                cursor: pointer;
+            }
+
+            /* Responsive Design for Mobile View */
+            @media (max-width: 768px) {
+                .checkbox-container {
+                    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+                }
+            }
+
+            /* Slider value box for min/max */
+            .min-value {
+                left: 0; /* Position at the start of the slider */
+            }
+
+            .max-value {
+                right: 0; /* Position at the end of the slider */
+            }
+
+            /* Specific adjustment for slider handles */
+            .noUi-handle {
+                border-radius: 50%; /* Rounded handles */
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            /* Style for the checkboxes and radio buttons */
+            .form-check-input {
+                width: 20px; /* Make the checkboxes and radio buttons slightly bigger */
+                height: 20px; /* Make the checkboxes and radio buttons slightly bigger */
+                transition: background-color 0.1s, border-color 0.1s; /* Smooth transition for color change */
+            }
+
+            .form-check-input:checked {
+                background-color: #9ac76d; /* Green background when checked */
+                border-color: #9ac76d; /* Green border when checked */
+            }
+
+            .form-check-input:checked:focus {
+                border-color: #9ac76d; /* Keep the green border when focused */
+                box-shadow: 0 0 0 0.2rem rgba(154, 199, 109, 0.5); /* Optional glow effect */
+            }
+
+            .form-check-input[type="radio"]:checked:before {
+                background-color: #9ac76d; /* Green dot when checked */
+            }
+
+            /* Optional: Adding some space between the checkboxes/radios */
+            .form-check {
+                margin-bottom: 10px; /* Space between each checkbox/radio */
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .form-check-label {
+                font-size: 16px; /* Increase font size for labels */
+                font-weight: 600; /* Make labels bold */
+            }
+
+            .form-check input[type="checkbox"] {
+                margin-right: 10px; /* Spacing between checkbox and label */
+            }
+
+            /* Responsive adjustments for multiple columns in checkboxes */
+            .checkbox-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Responsive layout */
+                gap: 15px;
+            }
+
+            @media (max-width: 768px) {
+                .checkbox-container {
+                    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+                }
+            }
+
+            /* Slider Styles */
+            .slider {
+                position: relative;
+                width: 100%;
+                height: 20px;
+                margin-bottom: 20px;
+            }
+
+            .slider-value-box {
+                position: absolute;
+                top: -40px;  /* Adjust this value to place the box in the correct position */
+                width: auto;
+                height: 25px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+                display: flex;
+                justify-content: center;  /* Center horizontally */
+                align-items: center;      /* Center vertically */
+                min-width: 50px;
+            }
+
+            /* Slider Ruler */
+            .slider-ruler {
+                position: relative;
+                width: 100%;
+                height: 10px; /* Slightly smaller height for better fit */
+            }
+
+            .ruler-mark {
+                position: absolute;
+                bottom: 0;
+                width: 1px;
+                height: 10px;
+                background-color: #ccc;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+            }
+
+            /* NoUi Slider Custom Styles */
+            .noUi-target .noUi-base {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-connect {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-handle {
+                border-radius: 50%; /* Rounded handles */
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            /* Modal and Button Styles */
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-footer {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .btn-close {
+                font-size: 1.2rem;
+            }
+
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                width: 100%; /* Full width for the Submit button */
+            }

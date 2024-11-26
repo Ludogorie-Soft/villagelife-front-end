@@ -1,0 +1,13 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const successToast = document.getElementById('successToast');
+    const errorToast = document.getElementById('errorToast');
+
+    const successBootstrapToast = successToast ? new bootstrap.Toast(successToast) : null;
+    const errorBootstrapToast = errorToast ? new bootstrap.Toast(errorToast) : null;
+
+    if (errorBootstrapToast) {
+        errorBootstrapToast.show();
+    } else if (successBootstrapToast) {
+        successBootstrapToast.show();
+    }
+});
