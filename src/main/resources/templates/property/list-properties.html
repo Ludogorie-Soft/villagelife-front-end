@@ -497,44 +497,33 @@
     <div class="card-actions" style="font-size: 15px;">
         <div class="text-center pagination">
             <div>
-                <a th:href="@{/properties}" aria-label="to the first page">
-                    <button id="first" class="btn">
-                        <i class="fas fa-angle-double-left"></i>
-                    </button>
-                </a>
+                <button id="first" class="btn" onclick="changePage(0)" aria-label="to the first page">
+                    <i class="fas fa-angle-double-left"></i>
+                </button>
             </div>
 
             <div>
-                <a th:href="@{/properties/{page}(page=${page >= 1 ? page - 1 : 0})}">
-                    <button id="prev" class="btn">
-                        <i class="fas fa-chevron-left"></i><span th:text="#{previous.page}"
-                                                                 class="pagination-btn-text"></span>
-                    </button>
-                </a>
+                <button id="prev" class="btn" onclick="changePage(currentPage - 1)">
+                    <i class="fas fa-chevron-left"></i><span class="pagination-btn-text" th:text="#{previous.page}"></span>
+                </button>
             </div>
 
             <div>
-                <input type="number" id="currentPage" th:value="${page != null ? page + 1 : 1}"
-                       onkeyup="updatePageValue(event)" style="width: 50px;" aria-labelledby="number">
-
-                <span th:text="#{from.page}"></span>
-                <span th:text="${pagesCount}"></span>
+                <input type="number" id="currentPageInput" value="1" onkeyup="updatePageValue(event)" style="width: 50px;" aria-labelledby="number">
+                <span>of</span>
+                <span id="totalPages" th:text="${pagesCount}"></span>
             </div>
 
             <div>
-                <a th:href="@{/properties/{page}(page=${page != null ? (page < pagesCount - 1 ? page + 1 : pagesCount - 1) : 1})}">
-                    <button id="next" class="btn">
-                        <span th:text="#{next.page}" class="pagination-btn-text"></span> <i
-                            class="fas fa-chevron-right"></i>
-                    </button>
-                </a>
+                <button id="next" class="btn" onclick="changePage(currentPage + 1)">
+                    <span class="pagination-btn-text" th:text="#{next.page}"></span> <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
+
             <div>
-                <a th:href="@{/properties/{page}(page=${pagesCount - 1})}" aria-label="to the last page">
-                    <button id="last" class="btn">
-                        <i class="fas fa-angle-double-right"></i>
-                    </button>
-                </a>
+                <button id="last" class="btn" onclick="changePage(totalPages - 1)" aria-label="to the last page">
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -584,6 +573,7 @@
         }
     }
 </script>
+<script src="/js/min/navMenuProperties.min.js"></script>
 <script src="/js/min/removeEmptyParamsFromPropertySearch.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
 <script src="/js/min/advancedSearchSliders.min.js"></script>

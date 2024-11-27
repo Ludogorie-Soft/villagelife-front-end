@@ -21,7 +21,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @AllArgsConstructor
@@ -128,6 +127,7 @@ public class FilterController {
         String[] sortParams = sort.split(",");
         String sortBy = sortParams[0];
         String sortDir = sortParams.length > 1 ? sortParams[1] : "asc";
+        if (page < 0) page = 0;
         Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
         Page<PropertyDTO> propertyDTOS = filterClient.searchPropertiesByCriteria(propertyTypes, propertyTransferType,
                 minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,

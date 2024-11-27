@@ -28,7 +28,6 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @AllArgsConstructor
@@ -42,6 +41,7 @@ public class PropertyController {
 
     @GetMapping(value = {"/{page}", ""})
     String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page, HttpServletRequest request){
+        if (page != null && page < 0) page = 0;
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
