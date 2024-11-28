@@ -74,7 +74,7 @@
                 <div class="card-body">
                     <a th:href="@{/properties/show/{id}(id=${property.id})}" class="card-body-link">
                         <h6 style="font-weight: 400; text-transform: uppercase;">
-                            <div th:text="#{${property.propertyTransferType.name}}"></div>
+                            <div th:text="#{${property.propertyTransferType.key}}"></div>
                         </h6>
                         <h5>
                             <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
@@ -140,22 +140,12 @@
 
 
 </div>
-
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
 
 <div th:replace="fragments :: footer"></div>
 
-<script src="/js/min/loginModal.min.js"></script>
-<script src="/js/min/showToast.min.js"></script>
-<script src="/js/min/verificationModal.min.js"></script>
-<script src="/js/min/registrationModal.min.js"></script>
-<script th:inline="javascript">
-    var registrationModal = [[${registrationModal}]];
-</script>
-<script src="/js/min/setActiveTab.min.js"></script>
-<script src="/js/min/businessCardValidations-script.min.js"></script>
 <script>
 function updatePageValue(event) {
     if (event.key === 'Enter') {
@@ -185,7 +175,17 @@ function updatePageValue(event) {
     }
 }
 </script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
+
+<script src="/js/min/verificationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
 </body>
 </html>
