@@ -149,7 +149,7 @@ public class PropertyController {
     public String showPropertyById(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
         PropertyDTO propertyDTO = propertyClient.getPropertyWithMainImageById(id);
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
-        propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null));
+        propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null,null));
 
         addAuthAttributes(model);
         model.addAttribute("property", propertyDTO);

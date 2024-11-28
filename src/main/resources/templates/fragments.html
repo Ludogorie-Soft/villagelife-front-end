@@ -360,14 +360,6 @@
                 <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
             </div>
         </div>
-        <div th:unless="${session.admin}">
-            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal" th:text="#{auth.log.in}" style="color: white;"></a>
-            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>
-        </div>
-        <div th:if="${session.admin}">
-            <a class="auth-btn" th:href="@{/auth/logout}" th:text="#{auth.log.out}" style="color: white;"></a>
-        </div>
-    </div>
 </div>
 
 

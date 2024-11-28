@@ -172,7 +172,7 @@
             </div>
             <div class="col-md-6">
                 <label for="yardArea" class="form-label fw-bold">
-                    <span th:text="#{property.yard.area}"></span><span class="text-danger">*</span>
+                    <span th:text="#{property.form.yard.area}"></span><span class="text-danger">*</span>
                 </label>
                 <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea" class="form-control" required min="0">
                 <ul class="error-list">
@@ -185,7 +185,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="roomsCount" class="form-label fw-bold">
-                    <span th:text="#{property.rooms.count}"></span>
+                    <span th:text="#{property.form.rooms.count}"></span>
                 </label>
                 <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control">
                 <ul class="error-list">
@@ -194,7 +194,7 @@
             </div>
             <div class="col-md-6">
                 <label for="bathroomsCount" class="form-label fw-bold">
-                    <span th:text="#{property.bathrooms.count}"></span>
+                    <span th:text="#{property.form.bathrooms.count}"></span>
                 </label>
                 <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control">
                 <ul class="error-list">
@@ -253,7 +253,7 @@
             <!-- Construction Type -->
             <div class="col-md-6">
                 <label for="constructionType" class="form-label fw-bold">
-                    <span th:text="#{property.construction.type}"></span>
+                    <span th:text="#{property.form.construction.type}"></span>
                 </label>
                 <select id="constructionType" name="constructionType" class="form-select">
                     <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
@@ -264,7 +264,7 @@
             <!-- Construction Year -->
             <div class="col-md-6">
                 <label for="constructionYear" class="form-label fw-bold">
-                    <span th:text="#{property.construction.year}"></span>
+                    <span th:text="#{property.form.construction.year}"></span>
                 </label>
                 <input type="text" id="constructionYear" name="constructionYear" class="form-control">
             </div>
@@ -288,7 +288,7 @@
             <!-- Property Condition -->
             <div class="col-md-6">
                 <label for="propertyCondition" class="form-label fw-bold">
-                    <span th:text="#{property.condition}"></span><span class="text-danger">*</span>
+                    <span th:text="#{property.form.condition}"></span><span class="text-danger">*</span>
                 </label>
                 <select id="propertyCondition" name="propertyCondition" class="form-select" required>
                     <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
@@ -303,7 +303,7 @@
         <!-- Extras -->
         <div class="mb-3">
             <label for="extras" class="form-label fw-bold">
-                <span th:text="#{property.extras}"></span>
+                <span th:text="#{property.form.extras}"></span>
             </label>
             <textarea id="extras" name="extras" class="form-control"></textarea>
         </div>
@@ -311,7 +311,7 @@
         <!-- Description -->
         <div class="mb-3">
             <label for="description" class="form-label fw-bold">
-                <span th:text="#{property.description}"></span><span class="text-danger">*</span>
+                <span th:text="#{property.form.description}"></span><span class="text-danger">*</span>
             </label>
             <textarea id="description" name="description" class="form-control" required minlength="10" maxlength="500"></textarea>
             <ul class="error-list">
