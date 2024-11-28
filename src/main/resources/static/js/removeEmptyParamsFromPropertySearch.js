@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let searchParams = new URLSearchParams();
 
         formData.forEach((value, key) => {
-            if (value.trim() !== "") { // Only add the parameter if its value is not an empty string
+            if (value.trim() !== "") {
                 searchParams.append(key, value);
             }
         });

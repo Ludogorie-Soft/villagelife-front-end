@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 minInput.value = minValue;
                 minInput.removeAttribute('disabled');
             } else {
-                minInput.value = ''; // Clear the value
+                minInput.value = '';
                 minInput.setAttribute('disabled', 'true');
             }
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 maxInput.value = maxValue;
                 maxInput.removeAttribute('disabled');
             } else {
-                maxInput.value = ''; // Clear the value
+                maxInput.value = '';
                 maxInput.setAttribute('disabled', 'true');
             }
 

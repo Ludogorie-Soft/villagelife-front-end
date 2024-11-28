@@ -4,7 +4,7 @@ document.getElementById('userSearchDataModal').addEventListener('show.bs.modal',
 
         if (villageName && !regionName) {
         event.preventDefault();
-        //alert("Please select a region for the specified village name.");
+
         const currentLocale = /*[[${currentLocale}]]*/;
         if (currentLocale === 'bg') {
             alert('Моля, изберете регион за посоченото име на село.');

@@ -2,9 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const searchBarForm = document.querySelector(".search-bar-row form");
         const modalForm = document.querySelector("#advancedSearchModal form");
 
-        /**
-         * Populate form fields from query parameters
-         */
         function populateFieldsFromQuery(queryString, form) {
             const params = new URLSearchParams(queryString);
             params.forEach((value, key) => {
