@@ -451,7 +451,7 @@
                         <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
                             <button type="submit" class="card-body-link" style="all: unset; cursor: pointer;">
                                 <h6 style="font-weight: 400; text-transform: uppercase;">
-                                    <div th:text="#{${property.propertyTransferType.name}}"></div>
+                                    <div th:text="#{${property.propertyTransferType.key}}"></div>
                                 </h6>
                                 <h5>
                                     <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
@@ -468,12 +468,7 @@
                         </form>
 
                         <br>
-
-                        <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-info" style="font-size: 15px;">
-                                <span th:text="#{property.see.more}"></span>
-                            </button>
-                        </form>
+                        <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                     </div>
                 </div>
             </div>
