@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserSavedPropertyDTO {
     private Long id;
-    private AlternativeUserDTO alternativeUserDTO;
+    private AlternativeUserDTO userDTO;
     private PropertyDTO propertyDTO;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)

@@ -494,6 +494,7 @@
         </div>
     </div>
 
+
     <div class="card-actions" style="font-size: 15px;">
         <div class="text-center pagination">
             <div>
@@ -528,22 +529,12 @@
         </div>
     </div>
 </div>
-
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
 
 <div th:replace="fragments :: footer"></div>
 
-<script src="/js/min/loginModal.min.js"></script>
-<script src="/js/min/showToast.min.js"></script>
-<script src="/js/min/verificationModal.min.js"></script>
-<script src="/js/min/registrationModal.min.js"></script>
-<script th:inline="javascript">
-    var registrationModal = [[${registrationModal}]];
-</script>
-<script src="/js/min/setActiveTab.min.js"></script>
-<script src="/js/min/businessCardValidations-script.min.js"></script>
 <script>
     function updatePageValue(event) {
         if (event.key === 'Enter') {
@@ -648,7 +639,17 @@
 <script src="/js/min/showOnlySelectedOptionSlider.min.js"></script>
 <script src="/js/min/removePricesWhenOptionIsChanged.min.js"></script>
 <script src="/js/min/list-propertiesToast.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
+
+<script src="/js/min/verificationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
 </body>
 </html>

@@ -1,52 +1,59 @@
-        .container{
-            padding: 0 30px;
-        }
-        section{
-            margin: 50px 0px 50px 0px;
-        }
-        .btn,
-        .btn:hover{
-            border: none;
-            border-radius: 0;
-            margin: 0px 5px 0px 5px;
-            background-color: #96c930;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-        }
-        .question-wrapper {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        .radio-button,
-        .checkbox{
-            accent-color: #96c930;
-        }
+.container {
+    padding: 0 30px;
+}
 
-        .legend {
-           display: none;
-        }
-        .sm-consents{
-            display: none;
-        }
+section {
+    margin: 50px 0;
+}
 
-        @media (max-width: 676px) {
-            .sm-consents {
-                display: block;
-            }
-            .lg-consents{
-                display: none;
-            }
-        }
+.submit-btn, .submit-btn:hover {
+     border: none;
+        border-radius: 0;
+        margin: 0 5px;
+        background-color: #96C930;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        color: white;
+        height: 30px;
+}
 
-        #villageName:focus,
-        #regionName:focus,
-        #villagePopulationCount:focus,
-        .form-control:focus {
-            box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.5);
-            outline: none;
-            border: none;
-        }
 
-        .checkbox-wrapper-43 input[type="checkbox"] {
+/* Checkbox Styling */
+.checkbox,
+.radio-button {
+    accent-color: #96c930;
+}
+
+.error-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.form-control:focus,
+#villageDTO:focus,
+#region:focus,
+#price:focus,
+#phoneNumber:focus,
+#buildUpArea:focus,
+#yardArea:focus,
+#roomsCount:focus,
+#bathroomsCount:focus,
+#propertyType:focus,
+#address:focus,
+#constructionYear:focus,
+#extras:focus,
+#ownershipType:focus,
+#propertyCondition:focus,
+#description:focus,
+#constructionType:focus,
+#formFileMultiple:focus,
+#formFileForMultiple:focus,
+#description:focus {
+    box-shadow: 0 0 0 4px rgba(150, 201, 48, 0.5);
+    outline: none;
+    border: none;
+}
+
+ .checkbox-wrapper-43 input[type="checkbox"] {
             display: none;
             visibility: hidden;
         }
@@ -133,7 +140,18 @@
             display: inline;
         }
 
-    .error-list {
-        list-style-type: none;
-        padding: 0;
+.text-muted {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+@media (max-width: 676px) {
+    .sm-consents {
+        display: block;
     }
+    .lg-consents {
+        display: none;
+    }
+}

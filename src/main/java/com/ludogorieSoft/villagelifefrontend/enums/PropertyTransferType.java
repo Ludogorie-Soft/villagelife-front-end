@@ -8,5 +8,5 @@ import lombok.Getter;
 public enum PropertyTransferType {
     SALE("property.transfer.type.sale"),
     RENT("property.transfer.type.rent");
-    private final String name;
+    private final String key;
 }
