@@ -16,10 +16,6 @@ import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
-import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
-import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
 import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
 import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
@@ -34,17 +30,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.RENT;
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.SALE;
 
