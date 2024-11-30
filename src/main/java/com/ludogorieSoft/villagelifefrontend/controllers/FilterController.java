@@ -3,6 +3,8 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.advanced.AdvancedSearchForm;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
 import lombok.AllArgsConstructor;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -30,6 +34,7 @@ public class FilterController {
     private final VillageImageClient villageImageClient;
     private static final String SEARCHING_FORM_VIEW = "SearchingForm";
     private static final String MESSAGE_ATTRIBUTE = "message";
+    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping("/advancedSearchModalForm")
     public String getPageWithModal(Model model) {
@@ -58,14 +63,12 @@ public class FilterController {
                          @RequestParam(name = "keyword", required = false) String villageName,
                          @RequestParam(name = "sort", required = false, defaultValue = "name") String sort,
                          BindingResult bindingResult, Model model) {
-//        AdvancedSearchFormValidator validator = new AdvancedSearchFormValidator();
-//        validator.validate(formResult, bindingResult);
 
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Формата е празна");
-            model.addAttribute("subscription", new SubscriptionDTO());
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
             return SEARCHING_FORM_VIEW;
         }
 
@@ -82,9 +85,60 @@ public class FilterController {
         Page<VillageDTO> villageDTOs = getVillageDTOs(model,region, villageName, selectedObjects, selectedLivingConditions, selectedChildrenEnum, sort, page);
         model.addAttribute("sort", sort);
         model.addAttribute("villages", villageDTOs);
-        model.addAttribute("subscription", new SubscriptionDTO());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         displayAdvancedSearchResultMessage(model, villageDTOs.getTotalElements(),villageDTOs.getTotalPages());
         return SEARCHING_FORM_VIEW;
+    }
+
+    @GetMapping("/search-property/{page}")
+    public String searchProperty(@ModelAttribute AdvancedSearchForm formResult,
+                                 @PathVariable("page") int page,
+                                 @RequestParam(value = "propertyTypes", required = false) List<String> propertyTypes,
+                                 @RequestParam(value = "propertyTransferType", required = false) String propertyTransferType,
+                                 @RequestParam(value = "minBuiltUpArea", required = false) Double minBuiltUpArea,
+                                 @RequestParam(value = "maxBuiltUpArea", required = false) Double maxBuiltUpArea,
+                                 @RequestParam(value = "minYardArea", required = false) Double minYardArea,
+                                 @RequestParam(value = "maxYardArea", required = false) Double maxYardArea,
+                                 @RequestParam(value = "minRoomsCount", required = false) Short minRoomsCount,
+                                 @RequestParam(value = "maxRoomsCount", required = false) Short maxRoomsCount,
+                                 @RequestParam(value = "minBathroomsCount", required = false) Short minBathroomsCount,
+                                 @RequestParam(value = "maxBathroomsCount", required = false) Short maxBathroomsCount,
+                                 @RequestParam(value = "heating", required = false) List<String> heating,
+                                 @RequestParam(value = "constructionTypes", required = false) List<String> constructionTypes,
+                                 @RequestParam(value = "propertyConditions", required = false) List<String> propertyConditions,
+                                 @RequestParam(value = "minConstructionYear", required = false) Short minConstructionYear,
+                                 @RequestParam(value = "maxConstructionYear", required = false) Short maxConstructionYear,
+                                 @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+                                 @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+                                 @RequestParam(value = "ownershipTypes", required = false) List<String> ownershipTypes,
+                                 @RequestParam(value = "villageName", required = false) String villageName,
+                                 @RequestParam(value = "regionName", required = false) String regionName,
+                                 @RequestParam(name = "sort", required = false, defaultValue = "createdAt") String sort,
+                                 BindingResult bindingResult, Model model, HttpServletRequest request) {
+
+        addAuthAttributes(model);
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("regions", regionDTOS);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "Формата е празна");
+            model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+            return "redirect:/properties";
+        }
+        String[] sortParams = sort.split(",");
+        String sortBy = sortParams[0];
+        String sortDir = sortParams.length > 1 ? sortParams[1] : "asc";
+        if (page < 0) page = 0;
+        Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.fromString(sortDir.toUpperCase()), sortBy));
+        Page<PropertyDTO> propertyDTOS = filterClient.searchPropertiesByCriteria(propertyTypes, propertyTransferType,
+                minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,
+                maxBathroomsCount, heating, constructionTypes, propertyConditions, minConstructionYear, maxConstructionYear, minPrice,
+                maxPrice, ownershipTypes, villageName, regionName, pageable);
+        model.addAttribute("currentLocale", RequestContextUtils.getLocaleResolver(request).resolveLocale(request));
+        model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
+        model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
+        model.addAttribute("properties", propertyDTOS.stream().toList());
+        model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        return "/property/list-properties";
     }
 
     private static void displayAdvancedSearchResultMessage(Model model, long resultCount, long pageSize) {
@@ -141,5 +195,14 @@ public class FilterController {
             return "redirect:" + newRedirectUrl;
         }
         return "redirect:" + referer;
+    }
+
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
     }
 }
