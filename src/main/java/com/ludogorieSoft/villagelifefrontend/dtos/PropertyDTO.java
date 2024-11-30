@@ -9,9 +9,6 @@ import com.ludogorieSoft.villagelifefrontend.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -41,8 +38,8 @@ public class PropertyDTO {
     @NotNull(message = "This field is required")
     @Min(value = 0, message = "Must be greater than or equal to 0")
     private Double yardArea;
-    private int roomsCount;
-    private int bathroomsCount;
+    private Short roomsCount;
+    private Short bathroomsCount;
     private List<String> heating;
     private List<PropertyImageDTO> images;
     private String imageUrl;

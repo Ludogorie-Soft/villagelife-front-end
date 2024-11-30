@@ -4,19 +4,21 @@ import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
+import com.ludogorieSoft.villagelifefrontend.config.RegionClient;
 import com.ludogorieSoft.villagelifefrontend.config.UserSavedPropertyClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.RegionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.UserSearchDataDTO;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
-import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
-import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
+import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
+import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
+import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,15 +30,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpSession;
-
+import org.springframework.web.servlet.support.RequestContextUtils;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.RENT;
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.SALE;
 
@@ -55,15 +54,22 @@ public class PropertyController {
     private static final String PERMISSIONS_MESSAGE = "You do not have permissions for this page!";
     private PropertyImageClient propertyImageClient;
     private UserSavedPropertyClient userSavedPropertyClient;
+    private RegionClient regionClient;
     private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping(value = {"/{page}", ""})
-    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page){
+    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page, HttpServletRequest request){
+        if (page != null && page < 0) page = 0;
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
+        List<RegionDTO> regionDTOS = regionClient.getAllRegions();
+        model.addAttribute("currentLocale", RequestContextUtils.getLocaleResolver(request).resolveLocale(request));
+        model.addAttribute("userSearchDataDTO", new UserSearchDataDTO());
+        model.addAttribute("regions", regionDTOS);
         model.addAttribute("pagesCount", propertyClient.getAllProperties(currentPage, 6).getTotalPages());
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+        addSearchPropertyAttributes(model);
         return "/property/list-properties";
     }
     @GetMapping("/add-sale")
@@ -166,6 +172,13 @@ public class PropertyController {
 
         return "/property/property";
     }
+
+    private void addSearchPropertyAttributes(Model model) {
+        model.addAttribute("propertyTypes", List.of(PropertyType.values()));
+        model.addAttribute("constructionTypes", List.of(ConstructionType.values()));
+        model.addAttribute("ownershipTypes", List.of(OwnershipType.values()));
+    }
+
     @PostMapping("/toggle-user-saved-property/{propertyId}")
     public String toggleUserSavedProperty(@PathVariable("propertyId") Long propertyId, HttpSession session, RedirectAttributes redirectAttributes) {
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
