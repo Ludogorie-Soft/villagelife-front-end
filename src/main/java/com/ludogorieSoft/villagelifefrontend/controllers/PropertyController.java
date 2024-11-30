@@ -2,35 +2,17 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
-import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
-import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
-import com.ludogorieSoft.villagelifefrontend.config.UserSavedPropertyClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
-import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
-import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
+import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
-import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
-import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpSession;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -44,6 +26,7 @@ import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.S
 @AllArgsConstructor
 @RequestMapping("/properties")
 public class PropertyController {
+    private PropertyStatsClient propertyStatsClient;
     private PropertyClient propertyClient;
     private VillageClient villageClient;
     private PropertyValidator propertyValidator;
@@ -98,6 +81,9 @@ public class PropertyController {
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+        PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0L, 0L, 0L, 0L, null);
+        propertyDTO.setPropertyStatsDTO(propertyStatsClient.createPropertyStats(propertyStatsDTO));
+
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
