@@ -83,7 +83,7 @@
 
     <div class="search-bar-row d-flex flex-wrap align-items-center justify-content-between">
         <!-- Form for Region and Village Name Filters -->
-        <form th:action="@{/filter/search-property/0}" method="get"
+        <form th:action="@{/filter/increment-seen-in-results/0}" method="get"
               class="d-flex flex-column flex-sm-row align-items-center flex-grow-1 me-3">
             <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
                  style="padding: 0;">
@@ -187,7 +187,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
-                <form th:action="@{/filter/search-property/0}" method="get">
+                <form th:action="@{/filter/increment-seen-in-results/0}" method="get">
                     <div class="modal-header">
                         <h5 class="modal-title" id="advancedSearchModalLabel" th:text="#{advanced.property.search}"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

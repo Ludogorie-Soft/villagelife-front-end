@@ -235,9 +235,14 @@
     <div class="col-lg-4 col-md-12 col-sm-12">
         <div class="sticky-form">
             <div class="image-wrap text-center">
-                <img class="rounded lazyload" src="/images/village-life-logo-circle.webp"
-                     alt="VillageLife circle logo" width="70" height="70">
-                <span> VillageLife</span>
+                <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER and property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).ADMIN}">
+                    <img alt="logo" class="rounded lazyload"  th:src="'data:image/jpeg;base64,' + ${property.alternativeUserDTO.businessCardDTO.imageName}"
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" id="business-card-logo" style="max-height: 150px;">
+                </div>
+                <div th:unless="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER and property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).ADMIN}">
+                    <img class="rounded lazyload" src="/images/village-life-logo-circle.webp"
+                         alt="VillageLife circle logo" width="70" height="70"><span> VillageLife</span>
+                </div>
             </div>
 
             <h3 class="section-title text-center" th:text="#{header.contacts}"></h3>
