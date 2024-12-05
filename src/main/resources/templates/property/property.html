@@ -262,19 +262,23 @@
 
             <hr>
 
-            <h3 class="section-title text-center">Статистика за обявата</h3>
+            <h3 class="section-title text-center" th:text="#{stats.title}"></h3>
+
             <div>
                 <img th:src="@{/images/list-icon.png}" alt="list icon" class="stats-icon">
-                <span th:text="'Видяна в ' + ${property.propertyStatsDTO.seenInResults} + ' резултата'"></span>
+                <span th:text="#{seen.in.results(${property.propertyStatsDTO.seenInResults})}"></span>
             </div>
+
             <div>
                 <img th:src="@{/images/eye-icon.png}" alt="eye icon" class="stats-icon">
-                <span th:text="${property.propertyStatsDTO.views} + ' Преглеждания'"></span>
+                <span th:text="${property.propertyStatsDTO.views} + ' ' + #{views}"></span>
             </div>
+
             <div>
                 <img th:src="@{/images/heart-icon.png}" alt="heart icon" class="stats-icon">
-                <span th:text="${property.propertyStatsDTO.saves} + ' Запазвания'"></span>
+                <span th:text="${property.propertyStatsDTO.saves} + ' ' + #{saves}"></span>
             </div>
+
         </div>
     </div>
 
