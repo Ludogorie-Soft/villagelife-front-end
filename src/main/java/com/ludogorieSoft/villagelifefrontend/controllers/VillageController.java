@@ -8,6 +8,8 @@ import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
@@ -329,6 +331,12 @@ public class VillageController {
         }
         if (!model.containsAttribute("verificationRequest")) {
             model.addAttribute("verificationRequest", new VerificationRequest());
+        }
+        if (!model.containsAttribute("resetPasswordRequest")) {
+            model.addAttribute("resetPasswordRequest", new ResetPasswordRequest());
+        }
+        if (!model.containsAttribute("userEmail")) {
+            model.addAttribute("userEmail", new UserEmailRequest());
         }
     }
 }

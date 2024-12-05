@@ -234,6 +234,12 @@
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
+<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">
+    <div th:replace="authModals :: resetPasswordModal"></div>
+</body>
+<body th:attr="data-email-sent-modal=${emailSentModal}">
+    <div th:replace="authModals :: emailSentModal"></div>
+</body>
 
 <div th:replace="fragments :: footer"></div>
 <script>
@@ -271,6 +277,8 @@
 <script src="/js/min/showSubscriptionToast.min.js"></script>
 <script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/sendEmailResetPassModal.min.js"></script>
+<script src="/js/min/emailSentModal.min.js"></script>
 <script src="/js/min/verificationModal.min.js"></script>
 <script src="/js/min/registrationModal.min.js"></script>
 <script th:inline="javascript">
