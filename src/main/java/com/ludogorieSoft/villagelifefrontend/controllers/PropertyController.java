@@ -103,7 +103,7 @@ public class PropertyController {
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
-        PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0L, 0L, 0L, 0L, null);
+        PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0, 0, 0, 0, null);
         propertyDTO.setPropertyStatsDTO(propertyStatsClient.createPropertyStats(propertyStatsDTO));
 
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
