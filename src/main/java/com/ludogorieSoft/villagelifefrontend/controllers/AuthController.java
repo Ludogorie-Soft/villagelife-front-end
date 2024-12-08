@@ -228,7 +228,6 @@ public class AuthController {
             redirectAttributes.addFlashAttribute(RESET_PASSWORD_REQUEST, resetPasswordRequest);
             return "redirect:/auth/reset-password-form?token=" + resetPasswordRequest.getToken() + "&userId=" + resetPasswordRequest.getUserId();
         }
-        redirectAttributes.addFlashAttribute("errorMessage", "New password set successfully!");
         try {
             authClient.resetPassword(resetPasswordRequest);
         } catch (ApiRequestException ex) {
@@ -238,6 +237,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/auth/reset-password-form?token=" + resetPasswordRequest.getToken() + "&userId=" + resetPasswordRequest.getUserId();
         }
+        redirectAttributes.addFlashAttribute("subscriptionMessage", "reset.password.success");//subscription message is for toast message
         return REDIRECT_HOME_PAGE;
     }
 
