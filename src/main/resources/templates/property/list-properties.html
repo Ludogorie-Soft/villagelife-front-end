@@ -83,7 +83,7 @@
 
     <div class="search-bar-row d-flex flex-wrap align-items-center justify-content-between">
         <!-- Form for Region and Village Name Filters -->
-        <form th:action="@{/filter/search-property/0}" method="get"
+        <form th:action="@{/filter/increment-seen-in-results/0}" method="get"
               class="d-flex flex-column flex-sm-row align-items-center flex-grow-1 me-3">
             <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
                  style="padding: 0;">
@@ -187,7 +187,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
-                <form th:action="@{/filter/search-property/0}" method="get">
+                <form th:action="@{/filter/increment-seen-in-results/0}" method="get">
                     <div class="modal-header">
                         <h5 class="modal-title" id="advancedSearchModalLabel" th:text="#{advanced.property.search}"></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -467,29 +467,34 @@
                 </div>
 
                 <div class="card-body">
-                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="card-body-link">
-                        <h6 style="font-weight: 400; text-transform: uppercase;">
-                            <div th:text="#{${property.propertyTransferType.key}}"></div>
-                        </h6>
-                        <h5>
-                            <span th:text="#{${property.propertyType.key}}"></span>, <span
-                                th:text="${property.price} + ' EUR'"></span>
-                        </h5>
-                        <h6><span th:text="#{village}"></span>
-                            <span th:if="${#locale.language == 'bg'}"
-                                  th:text="${property.villageDTO.name} + ', '"></span>
-                            <span th:if="${#locale.language == 'en'}"
-                                  th:text="${property.villageDTO.latinName} + ', '"></span>
-                            <span th:if="${#locale.language == 'de'}"
-                                  th:text="${property.villageDTO.latinName} + ', '"></span>
-                            <span th:text="#{region}"></span>
-                            <span th:text="#{${property.villageDTO.region}}"></span>
-                        </h6>
-                    </a>
+                    <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="card-body-link" style="all: unset; cursor: pointer;">
+                            <h6 style="font-weight: 400; text-transform: uppercase;">
+                                <div th:text="#{${property.propertyTransferType.key}}"></div>
+                            </h6>
+                            <h5>
+                                <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                            </h5>
+                            <h6>
+                                <span th:text="#{village}"></span>
+                                <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
+                                <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:text="#{region}"></span>
+                                <span th:text="#{${property.villageDTO.region}}"></span>
+                            </h6>
+                        </button>
+                    </form>
+
                     <br>
-                    <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info"
-                       style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
+
+                    <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-info" style="font-size: 15px;">
+                            <span th:text="#{property.see.more}"></span>
+                        </button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -529,6 +534,7 @@
         </div>
     </div>
 </div>
+
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
@@ -543,6 +549,15 @@
 
 <div th:replace="fragments :: footer"></div>
 
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
 <script>
     function updatePageValue(event) {
         if (event.key === 'Enter') {
@@ -650,14 +665,6 @@
 <script src="/js/min/loginModal.min.js"></script>
 <script src="/js/min/registrationModal.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
-<script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/properties-navScript.min.js"></script>
-
-<script src="/js/min/verificationModal.min.js"></script>
-<script th:inline="javascript">
-    var registrationModal = [[${registrationModal}]];
-</script>
-<script src="/js/min/setActiveTab.min.js"></script>
-<script src="/js/min/businessCardValidations-script.min.js"></script>
 </body>
 </html>

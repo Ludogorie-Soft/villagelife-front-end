@@ -2,6 +2,7 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
+import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
 import com.ludogorieSoft.villagelifefrontend.config.RegionClient;
@@ -24,14 +25,11 @@ import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import org.springframework.web.servlet.support.RequestContextUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +43,7 @@ import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.S
 @AllArgsConstructor
 @RequestMapping("/properties")
 public class PropertyController {
+    private PropertyStatsClient propertyStatsClient;
     private PropertyClient propertyClient;
     private VillageClient villageClient;
     private PropertyValidator propertyValidator;
@@ -106,6 +105,9 @@ public class PropertyController {
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+        PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0, 0, 0, 0, null);
+        propertyDTO.setPropertyStatsDTO(propertyStatsClient.createPropertyStats(propertyStatsDTO));
+
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);

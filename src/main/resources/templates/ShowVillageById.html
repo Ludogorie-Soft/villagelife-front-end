@@ -448,21 +448,25 @@
                              loading="lazy" width="1024" height="683">
                     </div>
                     <div class="card-body">
-                        <a th:href="@{/properties/show/{id}(id=${property.id})}" class="card-body-link">
-                            <h6 style="font-weight: 400; text-transform: uppercase;">
-                                <div th:text="#{${property.propertyTransferType.key}}"></div>
-                            </h6>
-                            <h5>
-                                <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
-                            </h5>
-                            <h6><span th:text="#{village}"></span>
-                                <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
-                                <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-                                <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
-                                <span th:text="#{region}"></span>
-                                <span th:text="#{${property.villageDTO.region}}"></span>
-                            </h6>
-                        </a>
+                        <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="card-body-link" style="all: unset; cursor: pointer;">
+                                <h6 style="font-weight: 400; text-transform: uppercase;">
+                                    <div th:text="#{${property.propertyTransferType.key}}"></div>
+                                </h6>
+                                <h5>
+                                    <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                                </h5>
+                                <h6>
+                                    <span th:text="#{village}"></span>
+                                    <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
+                                    <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                    <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                    <span th:text="#{region}"></span>
+                                    <span th:text="#{${property.villageDTO.region}}"></span>
+                                </h6>
+                            </button>
+                        </form>
+
                         <br>
                         <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
                     </div>

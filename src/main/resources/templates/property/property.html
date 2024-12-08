@@ -43,7 +43,7 @@
     <meta name="robots" content="all">
     <title th:text="#{${property.propertyType.key}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -235,9 +235,14 @@
     <div class="col-lg-4 col-md-12 col-sm-12">
         <div class="sticky-form">
             <div class="image-wrap text-center">
-                <img class="rounded lazyload" src="/images/village-life-logo-circle.webp"
-                     alt="VillageLife circle logo" width="70" height="70">
-                <span> VillageLife</span>
+                <div th:if="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER and property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).ADMIN}">
+                    <img alt="logo" class="rounded lazyload"  th:src="'data:image/jpeg;base64,' + ${property.alternativeUserDTO.businessCardDTO.imageName}"
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';" id="business-card-logo" style="max-height: 150px;">
+                </div>
+                <div th:unless="${property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).USER and property.alternativeUserDTO.role != T(com.ludogorieSoft.villagelifefrontend.enums.Role).ADMIN}">
+                    <img class="rounded lazyload" src="/images/village-life-logo-circle.webp"
+                         alt="VillageLife circle logo" width="70" height="70"><span> VillageLife</span>
+                </div>
             </div>
 
             <h3 class="section-title text-center" th:text="#{header.contacts}"></h3>
@@ -254,6 +259,26 @@
                 <div th:text="${property.alternativeUserDTO.businessCardDTO.address}"></div>
             </div>
             <div class="property-phone-number"><i class="fa-solid fa-phone fa-shake"></i> <span th:text="${property.phoneNumber}"></span></div>
+
+            <hr>
+
+            <h3 class="section-title text-center" th:text="#{stats.title}"></h3>
+
+            <div>
+                <img th:src="@{/images/list-icon.png}" alt="list icon" class="stats-icon">
+                <span th:text="#{seen.in.results(${property.propertyStatsDTO.seenInResults})}"></span>
+            </div>
+
+            <div>
+                <img th:src="@{/images/eye-icon.png}" alt="eye icon" class="stats-icon">
+                <span th:text="${property.propertyStatsDTO.views} + ' ' + #{views}"></span>
+            </div>
+
+            <div>
+                <img th:src="@{/images/heart-icon.png}" alt="heart icon" class="stats-icon">
+                <span th:text="${property.propertyStatsDTO.saves} + ' ' + #{saves}"></span>
+            </div>
+
         </div>
     </div>
 

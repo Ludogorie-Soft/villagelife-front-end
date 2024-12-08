@@ -8,10 +8,7 @@ import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Children;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -139,6 +136,39 @@ public class FilterController {
         model.addAttribute("properties", propertyDTOS.stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "/property/list-properties";
+    }
+
+    @GetMapping("/increment-seen-in-results/{page}")
+    public String incrementSeenInResults(
+                                 @PathVariable("page") int page,
+                                 @RequestParam(value = "propertyTypes", required = false) List<String> propertyTypes,
+                                 @RequestParam(value = "propertyTransferType", required = false) String propertyTransferType,
+                                 @RequestParam(value = "minBuiltUpArea", required = false) Double minBuiltUpArea,
+                                 @RequestParam(value = "maxBuiltUpArea", required = false) Double maxBuiltUpArea,
+                                 @RequestParam(value = "minYardArea", required = false) Double minYardArea,
+                                 @RequestParam(value = "maxYardArea", required = false) Double maxYardArea,
+                                 @RequestParam(value = "minRoomsCount", required = false) Short minRoomsCount,
+                                 @RequestParam(value = "maxRoomsCount", required = false) Short maxRoomsCount,
+                                 @RequestParam(value = "minBathroomsCount", required = false) Short minBathroomsCount,
+                                 @RequestParam(value = "maxBathroomsCount", required = false) Short maxBathroomsCount,
+                                 @RequestParam(value = "heating", required = false) List<String> heating,
+                                 @RequestParam(value = "constructionTypes", required = false) List<String> constructionTypes,
+                                 @RequestParam(value = "propertyConditions", required = false) List<String> propertyConditions,
+                                 @RequestParam(value = "minConstructionYear", required = false) Short minConstructionYear,
+                                 @RequestParam(value = "maxConstructionYear", required = false) Short maxConstructionYear,
+                                 @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+                                 @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+                                 @RequestParam(value = "ownershipTypes", required = false) List<String> ownershipTypes,
+                                 @RequestParam(value = "villageName", required = false) String villageName,
+                                 @RequestParam(value = "regionName", required = false) String regionName,
+                                 @RequestParam(name = "sort", required = false, defaultValue = "createdAt") String sort,
+                                 HttpServletRequest request) {
+
+        filterClient.incrementSearchPropertiesSeenInResults(propertyTypes, propertyTransferType,
+                minBuiltUpArea, maxBuiltUpArea, minYardArea, maxYardArea, minRoomsCount, maxRoomsCount, minBathroomsCount,
+                maxBathroomsCount, heating, constructionTypes, propertyConditions, minConstructionYear, maxConstructionYear, minPrice,
+                maxPrice, ownershipTypes, villageName, regionName);
+        return "redirect:/filter/search-property/" + page + "?" + request.getQueryString();
     }
 
     private static void displayAdvancedSearchResultMessage(Model model, long resultCount, long pageSize) {
