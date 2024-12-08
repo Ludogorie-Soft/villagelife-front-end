@@ -3,8 +3,11 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 import com.ludogorieSoft.villagelifefrontend.advanced.BusinessCardDTOValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
@@ -28,8 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -48,6 +49,9 @@ public class AuthController {
     private static final String REDIRECT_HOME_PAGE = "redirect:/";
     private static final String REFERER = "referer";
     private static final String REDIRECT = "redirect:";
+    private static final String RESET_PASSWORD_REQUEST = "resetPasswordRequest";
+    private static final String USER_EMAIL = "userEmail";
+    private static final String VERIFICATION_REQUEST = "verificationRequest";
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -147,7 +151,7 @@ public class AuthController {
     @GetMapping("/verify-verification-token")
     public String verifyUser(RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
         String referer = httpRequest.getHeader(REFERER);
-        redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
+        redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
         redirectAttributes.addFlashAttribute("verificationModal", true);
         return REDIRECT + referer;
     }
@@ -161,7 +165,7 @@ public class AuthController {
             model.addAttribute(ATTRIBUTE_MESSAGE, message);
         } catch (ApiRequestException e) {
             if (e.getMessage().equals("Invalid token!")) {
-                redirectAttributes.addFlashAttribute("verificationRequest", new VerificationRequest());
+                redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
                 redirectAttributes.addFlashAttribute("verificationModal", true);
                 redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.error");
                 return REDIRECT + referer;
@@ -175,6 +179,65 @@ public class AuthController {
         session.removeAttribute(SESSION_NAME);
         session.removeAttribute("info");
         session.invalidate();
+        return REDIRECT_HOME_PAGE;
+    }
+
+    @GetMapping("/reset-password")
+    public String showResetPasswordEmailForm(RedirectAttributes redirectAttributes,
+                                             HttpServletRequest httpRequest) {
+        String referer = httpRequest.getHeader(REFERER);
+        redirectAttributes.addFlashAttribute(USER_EMAIL, new UserEmailRequest());
+        redirectAttributes.addFlashAttribute("sendEmailResetPassModal", true);
+        return REDIRECT + referer;
+    }
+
+    @GetMapping("/send-reset-password-email")
+    public String sendResetPasswordEmail(@ModelAttribute("userEmail") UserEmailRequest userEmail, HttpSession session, RedirectAttributes redirectAttributes,
+                                         HttpServletRequest httpRequest) {
+        String referer = httpRequest.getHeader(REFERER);
+        redirectAttributes.addFlashAttribute("emailSentModal", true);
+        try {
+            authClient.resetPassword(userEmail.getUserEmail());
+        } catch (ApiRequestException ex) {
+            redirectAttributes.addFlashAttribute("modalTitle", "email.failed.attempt");
+            redirectAttributes.addFlashAttribute("modalMessage", "email.not.found");
+            return REDIRECT + referer;
+        }
+        redirectAttributes.addFlashAttribute("modalTitle", "email.sent.title");
+        redirectAttributes.addFlashAttribute("modalMessage", "email.sent.message");
+        return REDIRECT + referer;
+    }
+
+    @GetMapping("/reset-password-form")
+    public String resetPasswordForm(@RequestParam("token") String token, @RequestParam("userId") Long userId, Model model) {
+        addAuthAttributes(model);
+        model.addAttribute("subscription", new SubscriptionDTO());
+        ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
+        resetPasswordRequest.setToken(token);
+        resetPasswordRequest.setUserId(userId);
+        model.addAttribute(RESET_PASSWORD_REQUEST, resetPasswordRequest);
+        return "resetPasswordFrom";
+    }
+
+    @PostMapping("/submit-new-password")
+    public String submitNewPassword(@Valid @ModelAttribute("resetPasswordRequest") ResetPasswordRequest resetPasswordRequest,
+                                    RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            resetPasswordRequest.setPassword(null);
+            resetPasswordRequest.setRepeatedPassword(null);
+            redirectAttributes.addFlashAttribute(RESET_PASSWORD_REQUEST, resetPasswordRequest);
+            return "redirect:/auth/reset-password-form?token=" + resetPasswordRequest.getToken() + "&userId=" + resetPasswordRequest.getUserId();
+        }
+        try {
+            authClient.resetPassword(resetPasswordRequest);
+        } catch (ApiRequestException ex) {
+            resetPasswordRequest.setPassword(null);
+            resetPasswordRequest.setRepeatedPassword(null);
+            redirectAttributes.addFlashAttribute(RESET_PASSWORD_REQUEST, new ResetPasswordRequest());
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/auth/reset-password-form?token=" + resetPasswordRequest.getToken() + "&userId=" + resetPasswordRequest.getUserId();
+        }
+        redirectAttributes.addFlashAttribute("subscriptionMessage", "reset.password.success");//subscription message is for toast message
         return REDIRECT_HOME_PAGE;
     }
 
@@ -200,6 +263,21 @@ public class AuthController {
                 }
             }
             request.getBusinessCardDTO().setImageBytes(imageBytes);
+        }
+    }
+
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute(ADMIN_NEW)) {
+            model.addAttribute(ADMIN_NEW, new RegisterRequest());
+        }
+        if (!model.containsAttribute(VERIFICATION_REQUEST)) {
+            model.addAttribute(VERIFICATION_REQUEST, new VerificationRequest());
+        }
+        if (!model.containsAttribute(RESET_PASSWORD_REQUEST)) {
+            model.addAttribute(RESET_PASSWORD_REQUEST, new ResetPasswordRequest());
+        }
+        if (!model.containsAttribute(USER_EMAIL)) {
+            model.addAttribute(USER_EMAIL, new UserEmailRequest());
         }
     }
 }

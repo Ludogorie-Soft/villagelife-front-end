@@ -15,6 +15,8 @@ import com.ludogorieSoft.villagelifefrontend.dtos.UserSearchDataDTO;
 import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
 import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
@@ -198,6 +200,12 @@ public class PropertyController {
         }
         if (!model.containsAttribute("verificationRequest")) {
             model.addAttribute("verificationRequest", new VerificationRequest());
+        }
+        if (!model.containsAttribute("resetPasswordRequest")) {
+            model.addAttribute("resetPasswordRequest", new ResetPasswordRequest());
+        }
+        if (!model.containsAttribute("userEmail")) {
+            model.addAttribute("userEmail", new UserEmailRequest());
         }
     }
 }
