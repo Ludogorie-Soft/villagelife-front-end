@@ -4,8 +4,8 @@ services:
     ports:
       - "8087:8087"
     environment:
-      BACKEND_URL: http://localhost:8080/api/v1
-      DATASOURCE_URL: jdbc:mysql://$${MYSQL_HOST:localhost}:3306/village?autoreconnect=true&createDatabaseIfNotExist=true&characterEncoding=utf8
-      DB_PASSWORD: password
-      secret.key: yvKlZIBeMDUA3s6saNgBpWHX65tJ+0WVs6Nqv9qhycYMVb4vZ0LqDtp6uMiI5gFv
-      SLACK_TOKEN: xoxb-5129333743796-6612445246756-NOyJnBZYtYVowyTcSSBYpgme
+      BACKEND_URL: http://backend:${SERVER_PORT}/api/v1
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DB_PASSWORD: ${PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      SLACK_TOKEN: ${SLACK_TOKEN}
