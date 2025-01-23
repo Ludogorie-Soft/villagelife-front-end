@@ -4,6 +4,7 @@ import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageResponse;
@@ -128,7 +129,10 @@ public class AdministratorController {
     @GetMapping("/show/{villageId}")
     public String seeVillageToApproveIt(@RequestParam("villageId") Long villageId,
                                         @RequestParam("answerDate") String answerDate, @RequestParam("archived") String archived, Model model, HttpSession session) {
-        model.addAttribute("subscription", new SubscriptionDTO());
+        SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+        UserEmailRequest userEmailRequest = new UserEmailRequest();
+        model.addAttribute("subscription", subscriptionDTO);
+        model.addAttribute("userEmail", userEmailRequest);
         addAuthAttributes(model);
         AlternativeUserDTO alternativeUserDTO = (AlternativeUserDTO) session.getAttribute("info");
         boolean status = false;
