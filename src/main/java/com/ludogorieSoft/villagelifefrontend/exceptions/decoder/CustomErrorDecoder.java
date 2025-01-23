@@ -18,7 +18,13 @@ public class CustomErrorDecoder implements ErrorDecoder {
         return switch (response.status()) {
             case 417 -> throw new NoConsentException(message);
             case 400 -> throw new ApiRequestException(message);
-            case 403 -> throw new TokenExpiredException("Expired authorization token");
+            case 403 -> {
+                if (message.contains("User not verified")) {
+                    throw new AccountNotActivatedException(message);
+                } else {
+                    throw new TokenExpiredException("Expired authorization token");
+                }
+            }
             case 401 -> throw new UsernamePasswordException("Wrong username or password");
             case 408 -> throw new AccessDeniedException(message);
             case 409 -> throw new DuplicateEmailException(message);
@@ -34,10 +40,10 @@ public class CustomErrorDecoder implements ErrorDecoder {
                 return errorMessage.trim();
             }
 
-            } catch(IOException exception){
-                return new IOException(exception.getMessage()).toString();
+        } catch (IOException exception) {
+            return new IOException(exception.getMessage()).toString();
 
-            }
+        }
         return "Error extracting message!";
     }
 }

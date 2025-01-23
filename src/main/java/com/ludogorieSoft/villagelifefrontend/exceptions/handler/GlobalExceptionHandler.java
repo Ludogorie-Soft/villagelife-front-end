@@ -82,5 +82,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
         return new ModelAndView(ERROR_URL);
     }
+    @ExceptionHandler(AccountNotActivatedException.class)
+    public ModelAndView handleAccountNotActivatedException(AccountNotActivatedException ex, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        redirectAttributes.addFlashAttribute("loginModal", true);
+        redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.not-activated");
+        String referer = request.getHeader("referer");
+        return new ModelAndView("redirect:" + referer);
+    }
 }
 

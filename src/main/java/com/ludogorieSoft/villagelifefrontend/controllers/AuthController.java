@@ -6,22 +6,25 @@ import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AdministratorRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.AuthenticationRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.AuthenticationResponce;
-import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.Role;
+import com.ludogorieSoft.villagelifefrontend.exceptions.AccountNotActivatedException;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
 import com.ludogorieSoft.villagelifefrontend.exceptions.DuplicateEmailException;
-import com.ludogorieSoft.villagelifefrontend.exceptions.UsernamePasswordException;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -38,8 +41,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthClient authClient;
-    private final BusinessCardDTOValidator businessCardDTOValidator;
     private static final String SESSION_NAME = "admin";
     private static final String AUTH_HEADER = "Bearer ";
     private static final String ADMINS = "admins";
@@ -52,6 +53,8 @@ public class AuthController {
     private static final String RESET_PASSWORD_REQUEST = "resetPasswordRequest";
     private static final String USER_EMAIL = "userEmail";
     private static final String VERIFICATION_REQUEST = "verificationRequest";
+    private final AuthClient authClient;
+    private final BusinessCardDTOValidator businessCardDTOValidator;
 
     @GetMapping("/register")
     public String createAdministrator(Model model, HttpSession session) {
@@ -81,7 +84,8 @@ public class AuthController {
         setImageBytesFromMultipartFile(request, image);
 
         String referer = httpRequest.getHeader(REFERER);
-        if (!request.getRole().equals(Role.USER)) businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
+        if (!request.getRole().equals(Role.USER))
+            businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
             redirectAttributes.addFlashAttribute("registrationModal", true);
@@ -130,8 +134,8 @@ public class AuthController {
     public String authenticateAdmin(@ModelAttribute("admins") AuthenticationRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
         String referer = httpRequest.getHeader(REFERER);
-        try{
-            ResponseEntity<AuthenticationResponce> authResponse;
+        ResponseEntity<AuthenticationResponce> authResponse;
+        try {
             authResponse = authClient.authenticate(request);
             String token = Objects.requireNonNull(authResponse.getBody()).getToken();
             ResponseEntity<AlternativeUserDTO> altUserDTO = authClient.getAdministratorInfo(AUTH_HEADER + token);
@@ -140,7 +144,12 @@ public class AuthController {
             if (altUserDTO.getBody().getRole().equals(Role.ADMIN))
                 return "redirect:/admins/village";
             return REDIRECT + referer;
-        } catch (UsernamePasswordException ex) {
+        } catch (AccountNotActivatedException ex) {
+            redirectAttributes.addFlashAttribute("loginModal", true);
+            redirectAttributes.addFlashAttribute(ADMINS, request);
+            redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.not-activated");
+            return REDIRECT + referer;
+        } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("loginModal", true);
             redirectAttributes.addFlashAttribute(ADMINS, request);
             redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.error");
@@ -148,12 +157,19 @@ public class AuthController {
         }
     }
 
+
+//    @GetMapping("/verify-verification-token")
+//    public String verifyUser(RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
+//        String referer = httpRequest.getHeader(REFERER);
+//        redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
+//        redirectAttributes.addFlashAttribute("verificationModal", true);
+//        return REDIRECT + referer;
+//    }
+
     @GetMapping("/verify-verification-token")
-    public String verifyUser(RedirectAttributes redirectAttributes, HttpServletRequest httpRequest) {
-        String referer = httpRequest.getHeader(REFERER);
-        redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
+    public String verifyUser(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("verificationModal", true);
-        return REDIRECT + referer;
+        return "redirect:/";
     }
 
     @PostMapping("/verify-verification-token")
@@ -164,16 +180,23 @@ public class AuthController {
             String message = authClient.verifyVerificationToken(verificationRequest);
             model.addAttribute(ATTRIBUTE_MESSAGE, message);
         } catch (ApiRequestException e) {
+            redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
+            redirectAttributes.addFlashAttribute("verificationModal", true);
             if (e.getMessage().equals("Invalid token!")) {
-                redirectAttributes.addFlashAttribute(VERIFICATION_REQUEST, new VerificationRequest());
-                redirectAttributes.addFlashAttribute("verificationModal", true);
                 redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.error");
-                return REDIRECT + referer;
             }
+            if (e.getMessage().equals("Account activated already!")) {
+                redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.already-activated");
+            }
+            if (e.getMessage().equals("Account not registered!")) {
+                redirectAttributes.addFlashAttribute("verificationTokenError", "verification.token.not-registered");
+            }
+            return REDIRECT + referer;
         }
         redirectAttributes.addFlashAttribute("verificationSuccessMessage", "verification.token.success");
         return REDIRECT + referer;
     }
+
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) {
         session.removeAttribute(SESSION_NAME);
