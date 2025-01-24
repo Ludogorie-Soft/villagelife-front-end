@@ -71,7 +71,7 @@ public class PropertyController {
         model.addAttribute("properties", propertyClient.getAllProperties(currentPage, 6).stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         addSearchPropertyAttributes(model);
-        return "/property/list-properties";
+        return "property/list-properties";
     }
     @GetMapping("/add-sale")
     public String createPropertyForSale(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
@@ -86,7 +86,7 @@ public class PropertyController {
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
             model.addAttribute(PROPERTY_DTO_NAME, propertyDTO);
         }
-        return "/property/create-property-sale";
+        return "property/create-property-sale";
     }
     @GetMapping("/add-rent")
     public String createPropertyForRent(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
@@ -101,7 +101,7 @@ public class PropertyController {
         if (!model.containsAttribute(PROPERTY_DTO_NAME)) {
             model.addAttribute(PROPERTY_DTO_NAME, propertyDTO);
         }
-        return "/property/create-property-rent";
+        return "property/create-property-rent";
     }
     @PostMapping(PROPERTY_SAVE)
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
@@ -174,7 +174,7 @@ public class PropertyController {
         model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("hasSaved", hasSaved);
 
-        return "/property/property";
+        return "property/property";
     }
 
     private void addSearchPropertyAttributes(Model model) {

@@ -135,7 +135,7 @@ public class FilterController {
         model.addAttribute("pagesCount", propertyDTOS.getTotalPages());
         model.addAttribute("properties", propertyDTOS.stream().toList());
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
-        return "/property/list-properties";
+        return "property/list-properties";
     }
 
     @GetMapping("/increment-seen-in-results/{page}")
