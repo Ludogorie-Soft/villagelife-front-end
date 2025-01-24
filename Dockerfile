@@ -17,6 +17,6 @@ COPY --from=build /app/target/villagelife-front-end-0.0.1-SNAPSHOT.jar app.jar
 
 RUN chmod +x /app/app.jar
 
-EXPOSE 8087
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
