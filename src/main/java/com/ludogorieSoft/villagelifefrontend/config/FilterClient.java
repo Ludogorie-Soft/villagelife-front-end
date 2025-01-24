@@ -24,7 +24,7 @@ public interface FilterClient {
             Pageable pageable
     );
 
-    @GetMapping("/searchProperties/{page}")
+    @GetMapping("/searchProperties")
     PageableResponse<PropertyDTO> searchPropertiesByCriteria(
             @RequestParam(value = "propertyTypes", required = false) List<String> propertyTypes,
             @RequestParam(value = "propertyTransferType", required = false) String propertyTransferType,
