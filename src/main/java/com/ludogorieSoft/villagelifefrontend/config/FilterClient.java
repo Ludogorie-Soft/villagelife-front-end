@@ -14,7 +14,7 @@ import java.util.List;
 @FeignClient(name = "villagelife-api-filter", url = "${backend.url}/filter")
 public interface FilterClient {
 
-    @GetMapping("/searchVillages/{page}")
+    @GetMapping("/searchVillages")
     PageableResponse<VillageDTO> searchVillagesByCriteria(
             @RequestParam(value = "region", required = false) String region,
             @RequestParam(value = "name", required = false) String villageName,
