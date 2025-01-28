@@ -117,7 +117,12 @@ public class PropertyController {
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
         PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0, 0, 0, 0, null);
         propertyDTO.setPropertyStatsDTO(propertyStatsClient.createPropertyStats(propertyStatsDTO));
-
+        if(propertyDTO.getRoomsCount() == null) {
+            propertyDTO.setRoomsCount((short) 0);
+        }
+        if(propertyDTO.getBathroomsCount() == null) {
+            propertyDTO.setBathroomsCount((short) 0);
+        }
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
@@ -142,12 +147,7 @@ public class PropertyController {
         VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setAlternativeUserDTO(loggedUser);
-        if(propertyDTO.getRoomsCount() == null) {
-            propertyDTO.setRoomsCount((short) 0);
-        }
-        if(propertyDTO.getBathroomsCount() == null) {
-            propertyDTO.setBathroomsCount((short) 0);
-        }
+
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
     }
