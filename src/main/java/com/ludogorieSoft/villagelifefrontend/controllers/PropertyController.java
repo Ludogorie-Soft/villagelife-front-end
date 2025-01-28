@@ -2,40 +2,48 @@ package com.ludogorieSoft.villagelifefrontend.controllers;
 
 import com.ludogorieSoft.villagelifefrontend.advanced.PropertyValidator;
 import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
-import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyClient;
 import com.ludogorieSoft.villagelifefrontend.config.PropertyImageClient;
+import com.ludogorieSoft.villagelifefrontend.config.PropertyStatsClient;
 import com.ludogorieSoft.villagelifefrontend.config.RegionClient;
 import com.ludogorieSoft.villagelifefrontend.config.UserSavedPropertyClient;
+import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
 import com.ludogorieSoft.villagelifefrontend.dtos.AlternativeUserDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.PropertyImageDTO;
+import com.ludogorieSoft.villagelifefrontend.dtos.PropertyStatsDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.RegionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.SubscriptionDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.UserSearchDataDTO;
-import com.ludogorieSoft.villagelifefrontend.config.VillageClient;
-import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.VillageDTO;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.enums.ConstructionType;
 import com.ludogorieSoft.villagelifefrontend.enums.OwnershipType;
+import com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType;
 import com.ludogorieSoft.villagelifefrontend.enums.PropertyType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import org.springframework.web.servlet.support.RequestContextUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.RENT;
 import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.SALE;
 
@@ -43,23 +51,22 @@ import static com.ludogorieSoft.villagelifefrontend.enums.PropertyTransferType.S
 @AllArgsConstructor
 @RequestMapping("/properties")
 public class PropertyController {
+    private static final String PROPERTY_DTO_NAME = "propertyDTO";
+    private static final String REDIRECT_INDEX = "redirect:/";
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String PERMISSIONS_MESSAGE = "You do not have permissions for this page!";
+    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
     private PropertyStatsClient propertyStatsClient;
     private PropertyClient propertyClient;
     private VillageClient villageClient;
     private PropertyValidator propertyValidator;
     private AuthClient authClient;
-    private static final String PROPERTY_DTO_NAME = "propertyDTO";
-    private static final String PROPERTY_SAVE= "/save";
-    private static final String REDIRECT_INDEX = "redirect:/";
-    private static final String ERROR_MESSAGE = "errorMessage";
-    private static final String PERMISSIONS_MESSAGE = "You do not have permissions for this page!";
     private PropertyImageClient propertyImageClient;
     private UserSavedPropertyClient userSavedPropertyClient;
     private RegionClient regionClient;
-    private static final String SUBSCRIPTION_ATTRIBUTE = "subscription";
 
     @GetMapping(value = {"/{page}", ""})
-    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page, HttpServletRequest request){
+    String listProperties(Model model, @PathVariable(name = "page", required = false) Integer page, HttpServletRequest request) {
         if (page != null && page < 0) page = 0;
         int currentPage = (page != null) ? page : 0;
         addAuthAttributes(model);
@@ -73,8 +80,9 @@ public class PropertyController {
         addSearchPropertyAttributes(model);
         return "property/list-properties";
     }
+
     @GetMapping("/add-sale")
-    public String createPropertyForSale(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
+    public String createPropertyForSale(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         if (loggedUser == null) {
             redirectAttributes.addFlashAttribute("loginModal", true);
@@ -88,8 +96,9 @@ public class PropertyController {
         }
         return "property/create-property-sale";
     }
+
     @GetMapping("/add-rent")
-    public String createPropertyForRent(Model model,RedirectAttributes redirectAttributes,HttpSession session) {
+    public String createPropertyForRent(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         AlternativeUserDTO loggedUser = (AlternativeUserDTO) session.getAttribute("info");
         if (loggedUser == null) {
             redirectAttributes.addFlashAttribute("loginModal", true);
@@ -103,7 +112,8 @@ public class PropertyController {
         }
         return "property/create-property-rent";
     }
-    @PostMapping(PROPERTY_SAVE)
+
+    @PostMapping("/save")
     public String submitProperty(@ModelAttribute("propertyDTO") PropertyDTO propertyDTO, @RequestParam("mainImage") MultipartFile mainImage, @RequestParam("propertyImages") List<MultipartFile> propertyImages, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
         PropertyStatsDTO propertyStatsDTO = new PropertyStatsDTO(null, 0, 0, 0, 0, null);
         propertyDTO.setPropertyStatsDTO(propertyStatsClient.createPropertyStats(propertyStatsDTO));
@@ -112,13 +122,12 @@ public class PropertyController {
         byte[] mainImageBytes = convertImageToBytes(mainImage);
         propertyDTO.setMainImageBytes(mainImageBytes);
 
-        List<byte[]> propertyImagesBytes =propertyImages.stream()
+        List<byte[]> propertyImagesBytes = propertyImages.stream()
                 .map(this::convertImageToBytes)
                 .toList();
         if (propertyDTO.getImages() == null || propertyDTO.getImages().isEmpty()) {
             propertyDTO.setImages(new ArrayList<>());
         }
-
         for (byte[] imageBytes : propertyImagesBytes) {
             PropertyImageDTO propertyImageDTO = new PropertyImageDTO();
             propertyImageDTO.setPropertyImageBytes(imageBytes);
@@ -128,18 +137,17 @@ public class PropertyController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.propertyDTO", bindingResult);
             redirectAttributes.addFlashAttribute(PROPERTY_DTO_NAME, propertyDTO);
-            if (propertyDTO.getPropertyTransferType() == SALE) {
-                return "redirect:/properties/add-sale";
-            }
-            else if (propertyDTO.getPropertyTransferType() == RENT){
-                return "redirect:/properties/add-rent";
-            }
+            return determineRedirectPath(propertyDTO.getPropertyTransferType());
         }
         VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setAlternativeUserDTO(loggedUser);
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
+    }
+
+    private String determineRedirectPath(PropertyTransferType type) {
+        return type == SALE ? "redirect:/properties/add-sale" : "redirect:/properties/add-rent";
     }
 
     private byte[] convertImageToBytes(MultipartFile image) {
@@ -159,7 +167,7 @@ public class PropertyController {
     public String showPropertyById(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
         PropertyDTO propertyDTO = propertyClient.getPropertyWithMainImageById(id);
         List<PropertyImageDTO> propertyImageDTOs = propertyImageClient.getAllPropertyImagesByPropertyId(id);
-        propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null,null));
+        propertyImageDTOs.add(new PropertyImageDTO(null, propertyDTO.getImageUrl(), null, null, null));
 
         addAuthAttributes(model);
         model.addAttribute("property", propertyDTO);
