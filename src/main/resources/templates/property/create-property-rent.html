@@ -187,7 +187,8 @@
                 <label for="roomsCount" class="form-label fw-bold">
                     <span th:text="#{property.form.rooms.count}"></span>
                 </label>
-                <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control">
+                <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control"
+                       th:value="${propertyDTO.roomsCount != null ? propertyDTO.roomsCount : 0}">
                 <ul class="error-list">
                     <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
                 </ul>
@@ -196,7 +197,8 @@
                 <label for="bathroomsCount" class="form-label fw-bold">
                     <span th:text="#{property.form.bathrooms.count}"></span>
                 </label>
-                <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control">
+                <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control"
+                       th:value="${propertyDTO.bathroomsCount != null ? propertyDTO.bathroomsCount : 0}">
                 <ul class="error-list">
                     <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
                 </ul>

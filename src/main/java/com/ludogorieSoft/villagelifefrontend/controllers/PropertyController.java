@@ -142,6 +142,12 @@ public class PropertyController {
         VillageDTO villageDTO = villageClient.findVillageByNameAndRegion(propertyDTO.getVillageDTO().getName() + ", " + propertyDTO.getVillageDTO().getRegion());
         propertyDTO.setVillageDTO(villageDTO);
         propertyDTO.setAlternativeUserDTO(loggedUser);
+        if(propertyDTO.getRoomsCount() == null) {
+            propertyDTO.setRoomsCount((short) 0);
+        }
+        if(propertyDTO.getBathroomsCount() == null) {
+            propertyDTO.setBathroomsCount((short) 0);
+        }
         propertyClient.createProperty(propertyDTO);
         return "redirect:/properties";
     }
