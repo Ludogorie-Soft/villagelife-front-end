@@ -539,12 +539,14 @@
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
-<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">
+<!--<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">-->
+<!--<div th:replace="authModals :: resetPasswordModal"></div>-->
+<!--</body>-->
+<!--<body th:attr="data-email-sent-modal=${emailSentModal}">-->
+<!--<div th:replace="authModals :: emailSentModal"></div>-->
+<!--</body>-->
 <div th:replace="authModals :: resetPasswordModal"></div>
-</body>
-<body th:attr="data-email-sent-modal=${emailSentModal}">
 <div th:replace="authModals :: emailSentModal"></div>
-</body>
 <script src="/js/min/sendEmailResetPassModal.min.js"></script>
 <script src="/js/min/emailSentModal.min.js"></script>
 
