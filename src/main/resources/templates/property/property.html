@@ -41,6 +41,7 @@
     <meta charset="UTF-8">
 
     <meta name="robots" content="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{${property.propertyType.key}}"></title>
     <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
@@ -291,12 +292,14 @@
 <div th:replace="authModals :: loginModal"></div>
 <div th:replace="authModals :: verificationModal"></div>
 <div th:replace="authModals :: registrationModal"></div>
-<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">
+<!--<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">-->
+<!--<div th:replace="authModals :: resetPasswordModal"></div>-->
+<!--</body>-->
+<!--<body th:attr="data-email-sent-modal=${emailSentModal}">-->
+<!--<div th:replace="authModals :: emailSentModal"></div>-->
+<!--</body>-->
 <div th:replace="authModals :: resetPasswordModal"></div>
-</body>
-<body th:attr="data-email-sent-modal=${emailSentModal}">
 <div th:replace="authModals :: emailSentModal"></div>
-</body>
 <script src="/js/min/sendEmailResetPassModal.min.js"></script>
 <script src="/js/min/emailSentModal.min.js"></script>
 
