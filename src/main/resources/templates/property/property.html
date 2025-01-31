@@ -204,7 +204,7 @@
                             <div>
                                 <span class="info-title col" th:text="#{property.heating} + ':'"></span>
                                 <span th:each="heating, iterStat : ${property.heating}" class="heating property-info" style="display: inline; padding-left: 4px; margin: 0; float: right;">
-                                    <span th:text="${heating}"></span><span th:if="${!iterStat.first}">, </span>
+                                    <span th:text="#{${heating}}"></span><span th:if="${!iterStat.first}">, </span>
                                 </span>
                                 <span th:if="${property.heating == null or property.heating.isEmpty()}" style="display: inline; padding-left: 4px; margin: 0; float: right;">-</span>
                                 <hr>
