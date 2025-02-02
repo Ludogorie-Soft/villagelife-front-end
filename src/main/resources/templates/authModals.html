@@ -1,4 +1,5 @@
-<div th:fragment="loginModal">
+<div th:fragment="loginModal" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
          th:attr="data-show-modal=${loginModal}">
         <div class="modal-dialog modal-dialog-centered">
@@ -244,6 +245,8 @@
                                     </div>
                                 </div>
 
+                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" style="background-color: #96c930; color: white;"
@@ -428,6 +431,9 @@
                                            th:text="#{auth.business.logo}"></label>
                                     <input class="form-control" id="formFile" name="image" type="file" accept="image/*">
                                 </div>
+
+                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -614,6 +620,9 @@
                                     <input class="form-control" id="formFileB" name="image" type="file"
                                            accept="image/*">
                                 </div>
+
+                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -801,6 +810,9 @@
                                     <input class="form-control" id="formFileI" name="image" type="file"
                                            accept="image/*">
                                 </div>
+
+                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"

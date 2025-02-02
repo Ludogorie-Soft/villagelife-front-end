@@ -16,9 +16,12 @@ import com.ludogorieSoft.villagelifefrontend.exceptions.AccountNotActivatedExcep
 import com.ludogorieSoft.villagelifefrontend.exceptions.ApiRequestException;
 import com.ludogorieSoft.villagelifefrontend.exceptions.DuplicateEmailException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -78,8 +83,11 @@ public class AuthController {
     }
 
     @PostMapping("/register-user")
-    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
-                               BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
+    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request,
+                               HttpServletRequest httpRequest,
+                               BindingResult bindingResult,
+                               @RequestParam(value = "image", required = false) MultipartFile image,
+                               @RequestParam(name = "g-recaptcha-response") String captchaResponse,
                                RedirectAttributes redirectAttributes) {
         setImageBytesFromMultipartFile(request, image);
 
@@ -92,6 +100,28 @@ public class AuthController {
             redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
             return REDIRECT + referer;
         }
+
+        String recaptchaSecret = "6LdCoMoqAAAAAGrxtcYt6IokfKVqYkdz8bwFpO9T";
+        String recaptchaVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
+        requestMap.add("secret", recaptchaSecret);
+        requestMap.add("response", captchaResponse);
+
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestMap);
+        ResponseEntity<Map> recaptchaResponseEntity =
+                restTemplate.postForEntity(recaptchaVerifyUrl, httpEntity, Map.class);
+
+        Map responseBody = recaptchaResponseEntity.getBody();
+        if (responseBody == null || !(Boolean.TRUE.equals(responseBody.get("success")))) {
+            redirectAttributes.addFlashAttribute("captchaError", "Captcha validation failed.");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
+            redirectAttributes.addFlashAttribute("registrationModal", true);
+            redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+            return REDIRECT + referer;
+        }
+
         try {
             String message = authClient.register(request);
             redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
