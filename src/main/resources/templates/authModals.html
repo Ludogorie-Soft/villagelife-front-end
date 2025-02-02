@@ -1,5 +1,4 @@
-<div th:fragment="loginModal" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
-     xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="loginModal" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
          th:attr="data-show-modal=${loginModal}">
         <div class="modal-dialog modal-dialog-centered">
@@ -33,7 +32,7 @@
     </div>
 </div>
 
-<div th:fragment="verificationModal">
+<div th:fragment="verificationModal" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel"
          aria-hidden="true"
@@ -70,7 +69,7 @@
     </div>
 </div>
 
-<div th:fragment="resetPasswordModal">
+<div th:fragment="resetPasswordModal" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel"
          aria-hidden="true"
@@ -102,7 +101,7 @@
 </div>
 
 
-<div th:fragment="emailSentModal">
+<div th:fragment="emailSentModal" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="modal fade" id="emailSentModal" tabindex="-1" aria-labelledby="emailSentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -123,7 +122,7 @@
     </div>
 </div>
 
-<div th:fragment="registrationModal">
+<div th:fragment="registrationModal" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true"
          th:attr="data-show-modal=${registrationModal}">
         <div class="modal-dialog modal-lg">
@@ -244,8 +243,6 @@
                                          class="error text-danger">
                                     </div>
                                 </div>
-
-                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -431,8 +428,6 @@
                                            th:text="#{auth.business.logo}"></label>
                                     <input class="form-control" id="formFile" name="image" type="file" accept="image/*">
                                 </div>
-
-                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -621,8 +616,6 @@
                                            accept="image/*">
                                 </div>
 
-                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
-
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -810,8 +803,6 @@
                                     <input class="form-control" id="formFileI" name="image" type="file"
                                            accept="image/*">
                                 </div>
-
-                                <div class="g-recaptcha" data-sitekey="6LdCoMoqAAAAALvFeFwDr7xpypYujaa20mRPGnQr"></div>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
