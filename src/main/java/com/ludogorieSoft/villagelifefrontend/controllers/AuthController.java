@@ -56,73 +56,73 @@ public class AuthController {
     private final AuthClient authClient;
     private final BusinessCardDTOValidator businessCardDTOValidator;
 
-    @GetMapping("/register")
-    public String createAdministrator(Model model, HttpSession session) {
-        String token = (String) session.getAttribute(SESSION_NAME);
-        ResponseEntity<String> auth;
-        try {
-            auth = authClient.authorizeAdminToken(AUTH_HEADER + token);
-        } catch (HttpStatusCodeException e) {
-            throw new ApiRequestException("An error occurred while communicating with the API");
-        }
-        if (auth.getStatusCode().is2xxSuccessful()) {
-            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
+//    @GetMapping("/register")
+//    public String createAdministrator(Model model, HttpSession session) {
+//        String token = (String) session.getAttribute(SESSION_NAME);
+//        ResponseEntity<String> auth;
+//        try {
+//            auth = authClient.authorizeAdminToken(AUTH_HEADER + token);
+//        } catch (HttpStatusCodeException e) {
+//            throw new ApiRequestException("An error occurred while communicating with the API");
+//        }
+//        if (auth.getStatusCode().is2xxSuccessful()) {
+//            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
+//
+//            model.addAttribute(ADMINS, admin.getFullName());
+//            model.addAttribute(ADMIN_NEW, new AdministratorRequest());
+//            model.addAttribute(ATTRIBUTE_ROLES, Role.ADMIN);
+//        } else {
+//            throw new ApiRequestException("Unauthorized: Invalid request");
+//        }
+//        return "admin_templates/register_form";
+//    }
 
-            model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute(ADMIN_NEW, new AdministratorRequest());
-            model.addAttribute(ATTRIBUTE_ROLES, Role.ADMIN);
-        } else {
-            throw new ApiRequestException("Unauthorized: Invalid request");
-        }
-        return "admin_templates/register_form";
-    }
+//    @PostMapping("/register-user")
+//    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
+//                               BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
+//                               RedirectAttributes redirectAttributes) {
+//        setImageBytesFromMultipartFile(request, image);
+//
+//        String referer = httpRequest.getHeader(REFERER);
+//        if (!request.getRole().equals(Role.USER))
+//            businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
+//            redirectAttributes.addFlashAttribute("registrationModal", true);
+//            redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+//            return REDIRECT + referer;
+//        }
+//        try {
+//            String message = authClient.register(request);
+//            redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
+//            return "redirect:/auth/verify-verification-token";
+//        } catch (DuplicateEmailException ex) {
+//            checkDuplicateEmailException(ex, redirectAttributes, request);
+//        } catch (ApiRequestException e) {
+//            if (e.getMessage().equals("Email already used!"))
+//                redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
+//        }
+//        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
+//        redirectAttributes.addFlashAttribute("registrationModal", true);
+//        redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
+//        return REDIRECT + referer;
+//    }
 
-    @PostMapping("/register-user")
-    public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
-                               BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
-                               RedirectAttributes redirectAttributes) {
-        setImageBytesFromMultipartFile(request, image);
-
-        String referer = httpRequest.getHeader(REFERER);
-        if (!request.getRole().equals(Role.USER))
-            businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
-            redirectAttributes.addFlashAttribute("registrationModal", true);
-            redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
-            return REDIRECT + referer;
-        }
-        try {
-            String message = authClient.register(request);
-            redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
-            return "redirect:/auth/verify-verification-token";
-        } catch (DuplicateEmailException ex) {
-            checkDuplicateEmailException(ex, redirectAttributes, request);
-        } catch (ApiRequestException e) {
-            if (e.getMessage().equals("Email already used!"))
-                redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
-        }
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
-        redirectAttributes.addFlashAttribute("registrationModal", true);
-        redirectAttributes.addFlashAttribute(ADMIN_NEW, request);
-        return REDIRECT + referer;
-    }
-
-    @PostMapping("/register")
-    public String registerAdmin(@Valid @ModelAttribute("adminNew") RegisterRequest request,
-                                BindingResult bindingResult, Model model,
-                                RedirectAttributes redirectAttributes, HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
-            model.addAttribute(ADMINS, admin.getFullName());
-            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
-            return "admin_templates/register_form";
-        }
-        String token = (String) session.getAttribute(SESSION_NAME);
-        String message = authClient.register(request, AUTH_HEADER + token);
-        redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
-        return "redirect:/admins";
-    }
+//    @PostMapping("/register")
+//    public String registerAdmin(@Valid @ModelAttribute("adminNew") RegisterRequest request,
+//                                BindingResult bindingResult, Model model,
+//                                RedirectAttributes redirectAttributes, HttpSession session) {
+//        if (bindingResult.hasErrors()) {
+//            AlternativeUserDTO admin = (AlternativeUserDTO) session.getAttribute("info");
+//            model.addAttribute(ADMINS, admin.getFullName());
+//            model.addAttribute(ATTRIBUTE_ROLES, Role.values());
+//            return "admin_templates/register_form";
+//        }
+//        String token = (String) session.getAttribute(SESSION_NAME);
+//        String message = authClient.register(request, AUTH_HEADER + token);
+//        redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
+//        return "redirect:/admins";
+//    }
 
     @GetMapping("/login")
     public String showAdminLogin(Model model) {

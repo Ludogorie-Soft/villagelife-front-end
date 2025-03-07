@@ -34,7 +34,7 @@
         </div>
         <div th:unless="${session.admin}">
             <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal" th:text="#{auth.log.in}" style="color: white;"></a>
-            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>
+<!--            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>-->
         </div>
         <div th:if="${session.admin}">
             <a class="auth-btn" th:href="@{/auth/logout}" th:text="#{auth.log.out}" style="color: white;"></a>
@@ -228,7 +228,7 @@
             <div th:unless="${session.admin}">
                 <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="fa-solid fa-right-to-bracket"></i> <span th:text="#{auth.log.in}"></span></a>
                 <hr>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>
+<!--                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>-->
                 <hr>
             </div>
 
@@ -270,7 +270,7 @@
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrators</a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" th:href="@{/admins}">All Administrators</a></li>
-                    <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>
+<!--                    <li><a class="dropdown-item" th:href="@{/auth/register}">New Administrator</a></li>-->
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -339,8 +339,8 @@
         <div th:unless="${session.admin}">
             <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#loginModal"
                style="padding: 0.25rem 0.75rem;" th:text="#{auth.log.in}"></a>
-            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#registerModal"
-               style="padding: 0.25rem 0.75rem;" th:text="#{auth.register}"></a>
+<!--            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#registerModal"-->
+<!--               style="padding: 0.25rem 0.75rem;" th:text="#{auth.register}"></a>-->
         </div>
         <div th:if="${session.admin}">
             <a class="btn btn-sm auth-btn text-white" th:href="@{/auth/logout}"
@@ -386,7 +386,7 @@
             <div th:unless="${session.admin}">
                 <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="fa-solid fa-right-to-bracket"></i> <span th:text="#{auth.log.in}"></span></a>
                 <hr>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>
+<!--                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>-->
                 <hr>
             </div>
 
