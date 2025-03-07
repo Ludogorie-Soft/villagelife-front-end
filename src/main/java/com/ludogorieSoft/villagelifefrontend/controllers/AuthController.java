@@ -80,9 +80,8 @@ public class AuthController {
     @PostMapping("/register-user")
     public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
                                BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes, @RequestParam("g-recaptcha-response") String captchaResponse) {
         setImageBytesFromMultipartFile(request, image);
-
         String referer = httpRequest.getHeader(REFERER);
         if (!request.getRole().equals(Role.USER))
             businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
@@ -93,6 +92,7 @@ public class AuthController {
             return REDIRECT + referer;
         }
         try {
+            request.setCaptchaResponse(captchaResponse);
             String message = authClient.register(request);
             redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
             return "redirect:/auth/verify-verification-token";

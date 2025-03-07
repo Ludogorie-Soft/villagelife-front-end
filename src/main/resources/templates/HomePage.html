@@ -39,6 +39,7 @@
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <title th:text="#{homePage.title}"></title>
     <meta charset="UTF-8">
@@ -240,6 +241,42 @@
 <body th:attr="data-email-sent-modal=${emailSentModal}">
     <div th:replace="authModals :: emailSentModal"></div>
 </body>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize modals (your existing code)
+        const registrationModal = /*[[${registrationModal}]]*/ false;
+        if (registrationModal) {
+            const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            registerModal.show();
+
+            // Reset CAPTCHA when modal closes
+            document.getElementById('registerModal').addEventListener('hidden.bs.modal', function() {
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
+                $('#captchaError').hide();
+            });
+        }
+
+        // Initialize reCAPTCHA when registration modal opens
+        const loadRecaptcha = () => {
+            if (typeof grecaptcha === 'undefined') {
+                const script = document.createElement('script');
+                script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+                document.head.appendChild(script);
+            } else {
+                // Render CAPTCHA explicitly
+                grecaptcha.render('recaptchaContainer', {
+                    sitekey: document.getElementById('recaptchaContainer').dataset.sitekey
+                });
+            }
+        };
+
+        // Attach to modal show event
+        document.getElementById('registerModal').addEventListener('shown.bs.modal', loadRecaptcha);
+    });
+</script>
 
 <div th:replace="fragments :: footer"></div>
 <script>

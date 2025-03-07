@@ -165,8 +165,11 @@
                         <!-- Individual Tab -->
                         <div class="tab-pane fade show active" id="individual" role="tabpanel"
                              aria-labelledby="individual-tab">
-                            <form class="mx-1 mx-md-4" th:action="@{/auth/register-user}" th:object="${adminNew}"
-                                  method="post">
+                            <form class="mx-1 mx-md-4" id="registrationForm"
+                                  th:action="@{/auth/register-user}"
+                                  th:object="${adminNew}"
+                                  method="post"
+                                  onsubmit="return handleRegistration(event)">
                                 <!-- Common Fields -->
                                 <input type="hidden" name="role" th:value="${'USER'}">
                                 <div class="mb-3">
@@ -244,10 +247,17 @@
                                     </div>
                                 </div>
 
+                                <!-- Add reCAPTCHA container -->
+                                <div class="g-recaptcha col-sm-5 mb-3"
+                                     th:attr="data-sitekey=${@captchaSettings.getSite()}"
+                                     id="recaptchaContainer"></div>
+                                <div id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></div>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                    <button type="submit" style="background-color: #96c930; color: white;"
-                                            class="btn btn-lg" th:text="#{auth.register}">
+                                    <button type="submit" class="btn btn-lg"
+                                            style="background-color: #96c930; color: white;"
+                                            th:text="#{auth.register}">
                                     </button>
                                 </div>
                             </form>
@@ -428,6 +438,11 @@
                                            th:text="#{auth.business.logo}"></label>
                                     <input class="form-control" id="formFile" name="image" type="file" accept="image/*">
                                 </div>
+
+                                <div class="g-recaptcha col-sm-5"
+                                     th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+                                <span id="captchaErrorA" class="alert alert-danger col-sm-4"
+                                      style="display:none"></span>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -616,6 +631,11 @@
                                            accept="image/*">
                                 </div>
 
+                                <div class="g-recaptcha col-sm-5"
+                                     th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+                                <span id="captchaErrorB" class="alert alert-danger col-sm-4"
+                                      style="display:none"></span>
+
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                     <button type="submit" onclick="return validateBusinessCardDTO()"
@@ -803,6 +823,11 @@
                                     <input class="form-control" id="formFileI" name="image" type="file"
                                            accept="image/*">
                                 </div>
+
+                                <div class="g-recaptcha col-sm-5"
+                                     th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+                                <span id="captchaErrorI" class="alert alert-danger col-sm-4"
+                                      style="display:none"></span>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
