@@ -251,7 +251,15 @@
                                 <div class="g-recaptcha col-sm-5 mb-3"
                                      th:attr="data-sitekey=${@captchaSettings.getSite()}"
                                      id="recaptchaContainer"></div>
-                                <div id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></div>
+                                <div id="captchaError" class="alert alert-danger col-sm-4" style="display:none">
+                                    <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                         class="error text-danger">
+                                    </div>
+                                </div>
+
+                                <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                     class="error text-danger">
+                                </div>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -442,7 +450,12 @@
                                 <div class="g-recaptcha col-sm-5"
                                      th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
                                 <span id="captchaErrorA" class="alert alert-danger col-sm-4"
-                                      style="display:none"></span>
+                                      style="display:none">
+                                     <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                          class="error text-danger">
+                                </div>
+                                </span>
+
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -634,7 +647,15 @@
                                 <div class="g-recaptcha col-sm-5"
                                      th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
                                 <span id="captchaErrorB" class="alert alert-danger col-sm-4"
-                                      style="display:none"></span>
+                                      style="display:none">
+                                    <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                         class="error text-danger">
+                                </div>
+                                </span>
+
+                                <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                     class="error text-danger">
+                                </div>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -827,7 +848,11 @@
                                 <div class="g-recaptcha col-sm-5"
                                      th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
                                 <span id="captchaErrorI" class="alert alert-danger col-sm-4"
-                                      style="display:none"></span>
+                                      style="display:none">
+                                    <div th:if="${reCaptchaError != null}" th:text="#{${reCaptchaError}}"
+                                         class="error text-danger">
+                                </div>
+                                </span>
 
                                 <!-- Submit Button -->
                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
