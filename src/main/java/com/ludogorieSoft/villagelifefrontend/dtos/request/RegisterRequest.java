@@ -36,4 +36,6 @@ public class RegisterRequest {
     private String jobTitle;
 
     private BusinessCardDTO businessCardDTO;
+
+    private String captchaResponse;
 }

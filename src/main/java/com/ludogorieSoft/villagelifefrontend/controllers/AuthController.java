@@ -53,6 +53,7 @@ public class AuthController {
     private static final String RESET_PASSWORD_REQUEST = "resetPasswordRequest";
     private static final String USER_EMAIL = "userEmail";
     private static final String VERIFICATION_REQUEST = "verificationRequest";
+    private static final String RECAPTCHA_ERROR = "reCaptchaError";
     private final AuthClient authClient;
     private final BusinessCardDTOValidator businessCardDTOValidator;
 
@@ -80,9 +81,8 @@ public class AuthController {
     @PostMapping("/register-user")
     public String registerUser(@Valid @ModelAttribute("adminNew") RegisterRequest request, HttpServletRequest httpRequest,
                                BindingResult bindingResult, @RequestParam(value = "image", required = false) MultipartFile image,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes, @RequestParam("g-recaptcha-response") String captchaResponse) {
         setImageBytesFromMultipartFile(request, image);
-
         String referer = httpRequest.getHeader(REFERER);
         if (!request.getRole().equals(Role.USER))
             businessCardDTOValidator.validate(request.getBusinessCardDTO(), bindingResult);
@@ -93,13 +93,21 @@ public class AuthController {
             return REDIRECT + referer;
         }
         try {
+            request.setCaptchaResponse(captchaResponse);
             String message = authClient.register(request);
             redirectAttributes.addFlashAttribute(ATTRIBUTE_MESSAGE, message);
             return "redirect:/auth/verify-verification-token";
         } catch (DuplicateEmailException ex) {
             checkDuplicateEmailException(ex, redirectAttributes, request);
         } catch (ApiRequestException e) {
-            if (e.getMessage().equals("Email already used!"))
+            String message = e.getMessage();
+            if (message.contains("Client exceeded maximum number of failed attempts"))
+                redirectAttributes.addFlashAttribute(RECAPTCHA_ERROR, "register.recaptcha.exceeded.attempts");
+            if (message.contains("Response contains invalid characters") || message.contains("reCaptcha was not successfully validated"))
+                redirectAttributes.addFlashAttribute(RECAPTCHA_ERROR, "register.recaptcha.invalid");
+            if (message.contains("Registration unavailable at this time.  Please try again later."))
+                redirectAttributes.addFlashAttribute(RECAPTCHA_ERROR, "register.recaptcha.unavailable");
+            if (message.equals("Email already used!"))
                 redirectAttributes.addFlashAttribute("duplicateBusinessEmailError", "business.card.validations.email.duplicate");
         }
         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.adminNew", bindingResult);
