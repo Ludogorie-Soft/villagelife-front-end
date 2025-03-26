@@ -1,0 +1,7 @@
+document.addEventListener("DOMContentLoaded", function() {
+    var loginModal = document.getElementById('loginModal').getAttribute('data-show-modal') === 'true';
+    if (loginModal) {
+        var myModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        myModal.show();
+    }
+});

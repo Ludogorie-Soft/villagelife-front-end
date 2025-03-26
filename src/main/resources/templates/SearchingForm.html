@@ -39,6 +39,7 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <title th:text="#{searchingForm.title}"></title>
     <meta charset="UTF-8">
@@ -59,6 +60,7 @@
     <link rel="stylesheet" href="/css/min/searchingForm.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
     <link rel="stylesheet" href="/css/min/sort.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
 
 </head>
 <body>
@@ -209,6 +211,18 @@
 </div>
 </div>
 
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">
+<div th:replace="authModals :: resetPasswordModal"></div>
+</body>
+<body th:attr="data-email-sent-modal=${emailSentModal}">
+<div th:replace="authModals :: emailSentModal"></div>
+</body>
+<script src="/js/min/sendEmailResetPassModal.min.js"></script>
+<script src="/js/min/emailSentModal.min.js"></script>
+
 <div th:replace="fragments :: footer"></div>
 <script>
 function updatePageValue(event) {
@@ -236,5 +250,15 @@ function updatePageValue(event) {
 <script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/handleSortChange.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,232 @@
+    * {
+      box-sizing: border-box;
+    }
+
+    img {
+      vertical-align: middle;
+      z-index: 1;
+    }
+
+    .mySlides {
+      display: none;
+    }
+
+    .cursor {
+      cursor: pointer;
+    }
+
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 60%;
+      width: auto;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 16px;
+      margin-top: -50px;
+      font-weight: bold;
+      font-size: 20px;
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+      -webkit-user-select: none;
+      border: 1px solid black;
+      z-index: 2;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+    .prev {
+      left: 0;
+    }
+
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .numbertext {
+      position: absolute;
+      top: 1%;
+      color: white;
+      font-size: 20px;
+      padding: 8px 12px;
+      z-index: 2;
+    }
+    .village-image-container {
+      position: relative;
+      overflow: hidden;
+      padding-top: 50%;
+    }
+    .container{
+      margin-top: 40px;
+    }
+
+     .village-image-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    .point-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .village-name {
+        font-size: 18px;
+        color: #ADADAD;
+        padding: 5px;
+    }
+    .property-title{
+        margin-bottom: 15px;
+    }
+    .section-title{
+        margin-bottom: 25px;
+        font-weight: 400;
+    }
+    section{
+        margin-top: 70px;
+    }
+    .properties-dimensions .property-info,
+    .construction-condition .property-info {
+        color: #707070;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .properties-dimensions .info-title,
+    .construction-condition .info-title {
+        font-weight: 500;
+    }
+    hr{
+        height: 1px;
+        background-color: #ADADAD;
+        border: none;
+    }
+
+    .heating-row,
+    .condition-row {
+      margin-right: 15px;
+    }
+    @media screen and (max-width: 768px) {
+        .heating-row,
+        .condition-row  {
+          margin-right: 35px;
+        }
+    }
+    @media screen and (max-width: 575px) {
+        .heating-row,
+        .condition-row  {
+             margin-right: 0;
+        }
+        .heating-col,
+        .condition-col {
+            padding-right: 0;
+        }
+        .container{
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+    }
+
+    .print-button {
+        background-image: url('/images/printer.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 40px;
+        height: 40px;
+        float: right;
+        border: solid 1px black;
+        background-color: white;
+        padding: 2px;
+        border-radius: 6px;
+        transition: background-color 0.4s ease, background-image 0.4s ease;
+    }
+    .print-button:hover {
+        background-image: url('/images/printer-white.png');
+        background-color: black;
+    }
+
+    .heart-container {
+        float: right;
+        position: relative;
+        display: inline-block;
+    }
+
+    .fa-heart {
+        font-size: 32px;
+        background-color: white;
+        padding: 2px;
+        margin: 2px 5px;
+        cursor: pointer;
+        color: #e41111 !important;
+    }
+
+    .fa-regular {
+        transition: opacity 0.3s ease, font-size 0.3s ease;
+    }
+
+    .fa-solid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease, font-size 0.3s ease;
+    }
+
+    .heart-container:not(.active):hover .fa-regular {
+        opacity: 0;
+    }
+
+    .heart-container:not(.active):hover .fa-solid {
+        opacity: 1;
+        font-size: 33px;
+    }
+
+    .heart-container.active .fa-regular {
+        opacity: 0;
+    }
+
+    .heart-container.active .fa-solid {
+        opacity: 1;
+        font-size: 33px;
+    }
+
+    .sticky-form {
+        padding: 15px;
+        max-width: 400px;
+        margin: 50px auto;
+        position: sticky;
+        top: 20px;
+    }
+
+    .sticky-form div {
+        padding: 2px;
+    }
+
+    .sticky-form .property-phone-number{
+        color: #96c930;
+        font-size: 20px;
+    }
+
+    .sticky-form .full-name {
+        font-size: 20px;
+    }
+
+    .sticky-form a {
+        color: #96c930;
+        text-decoration: none;
+    }
+
+    .sticky-form a:hover {
+        text-decoration: underline;
+    }
+
+    .stats-icon{
+        height: 20px;
+    }

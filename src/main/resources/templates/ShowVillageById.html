@@ -57,6 +57,9 @@
     <link rel="stylesheet" href="/css/min/message.min.css">
     <link rel="stylesheet" href="/css/min/showVillageById.min.css">
     <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
+    <link rel="stylesheet" href="/css/min/propertySlider.min.css">
+
     <!-- Canonical URL address -->
     <link rel="canonical" th:href="@{'https://villagelife.bg/villages/show/' + ${villageInfo.villageDTO.id}}"/>
 
@@ -67,7 +70,7 @@
 <div th:replace="fragments :: hamburger-menu"></div>
 
 <div class="container">
-    <div class="village-title">
+    <div class="property-title">
         <h1>
             <span th:text="#{village}"></span>
             <span th:if="${#locale.language == 'bg'}" th:text="${villageInfo.villageDTO.name} + ', '"></span>
@@ -428,6 +431,52 @@
     </div>
 </div>
 
+<div class="container">
+    <div th:if="${properties != null and not #lists.isEmpty(properties)}">
+        <button id="prevButton" th:text="#{prev}"></button>
+        <button id="nextButton" th:text="#{next}"></button>
+    </div>
+
+    <div class="property-slider">
+        <div class="property-grid">
+            <div th:each="property : ${properties}" class="property">
+                <div class="card">
+                    <div class="image-container">
+                        <img alt="pictures of all properties"
+                             th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
+                             onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';"
+                             loading="lazy" width="1024" height="683">
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="card-body-link" style="all: unset; cursor: pointer;">
+                                <h6 style="font-weight: 400; text-transform: uppercase;">
+                                    <div th:text="#{${property.propertyTransferType.key}}"></div>
+                                </h6>
+                                <h5>
+                                    <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                                </h5>
+                                <h6>
+                                    <span th:text="#{village}"></span>
+                                    <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
+                                    <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                    <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                    <span th:text="#{region}"></span>
+                                    <span th:text="#{${property.villageDTO.region}}"></span>
+                                </h6>
+                            </button>
+                        </form>
+
+                        <br>
+                        <a th:href="@{/properties/show/{id}(id=${property.id})}" class="btn btn-info" style="font-size: 15px;"><span th:text="#{property.see.more}"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div th:if="${isSent != null}">
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
         <div id="liveSubscriptionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -445,15 +494,39 @@
     </div>
 </div>
 
+<div th:if="${userEmail != null}" th:replace="authModals :: loginModal"></div>
+<div th:if="${userEmail != null}" th:replace="authModals :: verificationModal"></div>
+<div th:if="${userEmail != null}" th:replace="authModals :: registrationModal"></div>
+<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">
+<div th:if="${userEmail != null}" th:replace="authModals :: resetPasswordModal"></div>
+</body>
+<body th:attr="data-email-sent-modal=${emailSentModal}">
+<div th:if="${userEmail != null}" th:replace="authModals :: emailSentModal"></div>
+</body>
+<script src="/js/min/sendEmailResetPassModal.min.js"></script>
+<script src="/js/min/emailSentModal.min.js"></script>
+
 <div th:replace="fragments :: footer"></div>
+<script src="/js/min/propertySlider.min.js"></script>
 <script src="/js/min/imageSlider.min.js"></script>
 <script src="/js/min/accordion-script.min.js"></script>
 <script src="/js/min/makeCallScript.min.js"></script>
 <script src="/js/min/navScript.min.js"></script>
 <script src="/js/min/handlePrint.min.js"></script>
 <script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
 <script src="/js/min/playVideos.min.js"></script>
 <script src="/js/min/toggleImagesAndVideos.min.js"></script>
+
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+
 <script th:inline="javascript">
         var videos = /*[[${videos}]]*/ [];
 </script>

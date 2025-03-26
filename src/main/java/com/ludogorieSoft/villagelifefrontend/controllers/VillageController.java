@@ -4,8 +4,13 @@ import com.ludogorieSoft.villagelifefrontend.advanced.AddVillageFormValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.InquiryValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.MessageValidator;
 import com.ludogorieSoft.villagelifefrontend.advanced.UserValidator;
+import com.ludogorieSoft.villagelifefrontend.auth.AuthClient;
 import com.ludogorieSoft.villagelifefrontend.config.*;
 import com.ludogorieSoft.villagelifefrontend.dtos.*;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.RegisterRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.ResetPasswordRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.UserEmailRequest;
+import com.ludogorieSoft.villagelifefrontend.dtos.request.VerificationRequest;
 import com.ludogorieSoft.villagelifefrontend.dtos.response.VillageInfo;
 import com.ludogorieSoft.villagelifefrontend.exceptions.ImageMaxUploadSizeExceededException;
 import com.ludogorieSoft.villagelifefrontend.utils.PageableResponse;
@@ -21,6 +26,7 @@ import feign.FeignException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -46,11 +52,13 @@ public class VillageController {
     private final MessageClient messageClient;
     private final InquiryClient inquiryClient;
     private final SubscriptionClient subscriptionClient;
+    private final PropertyClient propertyClient;
     private final UserValidator userValidator;
     private final MessageValidator messageValidator;
     private final InquiryValidator inquiryValidator;
     private final AddVillageFormValidator addVillageFormValidator;
     private final VillageVideoClient villageVideoClient;
+    private final AuthClient authClient;
     private static final String VILLAGES_ATTRIBUTE = "villages";
     private static final String VILLAGE_BY_Id = "/" + VILLAGES_ATTRIBUTE + "/show/{id}";
     private static final String VILLAGE_SUBSCRIPTION = "/" + VILLAGES_ATTRIBUTE + "/subscription-save";
@@ -67,11 +75,13 @@ public class VillageController {
     private static final long MAX_FILE_SIZE = (long) 5 * 1024 * 1024;
 
     @GetMapping(value = {"/{page}", ""})
-    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page) {
+    public String homePage(Model model, @PathVariable(name = "page", required = false) Integer page, HttpSession session) {
         int currentPage = (page != null) ? page : 0;
         List<RegionDTO> regionDTOS = regionClient.getAllRegions();
         model.addAttribute("regions", regionDTOS);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
+
+        addAuthAttributes(model);
         try {
             ResponseEntity<PageableResponse<VillageDTO>> response = villageImageClient.getAllApprovedVillageDTOsWithImage(currentPage, 6);
 
@@ -99,9 +109,12 @@ public class VillageController {
                                          @RequestParam(name = "village", required = false) String village,
                                          @RequestParam(name = "region", required = false) String region,
                                          Model model) {
+        addAuthAttributes(model);
         VillageInfo villageInfo = villageClient.getVillageInfoById(id);
         InquiryDTO inquiryDTO = new InquiryDTO();
         getInfoForShowingVillage(villageInfo, inquiryDTO, true, null, model, null, null);
+        List<PropertyDTO> propertyDTOS = propertyClient.getAllPropertiesByVillageId(id);
+        model.addAttribute("properties", propertyDTOS);
         return "ShowVillageById";
     }
 
@@ -142,7 +155,7 @@ public class VillageController {
         return "redirect:/villages/show/" + villageInfo.getVillageDTO().getId() + "?village=" + URLEncoder.encode(village, StandardCharsets.UTF_8) + "&region=" + URLEncoder.encode(region, StandardCharsets.UTF_8);
     }
 
-    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AdministratorDTO administratorDTO, String keyWord) {
+    protected void getInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, Model model, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         model.addAttribute("villageInfo", villageInfo);
 
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
@@ -163,7 +176,7 @@ public class VillageController {
 
         model.addAttribute("answerDate", answerDate);
 
-        model.addAttribute("admin", administratorDTO);
+        model.addAttribute("admin", alternativeUserDTO);
 
         model.addAttribute("status", keyWord);
 
@@ -171,7 +184,7 @@ public class VillageController {
         model.addAttribute("videos", videoDTOS);
     }
 
-    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AdministratorDTO administratorDTO, String keyWord) {
+    protected void redirectInfoForShowingVillage(VillageInfo villageInfo, InquiryDTO inquiryDTO, boolean status, String answerDate, RedirectAttributes redirectAttributes, AlternativeUserDTO alternativeUserDTO, String keyWord) {
         redirectAttributes.addFlashAttribute("villageInfo", villageInfo);
         redirectAttributes.addFlashAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         redirectAttributes.addFlashAttribute("inquiry", inquiryDTO);
@@ -185,12 +198,13 @@ public class VillageController {
         List<QuestionDTO> questionDTOS = questionClient.getAllQuestions();
         redirectAttributes.addFlashAttribute("questions", questionDTOS);
         redirectAttributes.addFlashAttribute("answerDate", answerDate);
-        redirectAttributes.addFlashAttribute("admin", administratorDTO);
+        redirectAttributes.addFlashAttribute("admin", alternativeUserDTO);
         redirectAttributes.addFlashAttribute("status", keyWord);
     }
 
     @GetMapping(VILLAGE_CREATE)
     public String showCreateVillageForm(Model model) {
+        addAuthAttributes(model);
         AddVillageFormResult addVillageFormResult = new AddVillageFormResult();
         return getAddVillagePage(addVillageFormResult, model);
     }
@@ -245,12 +259,14 @@ public class VillageController {
 
     @GetMapping(VILLAGE_PARTNERS)
     public String showPartnersPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "partners";
     }
 
     @GetMapping(VILLAGE_CONTACTS)
     public String showContactsPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         model.addAttribute(MESSAGE_ATTRIBUTE, new MessageDTO());
         return CONTACTS_VIEW;
@@ -274,6 +290,7 @@ public class VillageController {
 
     @GetMapping(VILLAGE_ABOUT_US)
     public String showAboutUsPage(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "about-us";
     }
@@ -303,7 +320,23 @@ public class VillageController {
 
     @GetMapping(VILLAGE_GENERAL_TERMS)
     String showGeneralTerms(Model model) {
+        addAuthAttributes(model);
         model.addAttribute(SUBSCRIPTION_ATTRIBUTE, new SubscriptionDTO());
         return "general-terms";
+    }
+
+    private void addAuthAttributes(Model model) {
+        if (!model.containsAttribute("adminNew")) {
+            model.addAttribute("adminNew", new RegisterRequest());
+        }
+        if (!model.containsAttribute("verificationRequest")) {
+            model.addAttribute("verificationRequest", new VerificationRequest());
+        }
+        if (!model.containsAttribute("resetPasswordRequest")) {
+            model.addAttribute("resetPasswordRequest", new ResetPasswordRequest());
+        }
+        if (!model.containsAttribute("userEmail")) {
+            model.addAttribute("userEmail", new UserEmailRequest());
+        }
     }
 }

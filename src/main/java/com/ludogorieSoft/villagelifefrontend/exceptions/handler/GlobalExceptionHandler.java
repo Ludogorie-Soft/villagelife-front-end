@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 
@@ -50,9 +51,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ModelAndView(LOGIN_URL);
     }
     @ExceptionHandler(DuplicateEmailException.class)
-    public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes) {
+    public ModelAndView handleDuplicateEmailException(DuplicateEmailException ex, RedirectAttributes redirectAttributes, HttpServletRequest request, Model model) {
         redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
-        return new ModelAndView("redirect:/auth/register");
+        String referer = request.getHeader("referer");
+        model.addAttribute("registrationModal", true);
+        return new ModelAndView("redirect:" + referer);
     }
     @ExceptionHandler({ImageMaxUploadSizeExceededException.class,MaxUploadSizeExceededException.class})
     public ModelAndView handleImageMaxUploadSizeExceededException(Model model) {
@@ -78,6 +81,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ModelAndView handleMalformedURLException(MalformedURLException ex, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute(MESSAGE, ex.getMessage());
         return new ModelAndView(ERROR_URL);
+    }
+    @ExceptionHandler(AccountNotActivatedException.class)
+    public ModelAndView handleAccountNotActivatedException(AccountNotActivatedException ex, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        redirectAttributes.addFlashAttribute("loginModal", true);
+        redirectAttributes.addFlashAttribute("credentialError", "validations.credentials.not-activated");
+        String referer = request.getHeader("referer");
+        return new ModelAndView("redirect:" + referer);
     }
 }
 

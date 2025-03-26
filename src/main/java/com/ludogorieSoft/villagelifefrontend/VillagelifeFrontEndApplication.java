@@ -10,5 +10,4 @@ public class VillagelifeFrontEndApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VillagelifeFrontEndApplication.class, args);
 	}
-
 }

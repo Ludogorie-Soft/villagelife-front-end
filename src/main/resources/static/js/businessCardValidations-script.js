@@ -1,0 +1,62 @@
+function validateBusinessCardDTO() {
+    var role = localStorage.getItem('activeTab').split('-')[0];
+    var suffix = role === 'agency' ? 'A' : role === 'builder' ? 'B' : role === 'investor' ? 'I' : '';
+
+    if (!suffix) return false;
+
+    const inputs = {
+        name: document.getElementById(`businessCardName${suffix}`),
+        email: document.getElementById(`businessCardEmail${suffix}`),
+        phoneNumber: document.getElementById(`businessCardPhoneNumber${suffix}`),
+        address: document.getElementById(`businessCardAddress${suffix}`),
+        numberOfEmployees: document.getElementById(`numberOfEmployees${suffix}`)
+    };
+
+    let isValid = true;
+    const phonePattern = /^\+?[0-9. ()-]{7,25}$/;
+
+    const validateInput = (input, errorId) => {
+        if (!input || input.value.trim() === '') {
+            showError(errorId);
+            return false;
+        } else {
+            hideError(errorId);
+            return true;
+        }
+    };
+
+    isValid &= validateInput(inputs.name, `businessCardNameError${suffix}`);
+    isValid &= validateInput(inputs.email, `businessCardEmailError${suffix}`);
+
+    if (!phonePattern.test(inputs.phoneNumber.value.trim())) {
+        showError(`businessCardPhoneNumberError${suffix}`);
+        isValid = false;
+    } else {
+        hideError(`businessCardPhoneNumberError${suffix}`);
+    }
+
+    isValid &= validateInput(inputs.address, `businessCardAddressError${suffix}`);
+
+    if (!inputs.numberOfEmployees || parseInt(inputs.numberOfEmployees.value, 10) < 1) {
+        showError(`numberOfEmployeesError${suffix}`);
+        isValid = false;
+    } else {
+        hideError(`numberOfEmployeesError${suffix}`);
+    }
+
+    return isValid;
+}
+
+function showError(elementId) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.style.display = 'block';
+    }
+}
+
+function hideError(elementId) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+}

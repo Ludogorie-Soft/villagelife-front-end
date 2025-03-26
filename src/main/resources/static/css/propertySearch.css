@@ -1,0 +1,359 @@
+    #successToast,
+    #errorToast {
+        z-index: 1055;
+        top: 30%;
+        width: 350px;
+        transform: translateX(-50%);
+        left: 50%;
+    }
+
+    .toast-header {
+        text-align: center;
+        justify-content: center;
+    }
+
+
+            .custom-filter-button {
+            background-color: #96c930;
+            color: white;
+            border: none;
+        }
+
+        .custom-filter-button .filter-icon {
+            color: white;
+        }
+
+        .custom-filter-button:hover {
+            background-color: #7fae58;
+            color: white;
+        }
+
+        .custom-filter-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(154, 199, 109, 0.5);
+        }
+
+            .search-bar-row {
+            margin-bottom: 20px;
+        }
+
+        .property .card {
+            max-width: 350px;
+            margin: auto;
+        }
+
+        .btn-info {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        @media (min-width: 768px) {
+            .search-bar-row {
+                align-items: center;
+            }
+            .btn-info {
+                margin-left: auto;
+            }
+        }
+
+
+            .btn-search {
+            background-color: #9ac76d;
+            border-color: #9ac76d;
+            color: white;
+        }
+
+            body, .modal-body, .modal-footer, .form-label, .form-check-label, .form-select {
+                font-size: 1.1rem;
+            }
+
+            .checkbox-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px;
+            }
+
+            .form-check {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .form-label {
+                font-weight: bold;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            .mb-3 label.form-label {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            h5.modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .slider {
+                margin-bottom: 20px;
+                position: relative;
+                width: 100%;
+                height: 20px;
+            }
+
+            .slider-value-box {
+                position: absolute;
+                top: -40px;
+                width: auto;
+                min-width: 50px;
+                height: 25px;
+                padding: 5px;
+                font-size: 14px;
+                text-align: center;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                color: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Slider Ruler */
+            .slider-ruler {
+                position: relative;
+                width: 100%;
+                height: 10px;
+            }
+
+            .ruler-mark {
+                position: absolute;
+                bottom: 0;
+                width: 1px;
+                height: 10px;
+                background-color: #ccc;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+            }
+
+            .noUi-target .noUi-base {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-connect {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-handle {
+                border-radius: 50%;
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            .modal-footer {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .btn-close {
+                font-size: 1.2rem;
+            }
+
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                width: 100%;
+            }
+
+            #heating, #sort {
+                padding: 5px;
+                width: 100%;
+            }
+
+            #sort {
+                margin-bottom: 10px;
+            }
+
+            .modal-body > .mb-3 {
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+
+            .form-check input[type="checkbox"]:hover {
+                background-color: #f1f1f1;
+                cursor: pointer;
+            }
+
+            @media (max-width: 768px) {
+                .checkbox-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            .min-value {
+                left: 0;
+            }
+
+            .max-value {
+                right: 0;
+            }
+
+            .noUi-handle {
+                border-radius: 50%;
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            .form-check-input {
+                width: 20px;
+                height: 20px;
+                transition: background-color 0.1s, border-color 0.1s;
+            }
+
+            .form-check-input:checked {
+                background-color: #9ac76d;
+                border-color: #9ac76d;
+            }
+
+            .form-check-input:checked:focus {
+                border-color: #9ac76d;
+                box-shadow: 0 0 0 0.2rem rgba(154, 199, 109, 0.5);
+            }
+
+            .form-check-input[type="radio"]:checked:before {
+                background-color: #9ac76d;
+            }
+
+            .form-check {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .form-check-label {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .form-check input[type="checkbox"] {
+                margin-right: 10px;
+            }
+
+            .checkbox-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px;
+            }
+
+            @media (max-width: 768px) {
+                .checkbox-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            .slider {
+                position: relative;
+                width: 100%;
+                height: 20px;
+                margin-bottom: 20px;
+            }
+
+            .slider-value-box {
+                position: absolute;
+                top: -40px;
+                width: auto;
+                height: 25px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 50px;
+            }
+
+            .slider-ruler {
+                position: relative;
+                width: 100%;
+                height: 10px;
+            }
+
+            .ruler-mark {
+                position: absolute;
+                bottom: 0;
+                width: 1px;
+                height: 10px;
+                background-color: #ccc;
+                font-size: 12px;
+                text-align: center;
+                color: #333;
+            }
+
+            .noUi-target .noUi-base {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-connect {
+                background-color: #9ac76d !important;
+            }
+
+            .noUi-handle {
+                border-radius: 50%;
+                width: 15px;
+                height: 15px;
+                background-color: #9ac76d;
+                border: 2px solid #fff;
+            }
+
+            .noUi-handle:hover {
+                background-color: #fff;
+                border-color: #9ac76d;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-footer {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .btn-close {
+                font-size: 1.2rem;
+            }
+
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                width: 100%;
+            }

@@ -14,6 +14,7 @@
 
         <a th:href="@{/}"><span th:text="#{header.homePage}"></span></a>
         <a th:href="@{/villages/partners}"><span th:text="#{header.partners}"></span></a>
+        <a th:href="@{/properties}"><span th:text="#{header.properties}"></span></a>
         <a th:href="@{/villages/about-us}"><span th:text="#{header.aboutUs}"></span></a>
         <a th:href="@{/villages/contacts}"><span th:text="#{header.contacts}"></span></a>
 
@@ -30,6 +31,13 @@
                 <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
                 <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
             </div>
+        </div>
+        <div th:unless="${session.admin}">
+            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#loginModal" th:text="#{auth.log.in}" style="color: white;"></a>
+            <a href="#" class="auth-btn" data-bs-toggle="modal" data-bs-target="#registerModal" th:text="#{auth.register}" style="color: white;"></a>
+        </div>
+        <div th:if="${session.admin}">
+            <a class="auth-btn" th:href="@{/auth/logout}" th:text="#{auth.log.out}" style="color: white;"></a>
         </div>
     </div>
 </div>
@@ -171,6 +179,21 @@
             </div>
         </div>
     </div>
+
+    <div th:if="${verificationSuccessMessage != null}">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 5;">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img th:src="@{/images/village-life-logo-icon.png}" class="rounded me-2" alt="logo"
+                         style="width: 25px;">
+                    <strong class="me-auto">Village Life</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" th:text="#{${verificationSuccessMessage}}"
+                     style="margin: 15px; font-weight: 500; font-size: 16px;"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -190,6 +213,9 @@
             <a th:href="@{/villages/partners}"> <i class="fa-regular fa-handshake"></i> <span
                     th:text="#{header.partners}"></span></a>
             <hr>
+            <a th:href="@{/properties}"> <i class="fa-solid fa-seedling"></i> <span
+                    th:text="#{header.properties}"></span></a>
+            <hr>
             <a th:href="@{/villages/about-us}"> <i class="fa-solid fa-users"></i> <span
                     th:text="#{header.aboutUs}"></span></a>
             <hr>
@@ -199,6 +225,17 @@
             <a th:href="@{/villages/create}"> <i class="fa-solid fa-seedling"></i> <span
                     th:text="#{header.addVillage}"></span></a>
             <hr>
+            <div th:unless="${session.admin}">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="fa-solid fa-right-to-bracket"></i> <span th:text="#{auth.log.in}"></span></a>
+                <hr>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>
+                <hr>
+            </div>
+
+            <div th:if="${session.admin}">
+                <a th:href="@{/auth/logout}"><i class="fa-solid fa-right-to-bracket"></i><span th:text="#{auth.log.out}"></span></a>
+                <hr>
+            </div>
             <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
             <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
             <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
@@ -264,5 +301,107 @@
     </form>
 </nav>
 
+
+<div th:fragment="property-menu" class="menu-container">
+    <a th:href="@{/}">
+        <img th:src="@{/images/village-life-logo.png}" alt="VillageLife logo"
+             style="width: 175px; height: 60px; margin-top:10px;">
+    </a>
+    <div id="property-menu" class="d-flex align-items-center" style="gap: 1rem;"> <!-- добавено разстояние -->
+
+        <a th:href="@{/properties}"><span th:text="#{property.menu.property}"></span></a>
+        <hr>
+
+        <div class="nav-item dropdown ml-2" id="properties">
+            <button class="btn dropdown-toggle nav-link auth-btn"  type="button" id="propertyDropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    style="padding: 0.25rem 0.5rem; border: none !important;">
+                <span th:text="#{property.menu.add}" style="color: white;"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="propertyDropdown">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:href="@{/properties/add-sale}">
+                        <i class="bi bi-house-fill me-2"></i>
+                        <span th:text="#{property.menu.add.sale}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" th:href="@{/properties/add-rent}">
+                        <i class="bi bi-building me-2"></i>
+                        <span th:text="#{property.menu.add.rent}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div th:unless="${session.admin}">
+            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#loginModal"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.log.in}"></a>
+            <a href="#" class="btn btn-sm auth-btn text-white" data-bs-toggle="modal" data-bs-target="#registerModal"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.register}"></a>
+        </div>
+        <div th:if="${session.admin}">
+            <a class="btn btn-sm auth-btn text-white" th:href="@{/auth/logout}"
+               style="padding: 0.25rem 0.75rem;" th:text="#{auth.log.out}"></a>
+        </div>
+
+
+        <hr>
+
+        <div class="dropdown ml-2">
+            <button class="btn dropdown-toggle" type="button" id="property-languageDropdown"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    style="padding: 0.25rem 0.5rem; background-color: #f2f2f2; border: none !important;">
+                <span class="flag-icon flag-icon-bg" th:if="#{lang} == '??lang_bg??'"></span>
+                <span class="flag-icon flag-icon-gb" th:if="#{lang} == '??lang_en??'"></span>
+                <span class="flag-icon flag-icon-de" th:if="#{lang} == '??lang_de??'"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="property-languageDropdown">
+                <a class="dropdown-item" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+                <a class="dropdown-item" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+                <a class="dropdown-item" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
+            </div>
+        </div>
+</div>
+
+
+<div th:fragment="property-hamburger-menu" id="property-hamburger-menu">
+    <a th:href="@{/}">
+        <img th:src="@{/images/village-life-logo.png}" alt="village life logo" class="smaller-logo-image">
+    </a>
+
+    <div id="property-myNav" class="nav-overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            <img th:src="@{/images/x-button.png}" alt="x">
+        </a>
+        <div class="nav-overlay-content">
+            <a th:href="@{/properties/add-sale}"> <i class="fa-solid fa-house"></i>
+                <span th:text="#{property.menu.add.sale}"></span></a>
+            <a th:href="@{/properties/add-rent}"> <i class="fa-solid fa-house"></i>
+                <span th:text="#{property.menu.add.rent}"></span></a>
+            <hr>
+
+            <div th:unless="${session.admin}">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="fa-solid fa-right-to-bracket"></i> <span th:text="#{auth.log.in}"></span></a>
+                <hr>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"> <i class="fa-solid fa-user-plus"></i> <span th:text="#{auth.register}"></span></a>
+                <hr>
+            </div>
+
+            <div th:if="${session.admin}">
+                <a th:href="@{/auth/logout}"><i class="fa-solid fa-right-to-bracket"></i><span th:text="#{auth.log.out}"></span></a>
+                <hr>
+            </div>
+
+            <hr>
+            <a style="font-size: 18px;" href="?lang=bg"><span class="flag-icon flag-icon-bg"></span> <span th:text="#{lang.bg}"></span></a>
+            <a style="font-size: 18px;" href="?lang=en"><span class="flag-icon flag-icon-gb"></span> <span th:text="#{lang.eng}"></span></a>
+            <a style="font-size: 18px;" href="?lang=de"><span class="flag-icon flag-icon-de"></span> <span th:text="#{lang.de}"></span></a>
+        </div>
+    </div>
+    <span class="hamburger-menu-icon" onclick="openNav()">&#9776;</span>
+</div>
 </body>
 </html>

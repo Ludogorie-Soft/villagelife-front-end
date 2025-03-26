@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVP5MJERRY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EVP5MJERRY');
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '827137978479661');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=827137978479661&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <!-- Hotjar Tracking Code for https://villagelife.bg -->
+    <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3202998,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="description" th:content="#{meta.description.add.village}">
+    <meta name="keywords" content="#{meta.keywords.add.village}">
+    <meta name="robots" content="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{addVillage.title}"></title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/addProperty.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Canonical URL address -->
+    <link rel="canonical" href="https://villagelife.bg/villages/create">
+</head>
+<body>
+
+<div th:replace="fragments :: property-menu"></div>
+<div th:replace="fragments :: property-hamburger-menu"></div>
+
+<div class="container">
+    <div th:if="${consentMessage}" class="message alert alert-info text-center">
+        <p th:text="${consentMessage}"></p>
+    </div>
+    <section class="lower-line-spacing">
+        <p>
+        <div th:text="#{addVillage.hello}"></div>
+        <div th:text="#{please.fill.property.form}">
+        </div>
+        </p>
+        <p th:text="#{thank.you}"></p>
+        <p>
+        <div th:text="#{regards}"></div>
+        <div>Village Life</div>
+        </p>
+
+    </section>
+
+    <form action="/properties/save" method="post" enctype="multipart/form-data">
+        <!-- Village Name and Region -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="villageDTO" class="form-label fw-bold">
+                    <span th:text="#{property.village}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="villageDTO" name="villageDTO.name" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.name')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="region" class="form-label fw-bold">
+                    <span th:text="#{property.region}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="region" name="villageDTO.region" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.villageDTO.region')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <!-- Property Type -->
+            <div class="col-md-6">
+                <label for="propertyType" class="form-label fw-bold">
+                    <span th:text="#{property.type}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="propertyType" name="propertyType" class="form-select" required>
+                    <option th:each="propertyType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyType).values()}"
+                            th:value="${propertyType1}" th:text="#{${propertyType1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.propertyType')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+
+            <!-- Price -->
+            <div class="col-md-6">
+                <label for="price" class="form-label fw-bold">
+                    <span th:text="#{property.price.rent}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="number" th:value="0" th:field="*{propertyDTO.price}" step="0.01" id="price" name="price" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.price')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Property Transfer Type -->
+        <input type="hidden" name="propertyTransferType" value="RENT">
+
+        <div class="row mb-3">
+            <!-- Address -->
+            <div class="col-md-6">
+                <label for="address" class="form-label fw-bold">
+                    <span th:text="#{property.address}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="text" id="address" name="address" class="form-control" required>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.address')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="col-md-6">
+                <label for="phoneNumber" class="form-label fw-bold">
+                    <span th:text="#{property.phone.number}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="tel" th:field="*{propertyDTO.phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control" required minlength="10">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.phoneNumber')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Build-Up Area -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="buildUpArea" class="form-label fw-bold">
+                    <span th:text="#{property.build.up.area}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.buildUpArea}" step="0.01" id="buildUpArea" name="buildUpArea" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.buildUpArea')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="yardArea" class="form-label fw-bold">
+                    <span th:text="#{property.form.yard.area}"></span><span class="text-danger">*</span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.yardArea}" step="0.01" id="yardArea" name="yardArea" class="form-control" required min="0">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.yardArea')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Rooms Count -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="roomsCount" class="form-label fw-bold">
+                    <span th:text="#{property.form.rooms.count}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.roomsCount}" id="roomsCount" name="roomsCount" class="form-control"
+                       th:value="${propertyDTO.roomsCount != null ? propertyDTO.roomsCount : 0}">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.roomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="bathroomsCount" class="form-label fw-bold">
+                    <span th:text="#{property.form.bathrooms.count}"></span>
+                </label>
+                <input type="number" th:field="*{propertyDTO.bathroomsCount}" id="bathroomsCount" name="bathroomsCount" class="form-control"
+                       th:value="${propertyDTO.bathroomsCount != null ? propertyDTO.bathroomsCount : 0}">
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.bathroomsCount')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Heating Text-->
+        <section id="heatingType">
+            <label for="heatingType" class="fw-bold">
+                <span th:text="#{property.heating.text}"></span>
+            </label>
+            <div th:each="heatingType : ${T(com.ludogorieSoft.villagelifefrontend.enums.HeatingType).values()}"
+                 class="checkbox-wrapper">
+                <input type="checkbox" th:id="${'heatingType-' + heatingType}"
+                       th:name="heating"
+                       th:value="${heatingType.key}" class="checkbox col"/>
+                <label th:for="${'heatingType-' + heatingType}"
+                       class="checkbox-label col" th:text="#{${heatingType.key}}"></label>
+            </div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="heatingType-other"
+                       onclick="var input = document.getElementById('other'); if(this.checked){ input.disabled = false; input.focus();}else{input.disabled=true;}"
+                       class="checkbox col"/>
+                <label for="heatingType-other" class="checkbox-label col" th:text="#{heating.type.other}"></label>
+                <input id="other" name="heatingText" disabled="disabled"/>
+            </div>
+        </section>
+
+        <!-- Property Images -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="formFileMultiple" class="form-label fw-bold">
+                    <span th:text="#{property.main.image}"></span><span class="text-danger">*</span>
+                </label>
+                <input class="form-control" id="formFileMultiple" name="mainImage" type="file" accept="image/*" required>
+                <span class="text-muted" th:text="#{main.image}"></span>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.mainImageBytes')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <label for="formFileForMultiple" class="form-label fw-bold">
+                    <span th:text="#{property.images}"></span><span class="text-danger">*</span>
+                </label>
+                <input class="form-control" id="formFileForMultiple" name="propertyImages" type="file" multiple accept="image/*" required>
+                <span class="text-muted" th:text="#{number.of.photos}"></span>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.images')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <!-- Construction Type -->
+            <div class="col-md-6">
+                <label for="constructionType" class="form-label fw-bold">
+                    <span th:text="#{property.form.construction.type}"></span>
+                </label>
+                <select id="constructionType" name="constructionType" class="form-select">
+                    <option th:each="constructionType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.ConstructionType).values()}"
+                            th:value="${constructionType1}" th:text="#{${constructionType1.key}}"></option>
+                </select>
+            </div>
+
+            <!-- Construction Year -->
+            <div class="col-md-6">
+                <label for="constructionYear" class="form-label fw-bold">
+                    <span th:text="#{property.form.construction.year}"></span>
+                </label>
+                <input type="text" id="constructionYear" name="constructionYear" class="form-control">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <!-- Ownership Type -->
+            <div class="col-md-6">
+                <label for="ownershipType" class="form-label fw-bold">
+                    <span th:text="#{property.ownership.type}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="ownershipType" name="ownershipType" class="form-select" required>
+                    <option th:each="ownershipType1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.OwnershipType).values()}"
+                            th:value="${ownershipType1}" th:text="#{${ownershipType1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.ownershipType')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+
+            <!-- Property Condition -->
+            <div class="col-md-6">
+                <label for="propertyCondition" class="form-label fw-bold">
+                    <span th:text="#{property.form.condition}"></span><span class="text-danger">*</span>
+                </label>
+                <select id="propertyCondition" name="propertyCondition" class="form-select" required>
+                    <option th:each="propertyCondition1 : ${T(com.ludogorieSoft.villagelifefrontend.enums.PropertyCondition).values()}"
+                            th:value="${propertyCondition1}" th:text="#{${propertyCondition1.key}}"></option>
+                </select>
+                <ul class="error-list">
+                    <li th:each="err : ${#fields.errors('propertyDTO.propertyCondition')}" th:text="#{${err}}" class="error text-danger"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Extras -->
+        <div class="mb-3">
+            <label for="extras" class="form-label fw-bold">
+                <span th:text="#{property.form.extras}"></span>
+            </label>
+            <textarea id="extras" name="extras" class="form-control"></textarea>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="description" class="form-label fw-bold">
+                <span th:text="#{property.form.description}"></span><span class="text-danger">*</span>
+            </label>
+            <textarea id="description" name="description" class="form-control" required minlength="10" maxlength="500"></textarea>
+            <ul class="error-list">
+                <li th:each="err : ${#fields.errors('propertyDTO.description')}" th:text="#{${err}}" class="error text-danger"></li>
+            </ul>
+        </div>
+
+        <!-- Submit Button -->
+        <section class="text-center">
+            <button type="submit" class="submit-btn" th:text="#{send.village}"></button>
+        </section>
+    </form>
+
+</div>
+<script src="/js/min/properties-navScript.min.js"></script>
+</body>
+</html>

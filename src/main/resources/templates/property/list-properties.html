@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVP5MJERRY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-EVP5MJERRY');
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+        function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '827137978479661');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=827137978479661&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <!-- Hotjar Tracking Code for https://villagelife.bg -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3202998,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <meta charset="UTF-8">
+
+    <meta name="robots" content="all">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{property.title}"></title>
+    <link th:href="@{/images/village-life-logo-icon.png}" rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Include noUiSlider CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/min/list-properties.min.css">
+    <link rel="stylesheet" href="/css/min/menu-style-about-us.min.css">
+    <link rel="stylesheet" href="/css/min/auth.min.css">
+    <link rel="stylesheet" href="/css/min/propertySearch.min.css">
+</head>
+<body>
+<div th:replace="fragments :: property-menu"></div>
+<div th:replace="fragments :: property-hamburger-menu"></div>
+<div class="container" style="padding-top: 10px;">
+    <!-- Success Toast -->
+    <div id="successToast" class="toast align-items-center position-fixed start-50 translate-middle-x bg-success text-white"
+         role="alert" aria-live="assertive" aria-atomic="true" th:if="${successMessage != null}">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto" th:text="#{${successMessage}}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="errorToast" class="toast align-items-center position-fixed start-50 translate-middle-x bg-danger text-white"
+         role="alert" aria-live="assertive" aria-atomic="true" th:if="${errorMessage != null}">
+        <div class="toast-header bg-danger text-white">
+            <strong class="me-auto" th:text="#{${errorMessage}}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="search-bar-row d-flex flex-wrap align-items-center justify-content-between">
+        <!-- Form for Region and Village Name Filters -->
+        <form th:action="@{/filter/increment-seen-in-results/0}" method="get"
+              class="d-flex flex-column flex-sm-row align-items-center flex-grow-1 me-3">
+            <div class="col-12 col-sm-4 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
+                 style="padding: 0;">
+                <div class="input-group">
+                    <select name="regionName" class="form-select fixed-width" id="regionName">
+                        <option value="" selected disabled style="text-align: left;"
+                                th:text="#{choose.region}"></option>
+                        <option th:each="region : ${regions}" th:value="${region.regionName}"
+                                th:text="#{${region.regionName}}" aria-label="regionName"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-8 d-flex align-items-center justify-content-center mb-2 mb-sm-0"
+                 style="padding: 0;">
+                <div class="input-group">
+                    <label class="input-group-text icon-label" for="search-input" style="height: 35px !important;">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 14px;"></i>
+                    </label>
+                    <input type="text" name="villageName" id="search-input" class="form-control form-control-sm"
+                           th:placeholder="#{placeholder.search}">
+                    <button class="btn custom-filter-button" type="submit" style="font-weight: bold;"
+                            th:text="#{searching}"></button>
+                    <button type="button" id="clearSearchButton" class="btn btn-warning" th:text="#{search.clear.button}"></button>
+                    <!-- Confirmation Modal -->
+                    <div class="modal fade" id="clearWarningModal" tabindex="-1" aria-labelledby="clearWarningModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="clearWarningModalLabel" th:text="#{search.confirm.clear}"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p th:text="#{search.clear.warning}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" id="cancelClearSearch" data-bs-dismiss="modal" th:text="#{search.cancel.clear}"></button>
+                                    <button type="button" class="btn btn-danger" id="confirmClearSearch" th:text="#{search.clear}"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="button" class="btn custom-filter-button" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
+            <i class="fas fa-filter filter-icon"></i><span th:text="#{filter.search}"></span>
+        </button>
+        <div th:if="${session.admin}">
+            <button type="button" class="btn custom-filter-button" data-bs-toggle="modal" data-bs-target="#userSearchDataModal">
+                <i class="fa-regular fa-floppy-disk" style="color: white;"></i><span th:text="#{save.search}"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="userSearchDataModal" tabindex="-1" aria-labelledby="userSearchDataModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
+                <form th:action="@{/user-search-data}" method="post">
+                    <div id="villageError" class="text-danger" style="display: none; margin-top: 10px;">
+                        <p th:text="#{search.select.region}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="searchName" class="form-label" th:text="#{save.search.name}"></label>
+                        <input type="text" class="form-control" th:field="*{userSearchDataDTO.searchName}" id="searchName" required/>
+                    </div>
+
+                    <!-- Hidden fields to store search criteria -->
+                    <input type="hidden" name="regionName" id="saveRegionName"/>
+                    <input type="hidden" name="villageName" id="saveVillageName"/>
+                    <input type="hidden" name="propertyTypes" id="savePropertyTypes"/>
+                    <input type="hidden" name="propertyTransferType" id="savePropertyTransferType"/>
+                    <input type="hidden" name="minBuiltUpArea" id="saveMinBuiltUpArea"/>
+                    <input type="hidden" name="maxBuiltUpArea" id="saveMaxBuiltUpArea"/>
+                    <input type="hidden" name="minYardArea" id="saveMinYardArea"/>
+                    <input type="hidden" name="maxYardArea" id="saveMaxYardArea"/>
+                    <input type="hidden" name="minRoomsCount" id="saveMinRoomsCount"/>
+                    <input type="hidden" name="maxRoomsCount" id="saveMaxRoomsCount"/>
+                    <input type="hidden" name="minBathroomsCount" id="saveMinBathroomsCount"/>
+                    <input type="hidden" name="maxBathroomsCount" id="saveMaxBathroomsCount"/>
+                    <input type="hidden" name="heating" id="saveHeating"/>
+                    <input type="hidden" name="constructionTypes" id="saveConstructionTypes"/>
+                    <input type="hidden" name="propertyConditions" id="savePropertyConditions"/>
+                    <input type="hidden" name="minConstructionYear" id="saveMinConstructionYear"/>
+                    <input type="hidden" name="maxConstructionYear" id="saveMaxConstructionYear"/>
+                    <input type="hidden" name="minPrice" id="saveMinPrice"/>
+                    <input type="hidden" name="maxPrice" id="saveMaxPrice"/>
+                    <input type="hidden" name="minRentPrice" id="saveMinRentPrice"/>
+                    <input type="hidden" name="maxRentPrice" id="saveMaxRentPrice"/>
+                    <input type="hidden" name="ownershipTypes" id="saveOwnershipTypes"/>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-search" th:text="#{save.search}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="advancedSearchModal" tabindex="-1" aria-labelledby="advancedSearchModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding-left: 40px;padding-right: 40px;">
+                <form th:action="@{/filter/increment-seen-in-results/0}" method="get">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="advancedSearchModalLabel" th:text="#{advanced.property.search}"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{advanced.property.search.types}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="HOUSE" id="propertyTypeHouse"
+                                           class="form-check-input">
+                                    <label for="propertyTypeHouse" class="form-check-label" th:text="#{property.type.house}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="APARTMENT"
+                                           id="propertyTypeApartment" class="form-check-input">
+                                    <label for="propertyTypeApartment" class="form-check-label" th:text="#{property.type.apartment}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="VILLA" id="propertyTypeVilla"
+                                           class="form-check-input">
+                                    <label for="propertyTypeVilla" class="form-check-label" th:text="#{property.type.villa}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="FLOOR_OF_A_HOUSE"
+                                           id="propertyTypeFloorOfHouse" class="form-check-input">
+                                    <label for="propertyTypeFloorOfHouse" class="form-check-label" th:text="#{property.type.floor.of.a.house}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="BUSINESS_PROPERTY"
+                                           id="propertyTypeBusinessProperty" class="form-check-input">
+                                    <label for="propertyTypeBusinessProperty" class="form-check-label" th:text="#{property.type.business.property}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="PLOT" id="propertyTypePlot"
+                                           class="form-check-input">
+                                    <label for="propertyTypePlot" class="form-check-label" th:text="#{property.type.plot}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyTypes" value="AGRICULTURAL_LAND"
+                                           id="propertyTypeAgriculturalLand" class="form-check-input">
+                                    <label for="propertyTypeAgriculturalLand" class="form-check-label" th:text="#{property.type.agricultural.land}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label id="propertyTransferTypeLabel" class="form-label" th:text="#{advanced.property.search.transfer}"></label>
+                            <div>
+                                <input type="radio" name="propertyTransferType" value="RENT" id="rentOption"
+                                       aria-labelledby="propertyTransferTypeLabel" class="form-check-input">
+                                <label for="rentOption" th:text="#{property.transfer.type.rent}"></label>
+                            </div>
+                            <div>
+                                <input type="radio" name="propertyTransferType" value="SALE" id="saleOption"
+                                       aria-labelledby="propertyTransferTypeLabel" class="form-check-input">
+                                <label for="saleOption" th:text="#{property.transfer.type.sale}"></label>
+                            </div>
+                        </div>
+
+                        <!-- Built-up Area Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.built.up.area}"></label>
+                            <div id="builtUpAreaSlider"></div>
+                            <div id="builtUpAreaRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minBuiltUpArea" id="minBuiltUpArea"/>
+                            <input type="hidden" name="maxBuiltUpArea" id="maxBuiltUpArea"/>
+                        </div>
+
+                        <!-- Yard Area Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.yard.area}"></label>
+                            <div id="yardAreaSlider"></div>
+                            <div id="yardAreaRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minYardArea" id="minYardArea"/>
+                            <input type="hidden" name="maxYardArea" id="maxYardArea"/>
+                        </div>
+
+                        <!-- Rooms Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.rooms.count}"></label>
+                            <div id="roomsSlider"></div>
+                            <div id="roomsRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minRoomsCount" id="minRoomsCount"/>
+                            <input type="hidden" name="maxRoomsCount" id="maxRoomsCount"/>
+                        </div>
+
+                        <!-- Bathrooms Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.bathrooms.count}"></label>
+                            <div id="bathroomsSlider"></div>
+                            <div id="bathroomsRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minBathroomsCount" id="minBathroomsCount"/>
+                            <input type="hidden" name="maxBathroomsCount" id="maxBathroomsCount"/>
+                        </div>
+
+                        <!-- Heating and Construction Types -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <span th:text="#{property.heating}"></span>
+                            </label>
+                            <div>
+                                <div th:each="heatingType : ${T(com.ludogorieSoft.villagelifefrontend.enums.HeatingType).values()}"
+                                     class="form-check">
+                                    <input type="checkbox"
+                                           th:id="${'heatingType-' + heatingType}"
+                                           th:name="heating"
+                                           th:value="${heatingType.key}"
+                                           class="form-check-input" />
+                                    <label th:for="${'heatingType-' + heatingType}"
+                                           class="form-check-label"
+                                           th:text="#{${heatingType.key}}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{property.construction.type}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="BRICKS"
+                                           id="constructionTypeBricks" class="form-check-input">
+                                    <label for="constructionTypeBricks" class="form-check-label" th:text="#{construction.type.bricks}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="PANEL"
+                                           id="constructionTypePanel" class="form-check-input">
+                                    <label for="constructionTypePanel" class="form-check-label" th:text="#{construction.type.panel}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="WOOD"
+                                           id="constructionTypeWood" class="form-check-input">
+                                    <label for="constructionTypeWood" class="form-check-label" th:text="#{construction.type.wood}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="TIMBER_FRAMED"
+                                           id="constructionTypeTimberFramed" class="form-check-input">
+                                    <label for="constructionTypeTimberFramed" class="form-check-label" th:text="#{construction.type.timber.framed}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="ADOBE"
+                                           id="constructionTypeAdobe" class="form-check-input">
+                                    <label for="constructionTypeAdobe" class="form-check-label" th:text="#{construction.type.adobe}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="REINFORCED_CONCRETE"
+                                           id="constructionTypeReinforcedConcrete" class="form-check-input">
+                                    <label for="constructionTypeReinforcedConcrete" class="form-check-label" th:text="#{construction.type.reinforced.concrete}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="STONE"
+                                           id="constructionTypeStone" class="form-check-input">
+                                    <label for="constructionTypeStone" class="form-check-label" th:text="#{construction.type.stone}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="constructionTypes" value="CLAY"
+                                           id="constructionTypeClay" class="form-check-input">
+                                    <label for="constructionTypeClay" class="form-check-label" th:text="#{construction.type.clay}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{property.condition}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEW"
+                                           id="propertyConditionNew" class="form-check-input">
+                                    <label for="propertyConditionNew" class="form-check-label" th:text="#{property.condition.new}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="AFTER_COMPLETE_RENOVATION"
+                                           id="propertyConditionAfterCompleteRenovation" class="form-check-input">
+                                    <label for="propertyConditionAfterCompleteRenovation" class="form-check-label" th:text="#{after.complete.renovation}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="GOOD"
+                                           id="propertyConditionGood" class="form-check-input">
+                                    <label for="propertyConditionGood" class="form-check-label" th:text="#{property.condition.good}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEEDS_REPAIR"
+                                           id="propertyConditionNeedsRepair" class="form-check-input">
+                                    <label for="propertyConditionNeedsRepair" class="form-check-label" th:text="#{needs.repair}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="NEEDS_COMPLETE_RENOVATION"
+                                           id="propertyConditionNeedsCompleteRenovation" class="form-check-input">
+                                    <label for="propertyConditionNeedsCompleteRenovation" class="form-check-label" th:text="#{needs.complete.renovation}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="propertyConditions" value="FOR_DEMOLITION"
+                                           id="propertyConditionForDemolition" class="form-check-input">
+                                    <label for="propertyConditionForDemolition" class="form-check-label" th:text="#{for.demolition}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" th:text="#{ownership.type.label}"></label>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="INDIVIDUAL"
+                                           id="ownershipTypeIndividual" class="form-check-input">
+                                    <label for="ownershipTypeIndividual" class="form-check-label" th:text="#{auth.individual}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="AGENCY"
+                                           id="ownershipTypeAgency" class="form-check-input">
+                                    <label for="ownershipTypeAgency" class="form-check-label" th:text="#{auth.agency}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="BUILDER"
+                                           id="ownershipTypeBuilder" class="form-check-input">
+                                    <label for="ownershipTypeBuilder" class="form-check-label" th:text="#{auth.builder}"></label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ownershipTypes" value="INVESTOR"
+                                           id="ownershipTypeInvestor" class="form-check-input">
+                                    <label for="ownershipTypeInvestor" class="form-check-label" th:text="#{auth.investor}"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Range Slider -->
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.price}"></label>
+                            <div id="priceSlider"></div>
+                            <div id="priceRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minPrice" id="minPrice"/>
+                            <input type="hidden" name="maxPrice" id="maxPrice"/>
+                        </div>
+
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{advanced.property.search.price}"></label>
+                            <div id="priceRentSlider"></div>
+                            <div id="priceRentRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minPrice" id="minRentPrice"/>
+                            <input type="hidden" name="maxPrice" id="maxRentPrice"/>
+                        </div>
+
+                        <div class="mb-3" style="padding-bottom: 10px;">
+                            <label class="form-label" style="padding-bottom: 35px;" th:text="#{property.construction.year}"></label>
+                            <div id="constructionYearSlider"></div>
+                            <div id="constructionYearRuler" class="slider-ruler"></div>
+                            <input type="hidden" name="minConstructionYear" id="minConstructionYear"/>
+                            <input type="hidden" name="maxConstructionYear" id="maxConstructionYear"/>
+                        </div>
+
+                        <!-- Sort By -->
+                        <div class="mb-2">
+                            <label for="sort" class="form-label" th:text="#{advanced.property.search.sort}"></label>
+                            <select name="sort" id="sort" class="form-select">
+                                <option value="createdAt" th:text="#{advanced.property.search.sort.created.at}"></option>
+                                <option value="price,asc" th:text="#{advanced.property.search.sort.price.from.low}"></option>
+                                <option value="price,desc" th:text="#{advanced.property.search.sort.price.from.high}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer with Submit Button -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-search" th:text="#{searching}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-12">
+        <div th:each="property : ${properties}" class="col-lg-4 col-md-6 col-sm-12 property">
+            <div class="card">
+                <div class="image-container">
+                    <img alt="pictures of all properties"
+                         th:src="'data:image/jpeg;base64,' + ${property.imageUrl}"
+                         onerror="this.onerror=null;this.src='/images/pexels-alexander-kovalev-2871478.webp';"
+                         loading="lazy" width="1024" height="683">
+                </div>
+
+                <div class="card-body">
+                    <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="card-body-link" style="all: unset; cursor: pointer;">
+                            <h6 style="font-weight: 400; text-transform: uppercase;">
+                                <div th:text="#{${property.propertyTransferType.key}}"></div>
+                            </h6>
+                            <h5>
+                                <span th:text="#{${property.propertyType.key}}"></span>, <span th:text="${property.price} + ' EUR'"></span>
+                            </h5>
+                            <h6>
+                                <span th:text="#{village}"></span>
+                                <span th:if="${#locale.language == 'bg'}" th:text="${property.villageDTO.name} + ', '"></span>
+                                <span th:if="${#locale.language == 'en'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:if="${#locale.language == 'de'}" th:text="${property.villageDTO.latinName} + ', '"></span>
+                                <span th:text="#{region}"></span>
+                                <span th:text="#{${property.villageDTO.region}}"></span>
+                            </h6>
+                        </button>
+                    </form>
+
+                    <br>
+
+                    <form th:action="@{/property-stats/increment-views/{propertyId}(propertyId=${property.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-info" style="font-size: 15px;">
+                            <span th:text="#{property.see.more}"></span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-actions" style="font-size: 15px;">
+        <div class="text-center pagination">
+            <div>
+                <button id="first" class="btn" onclick="changePage(0)" aria-label="to the first page">
+                    <i class="fas fa-angle-double-left"></i>
+                </button>
+            </div>
+
+            <div>
+                <button id="prev" class="btn" onclick="changePage(currentPage - 1)">
+                    <i class="fas fa-chevron-left"></i><span class="pagination-btn-text" th:text="#{previous.page}"></span>
+                </button>
+            </div>
+
+            <div>
+                <input type="number" id="currentPageInput" value="1" onkeyup="updatePageValue(event)" style="width: 50px;" aria-labelledby="number">
+                <span>of</span>
+                <span id="totalPages" th:text="${pagesCount}"></span>
+            </div>
+
+            <div>
+                <button id="next" class="btn" onclick="changePage(currentPage + 1)">
+                    <span class="pagination-btn-text" th:text="#{next.page}"></span> <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div>
+                <button id="last" class="btn" onclick="changePage(totalPages - 1)" aria-label="to the last page">
+                    <i class="fas fa-angle-double-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="authModals :: loginModal"></div>
+<div th:replace="authModals :: verificationModal"></div>
+<div th:replace="authModals :: registrationModal"></div>
+<!--<body th:attr="data-send-email-reset-pass-modal=${sendEmailResetPassModal}">-->
+<!--<div th:replace="authModals :: resetPasswordModal"></div>-->
+<!--</body>-->
+<!--<body th:attr="data-email-sent-modal=${emailSentModal}">-->
+<!--<div th:replace="authModals :: emailSentModal"></div>-->
+<!--</body>-->
+<div th:replace="authModals :: resetPasswordModal"></div>
+<div th:replace="authModals :: emailSentModal"></div>
+<script src="/js/min/sendEmailResetPassModal.min.js"></script>
+<script src="/js/min/emailSentModal.min.js"></script>
+
+<div th:replace="fragments :: footer"></div>
+
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/showToast.min.js"></script>
+<script src="/js/min/verificationModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script th:inline="javascript">
+    var registrationModal = [[${registrationModal}]];
+</script>
+<script src="/js/min/setActiveTab.min.js"></script>
+<script src="/js/min/businessCardValidations-script.min.js"></script>
+<script>
+    function updatePageValue(event) {
+        if (event.key === 'Enter') {
+            var currentPageInput = document.getElementById('currentPage');
+            var pageCount = [[${pagesCount}]];
+            var currentPageValue = parseInt(currentPageInput.value);
+
+            if (currentPageValue >= 0 && currentPageValue <= pageCount) {
+                var newPageValue = currentPageValue - 1;
+                if (newPageValue >= 0) {
+                    var currentURL = window.location.href;
+                    var baseURL = currentURL.split('?')[0];
+                    var queryParams = currentURL.split('?')[1];
+
+                    var newBaseURL;
+                    if (baseURL.endsWith('/properties')) {
+                        newBaseURL = baseURL + "/" + newPageValue;
+                        console.log(newBaseURL)
+                    } else {
+                        newBaseURL = baseURL.replace(/\/\d+$/, '/' + newPageValue);
+                    }
+
+                    var newURL = queryParams ? newBaseURL + '?' + queryParams : newBaseURL;
+                    window.location.href = newURL;
+                }
+            }
+        }
+    }
+</script>
+<script src="/js/min/navMenuProperties.min.js"></script>
+<script src="/js/min/removeEmptyParamsFromPropertySearch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+<script src="/js/min/advancedSearchSliders.min.js"></script>
+<script src="/js/min/updateParamsFromUrl.min.js"></script>
+<script src="/js/min/updateSlidersFromUrl.min.js"></script>
+<!-- Extract fields for saving search -->
+<script th:inline="javascript">
+    document.getElementById('userSearchDataModal').addEventListener('show.bs.modal', function () {
+        const regionName = document.getElementById('regionName').value.trim() || null;
+        const villageName = document.getElementById('search-input').value.trim() || null;
+
+        if (villageName && !regionName) {
+        event.preventDefault();
+        //alert("Please select a region for the specified village name.");
+        const currentLocale = /*[[${currentLocale}]]*/;
+        if (currentLocale === 'bg') {
+            alert('Моля, изберете регион за посоченото име на село.');
+        } else if(currentLocale === 'en') {
+            alert('Please select a region for the specified village name.');
+        } else if(currentLocale === 'de') {
+            alert('Bitte wählen Sie eine Region für den angegebenen Dorfnamen aus.');
+        }
+        return;
+    }
+
+        const propertyTypes = Array.from(document.querySelectorAll('[name="propertyTypes"]:checked')).map(el => el.value);
+        const propertyTransferType = document.querySelector('[name="propertyTransferType"]:checked')?.value || '';
+        const minBuiltUpArea = document.getElementById('minBuiltUpArea').value;
+        const maxBuiltUpArea = document.getElementById('maxBuiltUpArea').value;
+        const minYardArea = document.getElementById('minYardArea').value;
+        const maxYardArea = document.getElementById('maxYardArea').value;
+        const minRoomsCount = document.getElementById('minRoomsCount').value;
+        const maxRoomsCount = document.getElementById('maxRoomsCount').value;
+        const minBathroomsCount = document.getElementById('minBathroomsCount').value;
+        const maxBathroomsCount = document.getElementById('maxBathroomsCount').value;
+        const heating = Array.from(document.querySelectorAll('[name="heating"]:checked')).map(el => el.value);
+        const constructionTypes = Array.from(document.querySelectorAll('[name="constructionTypes"]:checked')).map(el => el.value);
+        const propertyConditions = Array.from(document.querySelectorAll('[name="propertyConditions"]:checked')).map(el => el.value);
+        const minConstructionYear = document.getElementById('minConstructionYear').value;
+        const maxConstructionYear = document.getElementById('maxConstructionYear').value;
+        const minPrice = document.getElementById('minPrice').value;
+        const maxPrice = document.getElementById('maxPrice').value;
+        const minRentPrice = document.getElementById('minRentPrice').value;
+        const maxRentPrice = document.getElementById('maxRentPrice').value;
+        const ownershipTypes = Array.from(document.querySelectorAll('[name="ownershipTypes"]:checked')).map(el => el.value);
+
+        document.getElementById('saveRegionName').value = regionName;
+        document.getElementById('saveVillageName').value = villageName;
+        document.getElementById('savePropertyTypes').value = propertyTypes.join(',');
+        document.getElementById('savePropertyTransferType').value = propertyTransferType;
+        document.getElementById('saveMinBuiltUpArea').value = minBuiltUpArea;
+        document.getElementById('saveMaxBuiltUpArea').value = maxBuiltUpArea;
+        document.getElementById('saveMinYardArea').value = minYardArea;
+        document.getElementById('saveMaxYardArea').value = maxYardArea;
+        document.getElementById('saveMinRoomsCount').value = minRoomsCount;
+        document.getElementById('saveMaxRoomsCount').value = maxRoomsCount;
+        document.getElementById('saveMinBathroomsCount').value = minBathroomsCount;
+        document.getElementById('saveMaxBathroomsCount').value = maxBathroomsCount;
+        document.getElementById('saveHeating').value = heating.join(',');
+        document.getElementById('saveConstructionTypes').value = constructionTypes.join(',');
+        document.getElementById('savePropertyConditions').value = propertyConditions.join(',');
+        document.getElementById('saveMinConstructionYear').value = minConstructionYear;
+        document.getElementById('saveMaxConstructionYear').value = maxConstructionYear;
+        document.getElementById('saveMinPrice').value = minPrice;
+        document.getElementById('saveMaxPrice').value = maxPrice;
+        document.getElementById('saveMinRentPrice').value = minRentPrice;
+        document.getElementById('saveMaxRentPrice').value = maxRentPrice;
+        document.getElementById('saveOwnershipTypes').value = ownershipTypes.join(',');
+    });
+</script>
+<script src="/js/min/clearPropertySearch.min.js"></script>
+<script src="/js/min/showOnlySelectedOptionSlider.min.js"></script>
+<script src="/js/min/removePricesWhenOptionIsChanged.min.js"></script>
+<script src="/js/min/list-propertiesToast.min.js"></script>
+<script src="/js/min/loginModal.min.js"></script>
+<script src="/js/min/registrationModal.min.js"></script>
+<script src="/js/min/showSubscriptionToast.min.js"></script>
+<script src="/js/min/properties-navScript.min.js"></script>
+</body>
+</html>
